@@ -21,7 +21,7 @@ const Platform = () => {
   if (location.pathname === '/platform') {
     return (
       <SidebarProvider>
-        <div className="flex min-h-screen w-full">
+        <div className="flex h-full w-full">
           <PlatformSidebar />
           <SidebarInset>
             <div className="container py-12">
@@ -138,7 +138,7 @@ const Platform = () => {
   // For nested routes, render with sidebar
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="flex h-full w-full">
         <PlatformSidebar />
         <SidebarInset>
           <Outlet />

@@ -29,24 +29,26 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen bg-background">
+          <div className="min-h-screen bg-background flex flex-col">
             <Header />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/get-started" element={<GetStarted />} />
-              <Route path="/docs" element={<Docs />} />
-              <Route path="/examples" element={<Examples />} />
-              <Route path="/bible-directory" element={<BibleDirectory />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/platform" element={<Platform />}>
-                <Route path="apps" element={<Apps />} />
-                <Route path="analytics" element={<Analytics />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="notifications" element={<Notifications />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <div className="flex-1">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/get-started" element={<GetStarted />} />
+                <Route path="/docs" element={<Docs />} />
+                <Route path="/examples" element={<Examples />} />
+                <Route path="/bible-directory" element={<BibleDirectory />} />
+                <Route path="/support" element={<Support />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/platform" element={<Platform />}>
+                  <Route path="apps" element={<Apps />} />
+                  <Route path="analytics" element={<Analytics />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="notifications" element={<Notifications />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
           </div>
         </BrowserRouter>
       </TooltipProvider>
