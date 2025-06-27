@@ -39,7 +39,7 @@ const Header = () => {
               <Link 
                 to="/platform" 
                 className={`relative text-sm font-medium transition-colors hover:text-foreground ${
-                  isActive('/platform') || isOnPlatform ? 'text-foreground' : 'text-foreground'
+                  isActive('/platform') || isOnPlatform ? 'text-foreground' : 'text-muted-foreground'
                 }`}
               >
                 Platform
@@ -91,7 +91,7 @@ const Header = () => {
               <Link 
                 to="/platform" 
                 className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${
-                  isActive('/platform') || isOnPlatform ? 'text-foreground' : 'text-foreground'
+                  isActive('/platform') || isOnPlatform ? 'text-foreground' : 'text-muted-foreground'
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
