@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -58,7 +57,7 @@ const BibleDirectory = () => {
   ];
 
   return (
-    <div className="container py-12">
+    <div className="container py-12 canvas-secondary">
       <div className="max-w-6xl mx-auto">
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-4">Bible Directory</h1>

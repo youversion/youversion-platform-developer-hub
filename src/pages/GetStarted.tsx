@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,7 @@ import { Code, Key, BookOpen, Zap } from 'lucide-react';
 
 const GetStarted = () => {
   return (
-    <div className="container py-12">
+    <div className="container py-12 canvas-secondary">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Get Started with YouVersion Platform</h1>
