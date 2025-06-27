@@ -56,6 +56,7 @@ const PlatformSidebar = () => {
     position: 'fixed'
   }} className="w-64 canvas-primary">
       <SidebarHeader className="p-4">
+        <SidebarGroupLabel>Platform Account</SidebarGroupLabel>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="w-full justify-between">
