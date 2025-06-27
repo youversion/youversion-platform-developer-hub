@@ -33,7 +33,7 @@ const PlatformSidebar = () => {
   const { user, logout } = useAuth();
 
   return (
-    <Sidebar className="w-64">
+    <Sidebar className="w-64" style={{ height: 'calc(100vh - 64px)', top: '64px', position: 'fixed' }}>
       <SidebarHeader className="p-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

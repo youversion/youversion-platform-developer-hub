@@ -23,7 +23,7 @@ const Platform = () => {
       <SidebarProvider>
         <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
           <PlatformSidebar />
-          <SidebarInset className="flex-1">
+          <div className="flex-1" style={{ marginLeft: '256px' }}>
             <div className="container py-12">
               <div className="max-w-6xl mx-auto">
                 <div className="mb-8">
@@ -129,7 +129,7 @@ const Platform = () => {
                 </div>
               </div>
             </div>
-          </SidebarInset>
+          </div>
         </div>
       </SidebarProvider>
     );
@@ -140,9 +140,9 @@ const Platform = () => {
     <SidebarProvider>
       <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
         <PlatformSidebar />
-        <SidebarInset className="flex-1">
+        <div className="flex-1" style={{ marginLeft: '256px' }}>
           <Outlet />
-        </SidebarInset>
+        </div>
       </div>
     </SidebarProvider>
   );
