@@ -2,194 +2,104 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { MessageCircle, Mail, Book, Clock } from 'lucide-react';
+import { MessageCircle, Mail, FileText, Users } from 'lucide-react';
 
 const Support = () => {
   return (
     <div className="container py-12">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Developer Support</h1>
+          <h1 className="text-4xl font-bold mb-4">Support</h1>
           <p className="text-xl text-muted-foreground">
-            Get help from our team of API experts
+            Get help with the YouVersion Platform
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Support Options */}
-          <div className="lg:col-span-1 space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageCircle className="h-5 w-5 text-[#FF3D4D]" />
-                  Community Forum
-                </CardTitle>
-                <CardDescription>
-                  Join thousands of developers discussing YouVersion API
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full">
-                  Visit Forum
-                </Button>
-              </CardContent>
-            </Card>
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <MessageCircle className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <CardTitle>Live Chat</CardTitle>
+              <CardDescription>
+                Get instant help from our support team
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button className="w-full">Start Chat</Button>
+            </CardContent>
+          </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Book className="h-5 w-5 text-[#FF3D4D]" />
-                  Documentation
-                </CardTitle>
-                <CardDescription>
-                  Comprehensive guides and API reference
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" className="w-full">
-                  Browse Docs
-                </Button>
-              </CardContent>
-            </Card>
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <Mail className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <CardTitle>Email Support</CardTitle>
+              <CardDescription>
+                Send us a detailed message about your issue
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full">
+                Send Email
+              </Button>
+            </CardContent>
+          </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-[#FF3D4D]" />
-                  Status Page
-                </CardTitle>
-                <CardDescription>
-                  Check API status and planned maintenance
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" className="w-full">
-                  View Status
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <FileText className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <CardTitle>Documentation</CardTitle>
+              <CardDescription>
+                Browse our comprehensive guides and tutorials
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full">
+                View Docs
+              </Button>
+            </CardContent>
+          </Card>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Mail className="h-5 w-5 text-[#FF3D4D]" />
-                  Contact Support
-                </CardTitle>
-                <CardDescription>
-                  Send us a message and we'll get back to you within 24 hours
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" placeholder="Your name" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="your@email.com" />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">Subject</Label>
-                    <Input id="subject" placeholder="Brief description of your issue" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
-                    <select 
-                      id="category" 
-                      className="w-full h-10 px-3 rounded-md border border-input bg-background"
-                    >
-                      <option value="">Select a category</option>
-                      <option value="api">API Questions</option>
-                      <option value="authentication">Authentication Issues</option>
-                      <option value="billing">Billing & Licensing</option>
-                      <option value="technical">Technical Support</option>
-                      <option value="feature">Feature Request</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea 
-                      id="message" 
-                      placeholder="Describe your issue or question in detail..."
-                      rows={6}
-                    />
-                  </div>
-                  
-                  <Button type="submit" className="w-full">
-                    Send Message
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <Users className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <CardTitle>Community Forum</CardTitle>
+              <CardDescription>
+                Connect with other developers using the platform
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full">
+                Join Forum
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* FAQ Section */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">How do I get an API key?</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Sign up for a developer account and you'll receive your API key instantly. 
-                  You can manage your keys from the Platform dashboard.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">What are the rate limits?</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Free accounts have 1,000 requests per day. Paid plans start at 10,000 
-                  requests per day with higher limits available.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Can I use the API commercially?</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Yes, commercial use is allowed with appropriate licensing. Contact our 
-                  sales team for enterprise pricing and Bible publisher agreements.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Which Bible translations are available?</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  We offer 500+ Bible translations in 100+ languages. Check our Bible 
-                  Directory for the complete list of available versions.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Frequently Asked Questions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <h3 className="font-semibold mb-2">How do I get started with the API?</h3>
+              <p className="text-muted-foreground">
+                Sign up for a developer account and follow our quick start guide to get your API key and make your first request.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-2">What are the rate limits?</h3>
+              <p className="text-muted-foreground">
+                Free accounts have a limit of 1,000 requests per day. Paid plans offer higher limits and priority support.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-2">Can I use the API commercially?</h3>
+              <p className="text-muted-foreground">
+                Yes, commercial use is allowed under our terms of service. Some Bible translations may require additional licensing.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

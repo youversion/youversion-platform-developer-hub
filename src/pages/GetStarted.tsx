@@ -1,10 +1,9 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Key, Code, Rocket } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { Code, Key, BookOpen, Zap } from 'lucide-react';
 
 const GetStarted = () => {
   return (
@@ -13,141 +12,80 @@ const GetStarted = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Get Started with YouVersion Platform</h1>
           <p className="text-xl text-muted-foreground">
-            Follow these simple steps to integrate Bible content into your application
+            Start building with Bible content in just a few steps
           </p>
         </div>
 
-        <div className="space-y-8">
-          {/* Step 1 */}
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#FF3D4D] text-white rounded-full flex items-center justify-center font-bold">
-                  1
-                </div>
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Key className="w-5 h-5" />
-                    Create Your Account
-                  </CardTitle>
-                  <CardDescription>Sign up and get your API credentials</CardDescription>
-                </div>
-              </div>
+              <Key className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <CardTitle>1. Get Your API Key</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">
-                Create a free developer account to access the YouVersion Platform APIs. 
-                You'll receive your API key and secret to authenticate your requests.
-              </p>
+              <CardDescription className="mb-4">
+                Sign up for a developer account and get your free API key to start making requests.
+              </CardDescription>
               <Button asChild>
-                <Link to="/login">Create Account <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                <Link to="/login">Create Account</Link>
               </Button>
             </CardContent>
           </Card>
 
-          {/* Step 2 */}
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#FF3D4D] text-white rounded-full flex items-center justify-center font-bold">
-                  2
-                </div>
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Code className="w-5 h-5" />
-                    Explore the Documentation
-                  </CardTitle>
-                  <CardDescription>Learn about our APIs and capabilities</CardDescription>
-                </div>
-              </div>
+              <Code className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <CardTitle>2. Make Your First Request</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">
-                Browse our comprehensive documentation to understand the available endpoints, 
-                authentication methods, and response formats.
-              </p>
-              <div className="flex gap-2 mb-4">
-                <Badge variant="secondary">REST API</Badge>
-                <Badge variant="secondary">GraphQL</Badge>
-                <Badge variant="secondary">Webhooks</Badge>
-              </div>
+              <CardDescription className="mb-4">
+                Learn how to authenticate and make your first API call to retrieve Bible content.
+              </CardDescription>
               <Button variant="outline" asChild>
-                <Link to="/docs">View Documentation <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                <Link to="/docs">View Documentation</Link>
               </Button>
             </CardContent>
           </Card>
 
-          {/* Step 3 */}
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#FF3D4D] text-white rounded-full flex items-center justify-center font-bold">
-                  3
-                </div>
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Rocket className="w-5 h-5" />
-                    Start Building
-                  </CardTitle>
-                  <CardDescription>Use our examples and SDKs to get up and running quickly</CardDescription>
-                </div>
-              </div>
+              <BookOpen className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <CardTitle>3. Explore Bible Content</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">
-                Check out our code examples and SDKs in multiple programming languages. 
-                From simple verse lookups to complex reading plan integrations.
-              </p>
-              <div className="flex gap-2 mb-4">
-                <Badge variant="outline">JavaScript</Badge>
-                <Badge variant="outline">Python</Badge>
-                <Badge variant="outline">PHP</Badge>
-                <Badge variant="outline">Ruby</Badge>
-              </div>
+              <CardDescription className="mb-4">
+                Browse our directory of available Bible translations and choose the ones for your app.
+              </CardDescription>
               <Button variant="outline" asChild>
-                <Link to="/examples">View Examples <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                <Link to="/bible-directory">Browse Bibles</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <Zap className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <CardTitle>4. Build Amazing Apps</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="mb-4">
+                Use our examples and code samples to quickly integrate Bible content into your applications.
+              </CardDescription>
+              <Button variant="outline" asChild>
+                <Link to="/examples">View Examples</Link>
               </Button>
             </CardContent>
           </Card>
         </div>
 
-        {/* Quick Links */}
-        <div className="mt-16 grid md:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>API Reference</CardTitle>
-              <CardDescription>Complete API documentation</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="ghost" asChild className="p-0">
-                <Link to="/docs">Browse API Docs</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Bible Directory</CardTitle>
-              <CardDescription>Explore available translations</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="ghost" asChild className="p-0">
-                <Link to="/bible-directory">View Bibles</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Support</CardTitle>
-              <CardDescription>Get help when you need it</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="ghost" asChild className="p-0">
-                <Link to="/support">Contact Support</Link>
-              </Button>
-            </CardContent>
-          </Card>
+        <div className="bg-muted/50 rounded-lg p-8 text-center">
+          <h2 className="text-2xl font-bold mb-4">Need Help?</h2>
+          <p className="text-muted-foreground mb-6">
+            Our support team is here to help you get started with the YouVersion Platform.
+          </p>
+          <Button variant="outline" asChild>
+            <Link to="/support">Contact Support</Link>
+          </Button>
         </div>
       </div>
     </div>
