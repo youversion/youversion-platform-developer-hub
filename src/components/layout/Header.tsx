@@ -38,8 +38,8 @@ const Header = () => {
             {isAuthenticated && (
               <Link 
                 to="/platform" 
-                className={`relative text-sm font-medium transition-colors hover:text-[#FF3D4D] ${
-                  isActive('/platform') || isOnPlatform ? 'text-[#FF3D4D]' : 'text-muted-foreground'
+                className={`relative text-sm font-medium transition-colors hover:text-foreground ${
+                  isActive('/platform') || isOnPlatform ? 'text-foreground' : 'text-foreground'
                 }`}
               >
                 Platform
@@ -87,8 +87,8 @@ const Header = () => {
             {isAuthenticated && (
               <Link 
                 to="/platform" 
-                className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-[#FF3D4D] ${
-                  isActive('/platform') || isOnPlatform ? 'text-[#FF3D4D]' : ''
+                className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${
+                  isActive('/platform') || isOnPlatform ? 'text-foreground' : 'text-foreground'
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
