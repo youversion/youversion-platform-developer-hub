@@ -32,7 +32,7 @@ const platformNavItems = [
 
 // Mock organizations data - replace with real data from your auth context or API
 const mockOrganizations = [
-  { id: '1', name: 'Developer Organization' },
+  { id: '1', name: 'Dev Org' },
   { id: '2', name: 'My Startup' },
   { id: '3', name: 'Client Project' },
 ];
