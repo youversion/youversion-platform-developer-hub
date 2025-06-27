@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Apps, BarChart3, Settings, Bell } from 'lucide-react';
+import { Smartphone, BarChart3, Settings, Bell } from 'lucide-react';
 
 const Platform = () => {
   const { isAuthenticated } = useAuth();
@@ -30,7 +29,7 @@ const Platform = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
-                <Apps className="h-8 w-8 text-[#FF3D4D] mb-2" />
+                <Smartphone className="h-8 w-8 text-[#FF3D4D] mb-2" />
                 <CardTitle>Applications</CardTitle>
                 <CardDescription>
                   Manage your registered applications and API keys
