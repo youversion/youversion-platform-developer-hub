@@ -53,11 +53,14 @@ const Header = () => {
               <Link 
                 key={item.path} 
                 to={item.path} 
-                className={`text-sm font-medium transition-colors hover:text-[#FF3D4D] ${
-                  isActive(item.path) ? 'text-[#FF3D4D]' : 'text-muted-foreground'
+                className={`relative text-sm font-medium transition-colors hover:text-foreground ${
+                  isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'
                 }`}
               >
                 {item.name}
+                {isActive(item.path) && (
+                  <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>
+                )}
               </Link>
             ))}
           </nav>
@@ -100,8 +103,8 @@ const Header = () => {
               <Link 
                 key={item.path} 
                 to={item.path} 
-                className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-[#FF3D4D] ${
-                  isActive(item.path) ? 'text-[#FF3D4D]' : ''
+                className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${
+                  isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
