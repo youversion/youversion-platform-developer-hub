@@ -30,7 +30,7 @@ const platformNavItems = [
 ];
 
 const PlatformSidebar = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
 
   return (
     <Sidebar className="w-64" style={{ height: 'calc(100vh - 64px)', top: '64px', position: 'fixed' }}>
@@ -38,7 +38,7 @@ const PlatformSidebar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="w-full justify-between">
-              {user?.name} <ChevronDown className="ml-1 h-4 w-4" />
+              Developer Organization <ChevronDown className="ml-1 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
