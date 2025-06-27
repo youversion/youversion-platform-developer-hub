@@ -1,12 +1,17 @@
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Smartphone, BarChart3, Settings, Bell, ChevronDown, User } from 'lucide-react';
+import { Smartphone, BarChart3, Settings, Bell, ChevronDown, User, Home } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter } from '@/components/ui/sidebar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 
 const platformNavItems = [{
+  name: 'Dashboard',
+  path: '/platform',
+  icon: Home
+}, {
   name: 'Apps',
   path: '/platform/apps',
   icon: Smartphone
