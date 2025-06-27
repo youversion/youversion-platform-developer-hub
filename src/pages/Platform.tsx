@@ -140,7 +140,7 @@ const Platform = () => {
     <SidebarProvider>
       <div className="flex w-full">
         <PlatformSidebar />
-        <div className="flex-1">
+        <div className="flex-1 canvas-secondary">
           <Outlet />
         </div>
       </div>
