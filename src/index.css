@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,5 +100,15 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .canvas-primary {
+    background-color: #fff;
+  }
+
+  .canvas-secondary {
+    background-color: #F6F4F4;
   }
 }
