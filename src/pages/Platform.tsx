@@ -138,9 +138,9 @@ const Platform = () => {
   // For nested routes, render with sidebar
   return (
     <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="flex w-full">
         <PlatformSidebar />
-        <div className="flex-1" style={{ marginLeft: '256px' }}>
+        <div className="flex-1">
           <Outlet />
         </div>
       </div>
