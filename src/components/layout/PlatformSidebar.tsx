@@ -1,59 +1,59 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Smartphone, BarChart3, Settings, Bell, ChevronDown, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarHeader,
-  SidebarFooter,
-} from '@/components/ui/sidebar';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter } from '@/components/ui/sidebar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-
-const platformNavItems = [
-  { name: 'Apps', path: '/platform/apps', icon: Smartphone },
-  { name: 'Analytics', path: '/platform/analytics', icon: BarChart3 },
-  { name: 'Settings', path: '/platform/settings', icon: Settings },
-  { name: 'Notifications', path: '/platform/notifications', icon: Bell },
-];
+const platformNavItems = [{
+  name: 'Apps',
+  path: '/platform/apps',
+  icon: Smartphone
+}, {
+  name: 'Analytics',
+  path: '/platform/analytics',
+  icon: BarChart3
+}, {
+  name: 'Settings',
+  path: '/platform/settings',
+  icon: Settings
+}, {
+  name: 'Notifications',
+  path: '/platform/notifications',
+  icon: Bell
+}];
 
 // Mock organizations data - replace with real data from your auth context or API
-const mockOrganizations = [
-  { id: '1', name: 'Dev Org' },
-  { id: '2', name: 'My Startup' },
-  { id: '3', name: 'Client Project' },
-];
-
+const mockOrganizations = [{
+  id: '1',
+  name: 'Dev Org'
+}, {
+  id: '2',
+  name: 'My Startup'
+}, {
+  id: '3',
+  name: 'Client Project'
+}];
 const PlatformSidebar = () => {
-  const { user, logout } = useAuth();
+  const {
+    user,
+    logout
+  } = useAuth();
   const [selectedOrg, setSelectedOrg] = React.useState(mockOrganizations[0]);
-
   const getFirstName = () => {
     if (!user?.name) return 'User';
     return user.name.split(' ')[0];
   };
-
   const handleOrgSwitch = (org: typeof mockOrganizations[0]) => {
     setSelectedOrg(org);
     // Add your organization switching logic here
     console.log('Switching to organization:', org.name);
   };
-
-  return (
-    <Sidebar className="w-64" style={{ height: 'calc(100vh - 64px)', top: '64px', position: 'fixed' }}>
+  return <Sidebar style={{
+    height: 'calc(100vh - 64px)',
+    top: '64px',
+    position: 'fixed'
+  }} className="w-64 canvas-primary">
       <SidebarHeader className="p-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -63,15 +63,9 @@ const PlatformSidebar = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="start">
-            {mockOrganizations.map((org) => (
-              <DropdownMenuItem
-                key={org.id}
-                onClick={() => handleOrgSwitch(org)}
-                className={selectedOrg.id === org.id ? 'bg-muted' : ''}
-              >
+            {mockOrganizations.map(org => <DropdownMenuItem key={org.id} onClick={() => handleOrgSwitch(org)} className={selectedOrg.id === org.id ? 'bg-muted' : ''}>
                 {org.name}
-              </DropdownMenuItem>
-            ))}
+              </DropdownMenuItem>)}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarHeader>
@@ -81,21 +75,16 @@ const PlatformSidebar = () => {
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {platformNavItems.map((item) => (
-                <SidebarMenuItem key={item.path}>
+              {platformNavItems.map(item => <SidebarMenuItem key={item.path}>
                   <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.path}
-                      className={({ isActive }) =>
-                        isActive ? 'text-[#FF3D4D] bg-muted' : 'hover:bg-muted/50'
-                      }
-                    >
+                    <NavLink to={item.path} className={({
+                  isActive
+                }) => isActive ? 'text-[#FF3D4D] bg-muted' : 'hover:bg-muted/50'}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.name}</span>
                     </NavLink>
                   </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                </SidebarMenuItem>)}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -119,8 +108,6 @@ const PlatformSidebar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarFooter>
-    </Sidebar>
-  );
+    </Sidebar>;
 };
-
 export default PlatformSidebar;
