@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter } from '@/components/ui/sidebar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+
 const platformNavItems = [{
   name: 'Apps',
   path: '/platform/apps',
@@ -72,7 +73,7 @@ const PlatformSidebar = () => {
       
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>Platform</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {platformNavItems.map(item => <SidebarMenuItem key={item.path}>
@@ -110,4 +111,5 @@ const PlatformSidebar = () => {
       </SidebarFooter>
     </Sidebar>;
 };
+
 export default PlatformSidebar;
