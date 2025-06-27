@@ -41,18 +41,7 @@ const PlatformSidebar = () => {
   return (
     <Sidebar className="w-64" style={{ height: 'calc(100vh - 64px)', top: '64px', position: 'fixed' }}>
       <SidebarHeader className="p-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-full justify-between">
-              Developer Organization <ChevronDown className="ml-1 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem onClick={logout}>
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="text-lg font-semibold">Developer Organization</div>
       </SidebarHeader>
       
       <SidebarContent>
@@ -81,10 +70,22 @@ const PlatformSidebar = () => {
       </SidebarContent>
 
       <SidebarFooter className="p-4 sticky bottom-0 bg-sidebar border-t">
-        <Button variant="ghost" className="w-full justify-start">
-          <User className="h-4 w-4 mr-2" />
-          <span>{getFirstName()}</span>
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="w-full justify-between">
+              <div className="flex items-center">
+                <User className="h-4 w-4 mr-2" />
+                <span>{getFirstName()}</span>
+              </div>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={logout}>
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
   );
