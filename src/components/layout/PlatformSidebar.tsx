@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Smartphone, BarChart3, Settings, Bell, ChevronDown } from 'lucide-react';
+import { Smartphone, BarChart3, Settings, Bell, ChevronDown, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   Sidebar,
@@ -13,6 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+  SidebarFooter,
 } from '@/components/ui/sidebar';
 import {
   DropdownMenu,
@@ -30,7 +31,12 @@ const platformNavItems = [
 ];
 
 const PlatformSidebar = () => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+
+  const getFirstName = () => {
+    if (!user?.name) return 'User';
+    return user.name.split(' ')[0];
+  };
 
   return (
     <Sidebar className="w-64" style={{ height: 'calc(100vh - 64px)', top: '64px', position: 'fixed' }}>
@@ -73,6 +79,13 @@ const PlatformSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      <SidebarFooter className="p-4 sticky bottom-0 bg-sidebar border-t">
+        <Button variant="ghost" className="w-full justify-start">
+          <User className="h-4 w-4 mr-2" />
+          <span>{getFirstName()}</span>
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   );
 };
