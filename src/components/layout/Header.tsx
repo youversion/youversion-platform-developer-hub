@@ -17,6 +17,7 @@ const Header = () => {
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
+  const isOnPlatform = location.pathname.startsWith('/platform');
 
   const publicNavItems = [
     { name: 'Get Started', path: '/get-started' },
@@ -24,13 +25,6 @@ const Header = () => {
     { name: 'Examples', path: '/examples' },
     { name: 'Bible Directory', path: '/bible-directory' },
     { name: 'Support', path: '/support' },
-  ];
-
-  const platformNavItems = [
-    { name: 'Apps', path: '/platform/apps' },
-    { name: 'Analytics', path: '/platform/analytics' },
-    { name: 'Settings', path: '/platform/settings' },
-    { name: 'Notifications', path: '/platform/notifications' },
   ];
 
   return (
@@ -45,31 +39,16 @@ const Header = () => {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">
-            {isAuthenticated && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className={`${
-                      location.pathname.startsWith('/platform') ? 'text-[#FF3D4D]' : ''
-                    }`}
-                  >
-                    Platform <ChevronDown className="ml-1 h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {platformNavItems.map((item) => (
-                    <DropdownMenuItem key={item.path} asChild>
-                      <Link
-                        to={item.path}
-                        className={isActive(item.path) ? 'text-[#FF3D4D]' : ''}
-                      >
-                        {item.name}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+            {/* Show Platform link only when not on platform routes and authenticated */}
+            {isAuthenticated && !isOnPlatform && (
+              <Link
+                to="/platform"
+                className={`text-sm font-medium transition-colors hover:text-[#FF3D4D] ${
+                  isActive('/platform') ? 'text-[#FF3D4D]' : 'text-muted-foreground'
+                }`}
+              >
+                Platform
+              </Link>
             )}
 
             {publicNavItems.map((item) => (
@@ -120,22 +99,16 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t">
           <nav className="container py-4 space-y-2">
-            {isAuthenticated && (
-              <div className="space-y-2">
-                <div className="font-medium text-sm text-muted-foreground">Platform</div>
-                {platformNavItems.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-[#FF3D4D] ${
-                      isActive(item.path) ? 'text-[#FF3D4D]' : ''
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
+            {isAuthenticated && !isOnPlatform && (
+              <Link
+                to="/platform"
+                className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-[#FF3D4D] ${
+                  isActive('/platform') ? 'text-[#FF3D4D]' : ''
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Platform
+              </Link>
             )}
             
             {publicNavItems.map((item) => (
