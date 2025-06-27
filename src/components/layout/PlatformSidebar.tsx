@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Smartphone, BarChart3, Settings, Bell, ArrowDown, User } from 'lucide-react';
+import { Smartphone, BarChart3, Settings, Bell, ChevronDown, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import {
   Sidebar,
@@ -59,7 +59,7 @@ const PlatformSidebar = () => {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="w-full justify-between">
               <span className="text-lg font-semibold">{selectedOrg.name}</span>
-              <ArrowDown className="h-4 w-4" />
+              <ChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="start">
@@ -109,7 +109,7 @@ const PlatformSidebar = () => {
                 <User className="h-4 w-4 mr-2" />
                 <span>{getFirstName()}</span>
               </div>
-              <ArrowDown className="h-4 w-4" />
+              <ChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
