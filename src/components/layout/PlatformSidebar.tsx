@@ -30,18 +30,50 @@ const platformNavItems = [
   { name: 'Notifications', path: '/platform/notifications', icon: Bell },
 ];
 
+// Mock organizations data - replace with real data from your auth context or API
+const mockOrganizations = [
+  { id: '1', name: 'Developer Organization' },
+  { id: '2', name: 'My Startup' },
+  { id: '3', name: 'Client Project' },
+];
+
 const PlatformSidebar = () => {
   const { user, logout } = useAuth();
+  const [selectedOrg, setSelectedOrg] = React.useState(mockOrganizations[0]);
 
   const getFirstName = () => {
     if (!user?.name) return 'User';
     return user.name.split(' ')[0];
   };
 
+  const handleOrgSwitch = (org: typeof mockOrganizations[0]) => {
+    setSelectedOrg(org);
+    // Add your organization switching logic here
+    console.log('Switching to organization:', org.name);
+  };
+
   return (
     <Sidebar className="w-64" style={{ height: 'calc(100vh - 64px)', top: '64px', position: 'fixed' }}>
       <SidebarHeader className="p-4">
-        <div className="text-lg font-semibold">Developer Organization</div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="w-full justify-between">
+              <span className="text-lg font-semibold">{selectedOrg.name}</span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="start">
+            {mockOrganizations.map((org) => (
+              <DropdownMenuItem
+                key={org.id}
+                onClick={() => handleOrgSwitch(org)}
+                className={selectedOrg.id === org.id ? 'bg-muted' : ''}
+              >
+                {org.name}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarHeader>
       
       <SidebarContent>
