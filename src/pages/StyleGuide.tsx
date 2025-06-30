@@ -126,6 +126,10 @@ const StyleGuide = () => {
                   <Button variant="ghost">Ghost Button</Button>
                 </div>
                 <div className="flex gap-2">
+                  <Button variant="filled-contrast">Filled Contrast</Button>
+                  <Button variant="secondary">Secondary</Button>
+                </div>
+                <div className="flex gap-2">
                   <Button size="sm">Small</Button>
                   <Button>Default</Button>
                   <Button size="lg">Large</Button>
