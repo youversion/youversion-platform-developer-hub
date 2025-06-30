@@ -11,7 +11,7 @@ const Docs = () => {
     <SidebarProvider>
       <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
         <DocsSidebar />
-        <div className="flex-1 canvas-secondary ml-64">
+        <div className="flex-1 canvas-secondary">
           <div className="container py-12">
             <div className="max-w-6xl mx-auto">
               <div className="mb-12">
