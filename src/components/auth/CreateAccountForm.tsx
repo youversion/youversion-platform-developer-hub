@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,6 +15,13 @@ const CreateAccountForm = () => {
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [statementOfFaithViewed, setStatementOfFaithViewed] = useState(false);
   const [termsOfServiceViewed, setTermsOfServiceViewed] = useState(false);
+  const navigate = useNavigate();
+
+  const handleOrganizationTypeChange = (value: string) => {
+    if (value === 'bible_publisher') {
+      navigate('/yv-connect');
+    }
+  };
 
   const handleStatementOfFaithClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -65,7 +72,7 @@ const CreateAccountForm = () => {
         </div>
         <div>
           <Label htmlFor="organization-type">Organization Type</Label>
-          <Select>
+          <Select onValueChange={handleOrganizationTypeChange}>
             <SelectTrigger>
               <SelectValue placeholder="Select organization type" />
             </SelectTrigger>
