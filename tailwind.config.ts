@@ -66,6 +66,20 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
+				brand: {
+					DEFAULT: '#FF3D4D',
+					50: '#FFF1F2',
+					100: '#FFE1E3',
+					200: '#FFC7CB',
+					300: '#FFA0A6',
+					400: '#FF6B75',
+					500: '#FF3D4D',
+					600: '#ED1C2E',
+					700: '#C81220',
+					800: '#A5131E',
+					900: '#881720',
+					950: '#4C070C'
+				},
 				youversion: {
 					DEFAULT: '#FF3D4D',
 					50: '#FFF1F2',

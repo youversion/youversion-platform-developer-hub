@@ -29,8 +29,16 @@ const StyleGuide = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <Card>
               <CardContent className="p-4">
-                <div className="w-full h-16 bg-[#FF3D4D] rounded mb-2"></div>
+                <div className="w-full h-16 bg-[#EDEBEB] rounded mb-2"></div>
                 <p className="font-medium">Primary</p>
+                <p className="text-sm text-muted-foreground">#EDEBEB</p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-4">
+                <div className="w-full h-16 bg-[#FF3D4D] rounded mb-2"></div>
+                <p className="font-medium">Brand</p>
                 <p className="text-sm text-muted-foreground">#FF3D4D</p>
               </CardContent>
             </Card>
