@@ -23,6 +23,7 @@ const CreateAccountForm = () => {
   const [statementOfFaithViewed, setStatementOfFaithViewed] = useState(false);
   const [termsOfServiceViewed, setTermsOfServiceViewed] = useState(false);
   const [organizationType, setOrganizationType] = useState('');
+  const [profitStatus, setProfitStatus] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -85,6 +86,21 @@ const CreateAccountForm = () => {
   };
 
   const renderOrganizationFields = () => {
+    const profitStatusField = (
+      <div>
+        <Label htmlFor="profit-status">Profit Status</Label>
+        <Select onValueChange={setProfitStatus}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select profit status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="for-profit">For Profit</SelectItem>
+            <SelectItem value="non-profit">Non Profit</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    );
+
     switch (organizationType) {
       case 'organization':
         return (
@@ -97,6 +113,7 @@ const CreateAccountForm = () => {
                 placeholder="Enter organization name"
               />
             </div>
+            {profitStatusField}
             <div>
               <Label htmlFor="address">Address</Label>
               <Input
@@ -136,6 +153,7 @@ const CreateAccountForm = () => {
       case 'individual':
         return (
           <div className="space-y-4">
+            {profitStatusField}
             <div>
               <Label htmlFor="address">Address</Label>
               <Input
@@ -201,6 +219,7 @@ const CreateAccountForm = () => {
                 </SelectContent>
               </Select>
             </div>
+            {profitStatusField}
             <div>
               <Label htmlFor="address">Address</Label>
               <Input
@@ -248,6 +267,7 @@ const CreateAccountForm = () => {
                 placeholder="Specify organization type"
               />
             </div>
+            {profitStatusField}
             <div>
               <Label htmlFor="address">Address</Label>
               <Input
