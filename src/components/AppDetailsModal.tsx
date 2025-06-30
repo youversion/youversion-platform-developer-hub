@@ -143,23 +143,24 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label>Created Date</Label>
-            <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
-              {app.created}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Created Date</Label>
+              <div className="text-sm text-muted-foreground">
+                {app.created}
+              </div>
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Updated Date</Label>
-            <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
-              {app.updated}
+            <div className="space-y-2">
+              <Label>Updated Date</Label>
+              <div className="text-sm text-muted-foreground">
+                {app.updated}
+              </div>
             </div>
           </div>
 
           <div className="space-y-2">
             <Label>Requests Today</Label>
-            <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
+            <div className="text-sm text-muted-foreground">
               {app.requests} requests
             </div>
           </div>
