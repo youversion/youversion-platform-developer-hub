@@ -36,7 +36,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (email && password) {
       setUser({
         id: '1',
-        name: 'Developer',
+        name: 'Developer Firstname',
         email: email
       });
     }
