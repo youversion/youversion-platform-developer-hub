@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -44,8 +43,8 @@ const Index = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>
-              <CardHeader>
-                <BookOpen className="h-12 w-12 text-black mb-4" />
+              <CardHeader className="text-center">
+                <BookOpen className="h-8 w-8 text-black mb-4 mx-auto" />
                 <CardTitle className="text-2xl">Bible Reader SDK</CardTitle>
               </CardHeader>
               <CardContent>
@@ -59,8 +58,8 @@ const Index = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <LogIn className="h-12 w-12 text-black mb-4" />
+              <CardHeader className="text-center">
+                <LogIn className="h-8 w-8 text-black mb-4 mx-auto" />
                 <CardTitle className="text-2xl">Sign in with YouVersion</CardTitle>
               </CardHeader>
               <CardContent>
@@ -74,8 +73,8 @@ const Index = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <Zap className="h-12 w-12 text-black mb-4" />
+              <CardHeader className="text-center">
+                <Zap className="h-8 w-8 text-black mb-4 mx-auto" />
                 <CardTitle className="text-2xl">Fast Track Bible Licensing</CardTitle>
               </CardHeader>
               <CardContent>
@@ -89,8 +88,8 @@ const Index = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <Smartphone className="h-12 w-12 text-black mb-4" />
+              <CardHeader className="text-center">
+                <Smartphone className="h-8 w-8 text-black mb-4 mx-auto" />
                 <CardTitle className="text-2xl">Multi-Platform</CardTitle>
               </CardHeader>
               <CardContent>
@@ -104,8 +103,8 @@ const Index = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <Settings className="h-12 w-12 text-black mb-4" />
+              <CardHeader className="text-center">
+                <Settings className="h-8 w-8 text-black mb-4 mx-auto" />
                 <CardTitle className="text-2xl">Developer Dashboard</CardTitle>
               </CardHeader>
               <CardContent>
@@ -119,8 +118,8 @@ const Index = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <Database className="h-12 w-12 text-black mb-4" />
+              <CardHeader className="text-center">
+                <Database className="h-8 w-8 text-black mb-4 mx-auto" />
                 <CardTitle className="text-2xl">Bible Directory</CardTitle>
               </CardHeader>
               <CardContent>
