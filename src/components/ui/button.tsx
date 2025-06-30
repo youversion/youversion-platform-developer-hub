@@ -22,9 +22,11 @@ const buttonVariants = cva(
         "filled-contrast": "bg-[#121212] text-white hover:bg-[#121212]/90",
       },
       size: {
-        default: "h-10 px-4 py-2",
+        xs: "h-7 rounded-full px-2 text-xs",
         sm: "h-9 rounded-full px-3",
+        default: "h-10 px-4 py-2",
         lg: "h-11 rounded-full px-8",
+        xl: "h-12 rounded-full px-10 text-lg",
         icon: "h-10 w-10",
       },
     },

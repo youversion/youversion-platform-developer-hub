@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -137,9 +138,11 @@ const StyleGuide = () => {
                 <div>
                   <h4 className="font-medium mb-3">Default Button Sizes</h4>
                   <div className="flex items-center gap-2">
+                    <Button size="xs">Extra Small</Button>
                     <Button size="sm">Small</Button>
                     <Button>Default</Button>
                     <Button size="lg">Large</Button>
+                    <Button size="xl">Extra Large</Button>
                     <Button size="icon">🔍</Button>
                   </div>
                 </div>
@@ -148,9 +151,11 @@ const StyleGuide = () => {
                 <div>
                   <h4 className="font-medium mb-3">Filled Contrast Button Sizes</h4>
                   <div className="flex items-center gap-2">
+                    <Button variant="filled-contrast" size="xs">Extra Small</Button>
                     <Button variant="filled-contrast" size="sm">Small</Button>
                     <Button variant="filled-contrast">Default</Button>
                     <Button variant="filled-contrast" size="lg">Large</Button>
+                    <Button variant="filled-contrast" size="xl">Extra Large</Button>
                     <Button variant="filled-contrast" size="icon">🔍</Button>
                   </div>
                 </div>
@@ -159,9 +164,11 @@ const StyleGuide = () => {
                 <div>
                   <h4 className="font-medium mb-3">Stroked Button Sizes</h4>
                   <div className="flex items-center gap-2">
+                    <Button variant="stroked" size="xs">Extra Small</Button>
                     <Button variant="stroked" size="sm">Small</Button>
                     <Button variant="stroked">Default</Button>
                     <Button variant="stroked" size="lg">Large</Button>
+                    <Button variant="stroked" size="xl">Extra Large</Button>
                     <Button variant="stroked" size="icon">🔍</Button>
                   </div>
                 </div>
@@ -170,9 +177,11 @@ const StyleGuide = () => {
                 <div>
                   <h4 className="font-medium mb-3">Filled Secondary Button Sizes</h4>
                   <div className="flex items-center gap-2">
+                    <Button variant="filled-secondary" size="xs">Extra Small</Button>
                     <Button variant="filled-secondary" size="sm">Small</Button>
                     <Button variant="filled-secondary">Default</Button>
                     <Button variant="filled-secondary" size="lg">Large</Button>
+                    <Button variant="filled-secondary" size="xl">Extra Large</Button>
                     <Button variant="filled-secondary" size="icon">🔍</Button>
                   </div>
                 </div>
