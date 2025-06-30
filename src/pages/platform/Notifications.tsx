@@ -62,7 +62,7 @@ const Notifications = () => {
               Stay updated with important announcements and alerts
             </p>
           </div>
-          <Button variant="outline">
+          <Button variant="stroked">
             <Bell className="mr-2 h-4 w-4" />
             Mark All Read
           </Button>

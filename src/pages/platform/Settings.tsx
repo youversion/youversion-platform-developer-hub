@@ -121,7 +121,7 @@ const Settings = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="destructive">Delete Account</Button>
+              <Button variant="filled-brand">Delete Account</Button>
             </CardContent>
           </Card>
         </div>
