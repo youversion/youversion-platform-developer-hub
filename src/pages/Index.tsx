@@ -10,10 +10,10 @@ const Index = () => {
       <section className="relative py-20 lg:py-32 bg-gradient-to-b from-white via-amber-500 to-pink-500">
         <div className="container">
           <div className="mx-auto text-center">
-            <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-white">
+            <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-black">
               Build with YouVersion
             </h1>
-            <p className="text-xl mb-8 text-white">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
+            <p className="text-xl mb-8 text-black">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col gap-4 items-center">
               <Button size="xl" variant="filled-contrast" onClick={() => navigate('/get-started')} className="btn-xl">
                 Join the YouVersion Platform
