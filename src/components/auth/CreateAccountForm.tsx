@@ -1,5 +1,7 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +12,10 @@ import StatementOfFaithModal from '@/components/StatementOfFaithModal';
 import TermsOfServiceModal from '@/components/TermsOfServiceModal';
 
 const CreateAccountForm = () => {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [statementOfFaithChecked, setStatementOfFaithChecked] = useState(false);
   const [termsOfServiceChecked, setTermsOfServiceChecked] = useState(false);
   const [showStatementModal, setShowStatementModal] = useState(false);
@@ -17,7 +23,31 @@ const CreateAccountForm = () => {
   const [statementOfFaithViewed, setStatementOfFaithViewed] = useState(false);
   const [termsOfServiceViewed, setTermsOfServiceViewed] = useState(false);
   const [organizationType, setOrganizationType] = useState('');
+  const { login } = useAuth();
   const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (password !== confirmPassword) {
+      console.error('Passwords do not match');
+      return;
+    }
+
+    if (!statementOfFaithChecked || !termsOfServiceChecked) {
+      console.error('Must accept both Statement of Faith and Terms of Service');
+      return;
+    }
+
+    try {
+      // Simulate account creation and automatic login
+      await login(email, password);
+      console.log('Account created and logged in successfully');
+      navigate('/platform');
+    } catch (error) {
+      console.error('Account creation failed:', error);
+    }
+  };
 
   const handleOrganizationTypeChange = (value: string) => {
     setOrganizationType(value);
@@ -269,13 +299,16 @@ const CreateAccountForm = () => {
 
   return (
     <>
-      <div className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <Label htmlFor="full-name">Full Name</Label>
           <Input
             id="full-name"
             type="text"
             placeholder="John Doe"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
           />
         </div>
         <div>
@@ -284,6 +317,9 @@ const CreateAccountForm = () => {
             id="create-email"
             type="email"
             placeholder="your@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
         <div>
@@ -308,6 +344,9 @@ const CreateAccountForm = () => {
             id="create-password"
             type="password"
             placeholder="Create a password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
         <div>
@@ -316,6 +355,9 @@ const CreateAccountForm = () => {
             id="confirm-password"
             type="password"
             placeholder="Confirm your password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
           />
         </div>
         <div className="space-y-3">
@@ -356,10 +398,10 @@ const CreateAccountForm = () => {
             </Label>
           </div>
         </div>
-        <Button className="w-full">
+        <Button type="submit" className="w-full">
           Create Account
         </Button>
-      </div>
+      </form>
 
       <StatementOfFaithModal
         open={showStatementModal}
