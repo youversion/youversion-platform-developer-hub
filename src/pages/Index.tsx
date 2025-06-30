@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,7 @@ const Index = () => {
             </h1>
             <p className="text-xl mb-8 text-white">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
+              <Button size="lg" variant="filled-contrast" asChild>
                 <Link to="/get-started">Get Started</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
