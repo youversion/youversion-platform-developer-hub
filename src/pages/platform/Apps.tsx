@@ -1,12 +1,25 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Smartphone, Key, Activity } from 'lucide-react';
+import AppDetailsModal from '@/components/AppDetailsModal';
+import { useToast } from '@/hooks/use-toast';
+
+interface App {
+  name: string;
+  apiKey: string;
+  status: string;
+  requests: string;
+  created: string;
+}
 
 const Apps = () => {
-  const apps = [
+  const { toast } = useToast();
+  const [selectedApp, setSelectedApp] = useState<App | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [apps, setApps] = useState<App[]>([
     {
       name: "My Bible App",
       apiKey: "bv_live_abc123...",
@@ -28,7 +41,29 @@ const Apps = () => {
       requests: "89",
       created: "2024-03-10"
     }
-  ];
+  ]);
+
+  const handleViewDetails = (app: App) => {
+    setSelectedApp(app);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveApp = (updatedApp: App) => {
+    setApps(prevApps => 
+      prevApps.map(app => 
+        app.apiKey === updatedApp.apiKey ? updatedApp : app
+      )
+    );
+    toast({
+      title: "Application Updated",
+      description: "The application details have been saved successfully.",
+    });
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedApp(null);
+  };
 
   return (
     <div className="container py-12">
@@ -75,7 +110,9 @@ const Apps = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline">View Details</Button>
+                  <Button size="sm" variant="outline" onClick={() => handleViewDetails(app)}>
+                    View Details
+                  </Button>
                   <Button size="sm" variant="outline">Regenerate Key</Button>
                   <Button size="sm" variant="outline">Settings</Button>
                 </div>
@@ -84,6 +121,13 @@ const Apps = () => {
           ))}
         </div>
       </div>
+
+      <AppDetailsModal
+        app={selectedApp}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSave={handleSaveApp}
+      />
     </div>
   );
 };
