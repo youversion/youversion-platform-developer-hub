@@ -3,17 +3,15 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database } from 'lucide-react';
-
 const Index = () => {
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6">
               Build with the{' '}
-              <span className="text-[#FF3D4D]">YouVersion Platform</span>
+              <span className="">YouVersion Platform</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
               Access the world's most popular Bible platform through our developer APIs. 
@@ -151,8 +149,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
