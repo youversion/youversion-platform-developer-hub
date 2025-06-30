@@ -18,18 +18,34 @@ interface TermsOfServiceModalProps {
 
 const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceModalProps) => {
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
-
-  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    const target = event.currentTarget;
-    const { scrollTop, scrollHeight, clientHeight } = target;
-    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
-    setHasScrolledToBottom(isAtBottom);
-  };
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (open) {
       setHasScrolledToBottom(false);
     }
+  }, [open]);
+
+  useEffect(() => {
+    if (!scrollAreaRef.current || !open) return;
+
+    const scrollViewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+    if (!scrollViewport) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollViewport;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+      setHasScrolledToBottom(isAtBottom);
+    };
+
+    scrollViewport.addEventListener('scroll', handleScroll);
+    
+    // Check initial state
+    handleScroll();
+
+    return () => {
+      scrollViewport.removeEventListener('scroll', handleScroll);
+    };
   }, [open]);
 
   const handleAccept = () => {
@@ -51,11 +67,8 @@ const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceMod
           </DialogDescription>
         </DialogHeader>
         
-        <ScrollArea className="h-[400px] pr-4">
-          <div 
-            onScroll={handleScroll}
-            className="space-y-4 text-sm h-full overflow-y-auto"
-          >
+        <ScrollArea ref={scrollAreaRef} className="h-[400px] pr-4">
+          <div className="space-y-4 text-sm">
             <div>
               <h3 className="font-semibold mb-2">1. Acceptance of Terms</h3>
               <p>By accessing and using the YouVersion Platform, you accept and agree to be bound by the terms and provision of this agreement.</p>
