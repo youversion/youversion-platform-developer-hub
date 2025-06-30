@@ -18,6 +18,7 @@ const Header = () => {
     { name: 'Docs', path: '/docs' },
     { name: 'Examples', path: '/examples' },
     { name: 'Bible Directory', path: '/bible-directory' },
+    { name: 'Style Guide', path: '/style-guide' },
     { name: 'Support', path: '/support' }
   ];
 

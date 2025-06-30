@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +11,7 @@ import Docs from "./pages/Docs";
 import Examples from "./pages/Examples";
 import BibleDirectory from "./pages/BibleDirectory";
 import Support from "./pages/Support";
+import StyleGuide from "./pages/StyleGuide";
 import Platform from "./pages/Platform";
 import Apps from "./pages/platform/Apps";
 import Analytics from "./pages/platform/Analytics";
@@ -39,6 +39,7 @@ const App = () => (
                 <Route path="/examples" element={<Examples />} />
                 <Route path="/bible-directory" element={<BibleDirectory />} />
                 <Route path="/support" element={<Support />} />
+                <Route path="/style-guide" element={<StyleGuide />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/platform" element={<Platform />}>
                   <Route path="apps" element={<Apps />} />
