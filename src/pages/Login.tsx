@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -48,6 +47,14 @@ const Login = () => {
 
   const handleTermsOfServiceAccept = () => {
     setTermsOfServiceChecked(true);
+  };
+
+  const handleStatementOfFaithChange = (checked: boolean | "indeterminate") => {
+    setStatementOfFaithChecked(checked === true);
+  };
+
+  const handleTermsOfServiceChange = (checked: boolean | "indeterminate") => {
+    setTermsOfServiceChecked(checked === true);
   };
 
   return (
@@ -148,7 +155,7 @@ const Login = () => {
                     <Checkbox 
                       id="statement-of-faith" 
                       checked={statementOfFaithChecked}
-                      onCheckedChange={setStatementOfFaithChecked}
+                      onCheckedChange={handleStatementOfFaithChange}
                     />
                     <Label htmlFor="statement-of-faith" className="text-sm leading-5">
                       I agree to the{' '}
@@ -165,7 +172,7 @@ const Login = () => {
                     <Checkbox 
                       id="terms-of-service" 
                       checked={termsOfServiceChecked}
-                      onCheckedChange={setTermsOfServiceChecked}
+                      onCheckedChange={handleTermsOfServiceChange}
                     />
                     <Label htmlFor="terms-of-service" className="text-sm leading-5">
                       I agree to the{' '}
