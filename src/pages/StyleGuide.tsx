@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -125,11 +124,11 @@ const StyleGuide = () => {
                   <h4 className="font-medium mb-3">Button Variants</h4>
                   <div className="flex flex-wrap gap-2">
                     <Button>Default Button</Button>
-                    <Button variant="outline">Outline Button</Button>
-                    <Button variant="ghost">Ghost Button</Button>
+                    <Button variant="outline">Stroked Button</Button>
+                    <Button variant="ghost">Borderless Button</Button>
                     <Button variant="filled-contrast">Filled Contrast</Button>
                     <Button variant="secondary">Secondary</Button>
-                    <Button variant="destructive">Destructive</Button>
+                    <Button variant="destructive">Filled Brand</Button>
                     <Button variant="link">Link Button</Button>
                   </div>
                 </div>
@@ -156,9 +155,9 @@ const StyleGuide = () => {
                   </div>
                 </div>
 
-                {/* Button Sizes - Outline */}
+                {/* Button Sizes - Stroked */}
                 <div>
-                  <h4 className="font-medium mb-3">Outline Button Sizes</h4>
+                  <h4 className="font-medium mb-3">Stroked Button Sizes</h4>
                   <div className="flex items-center gap-2">
                     <Button variant="outline" size="sm">Small</Button>
                     <Button variant="outline">Default</Button>
@@ -183,7 +182,7 @@ const StyleGuide = () => {
                   <h4 className="font-medium mb-3">Disabled States</h4>
                   <div className="flex flex-wrap gap-2">
                     <Button disabled>Default Disabled</Button>
-                    <Button variant="outline" disabled>Outline Disabled</Button>
+                    <Button variant="outline" disabled>Stroked Disabled</Button>
                     <Button variant="filled-contrast" disabled>Filled Contrast Disabled</Button>
                     <Button variant="secondary" disabled>Secondary Disabled</Button>
                   </div>
