@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -18,8 +17,7 @@ const Header = () => {
     { name: 'Docs', path: 'https://youversion.mintlify.app/', external: true },
     { name: 'Examples', path: '/examples' },
     { name: 'Bible Directory', path: '/bible-directory' },
-    { name: 'Dev Portal Styles', path: '/style-guide' },
-    { name: 'Support', path: '/support' }
+    { name: 'Dev Portal Styles', path: '/style-guide' }
   ];
 
   return (
