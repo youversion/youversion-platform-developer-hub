@@ -124,11 +124,11 @@ const StyleGuide = () => {
                   <h4 className="font-medium mb-3">Button Variants</h4>
                   <div className="flex flex-wrap gap-2">
                     <Button>Default Button</Button>
-                    <Button variant="outline">Stroked Button</Button>
-                    <Button variant="ghost">Borderless Button</Button>
+                    <Button variant="stroked">Stroked Button</Button>
+                    <Button variant="borderless">Borderless Button</Button>
                     <Button variant="filled-contrast">Filled Contrast</Button>
-                    <Button variant="secondary">Filled Secondary</Button>
-                    <Button variant="destructive">Filled Brand</Button>
+                    <Button variant="filled-secondary">Filled Secondary</Button>
+                    <Button variant="filled-brand">Filled Brand</Button>
                     <Button variant="link">Link Button</Button>
                   </div>
                 </div>
@@ -159,10 +159,10 @@ const StyleGuide = () => {
                 <div>
                   <h4 className="font-medium mb-3">Stroked Button Sizes</h4>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm">Small</Button>
-                    <Button variant="outline">Default</Button>
-                    <Button variant="outline" size="lg">Large</Button>
-                    <Button variant="outline" size="icon">🔍</Button>
+                    <Button variant="stroked" size="sm">Small</Button>
+                    <Button variant="stroked">Default</Button>
+                    <Button variant="stroked" size="lg">Large</Button>
+                    <Button variant="stroked" size="icon">🔍</Button>
                   </div>
                 </div>
 
@@ -170,10 +170,10 @@ const StyleGuide = () => {
                 <div>
                   <h4 className="font-medium mb-3">Filled Secondary Button Sizes</h4>
                   <div className="flex items-center gap-2">
-                    <Button variant="secondary" size="sm">Small</Button>
-                    <Button variant="secondary">Default</Button>
-                    <Button variant="secondary" size="lg">Large</Button>
-                    <Button variant="secondary" size="icon">🔍</Button>
+                    <Button variant="filled-secondary" size="sm">Small</Button>
+                    <Button variant="filled-secondary">Default</Button>
+                    <Button variant="filled-secondary" size="lg">Large</Button>
+                    <Button variant="filled-secondary" size="icon">🔍</Button>
                   </div>
                 </div>
 
@@ -182,9 +182,9 @@ const StyleGuide = () => {
                   <h4 className="font-medium mb-3">Disabled States</h4>
                   <div className="flex flex-wrap gap-2">
                     <Button disabled>Default Disabled</Button>
-                    <Button variant="outline" disabled>Stroked Disabled</Button>
+                    <Button variant="stroked" disabled>Stroked Disabled</Button>
                     <Button variant="filled-contrast" disabled>Filled Contrast Disabled</Button>
-                    <Button variant="secondary" disabled>Filled Secondary Disabled</Button>
+                    <Button variant="filled-secondary" disabled>Filled Secondary Disabled</Button>
                   </div>
                 </div>
               </CardContent>
