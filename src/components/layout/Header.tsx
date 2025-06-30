@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,7 @@ const Header = () => {
 
   const publicNavItems = [
     { name: 'Get Started', path: '/get-started' },
-    { name: 'Docs', path: 'https://youversion.mintlify.app/', external: true },
+    { name: 'Docs', path: '/docs' },
     { name: 'Examples', path: '/examples' },
     { name: 'Bible Directory', path: '/bible-directory' },
     { name: 'Dev Portal Styles', path: '/style-guide' }
