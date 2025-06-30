@@ -1,13 +1,10 @@
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
-
 const Index = () => {
   const navigate = useNavigate();
-
   return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 bg-gradient-to-r from-amber-500 to-pink-500">
@@ -18,19 +15,10 @@ const Index = () => {
             </h1>
             <p className="text-xl mb-8 text-white">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col gap-4 items-center">
-              <Button 
-                size="lg" 
-                variant="filled-contrast" 
-                onClick={() => navigate('/get-started')}
-                className="btn-xl"
-              >
+              <Button size="lg" variant="filled-contrast" onClick={() => navigate('/get-started')} className="btn-2xl">
                 Join the YouVersion Platform
               </Button>
-              <Button 
-                size="lg" 
-                variant="stroked" 
-                onClick={() => navigate('/docs')}
-              >
+              <Button size="lg" variant="stroked" onClick={() => navigate('/docs')}>
                 View Documentation
               </Button>
             </div>
