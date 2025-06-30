@@ -295,7 +295,7 @@ const CreateAccountForm = () => {
             <SelectContent>
               <SelectItem value="organization">Organization or Ministry</SelectItem>
               <SelectItem value="individual">Individual</SelectItem>
-              <SelectItem value="bible_publisher">Bible Publiser</SelectItem>
+              <SelectItem value="bible_publisher">Bible Publisher</SelectItem>
               <SelectItem value="church">Church</SelectItem>
               <SelectItem value="other">Other</SelectItem>
             </SelectContent>
