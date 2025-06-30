@@ -15,10 +15,10 @@ const Index = () => {
             </h1>
             <p className="text-xl mb-8 text-black">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col gap-4 items-center">
-              <Button size="xl" variant="filled-contrast" onClick={() => navigate('/get-started')} className="btn-xl text-sm font-bold">
+              <Button size="xl" variant="filled-contrast" onClick={() => navigate('/get-started')} className="btn-xl text-sm font-bold py-[30px] px-[40px]">
                 Join the YouVersion Platform
               </Button>
-              <Button size="xl" variant="stroked" onClick={() => navigate('/docs')} className="text-sm font-bold">
+              <Button size="xl" variant="stroked" onClick={() => navigate('/docs')} className="text-sm font-bold px-[40px] py-[30px]">
                 View Documentation
               </Button>
             </div>
