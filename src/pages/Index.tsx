@@ -7,7 +7,7 @@ const Index = () => {
   const navigate = useNavigate();
   return <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 bg-gradient-to-b from-white via-amber-500 to-pink-500">
+      <section className="relative py-20 lg:py-32 bg-gradient-to-b from-white via-amber-300 to-pink-300">
         <div className="container">
           <div className="mx-auto text-center">
             <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-black">
