@@ -75,7 +75,7 @@ const Header = () => {
           
           {!isAuthenticated && (
             <Button asChild>
-              <Link to="/login">Sign In</Link>
+              <Link to="/login">Get App Keys</Link>
             </Button>
           )}
 
