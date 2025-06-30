@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -58,6 +59,21 @@ const Index = () => {
 
             <Card>
               <CardHeader className="text-center">
+                <Highlighter className="h-8 w-8 text-black mb-4 mx-auto" />
+                <CardTitle className="text-2xl">Highlights, Notes and Saved Verses</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-sm text-muted-foreground mb-4">
+                  YouVersion Highlights and Notes in your application and synced
+                </CardDescription>
+                <p className="text-sm text-muted-foreground">
+                  Access and display users' highlights, notes, and saved verses from their YouVersion account directly in your application.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="text-center">
                 <LogIn className="h-8 w-8 text-black mb-4 mx-auto" />
                 <CardTitle className="text-2xl">Sign in with YouVersion</CardTitle>
               </CardHeader>
@@ -112,21 +128,6 @@ const Index = () => {
                 </CardDescription>
                 <p className="text-sm text-muted-foreground">
                   Access API keys, monitor usage, and manage your YouVersion integrations from a single dashboard.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="text-center">
-                <Highlighter className="h-8 w-8 text-black mb-4 mx-auto" />
-                <CardTitle className="text-2xl">Highlights, Notes and Saved Verses</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-sm text-muted-foreground mb-4">
-                  YouVersion Highlights and Notes in your application and synced
-                </CardDescription>
-                <p className="text-sm text-muted-foreground">
-                  Access and display users' highlights, notes, and saved verses from their YouVersion account directly in your application.
                 </p>
               </CardContent>
             </Card>
