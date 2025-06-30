@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Code, BookOpen, Zap, Shield } from 'lucide-react';
+import { BookOpen, LogIn, Zap, Smartphone, Settings, Database } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -36,58 +36,100 @@ const Index = () => {
       <section className="py-20 bg-muted/50">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Why Choose YouVersion Platform?</h2>
+            <h2 className="text-3xl font-bold mb-4">YouVersion Platform Features</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Trusted by millions of users worldwide, our platform provides reliable access to Bible content and tools.
+              Everything you need to integrate YouVersion functionality into your applications
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
-                <Code className="h-8 w-8 text-[#FF3D4D] mb-2" />
-                <CardTitle>Developer Friendly</CardTitle>
+                <BookOpen className="h-12 w-12 text-black mb-4" />
+                <CardTitle className="text-xl">Bible Reader SDK</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription>
-                  Clean, well-documented APIs with comprehensive SDKs and code examples.
+                <CardDescription className="text-sm text-muted-foreground mb-4">
+                  Embed the complete Bible reading experience
                 </CardDescription>
+                <p className="text-sm text-muted-foreground">
+                  Add the full YouVersion Bible reader to your application with customizable options for versions, reading plans, and more.
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <BookOpen className="h-8 w-8 text-[#FF3D4D] mb-2" />
-                <CardTitle>Rich Content</CardTitle>
+                <LogIn className="h-12 w-12 text-black mb-4" />
+                <CardTitle className="text-xl">Sign in with YouVersion</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription>
-                  Access to hundreds of Bible translations, reading plans, and devotionals.
+                <CardDescription className="text-sm text-muted-foreground mb-4">
+                  Seamless authentication for users
                 </CardDescription>
+                <p className="text-sm text-muted-foreground">
+                  Let users log in with their YouVersion account to access personalized content, bookmarks, highlights, and notes.
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <Zap className="h-8 w-8 text-[#FF3D4D] mb-2" />
-                <CardTitle>Fast & Reliable</CardTitle>
+                <Zap className="h-12 w-12 text-black mb-4" />
+                <CardTitle className="text-xl">Fast Track Bible Licensing</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription>
-                  Global CDN ensures fast response times with 99.9% uptime guarantee.
+                <CardDescription className="text-sm text-muted-foreground mb-4">
+                  Streamlined licensing for Bible content
                 </CardDescription>
+                <p className="text-sm text-muted-foreground">
+                  Get quick access to Bible version licensing through our fast-track approval process for approved developers and organizations.
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <Shield className="h-8 w-8 text-[#FF3D4D] mb-2" />
-                <CardTitle>Secure</CardTitle>
+                <Smartphone className="h-12 w-12 text-black mb-4" />
+                <CardTitle className="text-xl">Multi-Platform</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription>
-                  Enterprise-grade security with OAuth 2.0 and comprehensive rate limiting.
+                <CardDescription className="text-sm text-muted-foreground mb-4">
+                  Support for iOS, Flutter, and Web
                 </CardDescription>
+                <p className="text-sm text-muted-foreground">
+                  Use our SDKs and APIs across multiple platforms with consistent interfaces and documentation.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Settings className="h-12 w-12 text-black mb-4" />
+                <CardTitle className="text-xl">Developer Dashboard</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-sm text-muted-foreground mb-4">
+                  Manage your integrations
+                </CardDescription>
+                <p className="text-sm text-muted-foreground">
+                  Access API keys, monitor usage, and manage your YouVersion integrations from a single dashboard.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Database className="h-12 w-12 text-black mb-4" />
+                <CardTitle className="text-xl">Bible Directory</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-sm text-muted-foreground mb-4">
+                  Access hundreds of Bible versions
+                </CardDescription>
+                <p className="text-sm text-muted-foreground">
+                  Browse and search through our extensive directory of Bible versions in hundreds of languages for your users.
+                </p>
               </CardContent>
             </Card>
           </div>
