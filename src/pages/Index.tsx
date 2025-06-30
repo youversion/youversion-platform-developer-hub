@@ -9,7 +9,7 @@ const Index = () => {
       <section className="relative py-20 lg:py-32">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold tracking-tighter mb-6">
               Build with YouVersion
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
