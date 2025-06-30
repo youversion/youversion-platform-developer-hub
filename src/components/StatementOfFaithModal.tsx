@@ -19,15 +19,12 @@ interface StatementOfFaithModalProps {
 
 const StatementOfFaithModal = ({ open, onOpenChange, onAccept }: StatementOfFaithModalProps) => {
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = () => {
-    const scrollArea = scrollAreaRef.current;
-    if (scrollArea) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollArea;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
-      setHasScrolledToBottom(isAtBottom);
-    }
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const target = event.currentTarget;
+    const { scrollTop, scrollHeight, clientHeight } = target;
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
+    setHasScrolledToBottom(isAtBottom);
   };
 
   useEffect(() => {
@@ -57,9 +54,8 @@ const StatementOfFaithModal = ({ open, onOpenChange, onAccept }: StatementOfFait
         
         <ScrollArea className="h-[400px] pr-4">
           <div 
-            ref={scrollAreaRef}
             onScroll={handleScroll}
-            className="space-y-4 text-sm"
+            className="space-y-4 text-sm h-full overflow-y-auto"
           >
             <div>
               <h3 className="font-semibold mb-2">The Holy Scriptures</h3>
@@ -85,19 +81,32 @@ const StatementOfFaithModal = ({ open, onOpenChange, onAccept }: StatementOfFait
               <h3 className="font-semibold mb-2">The Holy Spirit</h3>
               <p>We believe in the present ministry of the Holy Spirit by whose indwelling the Christian is enabled to live a godly life.</p>
             </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">The Church</h3>
+              <p>We believe in the spiritual unity of believers in our Lord Jesus Christ.</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">The Second Coming</h3>
+              <p>We believe in the personal return of Jesus Christ to earth in power and glory.</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">Eternal Life</h3>
+              <p>We believe in the resurrection of both the saved and the lost; they that are saved unto the resurrection of life and they that are lost unto the resurrection of damnation.</p>
+            </div>
           </div>
         </ScrollArea>
 
-        {hasScrolledToBottom && (
-          <DialogFooter>
-            <Button variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button onClick={handleAccept}>
-              Accept
-            </Button>
-          </DialogFooter>
-        )}
+        <DialogFooter>
+          <Button variant="outline" onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button onClick={handleAccept} disabled={!hasScrolledToBottom}>
+            Accept
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

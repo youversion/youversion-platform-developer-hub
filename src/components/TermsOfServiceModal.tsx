@@ -19,15 +19,12 @@ interface TermsOfServiceModalProps {
 
 const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceModalProps) => {
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = () => {
-    const scrollArea = scrollAreaRef.current;
-    if (scrollArea) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollArea;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
-      setHasScrolledToBottom(isAtBottom);
-    }
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const target = event.currentTarget;
+    const { scrollTop, scrollHeight, clientHeight } = target;
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
+    setHasScrolledToBottom(isAtBottom);
   };
 
   useEffect(() => {
@@ -57,9 +54,8 @@ const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceMod
         
         <ScrollArea className="h-[400px] pr-4">
           <div 
-            ref={scrollAreaRef}
             onScroll={handleScroll}
-            className="space-y-4 text-sm"
+            className="space-y-4 text-sm h-full overflow-y-auto"
           >
             <div>
               <h3 className="font-semibold mb-2">1. Acceptance of Terms</h3>
@@ -85,20 +81,33 @@ const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceMod
               <h3 className="font-semibold mb-2">5. Privacy Policy</h3>
               <p>Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your information when you use our platform.</p>
             </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">6. User Conduct</h3>
+              <p>You agree to use the platform in a manner consistent with applicable laws and regulations.</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">7. Termination</h3>
+              <p>We may terminate or suspend your account and access to the platform at our sole discretion.</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">8. Changes to Terms</h3>
+              <p>We reserve the right to modify these terms at any time. Continued use of the platform constitutes acceptance of modified terms.</p>
+            </div>
           </div>
         </ScrollArea>
 
-        {hasScrolledToBottom && (
-          <DialogFooter>
-            <Button variant="outline" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button onClick={handleAccept}>
-              Accept
-            </Button>
-          </DialogFooter>
-        )}
-      </DialogContent>
+        <DialogFooter>
+          <Button variant="outline" onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button onClick={handleAccept} disabled={!hasScrolledToBottom}>
+            Accept
+          </Button>
+        </DialogFooter>
+      </DialogFooter>
     </Dialog>
   );
 };
