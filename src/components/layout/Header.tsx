@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import SearchBar from './SearchBar';
 import { Menu, X } from 'lucide-react';
 
 const Header = () => {
@@ -66,6 +68,10 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
+          <div className="hidden md:block">
+            <SearchBar />
+          </div>
+          
           {!isAuthenticated && (
             <Button asChild>
               <Link to="/login">Sign In</Link>
@@ -86,6 +92,10 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t">
           <nav className="container py-4 space-y-2">
+            <div className="mb-4">
+              <SearchBar />
+            </div>
+            
             {isAuthenticated && (
               <Link 
                 to="/platform" 
