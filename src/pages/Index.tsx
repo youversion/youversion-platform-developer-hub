@@ -6,16 +6,13 @@ import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } fro
 const Index = () => {
   return <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32">
+      <section className="relative py-20 lg:py-32 bg-gradient-to-r from-amber-500 to-pink-500">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold tracking-tighter mb-6">
+            <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6">
               Build with YouVersion
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Access the world's most popular Bible platform through our developer APIs. 
-              Integrate Bible content, verses, and reading plans into your applications.
-            </p>
+            <p className="text-xl text-muted-foreground mb-8">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
                 <Link to="/get-started">Get Started</Link>
