@@ -9,10 +9,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import StatementOfFaithModal from '@/components/StatementOfFaithModal';
+import TermsOfServiceModal from '@/components/TermsOfServiceModal';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [statementOfFaithChecked, setStatementOfFaithChecked] = useState(false);
+  const [termsOfServiceChecked, setTermsOfServiceChecked] = useState(false);
+  const [showStatementModal, setShowStatementModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -24,6 +30,24 @@ const Login = () => {
     } catch (error) {
       console.error('Login failed:', error);
     }
+  };
+
+  const handleStatementOfFaithClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowStatementModal(true);
+  };
+
+  const handleTermsOfServiceClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowTermsModal(true);
+  };
+
+  const handleStatementOfFaithAccept = () => {
+    setStatementOfFaithChecked(true);
+  };
+
+  const handleTermsOfServiceAccept = () => {
+    setTermsOfServiceChecked(true);
   };
 
   return (
@@ -121,15 +145,37 @@ const Login = () => {
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-start space-x-2">
-                    <Checkbox id="statement-of-faith" />
+                    <Checkbox 
+                      id="statement-of-faith" 
+                      checked={statementOfFaithChecked}
+                      onCheckedChange={setStatementOfFaithChecked}
+                    />
                     <Label htmlFor="statement-of-faith" className="text-sm leading-5">
-                      I agree to the <span className="underline font-semibold">Statement of Faith</span>
+                      I agree to the{' '}
+                      <button
+                        type="button"
+                        onClick={handleStatementOfFaithClick}
+                        className="underline font-semibold hover:text-primary"
+                      >
+                        Statement of Faith
+                      </button>
                     </Label>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <Checkbox id="terms-of-service" />
+                    <Checkbox 
+                      id="terms-of-service" 
+                      checked={termsOfServiceChecked}
+                      onCheckedChange={setTermsOfServiceChecked}
+                    />
                     <Label htmlFor="terms-of-service" className="text-sm leading-5">
-                      I agree to the <span className="underline font-semibold">YouVersion Terms of Service</span>
+                      I agree to the{' '}
+                      <button
+                        type="button"
+                        onClick={handleTermsOfServiceClick}
+                        className="underline font-semibold hover:text-primary"
+                      >
+                        YouVersion Terms of Service
+                      </button>
                     </Label>
                   </div>
                 </div>
@@ -152,6 +198,18 @@ const Login = () => {
           </Tabs>
         </CardContent>
       </Card>
+
+      <StatementOfFaithModal
+        open={showStatementModal}
+        onOpenChange={setShowStatementModal}
+        onAccept={handleStatementOfFaithAccept}
+      />
+
+      <TermsOfServiceModal
+        open={showTermsModal}
+        onOpenChange={setShowTermsModal}
+        onAccept={handleTermsOfServiceAccept}
+      />
     </div>
   );
 };
