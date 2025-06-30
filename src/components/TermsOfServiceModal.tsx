@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface TermsOfServiceModalProps {
   open: boolean;
@@ -17,6 +18,24 @@ interface TermsOfServiceModalProps {
 }
 
 const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceModalProps) => {
+  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    const scrollArea = scrollAreaRef.current;
+    if (scrollArea) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollArea;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
+      setHasScrolledToBottom(isAtBottom);
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      setHasScrolledToBottom(false);
+    }
+  }, [open]);
+
   const handleAccept = () => {
     onAccept();
     onOpenChange(false);
@@ -28,7 +47,7 @@ const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceMod
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>YouVersion Terms of Service</DialogTitle>
           <DialogDescription>
@@ -36,41 +55,49 @@ const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceMod
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-4 text-sm">
-          <div>
-            <h3 className="font-semibold mb-2">1. Acceptance of Terms</h3>
-            <p>By accessing and using the YouVersion Platform, you accept and agree to be bound by the terms and provision of this agreement.</p>
+        <ScrollArea className="h-[400px] pr-4">
+          <div 
+            ref={scrollAreaRef}
+            onScroll={handleScroll}
+            className="space-y-4 text-sm"
+          >
+            <div>
+              <h3 className="font-semibold mb-2">1. Acceptance of Terms</h3>
+              <p>By accessing and using the YouVersion Platform, you accept and agree to be bound by the terms and provision of this agreement.</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">2. Use License</h3>
+              <p>Permission is granted to temporarily download one copy of the materials on YouVersion's platform for personal, non-commercial transitory viewing only.</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">3. Disclaimer</h3>
+              <p>The materials on YouVersion's platform are provided on an 'as is' basis. YouVersion makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">4. Limitations</h3>
+              <p>In no event shall YouVersion or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on YouVersion's platform.</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-2">5. Privacy Policy</h3>
+              <p>Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your information when you use our platform.</p>
+            </div>
           </div>
-          
-          <div>
-            <h3 className="font-semibold mb-2">2. Use License</h3>
-            <p>Permission is granted to temporarily download one copy of the materials on YouVersion's platform for personal, non-commercial transitory viewing only.</p>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-2">3. Disclaimer</h3>
-            <p>The materials on YouVersion's platform are provided on an 'as is' basis. YouVersion makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-2">4. Limitations</h3>
-            <p>In no event shall YouVersion or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on YouVersion's platform.</p>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-2">5. Privacy Policy</h3>
-            <p>Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your information when you use our platform.</p>
-          </div>
-        </div>
+        </ScrollArea>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button onClick={handleAccept}>
-            Accept
-          </Button>
-        </DialogFooter>
+        {hasScrolledToBottom && (
+          <DialogFooter>
+            <Button variant="outline" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button onClick={handleAccept}>
+              Accept
+            </Button>
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   );
