@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -203,7 +204,7 @@ const Login = () => {
                 <p className="text-sm text-muted-foreground">
                   Connect with your existing YouVersion account
                 </p>
-                <Button className="w-full" variant="outline">
+                <Button className="w-full">
                   Connect with YouVersion
                 </Button>
               </div>
