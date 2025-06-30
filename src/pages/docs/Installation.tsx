@@ -2,7 +2,8 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Download, Smartphone, Globe, Code } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Download, Smartphone, Globe, Code, Zap } from 'lucide-react';
 import CodeBlock from '@/components/ui/code-block';
 
 const Installation = () => {
@@ -16,43 +17,37 @@ const Installation = () => {
       </div>
 
       {/* Platform Tabs */}
-      <div className="grid grid-cols-4 gap-2 p-1 bg-muted rounded-lg">
-        <div className="bg-background rounded-md p-3 text-center font-medium">
-          iOS
-        </div>
-        <div className="p-3 text-center text-muted-foreground">
-          Flutter
-        </div>
-        <div className="p-3 text-center text-muted-foreground">
-          React Native
-        </div>
-        <div className="p-3 text-center text-muted-foreground">
-          Web
-        </div>
-      </div>
+      <Tabs defaultValue="ios" className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="ios">iOS</TabsTrigger>
+          <TabsTrigger value="flutter">Flutter</TabsTrigger>
+          <TabsTrigger value="react-native">React Native</TabsTrigger>
+          <TabsTrigger value="web">Web</TabsTrigger>
+        </TabsList>
 
-      {/* iOS Installation */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Smartphone className="h-5 w-5 text-[#FF3D4D]" />
-            iOS Installation
-          </CardTitle>
-          <CardDescription>
-            Add the YouVersion Bible Reader SDK to your iOS project using CocoaPods.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <h3 className="font-semibold mb-2">Podfile</h3>
-            <CodeBlock language="ruby">
-              {`pod 'YouVersionBibleReader', '~> 1.2.0'`}
-            </CodeBlock>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-2">Swift Implementation</h3>
-            <CodeBlock language="swift">
+        {/* iOS Installation */}
+        <TabsContent value="ios" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Smartphone className="h-5 w-5 text-[#FF3D4D]" />
+                iOS Installation
+              </CardTitle>
+              <CardDescription>
+                Add the YouVersion Bible Reader SDK to your iOS project using CocoaPods.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h3 className="font-semibold mb-2">Podfile</h3>
+                <CodeBlock language="ruby">
+                  {`pod 'YouVersionBibleReader', '~> 1.2.0'`}
+                </CodeBlock>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-2">Swift Implementation</h3>
+                <CodeBlock language="swift">
 {`import YouVersionBibleReader
 
 class ViewController: UIViewController {
@@ -64,33 +59,120 @@ class ViewController: UIViewController {
         view.addSubview(bibleReader)
     }
 }`}
-            </CodeBlock>
-          </div>
-        </CardContent>
-      </Card>
+                </CodeBlock>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      {/* Web Installation */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Globe className="h-5 w-5 text-[#FF3D4D]" />
-            Web Installation
-          </CardTitle>
-          <CardDescription>
-            Integrate the Bible Reader into your web application using npm or CDN.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <h3 className="font-semibold mb-2">NPM Installation</h3>
-            <CodeBlock language="bash">
-              {`npm install @youversion/bible-reader`}
-            </CodeBlock>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-2">JavaScript Usage</h3>
-            <CodeBlock language="javascript">
+        {/* Flutter Installation */}
+        <TabsContent value="flutter" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-[#FF3D4D]" />
+                Flutter Installation
+              </CardTitle>
+              <CardDescription>
+                Add the YouVersion Bible Reader plugin to your Flutter project.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h3 className="font-semibold mb-2">pubspec.yaml</h3>
+                <CodeBlock language="yaml">
+{`dependencies:
+  youversion_bible_reader: ^1.0.0`}
+                </CodeBlock>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-2">Dart Implementation</h3>
+                <CodeBlock language="dart">
+{`import 'package:youversion_bible_reader/youversion_bible_reader.dart';
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: BibleReaderWidget(
+        apiKey: 'your-api-key',
+        initialVerse: 'john.3.16',
+      ),
+    );
+  }
+}`}
+                </CodeBlock>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* React Native Installation */}
+        <TabsContent value="react-native" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Code className="h-5 w-5 text-[#FF3D4D]" />
+                React Native Installation
+              </CardTitle>
+              <CardDescription>
+                Install the YouVersion Bible Reader package for React Native.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h3 className="font-semibold mb-2">NPM Installation</h3>
+                <CodeBlock language="bash">
+                  {`npm install @youversion/react-native-bible-reader`}
+                </CodeBlock>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-2">React Native Usage</h3>
+                <CodeBlock language="javascript">
+{`import { BibleReader } from '@youversion/react-native-bible-reader';
+
+const App = () => {
+  return (
+    <BibleReader
+      apiKey="your-api-key"
+      initialVerse="john.3.16"
+      style={{ flex: 1 }}
+    />
+  );
+};
+
+export default App;`}
+                </CodeBlock>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Web Installation */}
+        <TabsContent value="web" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe className="h-5 w-5 text-[#FF3D4D]" />
+                Web Installation
+              </CardTitle>
+              <CardDescription>
+                Integrate the Bible Reader into your web application using npm or CDN.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h3 className="font-semibold mb-2">NPM Installation</h3>
+                <CodeBlock language="bash">
+                  {`npm install @youversion/bible-reader`}
+                </CodeBlock>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-2">JavaScript Usage</h3>
+                <CodeBlock language="javascript">
 {`import { BibleReader } from '@youversion/bible-reader';
 
 const reader = new BibleReader({
@@ -99,10 +181,12 @@ const reader = new BibleReader({
 });
 
 reader.loadVerse('john.3.16');`}
-            </CodeBlock>
-          </div>
-        </CardContent>
-      </Card>
+                </CodeBlock>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
 
       {/* Configuration */}
       <Card>
