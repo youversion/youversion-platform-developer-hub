@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Dialog,
@@ -107,7 +106,7 @@ const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceMod
             Accept
           </Button>
         </DialogFooter>
-      </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 };
