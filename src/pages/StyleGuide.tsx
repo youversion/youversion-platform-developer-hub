@@ -113,26 +113,80 @@ const StyleGuide = () => {
             <h2 className="text-2xl font-bold">Components</h2>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-1 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Buttons</CardTitle>
-                <CardDescription>Primary and secondary button styles</CardDescription>
+                <CardDescription>Complete button variants and sizes</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex gap-2">
-                  <Button>Primary Button</Button>
-                  <Button variant="outline">Outline Button</Button>
-                  <Button variant="ghost">Ghost Button</Button>
+              <CardContent className="space-y-6">
+                {/* Button Variants */}
+                <div>
+                  <h4 className="font-medium mb-3">Button Variants</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <Button>Default Button</Button>
+                    <Button variant="outline">Outline Button</Button>
+                    <Button variant="ghost">Ghost Button</Button>
+                    <Button variant="filled-contrast">Filled Contrast</Button>
+                    <Button variant="secondary">Secondary</Button>
+                    <Button variant="destructive">Destructive</Button>
+                    <Button variant="link">Link Button</Button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="filled-contrast">Filled Contrast</Button>
-                  <Button variant="secondary">Secondary</Button>
+
+                {/* Button Sizes - Default */}
+                <div>
+                  <h4 className="font-medium mb-3">Default Button Sizes</h4>
+                  <div className="flex items-center gap-2">
+                    <Button size="sm">Small</Button>
+                    <Button>Default</Button>
+                    <Button size="lg">Large</Button>
+                    <Button size="icon">🔍</Button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button size="sm">Small</Button>
-                  <Button>Default</Button>
-                  <Button size="lg">Large</Button>
+
+                {/* Button Sizes - Filled Contrast */}
+                <div>
+                  <h4 className="font-medium mb-3">Filled Contrast Button Sizes</h4>
+                  <div className="flex items-center gap-2">
+                    <Button variant="filled-contrast" size="sm">Small</Button>
+                    <Button variant="filled-contrast">Default</Button>
+                    <Button variant="filled-contrast" size="lg">Large</Button>
+                    <Button variant="filled-contrast" size="icon">🔍</Button>
+                  </div>
+                </div>
+
+                {/* Button Sizes - Outline */}
+                <div>
+                  <h4 className="font-medium mb-3">Outline Button Sizes</h4>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm">Small</Button>
+                    <Button variant="outline">Default</Button>
+                    <Button variant="outline" size="lg">Large</Button>
+                    <Button variant="outline" size="icon">🔍</Button>
+                  </div>
+                </div>
+
+                {/* Button Sizes - Secondary */}
+                <div>
+                  <h4 className="font-medium mb-3">Secondary Button Sizes</h4>
+                  <div className="flex items-center gap-2">
+                    <Button variant="secondary" size="sm">Small</Button>
+                    <Button variant="secondary">Default</Button>
+                    <Button variant="secondary" size="lg">Large</Button>
+                    <Button variant="secondary" size="icon">🔍</Button>
+                  </div>
+                </div>
+
+                {/* Disabled States */}
+                <div>
+                  <h4 className="font-medium mb-3">Disabled States</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <Button disabled>Default Disabled</Button>
+                    <Button variant="outline" disabled>Outline Disabled</Button>
+                    <Button variant="filled-contrast" disabled>Filled Contrast Disabled</Button>
+                    <Button variant="secondary" disabled>Secondary Disabled</Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
