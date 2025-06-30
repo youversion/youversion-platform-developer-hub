@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Code, Key, BookOpen, Zap } from 'lucide-react';
 const GetStarted = () => {
-  return <div className="container py-12 canvas-secondary">
+  return <div className="container py-12">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Get Started with YouVersion Platform</h1>
