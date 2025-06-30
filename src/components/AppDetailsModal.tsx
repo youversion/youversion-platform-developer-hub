@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useForm } from 'react-hook-form';
+import { Copy } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface App {
   name: string;
@@ -28,6 +30,7 @@ interface FormData {
 }
 
 const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps) => {
+  const { toast } = useToast();
   const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>();
 
   React.useEffect(() => {
@@ -52,6 +55,24 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
   const handleClose = () => {
     reset();
     onClose();
+  };
+
+  const copyApiKey = async () => {
+    if (app?.apiKey) {
+      try {
+        await navigator.clipboard.writeText(app.apiKey);
+        toast({
+          title: "API Key Copied",
+          description: "The API key has been copied to your clipboard.",
+        });
+      } catch (err) {
+        toast({
+          title: "Copy Failed",
+          description: "Failed to copy API key to clipboard.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   if (!app) return null;
@@ -88,32 +109,31 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
 
           <div className="space-y-2">
             <Label htmlFor="apiKey">API Key</Label>
-            <Input
-              id="apiKey"
-              value={app.apiKey}
-              readOnly
-              className="bg-muted"
-            />
+            <div className="flex space-x-2">
+              <Input
+                id="apiKey"
+                value={app.apiKey}
+                readOnly
+                className="bg-muted font-mono"
+              />
+              <Button type="button" size="sm" variant="outline" onClick={copyApiKey}>
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="created">Created Date</Label>
-            <Input
-              id="created"
-              value={app.created}
-              readOnly
-              className="bg-muted"
-            />
+            <Label>Created Date</Label>
+            <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
+              {app.created}
+            </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="requests">Requests Today</Label>
-            <Input
-              id="requests"
-              value={`${app.requests} requests`}
-              readOnly
-              className="bg-muted"
-            />
+            <Label>Requests Today</Label>
+            <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
+              {app.requests} requests
+            </div>
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
