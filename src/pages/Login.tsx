@@ -1,6 +1,5 @@
-
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,8 +20,21 @@ const Login = () => {
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [statementOfFaithViewed, setStatementOfFaithViewed] = useState(false);
   const [termsOfServiceViewed, setTermsOfServiceViewed] = useState(false);
+  const [activeTab, setActiveTab] = useState('signin');
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Set active tab based on current route
+    if (location.pathname === '/create-account') {
+      setActiveTab('create');
+    } else if (location.pathname === '/yv-connect') {
+      setActiveTab('connect');
+    } else {
+      setActiveTab('signin');
+    }
+  }, [location.pathname]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +84,7 @@ const Login = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
               <TabsTrigger value="create">Create Account</TabsTrigger>
