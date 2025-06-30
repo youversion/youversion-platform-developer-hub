@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -74,7 +73,7 @@ const Header = () => {
           </div>
           
           {!isAuthenticated && (
-            <Button asChild>
+            <Button asChild variant="filled-contrast">
               <Link to="/login">Get App Keys</Link>
             </Button>
           )}
