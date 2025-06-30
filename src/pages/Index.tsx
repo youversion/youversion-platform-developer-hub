@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
+
 const Index = () => {
   return <div className="min-h-screen">
       {/* Hero Section */}
@@ -16,7 +17,7 @@ const Index = () => {
             <p className="text-xl mb-8 text-white">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="filled-contrast" asChild>
-                <Link to="/get-started">Get Started</Link>
+                <Link to="/get-started">Join the YouVersion Platform</Link>
               </Button>
               <Button size="lg" variant="stroked" asChild>
                 <Link to="/docs">View Documentation</Link>
@@ -148,4 +149,5 @@ const Index = () => {
       </section>
     </div>;
 };
+
 export default Index;
