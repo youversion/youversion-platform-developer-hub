@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -27,7 +26,7 @@ const GetStarted = () => {
                 Sign up for a developer account and get your free API key to start making requests.
               </CardDescription>
               <Button asChild>
-                <Link to="/login">Create Account</Link>
+                <Link to="/create-account">Create Account</Link>
               </Button>
             </CardContent>
           </Card>
