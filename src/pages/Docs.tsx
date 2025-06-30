@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { BookOpen, Code, Zap, Shield } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import CodeBlock from '@/components/ui/code-block';
 
 const Docs = () => {
   return (
@@ -32,12 +33,10 @@ const Docs = () => {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <p>Get up and running with the YouVersion Platform API in minutes.</p>
-                      <div className="bg-muted p-4 rounded-lg">
-                        <code className="text-sm">
-                          curl -H "Authorization: Bearer YOUR_API_KEY" \<br/>
-                          https://api.youversion.com/v1/verses/john.3.16
-                        </code>
-                      </div>
+                      <CodeBlock language="bash">
+{`curl -H "Authorization: Bearer YOUR_API_KEY" \\
+https://api.youversion.com/v1/verses/john.3.16`}
+                      </CodeBlock>
                     </CardContent>
                   </Card>
 

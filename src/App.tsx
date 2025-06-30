@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +9,7 @@ import Header from "@/components/layout/Header";
 import Index from "./pages/Index";
 import GetStarted from "./pages/GetStarted";
 import Docs from "./pages/Docs";
+import Installation from "./pages/docs/Installation";
 import Examples from "./pages/Examples";
 import BibleDirectory from "./pages/BibleDirectory";
 import Support from "./pages/Support";
@@ -19,8 +21,11 @@ import Settings from "./pages/platform/Settings";
 import Notifications from "./pages/platform/Notifications";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+
 const queryClient = new QueryClient();
-const App = () => <QueryClientProvider client={queryClient}>
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <TooltipProvider>
         <Toaster />
@@ -28,11 +33,12 @@ const App = () => <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <div className="min-h-screen bg-background flex flex-col">
             <Header />
-            <div className="flex-1  canvas-secondary">
+            <div className="flex-1 canvas-secondary">
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/get-started" element={<GetStarted />} />
                 <Route path="/docs" element={<Docs />} />
+                <Route path="/docs/installation" element={<Installation />} />
                 <Route path="/examples" element={<Examples />} />
                 <Route path="/bible-directory" element={<BibleDirectory />} />
                 <Route path="/support" element={<Support />} />
@@ -53,5 +59,7 @@ const App = () => <QueryClientProvider client={queryClient}>
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
-  </QueryClientProvider>;
+  </QueryClientProvider>
+);
+
 export default App;
