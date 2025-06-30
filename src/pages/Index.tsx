@@ -46,7 +46,7 @@ const Index = () => {
             <Card>
               <CardHeader>
                 <BookOpen className="h-12 w-12 text-black mb-4" />
-                <CardTitle className="text-xl">Bible Reader SDK</CardTitle>
+                <CardTitle className="text-2xl">Bible Reader SDK</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm text-muted-foreground mb-4">
@@ -61,7 +61,7 @@ const Index = () => {
             <Card>
               <CardHeader>
                 <LogIn className="h-12 w-12 text-black mb-4" />
-                <CardTitle className="text-xl">Sign in with YouVersion</CardTitle>
+                <CardTitle className="text-2xl">Sign in with YouVersion</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm text-muted-foreground mb-4">
@@ -76,7 +76,7 @@ const Index = () => {
             <Card>
               <CardHeader>
                 <Zap className="h-12 w-12 text-black mb-4" />
-                <CardTitle className="text-xl">Fast Track Bible Licensing</CardTitle>
+                <CardTitle className="text-2xl">Fast Track Bible Licensing</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm text-muted-foreground mb-4">
@@ -91,7 +91,7 @@ const Index = () => {
             <Card>
               <CardHeader>
                 <Smartphone className="h-12 w-12 text-black mb-4" />
-                <CardTitle className="text-xl">Multi-Platform</CardTitle>
+                <CardTitle className="text-2xl">Multi-Platform</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm text-muted-foreground mb-4">
@@ -106,7 +106,7 @@ const Index = () => {
             <Card>
               <CardHeader>
                 <Settings className="h-12 w-12 text-black mb-4" />
-                <CardTitle className="text-xl">Developer Dashboard</CardTitle>
+                <CardTitle className="text-2xl">Developer Dashboard</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm text-muted-foreground mb-4">
@@ -121,7 +121,7 @@ const Index = () => {
             <Card>
               <CardHeader>
                 <Database className="h-12 w-12 text-black mb-4" />
-                <CardTitle className="text-xl">Bible Directory</CardTitle>
+                <CardTitle className="text-2xl">Bible Directory</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm text-muted-foreground mb-4">
