@@ -132,10 +132,11 @@ const Login = () => {
                       <SelectValue placeholder="Select organization type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="church">Church</SelectItem>
-                      <SelectItem value="nonprofit">Non-profit</SelectItem>
-                      <SelectItem value="business">Business</SelectItem>
+                      <SelectItem value="organization">Organization or Ministry</SelectItem>
                       <SelectItem value="individual">Individual</SelectItem>
+                      <SelectItem value="bible_publisher">Bible Publiser</SelectItem>
+                      <SelectItem value="church">Church</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
