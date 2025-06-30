@@ -23,7 +23,6 @@ const Login = () => {
     }
   };
   return <div className="container py-20">
-      <div>
         <Card className="max-w-1/3 mx-auto">
           <CardHeader>
             <CardTitle>Welcome to the YouVersion Platform</CardTitle>
@@ -88,7 +87,6 @@ const Login = () => {
             </Tabs>
           </CardContent>
         </Card>
-      </div>
     </div>;
 };
 export default Login;
