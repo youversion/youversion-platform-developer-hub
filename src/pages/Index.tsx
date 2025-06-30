@@ -10,7 +10,7 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 bg-gradient-to-r from-amber-500 to-pink-500">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="mx-auto text-center">
             <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-white">
               Build with YouVersion
             </h1>
