@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -18,7 +17,8 @@ const Header = () => {
     { name: 'Docs', path: '/docs' },
     { name: 'Examples', path: '/examples' },
     { name: 'Bible Directory', path: '/bible-directory' },
-    { name: 'Dev Portal Styles', path: '/style-guide' }
+    { name: 'Dev Portal Styles', path: '/style-guide' },
+    { name: 'Support', path: '/support' }
   ];
 
   return (
@@ -51,30 +51,18 @@ const Header = () => {
             )}
 
             {publicNavItems.map(item => (
-              item.external ? (
-                <a 
-                  key={item.path} 
-                  href={item.path}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="relative text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
-                >
-                  {item.name}
-                </a>
-              ) : (
-                <Link 
-                  key={item.path} 
-                  to={item.path} 
-                  className={`relative text-sm font-medium transition-colors hover:text-foreground ${
-                    isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'
-                  }`}
-                >
-                  {item.name}
-                  {isActive(item.path) && (
-                    <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>
-                  )}
-                </Link>
-              )
+              <Link 
+                key={item.path} 
+                to={item.path} 
+                className={`relative text-sm font-medium transition-colors hover:text-foreground ${
+                  isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'
+                }`}
+              >
+                {item.name}
+                {isActive(item.path) && (
+                  <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>
+                )}
+              </Link>
             ))}
           </nav>
         </div>
@@ -121,29 +109,16 @@ const Header = () => {
             )}
             
             {publicNavItems.map(item => (
-              item.external ? (
-                <a 
-                  key={item.path} 
-                  href={item.path}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ) : (
-                <Link 
-                  key={item.path} 
-                  to={item.path} 
-                  className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${
-                    isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              )
+              <Link 
+                key={item.path} 
+                to={item.path} 
+                className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${
+                  isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item.name}
+              </Link>
             ))}
           </nav>
         </div>
