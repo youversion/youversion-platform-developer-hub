@@ -53,9 +53,9 @@ const StyleGuide = () => {
             
             <Card>
               <CardContent className="p-4">
-                <div className="w-full h-16 bg-muted rounded mb-2"></div>
-                <p className="font-medium">Muted</p>
-                <p className="text-sm text-muted-foreground">Background</p>
+                <div className="w-full h-16 bg-[#F6F4F4] rounded mb-2"></div>
+                <p className="font-medium">Surface Primary</p>
+                <p className="text-sm text-muted-foreground">#F6F4F4</p>
               </CardContent>
             </Card>
             
