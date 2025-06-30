@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
 import StatementOfFaithModal from '@/components/StatementOfFaithModal';
 import TermsOfServiceModal from '@/components/TermsOfServiceModal';
 
@@ -15,9 +16,11 @@ const CreateAccountForm = () => {
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [statementOfFaithViewed, setStatementOfFaithViewed] = useState(false);
   const [termsOfServiceViewed, setTermsOfServiceViewed] = useState(false);
+  const [organizationType, setOrganizationType] = useState('');
   const navigate = useNavigate();
 
   const handleOrganizationTypeChange = (value: string) => {
+    setOrganizationType(value);
     if (value === 'bible_publisher') {
       navigate('/yv-connect');
     }
@@ -49,6 +52,219 @@ const CreateAccountForm = () => {
 
   const handleTermsOfServiceChange = (checked: boolean | "indeterminate") => {
     setTermsOfServiceChecked(checked === true);
+  };
+
+  const renderOrganizationFields = () => {
+    switch (organizationType) {
+      case 'organization':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="organization-name">Organization Name</Label>
+              <Input
+                id="organization-name"
+                type="text"
+                placeholder="Enter organization name"
+              />
+            </div>
+            <div>
+              <Label htmlFor="address">Address</Label>
+              <Input
+                id="address"
+                type="text"
+                placeholder="Enter address"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="city">City</Label>
+                <Input
+                  id="city"
+                  type="text"
+                  placeholder="Enter city"
+                />
+              </div>
+              <div>
+                <Label htmlFor="state">State</Label>
+                <Input
+                  id="state"
+                  type="text"
+                  placeholder="Enter state"
+                />
+              </div>
+              <div>
+                <Label htmlFor="zip">Zip</Label>
+                <Input
+                  id="zip"
+                  type="text"
+                  placeholder="Enter zip code"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      case 'individual':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="address">Address</Label>
+              <Input
+                id="address"
+                type="text"
+                placeholder="Enter address"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="city">City</Label>
+                <Input
+                  id="city"
+                  type="text"
+                  placeholder="Enter city"
+                />
+              </div>
+              <div>
+                <Label htmlFor="state">State</Label>
+                <Input
+                  id="state"
+                  type="text"
+                  placeholder="Enter state"
+                />
+              </div>
+              <div>
+                <Label htmlFor="zip">Zip</Label>
+                <Input
+                  id="zip"
+                  type="text"
+                  placeholder="Enter zip code"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      case 'church':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="church-name">Church Name</Label>
+              <Input
+                id="church-name"
+                type="text"
+                placeholder="Enter church name"
+              />
+            </div>
+            <div>
+              <Label htmlFor="denomination">Denomination</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select denomination" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="baptist">Baptist</SelectItem>
+                  <SelectItem value="methodist">Methodist</SelectItem>
+                  <SelectItem value="presbyterian">Presbyterian</SelectItem>
+                  <SelectItem value="lutheran">Lutheran</SelectItem>
+                  <SelectItem value="episcopal">Episcopal</SelectItem>
+                  <SelectItem value="pentecostal">Pentecostal</SelectItem>
+                  <SelectItem value="non-denominational">Non-denominational</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="address">Address</Label>
+              <Input
+                id="address"
+                type="text"
+                placeholder="Enter address"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="city">City</Label>
+                <Input
+                  id="city"
+                  type="text"
+                  placeholder="Enter city"
+                />
+              </div>
+              <div>
+                <Label htmlFor="state">State</Label>
+                <Input
+                  id="state"
+                  type="text"
+                  placeholder="Enter state"
+                />
+              </div>
+              <div>
+                <Label htmlFor="zip">Zip</Label>
+                <Input
+                  id="zip"
+                  type="text"
+                  placeholder="Enter zip code"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      case 'other':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="other-organization-type">Organization Type</Label>
+              <Input
+                id="other-organization-type"
+                type="text"
+                placeholder="Specify organization type"
+              />
+            </div>
+            <div>
+              <Label htmlFor="address">Address</Label>
+              <Input
+                id="address"
+                type="text"
+                placeholder="Enter address"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="city">City</Label>
+                <Input
+                  id="city"
+                  type="text"
+                  placeholder="Enter city"
+                />
+              </div>
+              <div>
+                <Label htmlFor="state">State</Label>
+                <Input
+                  id="state"
+                  type="text"
+                  placeholder="Enter state"
+                />
+              </div>
+              <div>
+                <Label htmlFor="zip">Zip</Label>
+                <Input
+                  id="zip"
+                  type="text"
+                  placeholder="Enter zip code"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="other-details">Other Details</Label>
+              <Textarea
+                id="other-details"
+                placeholder="Please provide additional details"
+                rows={3}
+              />
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -85,6 +301,7 @@ const CreateAccountForm = () => {
             </SelectContent>
           </Select>
         </div>
+        {renderOrganizationFields()}
         <div>
           <Label htmlFor="create-password">Password</Label>
           <Input
