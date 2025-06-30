@@ -18,6 +18,8 @@ const Login = () => {
   const [termsOfServiceChecked, setTermsOfServiceChecked] = useState(false);
   const [showStatementModal, setShowStatementModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [statementOfFaithViewed, setStatementOfFaithViewed] = useState(false);
+  const [termsOfServiceViewed, setTermsOfServiceViewed] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -34,11 +36,13 @@ const Login = () => {
   const handleStatementOfFaithClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setShowStatementModal(true);
+    setStatementOfFaithViewed(true);
   };
 
   const handleTermsOfServiceClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setShowTermsModal(true);
+    setTermsOfServiceViewed(true);
   };
 
   const handleStatementOfFaithAccept = () => {
@@ -156,6 +160,7 @@ const Login = () => {
                       id="statement-of-faith" 
                       checked={statementOfFaithChecked}
                       onCheckedChange={handleStatementOfFaithChange}
+                      disabled={!statementOfFaithViewed}
                     />
                     <Label htmlFor="statement-of-faith" className="text-sm leading-5">
                       I agree to the{' '}
@@ -173,6 +178,7 @@ const Login = () => {
                       id="terms-of-service" 
                       checked={termsOfServiceChecked}
                       onCheckedChange={handleTermsOfServiceChange}
+                      disabled={!termsOfServiceViewed}
                     />
                     <Label htmlFor="terms-of-service" className="text-sm leading-5">
                       I agree to the{' '}
