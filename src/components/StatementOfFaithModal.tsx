@@ -64,7 +64,7 @@ const StatementOfFaithModal = ({ open, onOpenChange, onAccept }: StatementOfFait
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleCancel}>
+          <Button variant="stroked" onClick={handleCancel}>
             Cancel
           </Button>
           <Button onClick={handleAccept}>

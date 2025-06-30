@@ -133,11 +133,11 @@ const Apps = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline" onClick={() => handleViewDetails(app)}>
+                  <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)}>
                     View Details
                   </Button>
-                  <Button size="sm" variant="outline">Regenerate Key</Button>
-                  <Button size="sm" variant="outline">Settings</Button>
+                  <Button size="sm" variant="stroked">Regenerate Key</Button>
+                  <Button size="sm" variant="stroked">Settings</Button>
                 </div>
               </CardContent>
             </Card>

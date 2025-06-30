@@ -18,7 +18,7 @@ const Index = () => {
               <Button size="lg" variant="filled-contrast" asChild>
                 <Link to="/get-started">Get Started</Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" variant="stroked" asChild>
                 <Link to="/docs">View Documentation</Link>
               </Button>
             </div>
@@ -140,7 +140,7 @@ const Index = () => {
             <p className="text-xl mb-8 opacity-90">
               Join thousands of developers already using YouVersion Platform APIs.
             </p>
-            <Button size="lg" variant="secondary" asChild>
+            <Button size="lg" variant="filled-secondary" asChild>
               <Link to="/get-started">Get Your API Key</Link>
             </Button>
           </div>

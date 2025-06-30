@@ -64,7 +64,7 @@ const PlatformSidebar = () => {
         <SidebarGroupLabel>Platform Account</SidebarGroupLabel>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-full justify-between">
+            <Button variant="borderless" className="w-full justify-between">
               <span className="text-lg font-semibold">{selectedOrg.name}</span>
               <ChevronDown className="h-4 w-4" />
             </Button>
@@ -100,7 +100,7 @@ const PlatformSidebar = () => {
       <SidebarFooter className="p-4 sticky bottom-0 bg-sidebar border-t">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-full justify-between">
+            <Button variant="borderless" className="w-full justify-between">
               <div className="flex items-center">
                 <User className="h-4 w-4 mr-2" />
                 <span>{getFirstName()}</span>

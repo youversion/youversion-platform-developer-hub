@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -37,7 +38,7 @@ const Support = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">
+              <Button variant="stroked" className="w-full">
                 Send Email
               </Button>
             </CardContent>
@@ -52,7 +53,7 @@ const Support = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">
+              <Button variant="stroked" className="w-full">
                 View Docs
               </Button>
             </CardContent>
@@ -67,7 +68,7 @@ const Support = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">
+              <Button variant="stroked" className="w-full">
                 Join Forum
               </Button>
             </CardContent>

@@ -80,7 +80,7 @@ const Header = () => {
           )}
 
           <Button 
-            variant="ghost" 
+            variant="borderless" 
             size="icon" 
             className="md:hidden" 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

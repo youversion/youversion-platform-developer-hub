@@ -64,7 +64,7 @@ const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceMod
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleCancel}>
+          <Button variant="stroked" onClick={handleCancel}>
             Cancel
           </Button>
           <Button onClick={handleAccept}>

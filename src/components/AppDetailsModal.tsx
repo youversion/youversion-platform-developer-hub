@@ -137,7 +137,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
                 readOnly
                 className="bg-muted font-mono"
               />
-              <Button type="button" size="sm" variant="outline" onClick={copyApiKey}>
+              <Button type="button" size="sm" variant="stroked" onClick={copyApiKey}>
                 <Copy className="h-4 w-4" />
               </Button>
             </div>
@@ -166,7 +166,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={handleClose}>
+            <Button type="button" variant="stroked" onClick={handleClose}>
               Cancel
             </Button>
             <Button type="submit">
