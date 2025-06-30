@@ -1,10 +1,8 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
-
 const Index = () => {
   return <div className="min-h-screen">
       {/* Hero Section */}
@@ -105,7 +103,7 @@ const Index = () => {
             <Card>
               <CardHeader className="text-center">
                 <Smartphone className="h-8 w-8 text-black mb-4 mx-auto" />
-                <CardTitle className="text-2xl">Multi-Platform</CardTitle>
+                <CardTitle className="text-2xl">Multi-Platform Support</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm text-muted-foreground mb-4">
@@ -153,5 +151,4 @@ const Index = () => {
       </section>
     </div>;
 };
-
 export default Index;
