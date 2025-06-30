@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, LogIn, Zap, Smartphone, Settings, Database } from 'lucide-react';
+import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
+
 const Index = () => {
   return <div className="min-h-screen">
       {/* Hero Section */}
@@ -117,15 +118,15 @@ const Index = () => {
 
             <Card>
               <CardHeader className="text-center">
-                <Database className="h-8 w-8 text-black mb-4 mx-auto" />
-                <CardTitle className="text-2xl">Bible Directory</CardTitle>
+                <Highlighter className="h-8 w-8 text-black mb-4 mx-auto" />
+                <CardTitle className="text-2xl">Highlights, Notes and Saved Verses</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm text-muted-foreground mb-4">
-                  Access hundreds of Bible versions
+                  YouVersion Highlights and Notes in your application and synced
                 </CardDescription>
                 <p className="text-sm text-muted-foreground">
-                  Browse and search through our extensive directory of Bible versions in hundreds of languages for your users.
+                  Access and display users' highlights, notes, and saved verses from their YouVersion account directly in your application.
                 </p>
               </CardContent>
             </Card>
@@ -151,4 +152,5 @@ const Index = () => {
       </section>
     </div>;
 };
+
 export default Index;
