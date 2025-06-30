@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Smartphone, Key, Activity } from 'lucide-react';
+import { Plus, Smartphone, Key, Activity, CheckCircle, XCircle } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
 
@@ -14,6 +14,7 @@ interface App {
   requests: string;
   created: string;
   updated: string;
+  approved: boolean;
 }
 
 const Apps = () => {
@@ -27,7 +28,8 @@ const Apps = () => {
       status: "Active",
       requests: "1,247",
       created: "2024-01-15",
-      updated: "2024-06-28"
+      updated: "2024-06-28",
+      approved: true
     },
     {
       name: "Daily Devotions",
@@ -35,7 +37,8 @@ const Apps = () => {
       status: "Active", 
       requests: "543",
       created: "2024-02-20",
-      updated: "2024-06-25"
+      updated: "2024-06-25",
+      approved: true
     },
     {
       name: "Study Notes App",
@@ -43,7 +46,8 @@ const Apps = () => {
       status: "Development",
       requests: "89",
       created: "2024-03-10",
-      updated: "2024-06-30"
+      updated: "2024-06-30",
+      approved: false
     }
   ]);
 
@@ -97,9 +101,24 @@ const Apps = () => {
                       <CardDescription>Created {app.created}</CardDescription>
                     </div>
                   </div>
-                  <Badge variant={app.status === 'Active' ? 'default' : 'secondary'}>
-                    {app.status}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={app.approved ? 'default' : 'secondary'}>
+                      {app.approved ? (
+                        <>
+                          <CheckCircle className="mr-1 h-3 w-3" />
+                          Approved
+                        </>
+                      ) : (
+                        <>
+                          <XCircle className="mr-1 h-3 w-3" />
+                          Pending
+                        </>
+                      )}
+                    </Badge>
+                    <Badge variant={app.status === 'Active' ? 'default' : 'secondary'}>
+                      {app.status}
+                    </Badge>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -16,6 +17,7 @@ interface App {
   requests: string;
   created: string;
   updated: string;
+  approved: boolean;
 }
 
 interface AppDetailsModalProps {
@@ -28,6 +30,7 @@ interface AppDetailsModalProps {
 interface FormData {
   name: string;
   status: string;
+  approved: boolean;
 }
 
 const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps) => {
@@ -38,6 +41,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
     if (app) {
       setValue('name', app.name);
       setValue('status', app.status);
+      setValue('approved', app.approved);
     }
   }, [app, setValue]);
 
@@ -47,6 +51,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
         ...app,
         name: data.name,
         status: data.status,
+        approved: data.approved,
         updated: new Date().toLocaleDateString(),
       };
       onSave(updatedApp);
@@ -107,6 +112,20 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
                 <SelectItem value="Inactive">Inactive</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="approved">Approved</Label>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="approved"
+                checked={watch('approved')}
+                onCheckedChange={(checked) => setValue('approved', checked)}
+              />
+              <Label htmlFor="approved" className="text-sm text-muted-foreground">
+                {watch('approved') ? 'Application is approved' : 'Application is pending approval'}
+              </Label>
+            </div>
           </div>
 
           <div className="space-y-2">
