@@ -23,7 +23,7 @@ const Login = () => {
     }
   };
   return <div className="container py-20">
-      <div className="max-w-1/2 mx-auto">
+      <div className="max-w-1/3 mx-auto">
         <Card>
           <CardHeader>
             <CardTitle>Welcome to the YouVersion Platform</CardTitle>
