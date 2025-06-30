@@ -15,6 +15,7 @@ interface App {
   status: string;
   requests: string;
   created: string;
+  updated: string;
 }
 
 interface AppDetailsModalProps {
@@ -46,6 +47,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
         ...app,
         name: data.name,
         status: data.status,
+        updated: new Date().toLocaleDateString(),
       };
       onSave(updatedApp);
       onClose();
@@ -126,6 +128,13 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
             <Label>Created Date</Label>
             <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
               {app.created}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Updated Date</Label>
+            <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
+              {app.updated}
             </div>
           </div>
 

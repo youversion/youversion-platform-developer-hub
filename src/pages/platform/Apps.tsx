@@ -13,6 +13,7 @@ interface App {
   status: string;
   requests: string;
   created: string;
+  updated: string;
 }
 
 const Apps = () => {
@@ -25,21 +26,24 @@ const Apps = () => {
       apiKey: "bv_live_abc123...",
       status: "Active",
       requests: "1,247",
-      created: "2024-01-15"
+      created: "2024-01-15",
+      updated: "2024-06-28"
     },
     {
       name: "Daily Devotions",
       apiKey: "bv_live_def456...",
       status: "Active", 
       requests: "543",
-      created: "2024-02-20"
+      created: "2024-02-20",
+      updated: "2024-06-25"
     },
     {
       name: "Study Notes App",
       apiKey: "bv_test_ghi789...",
       status: "Development",
       requests: "89",
-      created: "2024-03-10"
+      created: "2024-03-10",
+      updated: "2024-06-30"
     }
   ]);
 
