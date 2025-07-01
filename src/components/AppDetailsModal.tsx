@@ -117,25 +117,13 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
     }
   };
 
-  // Mock audit log data - in a real app this would come from your backend
+  // Mock audit log data - sorted newest to oldest
   const auditLog = [
     {
-      id: 1,
-      action: 'Application Created',
-      timestamp: app?.created || '2024-01-15',
-      details: 'Initial application setup'
-    },
-    {
-      id: 2,
-      action: 'App Key Generated',
-      timestamp: app?.created || '2024-01-15',
-      details: 'Unique app key assigned'
-    },
-    {
-      id: 3,
-      action: 'Description Updated',
-      timestamp: '2024-03-10',
-      details: 'Application description modified'
+      id: 5,
+      action: 'Status Changed',
+      timestamp: app?.updated || '2024-06-28',
+      details: 'Application status updated to Active'
     },
     {
       id: 4,
@@ -144,10 +132,22 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
       details: 'Apple App Store and Google Play Store URLs added'
     },
     {
-      id: 5,
-      action: 'Status Changed',
-      timestamp: app?.updated || '2024-06-28',
-      details: 'Application status updated to Active'
+      id: 3,
+      action: 'Description Updated',
+      timestamp: '2024-03-10',
+      details: 'Application description modified'
+    },
+    {
+      id: 2,
+      action: 'App Key Generated',
+      timestamp: app?.created || '2024-01-15',
+      details: 'Unique app key assigned'
+    },
+    {
+      id: 1,
+      action: 'Application Created',
+      timestamp: app?.created || '2024-01-15',
+      details: 'Initial application setup'
     }
   ];
 
