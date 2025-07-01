@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Smartphone, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
+import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
 
@@ -154,7 +154,9 @@ const Apps = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Smartphone className="h-6 w-6 text-[#FF3D4D]" />
+                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <Image className="h-6 w-6 text-gray-400" />
+                    </div>
                     <div>
                       <CardTitle>{app.name}</CardTitle>
                       {app.description && <p className="text-sm text-muted-foreground mt-1">{app.description}</p>}
