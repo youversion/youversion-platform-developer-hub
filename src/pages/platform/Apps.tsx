@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Smartphone, Key, Activity, Globe, Apple, PlayCircle } from 'lucide-react';
+import { Plus, Smartphone, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
 
@@ -77,6 +76,22 @@ const Apps = () => {
       const v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
+  };
+
+  const copyApiKey = async (apiKey: string) => {
+    try {
+      await navigator.clipboard.writeText(apiKey);
+      toast({
+        title: "App Key Copied",
+        description: "The app key has been copied to your clipboard.",
+      });
+    } catch (err) {
+      toast({
+        title: "Copy Failed",
+        description: "Failed to copy app key to clipboard.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleViewDetails = (app: App) => {
@@ -168,7 +183,15 @@ const Apps = () => {
                 <div className="grid md:grid-cols-2 gap-4 mb-4">
                   <div className="flex items-center gap-2">
                     <Key className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-mono break-all">{app.apiKey}</span>
+                    <span className="text-sm font-mono break-all flex-1">{app.apiKey}</span>
+                    <Button 
+                      size="sm" 
+                      variant="stroked" 
+                      onClick={() => copyApiKey(app.apiKey)}
+                      className="ml-2 h-7 w-7 p-0"
+                    >
+                      <Copy className="h-3 w-3" />
+                    </Button>
                   </div>
                   <div className="flex items-center gap-2">
                     <Activity className="h-4 w-4 text-muted-foreground" />
