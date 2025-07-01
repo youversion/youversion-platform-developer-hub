@@ -137,7 +137,6 @@ const Apps = () => {
                     View Details
                   </Button>
                   <Button size="sm" variant="stroked">Regenerate Key</Button>
-                  <Button size="sm" variant="stroked">Settings</Button>
                 </div>
               </CardContent>
             </Card>
