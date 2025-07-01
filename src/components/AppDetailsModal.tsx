@@ -66,6 +66,18 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
     }
   }, [app, setValue]);
 
+  const handleCommercialStatusChange = (value: string) => {
+    if (value === 'Commercial') {
+      toast({
+        title: "Commercial Apps Not Accepted",
+        description: "YouVersion Platform isn't accepting apps for Commercial approval at this time.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setValue('commercialStatus', value);
+  };
+
   const onSubmit = (data: FormData) => {
     if (app && data.name.trim()) {
       const updatedApp = {
@@ -126,7 +138,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
           <div className="space-y-2">
             <Label htmlFor="commercialStatus">Commercial App Status</Label>
-            <Select value={watch('commercialStatus')} onValueChange={(value) => setValue('commercialStatus', value)}>
+            <Select value={watch('commercialStatus')} onValueChange={handleCommercialStatusChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select commercial status" />
               </SelectTrigger>
