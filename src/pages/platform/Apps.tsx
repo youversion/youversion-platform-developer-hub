@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -198,7 +196,7 @@ const Apps = () => {
                   <div className="bg-gray-50/80 rounded-xl p-4 border border-gray-100">
                     <div className="flex items-center gap-2 mb-3">
                       <Key className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm font-medium text-gray-700">API Key</span>
+                      <span className="text-sm font-medium text-gray-700">App Key</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Input
@@ -259,4 +257,3 @@ const Apps = () => {
 };
 
 export default Apps;
-
