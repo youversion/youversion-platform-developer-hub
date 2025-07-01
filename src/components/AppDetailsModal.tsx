@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -70,13 +69,13 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
       try {
         await navigator.clipboard.writeText(app.apiKey);
         toast({
-          title: "API Key Copied",
-          description: "The API key has been copied to your clipboard.",
+          title: "App Key Copied",
+          description: "The app key has been copied to your clipboard.",
         });
       } catch (err) {
         toast({
           title: "Copy Failed",
-          description: "Failed to copy API key to clipboard.",
+          description: "Failed to copy app key to clipboard.",
           variant: "destructive",
         });
       }
@@ -115,7 +114,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="apiKey">API Key</Label>
+            <Label htmlFor="apiKey">App Key</Label>
             <div className="flex space-x-2">
               <Input
                 id="apiKey"
