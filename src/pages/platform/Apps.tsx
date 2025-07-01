@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
@@ -177,7 +178,12 @@ const Apps = () => {
                 <div className="grid md:grid-cols-2 gap-4 mb-4">
                   <div className="flex items-center gap-2">
                     <Key className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-mono break-all flex-1">{app.apiKey}</span>
+                    <Input
+                      value={app.apiKey}
+                      readOnly
+                      disabled
+                      className="bg-muted font-mono text-sm flex-1"
+                    />
                     <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="ml-2 h-7 w-7 p-0">
                       <Copy className="h-3 w-3" />
                     </Button>
