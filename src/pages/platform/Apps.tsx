@@ -202,12 +202,6 @@ const Apps = () => {
                         </a>
                       </div>}
                   </div>
-                  {app.website && <div className="flex items-center gap-2">
-                      <Globe className="h-4 w-4 text-muted-foreground" />
-                      <a href={app.website} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
-                        {app.website}
-                      </a>
-                    </div>}
                   <div className="flex items-center gap-4">
                     {app.appleAppStore && <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
                         <Apple className="h-4 w-4" />
