@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -175,7 +176,7 @@ const Apps = () => {
                     <div className="flex items-center gap-2 text-sm">
                       <Activity className="h-4 w-4 text-gray-500" />
                       <span className="font-semibold text-gray-700">{app.requests}</span>
-                      <span className="text-gray-500">requests today</span>
+                      <span className="text-gray-500">requests</span>
                     </div>
                   </div>
                 </div>
@@ -258,3 +259,4 @@ const Apps = () => {
 };
 
 export default Apps;
+
