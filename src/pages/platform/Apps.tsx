@@ -172,7 +172,7 @@ const Apps = () => {
                   </Badge>
                 </div>
                 <div>
-                  <CardTitle className="text-lg mb-2 text-gray-900 group-hover:text-youversion-600 transition-colors">
+                  <CardTitle className="text-lg mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">
                     {app.name}
                   </CardTitle>
                   {app.description && (
@@ -215,19 +215,19 @@ const Apps = () => {
                   {(app.website || app.appleAppStore || app.googlePlayStore) && (
                     <div className="flex flex-wrap gap-3 pt-2">
                       {app.website && (
-                        <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-youversion-600 hover:text-youversion-700 transition-colors font-medium">
+                        <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <Globe className="h-3.5 w-3.5" />
                           <span>Website</span>
                         </a>
                       )}
                       {app.appleAppStore && (
-                        <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-youversion-600 hover:text-youversion-700 transition-colors font-medium">
+                        <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <Apple className="h-3.5 w-3.5" />
                           <span>App Store</span>
                         </a>
                       )}
                       {app.googlePlayStore && (
-                        <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-youversion-600 hover:text-youversion-700 transition-colors font-medium">
+                        <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <PlayCircle className="h-3.5 w-3.5" />
                           <span>Play Store</span>
                         </a>
@@ -238,7 +238,7 @@ const Apps = () => {
 
                 {/* Action Buttons */}
                 <div className="flex gap-2 mt-6 pt-4 border-t border-gray-100">
-                  <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1 hover:bg-youversion-50 hover:text-youversion-700 hover:border-youversion-200 transition-all">
+                  <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all">
                     View Details
                   </Button>
                   <Button size="sm" variant="stroked" className="flex-1 hover:bg-gray-50 transition-all">
