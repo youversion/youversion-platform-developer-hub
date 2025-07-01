@@ -1,6 +1,8 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Plus, Smartphone, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
@@ -177,6 +179,12 @@ const Apps = () => {
                       )}
                     </div>
                   </div>
+                  <Badge 
+                    variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'}
+                    className="ml-4"
+                  >
+                    {app.commercialStatus}
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
