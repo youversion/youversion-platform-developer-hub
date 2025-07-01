@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,6 +21,7 @@ const Apps = () => {
   const { toast } = useToast();
   const [selectedApp, setSelectedApp] = useState<App | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNewApp, setIsNewApp] = useState(false);
   const [apps, setApps] = useState<App[]>([
     {
       name: "My Bible App",
@@ -55,26 +55,60 @@ const Apps = () => {
     }
   ]);
 
+  const generateAppKey = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+
   const handleViewDetails = (app: App) => {
     setSelectedApp(app);
+    setIsNewApp(false);
+    setIsModalOpen(true);
+  };
+
+  const handleNewApplication = () => {
+    const newApp: App = {
+      name: '',
+      apiKey: generateAppKey(),
+      status: 'Development',
+      requests: '0',
+      created: new Date().toISOString().split('T')[0],
+      updated: new Date().toISOString().split('T')[0],
+      approved: false,
+      commercialStatus: 'Non-Commercial'
+    };
+    setSelectedApp(newApp);
+    setIsNewApp(true);
     setIsModalOpen(true);
   };
 
   const handleSaveApp = (updatedApp: App) => {
-    setApps(prevApps => 
-      prevApps.map(app => 
-        app.apiKey === updatedApp.apiKey ? updatedApp : app
-      )
-    );
-    toast({
-      title: "Application Updated",
-      description: "The application details have been saved successfully.",
-    });
+    if (isNewApp) {
+      setApps(prevApps => [...prevApps, updatedApp]);
+      toast({
+        title: "Application Created",
+        description: "The new application has been created successfully.",
+      });
+    } else {
+      setApps(prevApps => 
+        prevApps.map(app => 
+          app.apiKey === updatedApp.apiKey ? updatedApp : app
+        )
+      );
+      toast({
+        title: "Application Updated",
+        description: "The application details have been saved successfully.",
+      });
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedApp(null);
+    setIsNewApp(false);
   };
 
   return (
@@ -87,7 +121,7 @@ const Apps = () => {
               Manage your registered applications and API keys
             </p>
           </div>
-          <Button>
+          <Button onClick={handleNewApplication}>
             <Plus className="mr-2 h-4 w-4" />
             New Application
           </Button>
@@ -153,6 +187,7 @@ const Apps = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSave={handleSaveApp}
+        isNewApp={isNewApp}
       />
     </div>
   );

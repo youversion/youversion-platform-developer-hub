@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -25,6 +24,7 @@ interface AppDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (updatedApp: App) => void;
+  isNewApp?: boolean;
 }
 
 interface FormData {
@@ -32,10 +32,11 @@ interface FormData {
   commercialStatus: string;
 }
 
-const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps) => {
+const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: AppDetailsModalProps) => {
   const { toast } = useToast();
   const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>({
     defaultValues: {
+      name: '',
       commercialStatus: 'Non-Commercial'
     }
   });
@@ -48,12 +49,12 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
   }, [app, setValue]);
 
   const onSubmit = (data: FormData) => {
-    if (app) {
+    if (app && data.name.trim()) {
       const updatedApp = {
         ...app,
         name: data.name,
         commercialStatus: data.commercialStatus,
-        updated: new Date().toLocaleDateString(),
+        updated: new Date().toISOString().split('T')[0],
       };
       onSave(updatedApp);
       onClose();
@@ -89,7 +90,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Edit Application Details</DialogTitle>
+          <DialogTitle>{isNewApp ? 'Create New Application' : 'Edit Application Details'}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
@@ -129,34 +130,38 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Created Date</Label>
-              <div className="text-sm text-muted-foreground">
-                {app.created}
+          {!isNewApp && (
+            <>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Created Date</Label>
+                  <div className="text-sm text-muted-foreground">
+                    {app.created}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Updated Date</Label>
+                  <div className="text-sm text-muted-foreground">
+                    {app.updated}
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label>Updated Date</Label>
-              <div className="text-sm text-muted-foreground">
-                {app.updated}
-              </div>
-            </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label>Requests Today</Label>
-            <div className="text-sm text-muted-foreground">
-              {app.requests} requests
-            </div>
-          </div>
+              <div className="space-y-2">
+                <Label>Requests Today</Label>
+                <div className="text-sm text-muted-foreground">
+                  {app.requests} requests
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button type="button" variant="stroked" onClick={handleClose}>
               Cancel
             </Button>
             <Button type="submit">
-              Save Changes
+              {isNewApp ? 'Create Application' : 'Save Changes'}
             </Button>
           </div>
         </form>
