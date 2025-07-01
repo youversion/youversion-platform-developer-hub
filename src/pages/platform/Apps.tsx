@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,7 +25,7 @@ const Apps = () => {
   const [apps, setApps] = useState<App[]>([
     {
       name: "My Bible App",
-      apiKey: "bv_live_abc123...",
+      apiKey: "a39576d5-53b7-446e-b9d0-55ac97384bfe",
       status: "Active",
       requests: "1,247",
       created: "2024-01-15",
@@ -34,7 +35,7 @@ const Apps = () => {
     },
     {
       name: "Daily Devotions",
-      apiKey: "bv_live_def456...",
+      apiKey: "b48687e6-64c8-557f-c0e1-66bd08495cgf",
       status: "Active", 
       requests: "543",
       created: "2024-02-20",
@@ -44,7 +45,7 @@ const Apps = () => {
     },
     {
       name: "Study Notes App",
-      apiKey: "bv_test_ghi789...",
+      apiKey: "c59798f7-75d9-668g-d1f2-77ce19506dhg",
       status: "Development",
       requests: "89",
       created: "2024-03-10",
@@ -125,10 +126,10 @@ const Apps = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="grid md:grid-cols-3 gap-4 mb-4">
+                <div className="grid md:grid-cols-2 gap-4 mb-4">
                   <div className="flex items-center gap-2">
                     <Key className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-mono">{app.apiKey}</span>
+                    <span className="text-sm font-mono break-all">{app.apiKey}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Activity className="h-4 w-4 text-muted-foreground" />

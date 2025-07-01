@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -86,7 +87,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Edit Application Details</DialogTitle>
         </DialogHeader>
@@ -120,7 +121,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
                 id="apiKey"
                 value={app.apiKey}
                 readOnly
-                className="bg-muted font-mono"
+                className="bg-muted font-mono text-sm"
               />
               <Button type="button" size="sm" variant="stroked" onClick={copyApiKey}>
                 <Copy className="h-4 w-4" />
