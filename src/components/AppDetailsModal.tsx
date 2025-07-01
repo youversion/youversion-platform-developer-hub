@@ -1,8 +1,10 @@
+
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -15,6 +17,7 @@ interface App {
   created: string;
   updated: string;
   approved: boolean;
+  commercialStatus: string;
 }
 
 interface AppDetailsModalProps {
@@ -26,15 +29,21 @@ interface AppDetailsModalProps {
 
 interface FormData {
   name: string;
+  commercialStatus: string;
 }
 
 const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps) => {
   const { toast } = useToast();
-  const { register, handleSubmit, setValue, reset } = useForm<FormData>();
+  const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>({
+    defaultValues: {
+      commercialStatus: 'Non-Commercial'
+    }
+  });
 
   React.useEffect(() => {
     if (app) {
       setValue('name', app.name);
+      setValue('commercialStatus', app.commercialStatus || 'Non-Commercial');
     }
   }, [app, setValue]);
 
@@ -43,6 +52,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
       const updatedApp = {
         ...app,
         name: data.name,
+        commercialStatus: data.commercialStatus,
         updated: new Date().toLocaleDateString(),
       };
       onSave(updatedApp);
@@ -89,6 +99,19 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
               {...register('name', { required: true })}
               placeholder="Enter application name"
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="commercialStatus">Commercial App Status</Label>
+            <Select value={watch('commercialStatus')} onValueChange={(value) => setValue('commercialStatus', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select commercial status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Non-Commercial">Non-Commercial</SelectItem>
+                <SelectItem value="Commercial">Commercial</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,6 +14,7 @@ interface App {
   created: string;
   updated: string;
   approved: boolean;
+  commercialStatus: string;
 }
 
 const Apps = () => {
@@ -29,7 +29,8 @@ const Apps = () => {
       requests: "1,247",
       created: "2024-01-15",
       updated: "2024-06-28",
-      approved: true
+      approved: true,
+      commercialStatus: "Non-Commercial"
     },
     {
       name: "Daily Devotions",
@@ -38,7 +39,8 @@ const Apps = () => {
       requests: "543",
       created: "2024-02-20",
       updated: "2024-06-25",
-      approved: true
+      approved: true,
+      commercialStatus: "Non-Commercial"
     },
     {
       name: "Study Notes App",
@@ -47,7 +49,8 @@ const Apps = () => {
       requests: "89",
       created: "2024-03-10",
       updated: "2024-06-30",
-      approved: false
+      approved: false,
+      commercialStatus: "Commercial"
     }
   ]);
 
