@@ -29,6 +29,7 @@ const Apps = () => {
   const [selectedApp, setSelectedApp] = useState<App | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewApp, setIsNewApp] = useState(false);
+
   const [apps, setApps] = useState<App[]>([{
     name: "My Bible App",
     description: "A comprehensive Bible reading app with daily devotionals and study tools",
@@ -136,189 +137,14 @@ const Apps = () => {
     setIsNewApp(false);
   };
 
-  const LayoutVersion1 = () => (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold mb-4">Layout Version 1 - Current Style</h2>
-      {apps.map((app, index) => (
-        <Card key={`v1-${index}`}>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <Image className="h-6 w-6 text-gray-400" />
-                </div>
-                <div>
-                  <CardTitle>{app.name}</CardTitle>
-                  {app.description && <p className="text-sm text-muted-foreground mt-1">{app.description}</p>}
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <Activity className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">{app.requests} requests today</span>
-                </div>
-                <Badge 
-                  variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
-                  className={app.commercialStatus === 'Commercial' 
-                    ? "bg-neutral-700 text-white" 
-                    : "bg-neutral-300 text-neutral-700"
-                  }
-                >
-                  {app.commercialStatus}
-                </Badge>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
-              <div className="flex items-center gap-2">
-                <Key className="h-4 w-4 text-muted-foreground" />
-                <Input
-                  value={app.apiKey}
-                  readOnly
-                  disabled
-                  className="bg-muted font-mono text-sm flex-1"
-                />
-                <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="ml-2 h-7 w-7 p-0">
-                  <Copy className="h-3 w-3" />
-                </Button>
-              </div>
-              <div className="flex items-center gap-4">
-                {app.website && (
-                  <div className="flex items-center gap-2">
-                    <Globe className="h-4 w-4 text-muted-foreground" />
-                    <a href={app.website} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
-                      {app.website}
-                    </a>
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center gap-4">
-                {app.appleAppStore && (
-                  <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
-                    <Apple className="h-4 w-4" />
-                    App Store
-                  </a>
-                )}
-                {app.googlePlayStore && (
-                  <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
-                    <PlayCircle className="h-4 w-4" />
-                    Play Store
-                  </a>
-                )}
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)}>
-                View Details
-              </Button>
-              <Button size="sm" variant="stroked">Regenerate Key</Button>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-
-  const LayoutVersion2 = () => (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold mb-4">Layout Version 2 - Clean Grid Style</h2>
-      <div className="grid gap-6">
-        {apps.map((app, index) => (
-          <Card key={`v2-${index}`} className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl flex items-center justify-center">
-                  <Image className="h-8 w-8 text-blue-600" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-lg font-semibold">{app.name}</h3>
-                    <Badge 
-                      variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
-                      className={app.commercialStatus === 'Commercial' 
-                        ? "bg-neutral-700 text-white text-xs" 
-                        : "bg-neutral-300 text-neutral-700 text-xs"
-                      }
-                    >
-                      {app.commercialStatus}
-                    </Badge>
-                  </div>
-                  {app.description && (
-                    <p className="text-sm text-muted-foreground mb-3">{app.description}</p>
-                  )}
-                  <div className="flex items-center gap-2 text-sm">
-                    <Activity className="h-4 w-4 text-green-600" />
-                    <span className="font-medium text-green-600">{app.requests}</span>
-                    <span className="text-muted-foreground">requests today</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="bg-gray-50 rounded-lg p-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <Key className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-muted-foreground">API Key</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Input
-                    value={app.apiKey}
-                    readOnly
-                    disabled
-                    className="bg-white font-mono text-sm flex-1 border-gray-200"
-                  />
-                  <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="h-8 w-8 p-0">
-                    <Copy className="h-3 w-3" />
-                  </Button>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-                {app.website && (
-                  <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                    <Globe className="h-4 w-4" />
-                    <span>Website</span>
-                  </a>
-                )}
-                {app.appleAppStore && (
-                  <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                    <Apple className="h-4 w-4" />
-                    <span>App Store</span>
-                  </a>
-                )}
-                {app.googlePlayStore && (
-                  <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                    <PlayCircle className="h-4 w-4" />
-                    <span>Play Store</span>
-                  </a>
-                )}
-              </div>
-
-              <div className="flex gap-2 pt-2">
-                <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1">
-                  View Details
-                </Button>
-                <Button size="sm" variant="stroked" className="flex-1">
-                  Regenerate Key
-                </Button>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
   return (
     <div className="container py-12">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold mb-2">Applications</h1>
             <p className="text-muted-foreground">
-              Choose your preferred layout style - both versions contain the same information
+              Manage your applications and API keys
             </p>
           </div>
           <Button onClick={handleNewApplication}>
@@ -327,13 +153,90 @@ const Apps = () => {
           </Button>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          <div>
-            <LayoutVersion1 />
-          </div>
-          <div>
-            <LayoutVersion2 />
-          </div>
+        <div className="space-y-6">
+          {apps.map((app, index) => (
+            <Card key={index} className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl flex items-center justify-center">
+                    <Image className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-lg font-semibold">{app.name}</h3>
+                      <Badge 
+                        variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
+                        className={app.commercialStatus === 'Commercial' 
+                          ? "bg-neutral-700 text-white text-xs" 
+                          : "bg-neutral-300 text-neutral-700 text-xs"
+                        }
+                      >
+                        {app.commercialStatus}
+                      </Badge>
+                    </div>
+                    {app.description && (
+                      <p className="text-sm text-muted-foreground mb-3">{app.description}</p>
+                    )}
+                    <div className="flex items-center gap-2 text-sm">
+                      <Activity className="h-4 w-4 text-green-600" />
+                      <span className="font-medium text-green-600">{app.requests}</span>
+                      <span className="text-muted-foreground">requests today</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Key className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium text-muted-foreground">API Key</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      value={app.apiKey}
+                      readOnly
+                      disabled
+                      className="bg-white font-mono text-sm flex-1 border-gray-200"
+                    />
+                    <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="h-8 w-8 p-0">
+                      <Copy className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-4">
+                  {app.website && (
+                    <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                      <Globe className="h-4 w-4" />
+                      <span>Website</span>
+                    </a>
+                  )}
+                  {app.appleAppStore && (
+                    <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                      <Apple className="h-4 w-4" />
+                      <span>App Store</span>
+                    </a>
+                  )}
+                  {app.googlePlayStore && (
+                    <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                      <PlayCircle className="h-4 w-4" />
+                      <span>Play Store</span>
+                    </a>
+                  )}
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1">
+                    View Details
+                  </Button>
+                  <Button size="sm" variant="stroked" className="flex-1">
+                    Regenerate Key
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
 
