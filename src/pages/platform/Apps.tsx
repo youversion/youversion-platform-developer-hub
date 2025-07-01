@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -139,7 +140,7 @@ const Apps = () => {
 
   return (
     <div className="container py-12">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold mb-2">Applications</h1>
@@ -153,88 +154,97 @@ const Apps = () => {
           </Button>
         </div>
 
-        <div className="space-y-6">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {apps.map((app, index) => (
-            <Card key={index} className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl flex items-center justify-center">
-                    <Image className="h-8 w-8 text-blue-600" />
+            <Card key={index} className="flex flex-col h-full">
+              <CardHeader className="pb-4">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Image className="h-6 w-6 text-blue-600" />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold">{app.name}</h3>
-                      <Badge 
-                        variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
-                        className={app.commercialStatus === 'Commercial' 
-                          ? "bg-neutral-700 text-white text-xs" 
-                          : "bg-neutral-300 text-neutral-700 text-xs"
-                        }
-                      >
-                        {app.commercialStatus}
-                      </Badge>
+                  <Badge 
+                    variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
+                    className={app.commercialStatus === 'Commercial' 
+                      ? "bg-neutral-700 text-white text-xs ml-auto" 
+                      : "bg-neutral-300 text-neutral-700 text-xs ml-auto"
+                    }
+                  >
+                    {app.commercialStatus}
+                  </Badge>
+                </div>
+                <div>
+                  <CardTitle className="text-lg mb-2">{app.name}</CardTitle>
+                  {app.description && (
+                    <CardDescription className="text-sm line-clamp-2">
+                      {app.description}
+                    </CardDescription>
+                  )}
+                </div>
+              </CardHeader>
+
+              <CardContent className="flex-1 flex flex-col">
+                <div className="space-y-4 flex-1">
+                  {/* API Key Section */}
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Key className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-medium text-muted-foreground">API Key</span>
                     </div>
-                    {app.description && (
-                      <p className="text-sm text-muted-foreground mb-3">{app.description}</p>
-                    )}
-                    <div className="flex items-center gap-2 text-sm">
-                      <Activity className="h-4 w-4 text-green-600" />
-                      <span className="font-medium text-green-600">{app.requests}</span>
-                      <span className="text-muted-foreground">requests today</span>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        value={app.apiKey}
+                        readOnly
+                        disabled
+                        className="bg-white font-mono text-xs flex-1 border-gray-200"
+                      />
+                      <Button size="sm" variant="outline" onClick={() => copyApiKey(app.apiKey)} className="h-8 w-8 p-0 flex-shrink-0">
+                        <Copy className="h-3 w-3" />
+                      </Button>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <div className="space-y-4">
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Key className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium text-muted-foreground">API Key</span>
+                  {/* Stats */}
+                  <div className="flex items-center gap-2 text-sm">
+                    <Activity className="h-4 w-4 text-green-600" />
+                    <span className="font-medium text-green-600">{app.requests}</span>
+                    <span className="text-muted-foreground">requests today</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      value={app.apiKey}
-                      readOnly
-                      disabled
-                      className="bg-white font-mono text-sm flex-1 border-gray-200"
-                    />
-                    <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="h-8 w-8 p-0">
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </div>
 
-                <div className="flex flex-wrap gap-4">
-                  {app.website && (
-                    <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                      <Globe className="h-4 w-4" />
-                      <span>Website</span>
-                    </a>
-                  )}
-                  {app.appleAppStore && (
-                    <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                      <Apple className="h-4 w-4" />
-                      <span>App Store</span>
-                    </a>
-                  )}
-                  {app.googlePlayStore && (
-                    <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                      <PlayCircle className="h-4 w-4" />
-                      <span>Play Store</span>
-                    </a>
+                  {/* Links */}
+                  {(app.website || app.appleAppStore || app.googlePlayStore) && (
+                    <div className="flex flex-wrap gap-3">
+                      {app.website && (
+                        <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                          <Globe className="h-3.5 w-3.5" />
+                          <span>Website</span>
+                        </a>
+                      )}
+                      {app.appleAppStore && (
+                        <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                          <Apple className="h-3.5 w-3.5" />
+                          <span>App Store</span>
+                        </a>
+                      )}
+                      {app.googlePlayStore && (
+                        <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                          <PlayCircle className="h-3.5 w-3.5" />
+                          <span>Play Store</span>
+                        </a>
+                      )}
+                    </div>
                   )}
                 </div>
 
-                <div className="flex gap-2 pt-2">
-                  <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1">
+                {/* Action Buttons */}
+                <div className="flex gap-2 mt-4 pt-4 border-t">
+                  <Button size="sm" variant="outline" onClick={() => handleViewDetails(app)} className="flex-1">
                     View Details
                   </Button>
-                  <Button size="sm" variant="stroked" className="flex-1">
+                  <Button size="sm" variant="outline" className="flex-1">
                     Regenerate Key
                   </Button>
                 </div>
-              </div>
+              </CardContent>
             </Card>
           ))}
         </div>
