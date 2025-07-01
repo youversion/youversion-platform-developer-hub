@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -161,15 +162,22 @@ const Apps = () => {
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
                     <Image className="h-6 w-6 text-blue-600" />
                   </div>
-                  <Badge 
-                    variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
-                    className={`${app.commercialStatus === 'Commercial' 
-                      ? "bg-slate-800 text-white" 
-                      : "bg-slate-100 text-slate-700"
-                    } text-xs font-medium px-2.5 py-1 ml-auto`}
-                  >
-                    {app.commercialStatus}
-                  </Badge>
+                  <div className="flex flex-col items-end gap-2">
+                    <Badge 
+                      variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
+                      className={`${app.commercialStatus === 'Commercial' 
+                        ? "bg-slate-800 text-white" 
+                        : "bg-slate-100 text-slate-700"
+                      } text-xs font-medium px-2.5 py-1`}
+                    >
+                      {app.commercialStatus}
+                    </Badge>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Activity className="h-4 w-4 text-gray-500" />
+                      <span className="font-semibold text-gray-700">{app.requests}</span>
+                      <span className="text-gray-500">requests today</span>
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <CardTitle className="text-lg mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">
@@ -202,13 +210,6 @@ const Apps = () => {
                         <Copy className="h-3 w-3" />
                       </Button>
                     </div>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="flex items-center gap-2 text-sm bg-green-50/80 rounded-lg px-3 py-2">
-                    <Activity className="h-4 w-4 text-green-600" />
-                    <span className="font-semibold text-green-700">{app.requests}</span>
-                    <span className="text-green-600">requests today</span>
                   </div>
 
                   {/* Links */}
