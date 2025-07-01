@@ -125,6 +125,19 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="commercialStatus">Commercial App Status</Label>
+            <Select value={watch('commercialStatus')} onValueChange={(value) => setValue('commercialStatus', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select commercial status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Non-Commercial">Non-Commercial</SelectItem>
+                <SelectItem value="Commercial">Commercial</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
@@ -162,19 +175,6 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
               placeholder="https://play.google.com/store/apps/details?id=..."
               type="url"
             />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="commercialStatus">Commercial App Status</Label>
-            <Select value={watch('commercialStatus')} onValueChange={(value) => setValue('commercialStatus', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select commercial status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Non-Commercial">Non-Commercial</SelectItem>
-                <SelectItem value="Commercial">Commercial</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="space-y-2">
