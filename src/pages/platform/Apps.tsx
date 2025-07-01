@@ -1,12 +1,17 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Smartphone, Key, Activity } from 'lucide-react';
+import { Plus, Smartphone, Key, Activity, Globe, Apple, PlayCircle } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
 
 interface App {
   name: string;
+  description: string;
+  website: string;
+  appleAppStore: string;
+  googlePlayStore: string;
   apiKey: string;
   status: string;
   requests: string;
@@ -24,6 +29,10 @@ const Apps = () => {
   const [apps, setApps] = useState<App[]>([
     {
       name: "My Bible App",
+      description: "A comprehensive Bible reading app with daily devotionals and study tools",
+      website: "https://mybibleapp.com",
+      appleAppStore: "https://apps.apple.com/app/my-bible-app/id123456789",
+      googlePlayStore: "https://play.google.com/store/apps/details?id=com.mybibleapp",
       apiKey: "a39576d5-53b7-446e-b9d0-55ac97384bfe",
       status: "Active",
       requests: "1,247",
@@ -34,6 +43,10 @@ const Apps = () => {
     },
     {
       name: "Daily Devotions",
+      description: "Start your day with inspiring devotions and Bible verses",
+      website: "https://dailydevotions.org",
+      appleAppStore: "",
+      googlePlayStore: "https://play.google.com/store/apps/details?id=com.dailydevotions",
       apiKey: "b48687e6-64c8-557f-c0e1-66bd08495cgf",
       status: "Active", 
       requests: "543",
@@ -44,6 +57,10 @@ const Apps = () => {
     },
     {
       name: "Study Notes App",
+      description: "Take and organize your Bible study notes with powerful search features",
+      website: "",
+      appleAppStore: "",
+      googlePlayStore: "",
       apiKey: "c59798f7-75d9-668g-d1f2-77ce19506dhg",
       status: "Development",
       requests: "89",
@@ -71,6 +88,10 @@ const Apps = () => {
   const handleNewApplication = () => {
     const newApp: App = {
       name: '',
+      description: '',
+      website: '',
+      appleAppStore: '',
+      googlePlayStore: '',
       apiKey: generateAppKey(),
       status: 'Development',
       requests: '0',
@@ -136,6 +157,9 @@ const Apps = () => {
                     <div>
                       <CardTitle>{app.name}</CardTitle>
                       <CardDescription>Created {app.created}</CardDescription>
+                      {app.description && (
+                        <p className="text-sm text-muted-foreground mt-1">{app.description}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -149,6 +173,28 @@ const Apps = () => {
                   <div className="flex items-center gap-2">
                     <Activity className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm">{app.requests} requests today</span>
+                  </div>
+                  {app.website && (
+                    <div className="flex items-center gap-2">
+                      <Globe className="h-4 w-4 text-muted-foreground" />
+                      <a href={app.website} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
+                        {app.website}
+                      </a>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-4">
+                    {app.appleAppStore && (
+                      <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
+                        <Apple className="h-4 w-4" />
+                        App Store
+                      </a>
+                    )}
+                    {app.googlePlayStore && (
+                      <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
+                        <PlayCircle className="h-4 w-4" />
+                        Play Store
+                      </a>
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-2">

@@ -1,8 +1,10 @@
+
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
@@ -10,6 +12,10 @@ import { useToast } from '@/hooks/use-toast';
 
 interface App {
   name: string;
+  description: string;
+  website: string;
+  appleAppStore: string;
+  googlePlayStore: string;
   apiKey: string;
   status: string;
   requests: string;
@@ -29,6 +35,10 @@ interface AppDetailsModalProps {
 
 interface FormData {
   name: string;
+  description: string;
+  website: string;
+  appleAppStore: string;
+  googlePlayStore: string;
   commercialStatus: string;
 }
 
@@ -37,6 +47,10 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
   const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>({
     defaultValues: {
       name: '',
+      description: '',
+      website: '',
+      appleAppStore: '',
+      googlePlayStore: '',
       commercialStatus: 'Non-Commercial'
     }
   });
@@ -44,6 +58,10 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
   React.useEffect(() => {
     if (app) {
       setValue('name', app.name);
+      setValue('description', app.description);
+      setValue('website', app.website);
+      setValue('appleAppStore', app.appleAppStore);
+      setValue('googlePlayStore', app.googlePlayStore);
       setValue('commercialStatus', app.commercialStatus || 'Non-Commercial');
     }
   }, [app, setValue]);
@@ -53,6 +71,10 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
       const updatedApp = {
         ...app,
         name: data.name,
+        description: data.description,
+        website: data.website,
+        appleAppStore: data.appleAppStore,
+        googlePlayStore: data.googlePlayStore,
         commercialStatus: data.commercialStatus,
         updated: new Date().toISOString().split('T')[0],
       };
@@ -88,7 +110,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{isNewApp ? 'Create New Application' : 'Edit Application Details'}</DialogTitle>
         </DialogHeader>
@@ -99,6 +121,46 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
               id="name"
               {...register('name', { required: true })}
               placeholder="Enter application name"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
+              {...register('description')}
+              placeholder="Enter application description"
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="website">Website</Label>
+            <Input
+              id="website"
+              {...register('website')}
+              placeholder="https://yourwebsite.com"
+              type="url"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="appleAppStore">Apple App Store URL</Label>
+            <Input
+              id="appleAppStore"
+              {...register('appleAppStore')}
+              placeholder="https://apps.apple.com/app/..."
+              type="url"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="googlePlayStore">Google Play Store URL</Label>
+            <Input
+              id="googlePlayStore"
+              {...register('googlePlayStore')}
+              placeholder="https://play.google.com/store/apps/details?id=..."
+              type="url"
             />
           </div>
 
