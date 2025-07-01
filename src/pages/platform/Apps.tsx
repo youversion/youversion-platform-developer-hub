@@ -162,7 +162,13 @@ const Apps = () => {
                       {app.description && <p className="text-sm text-muted-foreground mt-1">{app.description}</p>}
                     </div>
                   </div>
-                  <Badge variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} className="ml-4 bg-neutral-700 text-white ">
+                  <Badge 
+                    variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
+                    className={app.commercialStatus === 'Commercial' 
+                      ? "ml-4 bg-neutral-700 text-white" 
+                      : "ml-4 bg-neutral-300 text-neutral-700"
+                    }
+                  >
                     {app.commercialStatus}
                   </Badge>
                 </div>
