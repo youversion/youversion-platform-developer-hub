@@ -4,7 +4,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
@@ -29,7 +28,6 @@ interface AppDetailsModalProps {
 
 interface FormData {
   name: string;
-  status: string;
   approved: boolean;
 }
 
@@ -40,7 +38,6 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
   React.useEffect(() => {
     if (app) {
       setValue('name', app.name);
-      setValue('status', app.status);
       setValue('approved', app.approved);
     }
   }, [app, setValue]);
@@ -50,7 +47,6 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
       const updatedApp = {
         ...app,
         name: data.name,
-        status: data.status,
         approved: data.approved,
         updated: new Date().toLocaleDateString(),
       };
@@ -98,20 +94,6 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
               {...register('name', { required: true })}
               placeholder="Enter application name"
             />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
-            <Select value={watch('status')} onValueChange={(value) => setValue('status', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Active">Active</SelectItem>
-                <SelectItem value="Development">Development</SelectItem>
-                <SelectItem value="Inactive">Inactive</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="space-y-2">
