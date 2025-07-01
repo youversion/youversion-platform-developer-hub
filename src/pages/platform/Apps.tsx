@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
+
 interface App {
   name: string;
   description: string;
@@ -20,6 +21,7 @@ interface App {
   approved: boolean;
   commercialStatus: string;
 }
+
 const Apps = () => {
   const {
     toast
@@ -194,15 +196,15 @@ const Apps = () => {
 
                   {/* Links */}
                   {(app.website || app.appleAppStore || app.googlePlayStore) && <div className="flex flex-wrap gap-3 pt-2">
-                      {app.website && <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
+                      {app.website && <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-youversion-600 hover:text-youversion-700 transition-colors font-medium">
                           <Globe className="h-3.5 w-3.5" />
                           <span>Website</span>
                         </a>}
-                      {app.appleAppStore && <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
+                      {app.appleAppStore && <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-youversion-600 hover:text-youversion-700 transition-colors font-medium">
                           <Apple className="h-3.5 w-3.5" />
                           <span>App Store</span>
                         </a>}
-                      {app.googlePlayStore && <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
+                      {app.googlePlayStore && <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-youversion-600 hover:text-youversion-700 transition-colors font-medium">
                           <PlayCircle className="h-3.5 w-3.5" />
                           <span>Play Store</span>
                         </a>}
@@ -226,4 +228,5 @@ const Apps = () => {
       <AppDetailsModal app={selectedApp} isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveApp} isNewApp={isNewApp} />
     </div>;
 };
+
 export default Apps;
