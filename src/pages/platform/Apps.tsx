@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
-
 interface App {
   name: string;
   description: string;
@@ -21,7 +20,6 @@ interface App {
   approved: boolean;
   commercialStatus: string;
 }
-
 const Apps = () => {
   const {
     toast
@@ -29,7 +27,6 @@ const Apps = () => {
   const [selectedApp, setSelectedApp] = useState<App | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewApp, setIsNewApp] = useState(false);
-
   const [apps, setApps] = useState<App[]>([{
     name: "My Bible App",
     description: "A comprehensive Bible reading app with daily devotionals and study tools",
@@ -136,9 +133,7 @@ const Apps = () => {
     setSelectedApp(null);
     setIsNewApp(false);
   };
-
-  return (
-    <div className="container py-12">
+  return <div className="container py-12">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -154,21 +149,14 @@ const Apps = () => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {apps.map((app, index) => (
-            <Card key={index} className="group hover:shadow-lg transition-all duration-200 border-gray-200/60 bg-white/80 backdrop-blur-sm">
+          {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200 border-gray-200/60 bg-white/80 backdrop-blur-sm">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <div className="w-12 h-12 bg-gradient-to-br from-youversion-50 to-youversion-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
                     <Image className="h-6 w-6 text-blue-600" />
                   </div>
                   <div className="flex flex-col items-end gap-2">
-                    <Badge 
-                      variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
-                      className={`${app.commercialStatus === 'Commercial' 
-                        ? "bg-slate-800 text-white" 
-                        : "bg-slate-100 text-slate-700"
-                      } text-xs font-medium px-2.5 py-1`}
-                    >
+                    <Badge variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} className={`${app.commercialStatus === 'Commercial' ? "bg-slate-800 text-white" : "bg-slate-100 text-slate-700"} text-xs font-medium px-2.5 py-1`}>
                       {app.commercialStatus}
                     </Badge>
                     <div className="flex items-center gap-2 text-sm">
@@ -182,11 +170,9 @@ const Apps = () => {
                   <CardTitle className="text-lg mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">
                     {app.name}
                   </CardTitle>
-                  {app.description && (
-                    <CardDescription className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                  {app.description && <CardDescription className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
                       {app.description}
-                    </CardDescription>
-                  )}
+                    </CardDescription>}
                 </div>
               </CardHeader>
 
@@ -199,12 +185,7 @@ const Apps = () => {
                       <span className="text-sm font-medium text-gray-700">App Key</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Input
-                        value={app.apiKey}
-                        readOnly
-                        disabled
-                        className="bg-white font-mono text-xs flex-1 border-gray-200 h-9"
-                      />
+                      <Input value={app.apiKey} readOnly disabled className="bg-white font-mono text-xs flex-1 border-gray-200 h-9" />
                       <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="h-9 w-9 p-0 flex-shrink-0">
                         <Copy className="h-3 w-3" />
                       </Button>
@@ -212,28 +193,20 @@ const Apps = () => {
                   </div>
 
                   {/* Links */}
-                  {(app.website || app.appleAppStore || app.googlePlayStore) && (
-                    <div className="flex flex-wrap gap-3 pt-2">
-                      {app.website && (
-                        <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
+                  {(app.website || app.appleAppStore || app.googlePlayStore) && <div className="flex flex-wrap gap-3 pt-2">
+                      {app.website && <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <Globe className="h-3.5 w-3.5" />
                           <span>Website</span>
-                        </a>
-                      )}
-                      {app.appleAppStore && (
-                        <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
+                        </a>}
+                      {app.appleAppStore && <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <Apple className="h-3.5 w-3.5" />
                           <span>App Store</span>
-                        </a>
-                      )}
-                      {app.googlePlayStore && (
-                        <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
+                        </a>}
+                      {app.googlePlayStore && <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <PlayCircle className="h-3.5 w-3.5" />
                           <span>Play Store</span>
-                        </a>
-                      )}
-                    </div>
-                  )}
+                        </a>}
+                    </div>}
                 </div>
 
                 {/* Action Buttons */}
@@ -246,14 +219,11 @@ const Apps = () => {
                   </Button>
                 </div>
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
       </div>
 
       <AppDetailsModal app={selectedApp} isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveApp} isNewApp={isNewApp} />
-    </div>
-  );
+    </div>;
 };
-
 export default Apps;
