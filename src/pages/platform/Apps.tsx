@@ -153,7 +153,7 @@ const Apps = () => {
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-12 h-12 bg-gradient-to-br from-youversion-50 to-youversion-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <Image className="h-6 w-6 text-blue-600" />
+                    <Image className="h-6 w-6 text-youversion-600" />
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <Badge variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} className={`${app.commercialStatus === 'Commercial' ? "bg-slate-800 text-white" : "bg-slate-100 text-slate-700"} text-xs font-medium px-2.5 py-1`}>
