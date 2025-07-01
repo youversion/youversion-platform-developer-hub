@@ -117,124 +117,188 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
     }
   };
 
+  // Mock audit log data - in a real app this would come from your backend
+  const auditLog = [
+    {
+      id: 1,
+      action: 'Application Created',
+      timestamp: app?.created || '2024-01-15',
+      details: 'Initial application setup'
+    },
+    {
+      id: 2,
+      action: 'App Key Generated',
+      timestamp: app?.created || '2024-01-15',
+      details: 'Unique app key assigned'
+    },
+    {
+      id: 3,
+      action: 'Description Updated',
+      timestamp: '2024-03-10',
+      details: 'Application description modified'
+    },
+    {
+      id: 4,
+      action: 'Store URLs Added',
+      timestamp: '2024-04-15',
+      details: 'Apple App Store and Google Play Store URLs added'
+    },
+    {
+      id: 5,
+      action: 'Status Changed',
+      timestamp: app?.updated || '2024-06-28',
+      details: 'Application status updated to Active'
+    }
+  ];
+
   if (!app) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[900px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{isNewApp ? 'Create New Application' : 'Edit Application Details'}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Application Name</Label>
-            <Input
-              id="name"
-              {...register('name', { required: true })}
-              placeholder="Enter application name"
-            />
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left column - Form */}
+          <div className="lg:col-span-2">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Application Name</Label>
+                <Input
+                  id="name"
+                  {...register('name', { required: true })}
+                  placeholder="Enter application name"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="commercialStatus">Commercial App Status</Label>
+                <Select value={watch('commercialStatus')} onValueChange={handleCommercialStatusChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select commercial status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Non-Commercial">Non-Commercial</SelectItem>
+                    <SelectItem value="Commercial">Commercial</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  {...register('description')}
+                  placeholder="Enter application description"
+                  rows={3}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="website">Website</Label>
+                <Input
+                  id="website"
+                  {...register('website')}
+                  placeholder="https://yourwebsite.com"
+                  type="url"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="appleAppStore">Apple App Store URL</Label>
+                <Input
+                  id="appleAppStore"
+                  {...register('appleAppStore')}
+                  placeholder="https://apps.apple.com/app/..."
+                  type="url"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="googlePlayStore">Google Play Store URL</Label>
+                <Input
+                  id="googlePlayStore"
+                  {...register('googlePlayStore')}
+                  placeholder="https://play.google.com/store/apps/details?id=..."
+                  type="url"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="apiKey">App Key</Label>
+                <div className="flex space-x-2">
+                  <Input
+                    id="apiKey"
+                    value={app.apiKey}
+                    readOnly
+                    className="bg-muted font-mono text-sm"
+                  />
+                  <Button type="button" size="sm" variant="stroked" onClick={copyApiKey}>
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {!isNewApp && (
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label>Created Date</Label>
+                    <div className="text-sm text-muted-foreground">
+                      {app.created}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Updated Date</Label>
+                    <div className="text-sm text-muted-foreground">
+                      {app.updated}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Requests</Label>
+                    <div className="text-sm text-muted-foreground">
+                      {app.requests} requests
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-end space-x-2 pt-4">
+                <Button type="button" variant="stroked" onClick={handleClose}>
+                  Cancel
+                </Button>
+                <Button type="submit">
+                  {isNewApp ? 'Create Application' : 'Save Changes'}
+                </Button>
+              </div>
+            </form>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="commercialStatus">Commercial App Status</Label>
-            <Select value={watch('commercialStatus')} onValueChange={handleCommercialStatusChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select commercial status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Non-Commercial">Non-Commercial</SelectItem>
-                <SelectItem value="Commercial">Commercial</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              {...register('description')}
-              placeholder="Enter application description"
-              rows={3}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="website">Website</Label>
-            <Input
-              id="website"
-              {...register('website')}
-              placeholder="https://yourwebsite.com"
-              type="url"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="appleAppStore">Apple App Store URL</Label>
-            <Input
-              id="appleAppStore"
-              {...register('appleAppStore')}
-              placeholder="https://apps.apple.com/app/..."
-              type="url"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="googlePlayStore">Google Play Store URL</Label>
-            <Input
-              id="googlePlayStore"
-              {...register('googlePlayStore')}
-              placeholder="https://play.google.com/store/apps/details?id=..."
-              type="url"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="apiKey">App Key</Label>
-            <div className="flex space-x-2">
-              <Input
-                id="apiKey"
-                value={app.apiKey}
-                readOnly
-                className="bg-muted font-mono text-sm"
-              />
-              <Button type="button" size="sm" variant="stroked" onClick={copyApiKey}>
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-
+          {/* Right column - Audit Log */}
           {!isNewApp && (
-            <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label>Created Date</Label>
-                <div className="text-sm text-muted-foreground">
-                  {app.created}
+            <div className="lg:col-span-1 border-l pl-6">
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-base font-semibold">Audit Log</Label>
+                  <p className="text-sm text-muted-foreground">Recent activity for this application</p>
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label>Updated Date</Label>
-                <div className="text-sm text-muted-foreground">
-                  {app.updated}
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label>Requests</Label>
-                <div className="text-sm text-muted-foreground">
-                  {app.requests} requests
+                
+                <div className="space-y-3 max-h-96 overflow-y-auto">
+                  {auditLog.map((entry) => (
+                    <div key={entry.id} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                      <div className="flex items-start justify-between mb-1">
+                        <h4 className="text-sm font-medium text-gray-900">{entry.action}</h4>
+                        <time className="text-xs text-gray-500">{entry.timestamp}</time>
+                      </div>
+                      <p className="text-xs text-gray-600">{entry.details}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           )}
-
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="stroked" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button type="submit">
-              {isNewApp ? 'Create Application' : 'Save Changes'}
-            </Button>
-          </div>
-        </form>
+        </div>
       </DialogContent>
     </Dialog>
   );
