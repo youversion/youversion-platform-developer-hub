@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Plus, Smartphone, Key, Activity, CheckCircle, XCircle } from 'lucide-react';
+import { Plus, Smartphone, Key, Activity } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
 
@@ -138,24 +137,6 @@ const Apps = () => {
                       <CardTitle>{app.name}</CardTitle>
                       <CardDescription>Created {app.created}</CardDescription>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={app.approved ? 'default' : 'secondary'}>
-                      {app.approved ? (
-                        <>
-                          <CheckCircle className="mr-1 h-3 w-3" />
-                          Approved
-                        </>
-                      ) : (
-                        <>
-                          <XCircle className="mr-1 h-3 w-3" />
-                          Pending
-                        </>
-                      )}
-                    </Badge>
-                    <Badge variant={app.status === 'Active' ? 'default' : 'secondary'}>
-                      {app.status}
-                    </Badge>
                   </div>
                 </div>
               </CardHeader>
