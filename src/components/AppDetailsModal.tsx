@@ -206,24 +206,26 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="appleAppStore">Apple App Store URL</Label>
-                <Input
-                  id="appleAppStore"
-                  {...register('appleAppStore')}
-                  placeholder="https://apps.apple.com/app/..."
-                  type="url"
-                />
-              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="appleAppStore">Apple App Store URL</Label>
+                  <Input
+                    id="appleAppStore"
+                    {...register('appleAppStore')}
+                    placeholder="https://apps.apple.com/app/..."
+                    type="url"
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="googlePlayStore">Google Play Store URL</Label>
-                <Input
-                  id="googlePlayStore"
-                  {...register('googlePlayStore')}
-                  placeholder="https://play.google.com/store/apps/details?id=..."
-                  type="url"
-                />
+                <div className="space-y-2">
+                  <Label htmlFor="googlePlayStore">Google Play Store URL</Label>
+                  <Input
+                    id="googlePlayStore"
+                    {...register('googlePlayStore')}
+                    placeholder="https://play.google.com/store/apps/details?id=..."
+                    type="url"
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">
