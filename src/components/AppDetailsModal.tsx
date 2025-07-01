@@ -1,10 +1,8 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -28,17 +26,15 @@ interface AppDetailsModalProps {
 
 interface FormData {
   name: string;
-  approved: boolean;
 }
 
 const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps) => {
   const { toast } = useToast();
-  const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>();
+  const { register, handleSubmit, setValue, reset } = useForm<FormData>();
 
   React.useEffect(() => {
     if (app) {
       setValue('name', app.name);
-      setValue('approved', app.approved);
     }
   }, [app, setValue]);
 
@@ -47,7 +43,6 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
       const updatedApp = {
         ...app,
         name: data.name,
-        approved: data.approved,
         updated: new Date().toLocaleDateString(),
       };
       onSave(updatedApp);
@@ -94,20 +89,6 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave }: AppDetailsModalProps)
               {...register('name', { required: true })}
               placeholder="Enter application name"
             />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="approved">Approved</Label>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="approved"
-                checked={watch('approved')}
-                onCheckedChange={(checked) => setValue('approved', checked)}
-              />
-              <Label htmlFor="approved" className="text-sm text-muted-foreground">
-                {watch('approved') ? 'Application is approved' : 'Application is pending approval'}
-              </Label>
-            </div>
           </div>
 
           <div className="space-y-2">
