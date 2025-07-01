@@ -169,7 +169,7 @@ const Apps = () => {
                   </div>
                 </div>
                 <div>
-                  <CardTitle className="text-lg mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">
+                  <CardTitle className="text-lg mb-2 text-gray-900 group-hover:text-youversion-600 transition-colors">
                     {app.name}
                   </CardTitle>
                   {app.description && <CardDescription className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
