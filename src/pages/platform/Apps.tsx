@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Smartphone, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
+
 interface App {
   name: string;
   description: string;
@@ -19,6 +20,7 @@ interface App {
   approved: boolean;
   commercialStatus: string;
 }
+
 const Apps = () => {
   const {
     toast
@@ -155,7 +157,6 @@ const Apps = () => {
                     <Smartphone className="h-6 w-6 text-[#FF3D4D]" />
                     <div>
                       <CardTitle>{app.name}</CardTitle>
-                      <CardDescription>Created {app.created}</CardDescription>
                       {app.description && <p className="text-sm text-muted-foreground mt-1">{app.description}</p>}
                     </div>
                   </div>
@@ -208,4 +209,5 @@ const Apps = () => {
       <AppDetailsModal app={selectedApp} isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveApp} isNewApp={isNewApp} />
     </div>;
 };
+
 export default Apps;
