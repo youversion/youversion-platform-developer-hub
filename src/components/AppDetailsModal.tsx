@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -155,14 +156,14 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[900px] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[900px] max-h-[80vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle>{isNewApp ? 'Create New Application' : 'Edit Application Details'}</DialogTitle>
         </DialogHeader>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
           {/* Left column - Form */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 overflow-y-auto pr-2">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Application Name</Label>
@@ -279,24 +280,26 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
           {/* Right column - Audit Log */}
           {!isNewApp && (
-            <div className="lg:col-span-1 border-l pl-6">
-              <div className="space-y-4">
+            <div className="lg:col-span-1 border-l pl-6 flex flex-col">
+              <div className="space-y-4 flex-1 flex flex-col">
                 <div>
                   <Label className="text-base font-semibold">Audit Log</Label>
                   <p className="text-sm text-muted-foreground">Recent activity for this application</p>
                 </div>
                 
-                <div className="space-y-3 max-h-96 overflow-y-auto">
-                  {auditLog.map((entry) => (
-                    <div key={entry.id} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                      <div className="flex items-start justify-between mb-1">
-                        <h4 className="text-sm font-medium text-gray-900">{entry.action}</h4>
-                        <time className="text-xs text-gray-500">{entry.timestamp}</time>
+                <ScrollArea className="flex-1 h-[500px]">
+                  <div className="space-y-3 pr-4">
+                    {auditLog.map((entry) => (
+                      <div key={entry.id} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                        <div className="flex items-start justify-between mb-1">
+                          <h4 className="text-sm font-medium text-gray-900">{entry.action}</h4>
+                          <time className="text-xs text-gray-500">{entry.timestamp}</time>
+                        </div>
+                        <p className="text-xs text-gray-600">{entry.details}</p>
                       </div>
-                      <p className="text-xs text-gray-600">{entry.details}</p>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </div>
             </div>
           )}
