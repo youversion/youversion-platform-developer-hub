@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -205,29 +204,26 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
           </div>
 
           {!isNewApp && (
-            <>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Created Date</Label>
-                  <div className="text-sm text-muted-foreground">
-                    {app.created}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label>Updated Date</Label>
-                  <div className="text-sm text-muted-foreground">
-                    {app.updated}
-                  </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label>Created Date</Label>
+                <div className="text-sm text-muted-foreground">
+                  {app.created}
                 </div>
               </div>
-
               <div className="space-y-2">
-                <Label>Requests Today</Label>
+                <Label>Updated Date</Label>
+                <div className="text-sm text-muted-foreground">
+                  {app.updated}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Requests</Label>
                 <div className="text-sm text-muted-foreground">
                   {app.requests} requests
                 </div>
               </div>
-            </>
+            </div>
           )}
 
           <div className="flex justify-end space-x-2 pt-4">
