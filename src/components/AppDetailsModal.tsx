@@ -121,6 +121,30 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
   // Mock audit log data - sorted newest to oldest
   const auditLog = [
     {
+      id: 9,
+      action: 'Performance Optimization',
+      timestamp: '2024-07-01',
+      details: 'API response caching implemented to improve performance'
+    },
+    {
+      id: 8,
+      action: 'Security Update',
+      timestamp: '2024-06-30',
+      details: 'Enhanced authentication protocols and rate limiting applied'
+    },
+    {
+      id: 7,
+      action: 'Feature Enhancement',
+      timestamp: '2024-06-29',
+      details: 'New Bible verse search functionality added to the application'
+    },
+    {
+      id: 6,
+      action: 'Bug Fix',
+      timestamp: '2024-06-28',
+      details: 'Fixed issue with user preferences not being saved correctly'
+    },
+    {
       id: 5,
       action: 'Status Changed',
       timestamp: app?.updated || '2024-06-28',
