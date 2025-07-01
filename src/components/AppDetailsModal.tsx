@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -121,30 +120,6 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
   // Mock audit log data - sorted newest to oldest
   const auditLog = [
     {
-      id: 9,
-      action: 'Performance Optimization',
-      timestamp: '2024-07-01',
-      details: 'API response caching implemented to improve performance'
-    },
-    {
-      id: 8,
-      action: 'Security Update',
-      timestamp: '2024-06-30',
-      details: 'Enhanced authentication protocols and rate limiting applied'
-    },
-    {
-      id: 7,
-      action: 'Feature Enhancement',
-      timestamp: '2024-06-29',
-      details: 'New Bible verse search functionality added to the application'
-    },
-    {
-      id: 6,
-      action: 'Bug Fix',
-      timestamp: '2024-06-28',
-      details: 'Fixed issue with user preferences not being saved correctly'
-    },
-    {
       id: 5,
       action: 'Status Changed',
       timestamp: app?.updated || '2024-06-28',
@@ -180,14 +155,14 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[900px] max-h-[80vh] overflow-hidden">
+      <DialogContent className="sm:max-w-[900px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{isNewApp ? 'Create New Application' : 'Edit Application Details'}</DialogTitle>
         </DialogHeader>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column - Form */}
-          <div className="lg:col-span-2 overflow-y-auto pr-2">
+          <div className="lg:col-span-2">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Application Name</Label>
@@ -304,26 +279,24 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
           {/* Right column - Audit Log */}
           {!isNewApp && (
-            <div className="lg:col-span-1 border-l pl-6 flex flex-col">
-              <div className="space-y-4 flex-1 flex flex-col">
+            <div className="lg:col-span-1 border-l pl-6">
+              <div className="space-y-4">
                 <div>
                   <Label className="text-base font-semibold">Audit Log</Label>
                   <p className="text-sm text-muted-foreground">Recent activity for this application</p>
                 </div>
                 
-                <ScrollArea className="flex-1 h-[500px]">
-                  <div className="space-y-3 pr-4">
-                    {auditLog.map((entry) => (
-                      <div key={entry.id} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                        <div className="flex items-start justify-between mb-1">
-                          <h4 className="text-sm font-medium text-gray-900">{entry.action}</h4>
-                          <time className="text-xs text-gray-500">{entry.timestamp}</time>
-                        </div>
-                        <p className="text-xs text-gray-600">{entry.details}</p>
+                <div className="space-y-3 max-h-96 overflow-y-auto">
+                  {auditLog.map((entry) => (
+                    <div key={entry.id} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                      <div className="flex items-start justify-between mb-1">
+                        <h4 className="text-sm font-medium text-gray-900">{entry.action}</h4>
+                        <time className="text-xs text-gray-500">{entry.timestamp}</time>
                       </div>
-                    ))}
-                  </div>
-                </ScrollArea>
+                      <p className="text-xs text-gray-600">{entry.details}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
