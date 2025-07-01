@@ -153,7 +153,7 @@ const Apps = () => {
           </Button>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2">
           {apps.map((app, index) => (
             <Card key={index} className="group hover:shadow-lg transition-all duration-200 border-gray-200/60 bg-white/80 backdrop-blur-sm">
               <CardHeader className="pb-4">
