@@ -3,10 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Code, User, BookOpen, Zap } from 'lucide-react';
-
 const GetStarted = () => {
-  return (
-    <div className="container py-12">
+  return <div className="container py-12">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Get Started with YouVersion Platform</h1>
@@ -19,7 +17,7 @@ const GetStarted = () => {
           <Card>
             <CardHeader>
               <User className="h-8 w-8 text-[#FF3D4D] mb-2" />
-              <CardTitle>1. Get Your APP Key</CardTitle>
+              <CardTitle>1. Sign in with YouVersion and connect to the Platform</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">Sign up for a developer account and create an App key to start making requests to the YouVersion APIs.</CardDescription>
@@ -85,8 +83,6 @@ const GetStarted = () => {
           </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default GetStarted;
