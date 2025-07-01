@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -156,26 +155,28 @@ const Apps = () => {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {apps.map((app, index) => (
-            <Card key={index} className="flex flex-col h-full">
+            <Card key={index} className="group hover:shadow-lg transition-all duration-200 border-gray-200/60 bg-white/80 backdrop-blur-sm">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
                     <Image className="h-6 w-6 text-blue-600" />
                   </div>
                   <Badge 
                     variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
-                    className={app.commercialStatus === 'Commercial' 
-                      ? "bg-neutral-700 text-white text-xs ml-auto" 
-                      : "bg-neutral-300 text-neutral-700 text-xs ml-auto"
-                    }
+                    className={`${app.commercialStatus === 'Commercial' 
+                      ? "bg-slate-800 text-white" 
+                      : "bg-slate-100 text-slate-700"
+                    } text-xs font-medium px-2.5 py-1 ml-auto`}
                   >
                     {app.commercialStatus}
                   </Badge>
                 </div>
                 <div>
-                  <CardTitle className="text-lg mb-2">{app.name}</CardTitle>
+                  <CardTitle className="text-lg mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">
+                    {app.name}
+                  </CardTitle>
                   {app.description && (
-                    <CardDescription className="text-sm line-clamp-2">
+                    <CardDescription className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
                       {app.description}
                     </CardDescription>
                   )}
@@ -185,48 +186,48 @@ const Apps = () => {
               <CardContent className="flex-1 flex flex-col">
                 <div className="space-y-4 flex-1">
                   {/* API Key Section */}
-                  <div className="bg-gray-50 rounded-lg p-3">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Key className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-medium text-muted-foreground">API Key</span>
+                  <div className="bg-gray-50/80 rounded-xl p-4 border border-gray-100">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Key className="h-4 w-4 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-700">API Key</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Input
                         value={app.apiKey}
                         readOnly
                         disabled
-                        className="bg-white font-mono text-xs flex-1 border-gray-200"
+                        className="bg-white font-mono text-xs flex-1 border-gray-200 h-9"
                       />
-                      <Button size="sm" variant="outline" onClick={() => copyApiKey(app.apiKey)} className="h-8 w-8 p-0 flex-shrink-0">
+                      <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="h-9 w-9 p-0 flex-shrink-0">
                         <Copy className="h-3 w-3" />
                       </Button>
                     </div>
                   </div>
 
                   {/* Stats */}
-                  <div className="flex items-center gap-2 text-sm">
+                  <div className="flex items-center gap-2 text-sm bg-green-50/80 rounded-lg px-3 py-2">
                     <Activity className="h-4 w-4 text-green-600" />
-                    <span className="font-medium text-green-600">{app.requests}</span>
-                    <span className="text-muted-foreground">requests today</span>
+                    <span className="font-semibold text-green-700">{app.requests}</span>
+                    <span className="text-green-600">requests today</span>
                   </div>
 
                   {/* Links */}
                   {(app.website || app.appleAppStore || app.googlePlayStore) && (
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-3 pt-2">
                       {app.website && (
-                        <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                        <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <Globe className="h-3.5 w-3.5" />
                           <span>Website</span>
                         </a>
                       )}
                       {app.appleAppStore && (
-                        <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                        <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <Apple className="h-3.5 w-3.5" />
                           <span>App Store</span>
                         </a>
                       )}
                       {app.googlePlayStore && (
-                        <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                        <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium">
                           <PlayCircle className="h-3.5 w-3.5" />
                           <span>Play Store</span>
                         </a>
@@ -236,11 +237,11 @@ const Apps = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-2 mt-4 pt-4 border-t">
-                  <Button size="sm" variant="outline" onClick={() => handleViewDetails(app)} className="flex-1">
+                <div className="flex gap-2 mt-6 pt-4 border-t border-gray-100">
+                  <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all">
                     View Details
                   </Button>
-                  <Button size="sm" variant="outline" className="flex-1">
+                  <Button size="sm" variant="stroked" className="flex-1 hover:bg-gray-50 transition-all">
                     Regenerate Key
                   </Button>
                 </div>
