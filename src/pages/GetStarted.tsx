@@ -2,9 +2,11 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Code, Key, BookOpen, Zap } from 'lucide-react';
+import { Code, User, BookOpen, Zap } from 'lucide-react';
+
 const GetStarted = () => {
-  return <div className="container py-12">
+  return (
+    <div className="container py-12">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Get Started with YouVersion Platform</h1>
@@ -16,7 +18,7 @@ const GetStarted = () => {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <Card>
             <CardHeader>
-              <Key className="h-8 w-8 text-[#FF3D4D] mb-2" />
+              <User className="h-8 w-8 text-[#FF3D4D] mb-2" />
               <CardTitle>1. Get Your APP Key</CardTitle>
             </CardHeader>
             <CardContent>
@@ -83,6 +85,8 @@ const GetStarted = () => {
           </Button>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default GetStarted;
