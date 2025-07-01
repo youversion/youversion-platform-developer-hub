@@ -163,15 +163,21 @@ const Apps = () => {
                       {app.description && <p className="text-sm text-muted-foreground mt-1">{app.description}</p>}
                     </div>
                   </div>
-                  <Badge 
-                    variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
-                    className={app.commercialStatus === 'Commercial' 
-                      ? "ml-4 bg-neutral-700 text-white" 
-                      : "ml-4 bg-neutral-300 text-neutral-700"
-                    }
-                  >
-                    {app.commercialStatus}
-                  </Badge>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <Activity className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm">{app.requests} requests today</span>
+                    </div>
+                    <Badge 
+                      variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} 
+                      className={app.commercialStatus === 'Commercial' 
+                        ? "bg-neutral-700 text-white" 
+                        : "bg-neutral-300 text-neutral-700"
+                      }
+                    >
+                      {app.commercialStatus}
+                    </Badge>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>
@@ -188,9 +194,13 @@ const Apps = () => {
                       <Copy className="h-3 w-3" />
                     </Button>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Activity className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{app.requests} requests today</span>
+                  <div className="flex items-center gap-4">
+                    {app.website && <div className="flex items-center gap-2">
+                        <Globe className="h-4 w-4 text-muted-foreground" />
+                        <a href={app.website} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
+                          {app.website}
+                        </a>
+                      </div>}
                   </div>
                   {app.website && <div className="flex items-center gap-2">
                       <Globe className="h-4 w-4 text-muted-foreground" />
