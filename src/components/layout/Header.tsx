@@ -11,7 +11,12 @@ const Header = () => {
     isAuthenticated
   } = useAuth();
   const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => {
+    if (path === '/docs/quick-start') {
+      return location.pathname.startsWith('/docs');
+    }
+    return location.pathname === path;
+  };
   const isOnPlatform = location.pathname.startsWith('/platform');
   const publicNavItems = [{
     name: 'Get Started',
