@@ -16,7 +16,7 @@ const buttonVariants = cva(
         stroked:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         "filled-secondary":
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 dark:bg-white/15 dark:text-foreground dark:hover:bg-white/20",
+          "bg-[#DDDBDB] text-secondary-foreground hover:bg-[#DDDBDB]/80 dark:bg-white/15 dark:text-foreground dark:hover:bg-white/20",
         borderless: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         "filled-contrast": "bg-[#121212] text-white hover:bg-[#121212]/90",
