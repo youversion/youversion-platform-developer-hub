@@ -22,7 +22,7 @@ const GetStarted = () => {
             <CardContent>
               <CardDescription className="mb-4">Sign up for a developer account and create an App key to start making requests to the YouVersion APIs.</CardDescription>
               <Button asChild>
-                <Link to="/create-account">Create Account</Link>
+                <Link to="/create-account">Sign in to YouVersion</Link>
               </Button>
             </CardContent>
           </Card>
@@ -36,7 +36,7 @@ const GetStarted = () => {
               <CardDescription className="mb-4">
                 Learn how to authenticate and make your first API call to retrieve Bible content.
               </CardDescription>
-              <Button variant="stroked" asChild>
+              <Button asChild>
                 <Link to="/docs">View Documentation</Link>
               </Button>
             </CardContent>
@@ -51,7 +51,7 @@ const GetStarted = () => {
               <CardDescription className="mb-4">
                 Browse our directory of available Bible translations and choose the ones for your app.
               </CardDescription>
-              <Button variant="stroked" asChild>
+              <Button asChild>
                 <Link to="/bible-directory">Browse Bibles</Link>
               </Button>
             </CardContent>
@@ -66,7 +66,7 @@ const GetStarted = () => {
               <CardDescription className="mb-4">
                 Use our examples and code samples to quickly integrate Bible content into your applications.
               </CardDescription>
-              <Button variant="stroked" asChild>
+              <Button asChild>
                 <Link to="/examples">View Examples</Link>
               </Button>
             </CardContent>
@@ -78,7 +78,7 @@ const GetStarted = () => {
           <p className="text-muted-foreground mb-6">
             Our support team is here to help you get started with the YouVersion Platform.
           </p>
-          <Button variant="stroked" asChild>
+          <Button asChild>
             <Link to="/support">Contact Support</Link>
           </Button>
         </div>
