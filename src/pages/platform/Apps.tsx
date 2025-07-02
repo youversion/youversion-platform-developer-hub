@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
-
 interface App {
   name: string;
   description: string;
@@ -21,7 +20,6 @@ interface App {
   approved: boolean;
   commercialStatus: string;
 }
-
 const Apps = () => {
   const {
     toast
@@ -151,7 +149,7 @@ const Apps = () => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200 border-gray-200/60 bg-white/80 backdrop-blur-sm">
+          {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200 border-gray-200/60 bg-white/80 backdrop-blur-sm dark:bg-slate-800 dark:border-none ">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-12 h-12 bg-gradient-to-br from-youversion-50 to-youversion-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
@@ -228,5 +226,4 @@ const Apps = () => {
       <AppDetailsModal app={selectedApp} isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveApp} isNewApp={isNewApp} />
     </div>;
 };
-
 export default Apps;
