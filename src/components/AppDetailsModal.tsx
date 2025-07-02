@@ -288,12 +288,12 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
                 
                 <div className="space-y-3 max-h-96 overflow-y-auto">
                   {auditLog.map((entry) => (
-                    <div key={entry.id} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                    <div key={entry.id} className="bg-muted rounded-lg p-3 border border-border">
                       <div className="flex items-start justify-between mb-1">
-                        <h4 className="text-sm font-medium text-gray-900">{entry.action}</h4>
-                        <time className="text-xs text-gray-500">{entry.timestamp}</time>
+                        <h4 className="text-sm font-medium text-foreground">{entry.action}</h4>
+                        <time className="text-xs text-muted-foreground">{entry.timestamp}</time>
                       </div>
-                      <p className="text-xs text-gray-600">{entry.details}</p>
+                      <p className="text-xs text-muted-foreground">{entry.details}</p>
                     </div>
                   ))}
                 </div>
