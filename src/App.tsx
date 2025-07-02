@@ -13,6 +13,11 @@ import Examples from "./pages/Examples";
 import BibleDirectory from "./pages/BibleDirectory";
 import Support from "./pages/Support";
 import StyleGuide from "./pages/StyleGuide";
+import Authentication from "./pages/docs/Authentication";
+import ApiReference from "./pages/docs/ApiReference";
+import Verses from "./pages/docs/Verses";
+import Bibles from "./pages/docs/Bibles";
+import SearchDocs from "./pages/docs/SearchDocs";
 import Platform from "./pages/Platform";
 import Apps from "./pages/platform/Apps";
 import Analytics from "./pages/platform/Analytics";
@@ -35,6 +40,11 @@ const App = () => <QueryClientProvider client={queryClient}>
                 <Route path="/get-started" element={<GetStarted />} />
                 <Route path="/docs/quick-start" element={<Docs />} />
                 <Route path="/docs/installation" element={<Installation />} />
+                <Route path="/docs/authentication" element={<Authentication />} />
+                <Route path="/docs/api-reference" element={<ApiReference />} />
+                <Route path="/docs/verses" element={<Verses />} />
+                <Route path="/docs/bibles" element={<Bibles />} />
+                <Route path="/docs/search" element={<SearchDocs />} />
                 <Route path="/examples" element={<Examples />} />
                 <Route path="/bible-directory" element={<BibleDirectory />} />
                 <Route path="/support" element={<Support />} />

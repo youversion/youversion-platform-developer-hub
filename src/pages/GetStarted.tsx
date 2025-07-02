@@ -37,7 +37,7 @@ const GetStarted = () => {
                 Learn how to authenticate and make your first API call to retrieve Bible content.
               </CardDescription>
               <Button asChild>
-                <Link to="/docs">View Documentation</Link>
+                <Link to="/docs/quick-start">View Documentation</Link>
               </Button>
             </CardContent>
           </Card>
