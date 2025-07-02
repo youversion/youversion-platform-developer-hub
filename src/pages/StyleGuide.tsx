@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,13 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Palette, Type, Layout, Zap } from 'lucide-react';
-
 const StyleGuide = () => {
-  return (
-    <div className="container py-12">
+  return <div className="container py-12">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Style Guide</h1>
+          <h1 className="text-3xl font-bold mb-2">(Internal Use) Style Guide</h1>
           <p className="text-muted-foreground">
             Design system components and guidelines for YouVersion Platform
           </p>
@@ -295,8 +292,6 @@ const StyleGuide = () => {
           </div>
         </section>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default StyleGuide;
