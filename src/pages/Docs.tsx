@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,13 +5,13 @@ import { BookOpen, Code, Zap, Shield } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import CodeBlock from '@/components/ui/code-block';
-
 const Docs = () => {
-  return (
-    <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+  return <SidebarProvider>
+      <div className="flex w-full" style={{
+      height: 'calc(100vh - 64px)'
+    }}>
         <DocsSidebar />
-        <div className="flex-1 canvas-secondary">
+        <div className="flex-1 canvas-primary">
           <div className="container py-12">
             <div className="max-w-6xl mx-auto">
               <div className="mb-12">
@@ -34,7 +33,7 @@ const Docs = () => {
                     <CardContent className="space-y-4">
                       <p>Get up and running with the YouVersion Platform API in minutes.</p>
                       <CodeBlock language="bash">
-{`curl -H "Authorization: Bearer YOUR_API_KEY" \\
+                      {`curl -H "Authorization: Bearer YOUR_API_KEY" \\
 https://api.youversion.com/v1/verses/john.3.16`}
                       </CodeBlock>
                     </CardContent>
@@ -111,8 +110,6 @@ https://api.youversion.com/v1/verses/john.3.16`}
           </div>
         </div>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
-
 export default Docs;
