@@ -105,10 +105,10 @@
 
 @layer components {
   .canvas-primary {
-    background-color: #fff;
+    @apply bg-background;
   }
 
   .canvas-secondary {
-    background-color: #F6F4F4;
+    @apply bg-muted;
   }
 }

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import Header from "@/components/layout/Header";
 import Index from "./pages/Index";
 import GetStarted from "./pages/GetStarted";
@@ -27,7 +28,8 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 const App = () => <QueryClientProvider client={queryClient}>
-    <AuthProvider>
+    <ThemeProvider defaultTheme="system" storageKey="youversion-theme">
+      <AuthProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -65,5 +67,6 @@ const App = () => <QueryClientProvider client={queryClient}>
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>;
 export default App;

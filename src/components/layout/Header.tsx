@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import SearchBar from './SearchBar';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Menu, X } from 'lucide-react';
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -54,6 +55,8 @@ const Header = () => {
           <div className="hidden md:block">
             <SearchBar />
           </div>
+          
+          <ThemeToggle />
           
           {!isAuthenticated && <Button asChild variant="filled-contrast">
               <Link to="/login">Get App Keys</Link>
