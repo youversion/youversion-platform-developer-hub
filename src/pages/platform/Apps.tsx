@@ -152,7 +152,7 @@ const Apps = () => {
           {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-youversion-50 to-youversion-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm dark:bg-gradient-to-br dark:from-slate-500 dark:to-slate-600">
+                  <div className="w-12 h-12 bg-gradient-to-br from-youversion-50 to-youversion-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm dark:bg-gradient-to-br dark:from-slate-500 dark:to-slate-600 dark:text-white">
                     <Image className="h-6 w-6 text-youversion-600" />
                   </div>
                   <div className="flex flex-col items-end gap-2">
