@@ -36,7 +36,7 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl ">
             <Card>
               <CardHeader className="text-center">
                 <BookOpen className="h-8 w-8 text-foreground mb-4 mx-auto" />
