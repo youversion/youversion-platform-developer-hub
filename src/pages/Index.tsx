@@ -10,7 +10,7 @@ const Index = () => {
       <section className="relative py-20 lg:py-32 dark:text-white bg-gradient-to-b from-white via-slate-400 to-slate-600 dark:from-slate-900 dark:via-slate-400 dark:to-slate-600">
         <div className="container">
           <div className="mx-auto text-center">
-            <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-black">
+            <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-black dark:text-white ">
               Build with YouVersion
             </h1>
             <p className="text-xl mb-8 text-black">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
