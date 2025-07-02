@@ -13,7 +13,7 @@ const Docs = () => {
         <DocsSidebar />
         <div className="flex-1 canvas-primary">
           <div className="container py-12">
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-4xl mx-auto">
               <div className="mb-12">
                 <h1 className="text-4xl font-bold mb-4">Quick Start Guide</h1>
                 <p className="text-xl text-muted-foreground">
