@@ -127,6 +127,171 @@ const Platform = () => {
                     </CardContent>
                   </Card>
                 </div>
+
+                {/* Changelog Section */}
+                <div className="mt-12">
+                  <div className="mb-8">
+                    <h2 className="text-3xl font-bold mb-2">Changelog</h2>
+                    <p className="text-muted-foreground">
+                      Stay up to date with the latest changes to YouVersion APIs and SDKs.
+                    </p>
+                  </div>
+
+                  {/* API Status */}
+                  <Card className="mb-8">
+                    <CardHeader>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <CardTitle className="text-xl">API Status: All Systems Operational</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid md:grid-cols-3 gap-6">
+                        <div>
+                          <h4 className="font-semibold mb-1">Bible Reader API</h4>
+                          <p className="text-sm text-green-600 dark:text-green-400">99.9% uptime</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold mb-1">Authentication API</h4>
+                          <p className="text-sm text-green-600 dark:text-green-400">100% uptime</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold mb-1">Search API</h4>
+                          <p className="text-sm text-green-600 dark:text-green-400">99.8% uptime</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Version History */}
+                  <div className="space-y-8">
+                    {/* v2.1.0 */}
+                    <Card>
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <CardTitle className="text-xl">v2.1.0</CardTitle>
+                            <span className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded">minor</span>
+                          </div>
+                          <span className="text-sm text-muted-foreground">6/14/2024</span>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-green-600 dark:text-green-400 text-xs">+</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded mr-2">feature</span>
+                            <span>Added support for parallel passage lookup</span>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-green-600 dark:text-green-400 text-xs">+</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded mr-2">feature</span>
+                            <span>New webhook events for reading plan progress</span>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-purple-600 dark:text-purple-400 text-xs">⚡</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded mr-2">improvement</span>
+                            <span>Improved API response times by 15%</span>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-blue-600 dark:text-blue-400 text-xs">🔧</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded mr-2">fix</span>
+                            <span>Fixed issue with special characters in search queries</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* v2.0.5 */}
+                    <Card>
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <CardTitle className="text-xl">v2.0.5</CardTitle>
+                            <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded">patch</span>
+                          </div>
+                          <span className="text-sm text-muted-foreground">5/31/2024</span>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-blue-600 dark:text-blue-400 text-xs">🔧</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded mr-2">fix</span>
+                            <span>Resolved authentication timeout issues</span>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-blue-600 dark:text-blue-400 text-xs">🔧</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded mr-2">fix</span>
+                            <span>Fixed pagination bug in Bible versions endpoint</span>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-purple-600 dark:text-purple-400 text-xs">⚡</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded mr-2">improvement</span>
+                            <span>Enhanced error messages for better debugging</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* v2.0.0 */}
+                    <Card>
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <CardTitle className="text-xl">v2.0.0</CardTitle>
+                            <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded">major</span>
+                          </div>
+                          <span className="text-sm text-muted-foreground">5/19/2024</span>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-red-600 dark:text-red-400 text-xs">⚠</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded mr-2">breaking</span>
+                            <span>Updated authentication flow to OAuth 2.1</span>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mt-0.5">
+                            <span className="text-green-600 dark:text-green-400 text-xs">+</span>
+                          </div>
+                          <div>
+                            <span className="inline-block px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded mr-2">feature</span>
+                            <span>Added support for 50+ new Bible versions</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
