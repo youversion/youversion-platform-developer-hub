@@ -141,7 +141,7 @@ const Index = () => {
               Join thousands of developers already using YouVersion Platform APIs.
             </p>
             <Button size="lg" variant="filled-secondary" asChild>
-              <Link to="/get-started">APP Key</Link>
+              <Link to="/get-started">Get Started</Link>
             </Button>
           </div>
         </div>
