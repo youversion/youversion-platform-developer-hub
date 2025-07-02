@@ -15,9 +15,9 @@ const Docs = () => {
           <div className="container py-12">
             <div className="max-w-6xl mx-auto">
               <div className="mb-12">
-                <h1 className="text-4xl font-bold mb-4">API Documentation</h1>
+                <h1 className="text-4xl font-bold mb-4">Quick Start Guide</h1>
                 <p className="text-xl text-muted-foreground">
-                  Complete guide to integrating with the YouVersion Platform API
+                  Get up and running with the YouVersion Platform API in minutes
                 </p>
               </div>
 

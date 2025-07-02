@@ -7,7 +7,7 @@ import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGrou
 const docsNavItems = [
   {
     name: 'Quick Start',
-    path: '/docs',
+    path: '/docs/quick-start',
     icon: Zap,
     exact: true
   },

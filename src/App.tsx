@@ -33,7 +33,7 @@ const App = () => <QueryClientProvider client={queryClient}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/get-started" element={<GetStarted />} />
-                <Route path="/docs" element={<Docs />} />
+                <Route path="/docs/quick-start" element={<Docs />} />
                 <Route path="/docs/installation" element={<Installation />} />
                 <Route path="/examples" element={<Examples />} />
                 <Route path="/bible-directory" element={<BibleDirectory />} />
