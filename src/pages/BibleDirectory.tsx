@@ -3,61 +3,51 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { BookOpen, Search } from 'lucide-react';
-
 const BibleDirectory = () => {
-  const bibles = [
-    {
-      name: "New International Version",
-      abbreviation: "NIV",
-      language: "English",
-      publisher: "Biblica",
-      year: "2011",
-      license: "Commercial",
-    },
-    {
-      name: "English Standard Version",
-      abbreviation: "ESV",
-      language: "English", 
-      publisher: "Crossway",
-      year: "2001",
-      license: "Commercial",
-    },
-    {
-      name: "New Living Translation",
-      abbreviation: "NLT",
-      language: "English",
-      publisher: "Tyndale House",
-      year: "2015",
-      license: "Commercial",
-    },
-    {
-      name: "King James Version",
-      abbreviation: "KJV",
-      language: "English",
-      publisher: "Public Domain",
-      year: "1769",
-      license: "Public Domain",
-    },
-    {
-      name: "Nueva Versión Internacional",
-      abbreviation: "NVI",
-      language: "Spanish",
-      publisher: "Biblica",
-      year: "1999",
-      license: "Commercial",
-    },
-    {
-      name: "Nouvelle Edition de Genève",
-      abbreviation: "NEG",
-      language: "French",
-      publisher: "Société Biblique de Genève",
-      year: "1979",
-      license: "Commercial",
-    },
-  ];
-
-  return (
-    <div className="container py-12 canvas-secondary">
+  const bibles = [{
+    name: "New International Version",
+    abbreviation: "NIV",
+    language: "English",
+    publisher: "Biblica",
+    year: "2011",
+    license: "Commercial"
+  }, {
+    name: "English Standard Version",
+    abbreviation: "ESV",
+    language: "English",
+    publisher: "Crossway",
+    year: "2001",
+    license: "Commercial"
+  }, {
+    name: "New Living Translation",
+    abbreviation: "NLT",
+    language: "English",
+    publisher: "Tyndale House",
+    year: "2015",
+    license: "Commercial"
+  }, {
+    name: "King James Version",
+    abbreviation: "KJV",
+    language: "English",
+    publisher: "Public Domain",
+    year: "1769",
+    license: "Public Domain"
+  }, {
+    name: "Nueva Versión Internacional",
+    abbreviation: "NVI",
+    language: "Spanish",
+    publisher: "Biblica",
+    year: "1999",
+    license: "Commercial"
+  }, {
+    name: "Nouvelle Edition de Genève",
+    abbreviation: "NEG",
+    language: "French",
+    publisher: "Société Biblique de Genève",
+    year: "1979",
+    license: "Commercial"
+  }];
+  return <div className="container py-12 canvas-primary">
       <div className="max-w-6xl mx-auto">
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-4">Bible Directory</h1>
@@ -69,22 +59,16 @@ const BibleDirectory = () => {
         <div className="mb-8">
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search Bibles by name, language, or publisher..."
-              className="pl-10"
-            />
+            <Input placeholder="Search Bibles by name, language, or publisher..." className="pl-10" />
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {bibles.map((bible, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
+          {bibles.map((bible, index) => <Card key={index} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <BookOpen className="h-8 w-8 text-[#FF3D4D]" />
-                  <Badge 
-                    variant={bible.license === 'Public Domain' ? 'default' : 'secondary'}
-                  >
+                  <Badge variant={bible.license === 'Public Domain' ? 'default' : 'secondary'}>
                     {bible.license}
                   </Badge>
                 </div>
@@ -109,8 +93,7 @@ const BibleDirectory = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
 
         <div className="mt-12 bg-muted/50 rounded-lg p-8 text-center">
@@ -120,8 +103,6 @@ const BibleDirectory = () => {
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default BibleDirectory;
