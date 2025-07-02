@@ -211,11 +211,11 @@ const Apps = () => {
 
                 {/* Action Buttons */}
                 <div className="flex gap-2 mt-6 pt-4 border-t">
+                  <Button size="sm" variant="filled-secondary" className="flex-1">
+                    Regenerate Key
+                  </Button>
                   <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1">
                     View Details
-                  </Button>
-                  <Button size="sm" variant="stroked" className="flex-1">
-                    Regenerate Key
                   </Button>
                 </div>
               </CardContent>
