@@ -22,7 +22,7 @@ const GetStarted = () => {
             <CardContent>
               <CardDescription className="mb-4">Sign up for a developer account and create an App key to start making requests to the YouVersion APIs.</CardDescription>
               <Button asChild variant="default">
-                <Link to="/create-account">Sign in to YouVersion</Link>
+                <Link to="/signin">Sign in to YouVersion</Link>
               </Button>
             </CardContent>
           </Card>
