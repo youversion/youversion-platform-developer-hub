@@ -68,7 +68,7 @@ const DocsSidebar = () => {
                         to={item.path} 
                         className={({ isActive }) => 
                           isActive 
-                            ? 'text-primary bg-muted font-medium' 
+                            ? 'text-primary bg-neutral-300 dark:bg-slate-800 font-medium' 
                             : 'hover:bg-muted/50'
                         }
                         end
