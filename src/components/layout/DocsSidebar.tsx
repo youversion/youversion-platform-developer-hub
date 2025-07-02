@@ -60,12 +60,12 @@ const DocsSidebar = () => {
               {docsNavItems.map(item => (
                 <SidebarMenuItem key={item.path}>
                   <SidebarMenuButton asChild>
-                    <NavLink 
+                     <NavLink 
                       to={item.path} 
                       className={({ isActive }) => 
                         isActive 
-                          ? 'text-youversion-700 bg-muted font-medium' 
-                          : 'hover:bg-muted/50 '
+                          ? 'text-primary bg-muted font-medium' 
+                          : 'hover:bg-muted/50'
                       }
                       end
                     >
