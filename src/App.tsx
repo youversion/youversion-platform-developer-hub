@@ -51,7 +51,7 @@ const App = () => <QueryClientProvider client={queryClient}>
                 <Route path="/bible-directory" element={<BibleDirectory />} />
                 <Route path="/support" element={<Support />} />
                 <Route path="/style-guide" element={<StyleGuide />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/signin" element={<Login />} />
                 <Route path="/create-account" element={<Login />} />
                 <Route path="/yv-connect" element={<Login />} />
                 <Route path="/platform" element={<Platform />}>

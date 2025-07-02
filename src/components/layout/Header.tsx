@@ -64,7 +64,7 @@ const Header = () => {
           <ThemeToggle />
           
           {!isAuthenticated && <Button asChild variant="filled-contrast">
-              <Link to="/login">Get App Keys</Link>
+              <Link to="/signin">Get App Keys</Link>
             </Button>}
 
           <Button variant="borderless" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
