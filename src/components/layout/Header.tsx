@@ -17,7 +17,7 @@ const Header = () => {
     path: '/get-started'
   }, {
     name: 'Docs',
-    path: '/docs'
+    path: '/docs/quick-start'
   }, {
     name: 'Examples',
     path: '/examples'
