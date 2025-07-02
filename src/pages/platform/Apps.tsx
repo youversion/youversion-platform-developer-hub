@@ -179,7 +179,7 @@ const Apps = () => {
               <CardContent className="flex-1 flex flex-col">
                 <div className="space-y-4 flex-1">
                   {/* API Key Section */}
-                  <div className="bg-muted/50 rounded-xl p-4 border">
+                  <div className="bg-muted/50 rounded-xl p-4 border dark:bg-slate-700">
                     <div className="flex items-center gap-2 mb-3">
                       <Key className="h-4 w-4 text-muted-foreground" />
                       <span className="text-sm font-medium text-foreground">App Key</span>
