@@ -10,9 +10,9 @@ import CodeBlock from '@/components/ui/code-block';
 const Installation = () => {
   return (
     <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="flex w-full canvas-primary" style={{ height: 'calc(100vh - 64px)' }}>
         <DocsSidebar />
-        <div className="flex-1 canvas-secondary">
+        <div className="flex-1">
           <div className="container py-12">
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="mb-8">
