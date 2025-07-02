@@ -149,28 +149,28 @@ const Apps = () => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200 border-gray-200/60 bg-white/80 backdrop-blur-sm dark:bg-slate-800 dark:border-none ">
+          {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-12 h-12 bg-gradient-to-br from-youversion-50 to-youversion-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
                     <Image className="h-6 w-6 text-youversion-600" />
                   </div>
                   <div className="flex flex-col items-end gap-2">
-                    <Badge variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} className={`${app.commercialStatus === 'Commercial' ? "bg-slate-800 text-white" : "bg-slate-100 text-slate-700"} text-xs font-medium px-2.5 py-1`}>
+                    <Badge variant={app.commercialStatus === 'Commercial' ? 'default' : 'secondary'} className="text-xs font-medium px-2.5 py-1">
                       {app.commercialStatus}
                     </Badge>
                     <div className="flex items-center gap-2 text-sm">
-                      <Activity className="h-4 w-4 text-gray-500" />
-                      <span className="font-semibold text-gray-700">{app.requests}</span>
-                      <span className="text-gray-500">requests</span>
+                      <Activity className="h-4 w-4 text-muted-foreground" />
+                      <span className="font-semibold text-foreground">{app.requests}</span>
+                      <span className="text-muted-foreground">requests</span>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <CardTitle className="text-lg mb-2 text-gray-900 group-hover:text-youversion-600 transition-colors">
+                  <CardTitle className="text-lg mb-2 text-card-foreground group-hover:text-youversion-600 transition-colors">
                     {app.name}
                   </CardTitle>
-                  {app.description && <CardDescription className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                  {app.description && <CardDescription className="text-sm line-clamp-2 leading-relaxed">
                       {app.description}
                     </CardDescription>}
                 </div>
@@ -179,13 +179,13 @@ const Apps = () => {
               <CardContent className="flex-1 flex flex-col">
                 <div className="space-y-4 flex-1">
                   {/* API Key Section */}
-                  <div className="bg-gray-50/80 rounded-xl p-4 border border-gray-100">
+                  <div className="bg-muted/50 rounded-xl p-4 border">
                     <div className="flex items-center gap-2 mb-3">
-                      <Key className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm font-medium text-gray-700">App Key</span>
+                      <Key className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-medium text-foreground">App Key</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Input value={app.apiKey} readOnly disabled className="bg-white font-mono text-xs flex-1 border-gray-200 h-9" />
+                      <Input value={app.apiKey} readOnly disabled className="bg-background font-mono text-xs flex-1 h-9" />
                       <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="h-9 w-9 p-0 flex-shrink-0">
                         <Copy className="h-3 w-3" />
                       </Button>
@@ -194,15 +194,15 @@ const Apps = () => {
 
                   {/* Links */}
                   {(app.website || app.appleAppStore || app.googlePlayStore) && <div className="flex flex-wrap gap-3 pt-2">
-                      {app.website && <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-black hover:underline transition-all font-medium">
+                      {app.website && <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-foreground hover:underline transition-all font-medium">
                           <Globe className="h-3.5 w-3.5 text-youversion-600" />
                           <span>Website</span>
                         </a>}
-                      {app.appleAppStore && <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-black hover:underline transition-all font-medium">
+                      {app.appleAppStore && <a href={app.appleAppStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-foreground hover:underline transition-all font-medium">
                           <Apple className="h-3.5 w-3.5 text-youversion-600" />
                           <span>App Store</span>
                         </a>}
-                      {app.googlePlayStore && <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-black hover:underline transition-all font-medium">
+                      {app.googlePlayStore && <a href={app.googlePlayStore} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-foreground hover:underline transition-all font-medium">
                           <PlayCircle className="h-3.5 w-3.5 text-youversion-600" />
                           <span>Play Store</span>
                         </a>}
@@ -210,11 +210,11 @@ const Apps = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-2 mt-6 pt-4 border-t border-gray-100">
+                <div className="flex gap-2 mt-6 pt-4 border-t">
                   <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1">
                     View Details
                   </Button>
-                  <Button size="sm" variant="stroked" className="flex-1 hover:bg-gray-50 transition-all">
+                  <Button size="sm" variant="stroked" className="flex-1">
                     Regenerate Key
                   </Button>
                 </div>
