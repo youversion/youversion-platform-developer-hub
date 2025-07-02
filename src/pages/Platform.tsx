@@ -43,7 +43,7 @@ const Platform = () => {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Button asChild className="w-full">
+                      <Button asChild variant="filled-secondary" className="w-full">
                         <Link to="/platform/apps">Manage Apps</Link>
                       </Button>
                     </CardContent>
@@ -58,7 +58,7 @@ const Platform = () => {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Button asChild className="w-full">
+                      <Button asChild variant="filled-secondary" className="w-full">
                         <Link to="/platform/analytics">View Analytics</Link>
                       </Button>
                     </CardContent>
@@ -73,7 +73,7 @@ const Platform = () => {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Button asChild className="w-full">
+                      <Button asChild variant="filled-secondary" className="w-full">
                         <Link to="/platform/settings">Settings</Link>
                       </Button>
                     </CardContent>
@@ -88,7 +88,7 @@ const Platform = () => {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Button asChild className="w-full">
+                      <Button asChild variant="filled-secondary" className="w-full">
                         <Link to="/platform/notifications">View Notifications</Link>
                       </Button>
                     </CardContent>
