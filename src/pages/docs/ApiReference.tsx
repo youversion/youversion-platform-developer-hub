@@ -1,12 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Code, Book, Search, Database } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Code, Book, Search, Database, ChevronDown, Play } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import CodeBlock from '@/components/ui/code-block';
 
 const ApiReference = () => {
+  const [selectedEndpoint, setSelectedEndpoint] = useState('Get Verse');
+  const [selectedReference, setSelectedReference] = useState('JHN.3.16');
+  const [selectedVersion, setSelectedVersion] = useState('ESV');
+  const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(true);
+
+  const buildRequestUrl = () => {
+    const baseUrl = 'https://api.youversion.com/v1';
+    if (selectedEndpoint === 'Get Verse') {
+      return `${baseUrl}/verses/${selectedReference}?version=${selectedVersion}`;
+    }
+    return `${baseUrl}/verses/${selectedReference}?version=${selectedVersion}`;
+  };
+
+  const handleTryItOut = async () => {
+    const url = buildRequestUrl();
+    console.log('Making request to:', url);
+    // In a real implementation, you would make the actual API call here
+  };
+
+  const getCodeExample = (language: string) => {
+    const url = buildRequestUrl();
+    
+    switch (language) {
+      case 'javascript':
+        return `const response = await fetch('${url}', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Accept': 'application/json'
+  }
+});
+
+const data = await response.json();
+console.log(data);`;
+
+      case 'python':
+        return `import requests
+
+url = '${url}'
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Accept': 'application/json'
+}
+
+response = requests.get(url, headers=headers)
+data = response.json()
+print(data)`;
+
+      case 'swift':
+        return `import Foundation
+
+class YouVersionAPI {
+    private let apiKey = "YOUR_API_KEY"
+    private let baseURL = "https://api.youversion.com/v1"
+    
+    func getVerses() async {
+        guard let url = URL(string: "${url}") else { return }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \\(apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let json = try JSONSerialization.jsonObject(with: data)
+            print(json)
+        } catch {
+            print("Error: \\(error)")
+        }
+    }
+}`;
+
+      case 'curl':
+        return `curl -X GET '${url}' \\
+  -H 'Authorization: Bearer YOUR_API_KEY' \\
+  -H 'Accept: application/json'`;
+
+      default:
+        return '';
+    }
+  };
+
   return (
     <SidebarProvider>
       <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
@@ -20,6 +105,113 @@ const ApiReference = () => {
                   Complete reference for all YouVersion Platform API endpoints
                 </p>
               </div>
+
+              {/* API Playground */}
+              <Card>
+                <CardHeader>
+                  <CardTitle 
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => setIsPlaygroundOpen(!isPlaygroundOpen)}
+                  >
+                    <ChevronDown className={`h-4 w-4 transition-transform ${!isPlaygroundOpen ? '-rotate-90' : ''}`} />
+                    API Playground
+                  </CardTitle>
+                </CardHeader>
+                {isPlaygroundOpen && (
+                  <CardContent className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Endpoint</label>
+                        <Select value={selectedEndpoint} onValueChange={setSelectedEndpoint}>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Get Verse">Get Verse</SelectItem>
+                            <SelectItem value="Get Bibles">Get Bibles</SelectItem>
+                            <SelectItem value="Search">Search</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Reference</label>
+                        <Select value={selectedReference} onValueChange={setSelectedReference}>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="JHN.3.16">JHN.3.16</SelectItem>
+                            <SelectItem value="GEN.1.1">GEN.1.1</SelectItem>
+                            <SelectItem value="PSA.23.1">PSA.23.1</SelectItem>
+                            <SelectItem value="ROM.8.28">ROM.8.28</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Version</label>
+                        <Select value={selectedVersion} onValueChange={setSelectedVersion}>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="ESV">ESV</SelectItem>
+                            <SelectItem value="NIV">NIV</SelectItem>
+                            <SelectItem value="NLT">NLT</SelectItem>
+                            <SelectItem value="NASB">NASB</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Request URL</label>
+                      <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                        <Badge variant="secondary">GET</Badge>
+                        <code className="text-sm flex-1">{buildRequestUrl()}</code>
+                      </div>
+                    </div>
+
+                    <Button onClick={handleTryItOut} className="w-full" size="lg">
+                      <Play className="h-4 w-4 mr-2" />
+                      Try it out
+                    </Button>
+
+                    <div>
+                      <h3 className="text-xl font-semibold mb-4">Code Examples</h3>
+                      <Tabs defaultValue="javascript" className="w-full">
+                        <TabsList className="grid w-full grid-cols-4">
+                          <TabsTrigger value="javascript">JavaScript</TabsTrigger>
+                          <TabsTrigger value="python">Python</TabsTrigger>
+                          <TabsTrigger value="swift">Swift</TabsTrigger>
+                          <TabsTrigger value="curl">cURL</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="javascript">
+                          <CodeBlock language="javascript">
+                            {getCodeExample('javascript')}
+                          </CodeBlock>
+                        </TabsContent>
+                        <TabsContent value="python">
+                          <CodeBlock language="python">
+                            {getCodeExample('python')}
+                          </CodeBlock>
+                        </TabsContent>
+                        <TabsContent value="swift">
+                          <CodeBlock language="swift">
+                            {getCodeExample('swift')}
+                          </CodeBlock>
+                        </TabsContent>
+                        <TabsContent value="curl">
+                          <CodeBlock language="bash">
+                            {getCodeExample('curl')}
+                          </CodeBlock>
+                        </TabsContent>
+                      </Tabs>
+                    </div>
+                  </CardContent>
+                )}
+              </Card>
 
               <Card>
                 <CardHeader>
