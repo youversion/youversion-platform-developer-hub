@@ -84,9 +84,13 @@ const PlatformSidebar = () => {
             <SidebarMenu>
               {platformNavItems.map(item => <SidebarMenuItem key={item.path}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.path} className={({
-                  isActive
-                }) => isActive ? 'text-[#FF3D4D] bg-muted' : 'hover:bg-muted/50'}>
+                    <NavLink 
+                      to={item.path} 
+                      className={({ isActive }) => 
+                        isActive ? 'text-[#FF3D4D] bg-muted' : 'hover:bg-muted/50'
+                      }
+                      end
+                    >
                       <item.icon className="h-4 w-4" />
                       <span>{item.name}</span>
                     </NavLink>
