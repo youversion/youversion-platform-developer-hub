@@ -173,7 +173,7 @@ class YouVersionAPI {
                       </div>
                     </div>
 
-                    <Button onClick={handleTryItOut} className="w-full" size="lg">
+                    <Button onClick={handleTryItOut} className="w-full" size="lg" variant="filled-secondary">
                       <Play className="h-4 w-4 mr-2" />
                       Try it out
                     </Button>
