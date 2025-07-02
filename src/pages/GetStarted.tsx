@@ -78,7 +78,7 @@ const GetStarted = () => {
           <p className="text-muted-foreground mb-6">
             Our support team is here to help you get started with the YouVersion Platform.
           </p>
-          <Button asChild variant="default">
+          <Button asChild variant="filled-secondary">
             <Link to="/support">Contact Support</Link>
           </Button>
         </div>
