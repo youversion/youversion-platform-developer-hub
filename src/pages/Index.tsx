@@ -133,7 +133,7 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20">
         <div className="container">
-          <div className="rounded-2xl p-8 lg:p-16 text-center dark:text-white bg-slate-400">
+          <div className="rounded-2xl p-8 lg:p-16 text-center dark:text-white bg-slate-300">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               Ready to Start Building?
             </h2>
