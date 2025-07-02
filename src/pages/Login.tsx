@@ -13,12 +13,12 @@ const Login = () => {
 
   useEffect(() => {
     // Set active tab based on current route
-    if (location.pathname === '/create-account') {
+    if (location.pathname === '/login') {
+      setActiveTab('signin');
+    } else if (location.pathname === '/create-account') {
       setActiveTab('create');
     } else if (location.pathname === '/yv-connect') {
       setActiveTab('connect');
-    } else {
-      setActiveTab('signin');
     }
   }, [location.pathname]);
 
