@@ -7,7 +7,7 @@ const Index = () => {
   const navigate = useNavigate();
   return <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 bg-gradient-to-b from-white via-slate-400 to-slate-600">
+      <section className="relative py-20 lg:py-32 bg-gradient-to-b from-white via-slate-400 to-slate-600 dark:from-slate-900 dark:via-slate-400 dark:to-slate-600">
         <div className="container">
           <div className="mx-auto text-center">
             <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-black">
@@ -28,8 +28,7 @@ const Index = () => {
 
       {/* Features Section */}
       <section className="py-20 bg-muted/50">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
+        <div className="container items-center ">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">YouVersion Platform Features</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -127,7 +126,6 @@ const Index = () => {
                 </p>
               </CardContent>
             </Card>
-          </div>
           </div>
         </div>
       </section>
