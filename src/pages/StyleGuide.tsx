@@ -64,6 +64,92 @@ const StyleGuide = () => {
               </CardContent>
             </Card>
           </div>
+
+          {/* Slate Color Swatches */}
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold mb-4">Slate Color Palette</h3>
+            <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-3">
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-50 rounded mb-2 border"></div>
+                  <p className="text-xs font-medium">slate-50</p>
+                  <p className="text-xs text-muted-foreground">#f8fafc</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-100 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-100</p>
+                  <p className="text-xs text-muted-foreground">#f1f5f9</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-200 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-200</p>
+                  <p className="text-xs text-muted-foreground">#e2e8f0</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-300 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-300</p>
+                  <p className="text-xs text-muted-foreground">#cbd5e1</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-400 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-400</p>
+                  <p className="text-xs text-muted-foreground">#94a3b8</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-500 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-500</p>
+                  <p className="text-xs text-muted-foreground">#64748b</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-600 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-600</p>
+                  <p className="text-xs text-muted-foreground">#475569</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-700 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-700</p>
+                  <p className="text-xs text-muted-foreground">#334155</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-800 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-800</p>
+                  <p className="text-xs text-muted-foreground">#1e293b</p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-3">
+                  <div className="w-full h-12 bg-slate-900 rounded mb-2"></div>
+                  <p className="text-xs font-medium">slate-900</p>
+                  <p className="text-xs text-muted-foreground">#0f172a</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </section>
 
         {/* Typography Section */}
