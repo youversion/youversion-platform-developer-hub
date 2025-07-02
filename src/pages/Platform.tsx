@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,22 +7,23 @@ import { Link } from 'react-router-dom';
 import { Smartphone, BarChart3, Settings, Bell } from 'lucide-react';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import PlatformSidebar from '@/components/layout/PlatformSidebar';
-
 const Platform = () => {
-  const { isAuthenticated } = useAuth();
+  const {
+    isAuthenticated
+  } = useAuth();
   const location = useLocation();
-
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
   // If we're on the base /platform route, show the dashboard
   if (location.pathname === '/platform') {
-    return (
-      <SidebarProvider>
-        <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+    return <SidebarProvider>
+        <div className="flex w-full" style={{
+        height: 'calc(100vh - 64px)'
+      }}>
           <PlatformSidebar />
-          <div className="flex-1 canvas-secondary">
+          <div className="flex-1 canvas-primary">
             <div className="container py-12">
               <div className="max-w-6xl mx-auto">
                 <div className="mb-8">
@@ -131,21 +131,17 @@ const Platform = () => {
             </div>
           </div>
         </div>
-      </SidebarProvider>
-    );
+      </SidebarProvider>;
   }
 
   // For nested routes, render with sidebar
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="flex w-full canvas-secondary min-h-screen">
         <PlatformSidebar />
         <div className="flex-1 canvas-secondary">
           <Outlet />
         </div>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
-
 export default Platform;
