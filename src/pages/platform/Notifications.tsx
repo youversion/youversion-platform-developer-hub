@@ -44,11 +44,11 @@ const Notifications = () => {
   const getIcon = (type: string) => {
     switch (type) {
       case 'alert':
-        return <AlertTriangle className="h-5 w-5 text-orange-500" />;
+        return <AlertTriangle className="h-5 w-5 text-orange-500 dark:text-orange-400" />;
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400" />;
       default:
-        return <Info className="h-5 w-5 text-blue-500" />;
+        return <Info className="h-5 w-5 text-blue-500 dark:text-blue-400" />;
     }
   };
 
@@ -72,7 +72,7 @@ const Notifications = () => {
           {notifications.map((notification) => (
             <Card 
               key={notification.id}
-              className={`${!notification.read ? 'border-[#FF3D4D] bg-red-50/50' : ''}`}
+              className={`${!notification.read ? 'border-destructive bg-destructive/5 dark:bg-destructive/10' : ''}`}
             >
               <CardHeader>
                 <div className="flex items-start justify-between">
@@ -85,7 +85,7 @@ const Notifications = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     {!notification.read && (
-                      <Badge variant="destructive" className="bg-[#FF3D4D]">New</Badge>
+                      <Badge variant="destructive">New</Badge>
                     )}
                     <span className="text-xs text-muted-foreground">{notification.time}</span>
                   </div>
