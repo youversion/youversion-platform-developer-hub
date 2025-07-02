@@ -63,13 +63,11 @@ const DocsSidebar = () => {
                      <NavLink 
                       to={item.path} 
                       className={({ isActive }) => 
-                        `flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors ${
-                          isActive 
-                            ? 'bg-primary text-primary-foreground font-medium' 
-                            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                        }`
+                        isActive 
+                          ? 'text-primary bg-muted font-medium' 
+                          : 'hover:bg-muted/50'
                       }
-                      end={item.path === '/docs'}
+                      end
                     >
                       <item.icon className="h-4 w-4" />
                       <span>{item.name}</span>

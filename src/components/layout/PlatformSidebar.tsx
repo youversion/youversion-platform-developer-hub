@@ -87,13 +87,9 @@ const PlatformSidebar = () => {
                     <NavLink 
                       to={item.path} 
                       className={({ isActive }) => 
-                        `flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors ${
-                          isActive 
-                            ? 'bg-primary text-primary-foreground font-medium' 
-                            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                        }`
+                        isActive ? 'text-[#FF3D4D] bg-muted' : 'hover:bg-muted/50'
                       }
-                      end={item.path === '/platform'}
+                      end
                     >
                       <item.icon className="h-4 w-4" />
                       <span>{item.name}</span>
