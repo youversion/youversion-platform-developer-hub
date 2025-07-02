@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Smartphone, BarChart3, Settings, Bell, ChevronDown, User, Home } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter } from '@/components/ui/sidebar';
@@ -45,7 +45,6 @@ const PlatformSidebar = () => {
     user,
     logout
   } = useAuth();
-  const location = useLocation();
   const [selectedOrg, setSelectedOrg] = React.useState(mockOrganizations[0]);
   const getFirstName = () => {
     if (!user?.name) return 'User';
@@ -83,25 +82,16 @@ const PlatformSidebar = () => {
           <SidebarGroupLabel>Platform</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {platformNavItems.map(item => {
-                const isActive = item.path === '/platform' ? location.pathname === '/platform' : location.pathname === item.path;
-                return (
-                  <SidebarMenuItem key={item.path}>
-                    <SidebarMenuButton asChild isActive={isActive}>
-                      <NavLink 
-                        to={item.path} 
-                        className={({ isActive }) => 
-                          isActive ? 'text-primary bg-neutral-300 dark:bg-slate-800 font-medium' : 'bg-transparent hover:bg-muted/50'
-                        }
-                        end={item.path === '/platform'}
-                      >
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.name}</span>
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+              {platformNavItems.map(item => <SidebarMenuItem key={item.path}>
+                  <SidebarMenuButton asChild>
+                    <NavLink to={item.path} className={({
+                  isActive
+                }) => isActive ? 'text-[#FF3D4D] bg-muted' : 'hover:bg-muted/50'}>
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.name}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>)}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { BookOpen, Code, Zap, Shield, Search, FileText, Download } from 'lucide-react';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader } from '@/components/ui/sidebar';
 
@@ -43,8 +43,6 @@ const docsNavItems = [
 ];
 
 const DocsSidebar = () => {
-  const location = useLocation();
-  
   return (
     <Sidebar 
       style={{
@@ -59,27 +57,24 @@ const DocsSidebar = () => {
           <SidebarGroupLabel>Documentation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {docsNavItems.map(item => {
-                const isActive = location.pathname === item.path;
-                return (
-                  <SidebarMenuItem key={item.path}>
-                    <SidebarMenuButton asChild isActive={isActive}>
-                       <NavLink 
-                        to={item.path} 
-                        className={({ isActive }) => 
-                          isActive 
-                            ? 'text-primary bg-neutral-300 dark:bg-slate-800 font-medium' 
-                            : 'bg-transparent hover:bg-muted/50'
-                        }
-                        end
-                      >
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.name}</span>
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+              {docsNavItems.map(item => (
+                <SidebarMenuItem key={item.path}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.path} 
+                      className={({ isActive }) => 
+                        isActive 
+                          ? 'text-youversion-600 bg-muted font-medium' 
+                          : 'hover:bg-muted/50'
+                      }
+                      end
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.name}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
