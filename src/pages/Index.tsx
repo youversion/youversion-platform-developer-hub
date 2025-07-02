@@ -18,7 +18,7 @@ const Index = () => {
               <Button size="xl" variant="filled-contrast" onClick={() => navigate('/get-started')} className="text-sm font-bold py-[30px] px-[40px]">
                 Join the YouVersion Platform
               </Button>
-              <Button size="xl" variant="stroked" onClick={() => navigate('/docs/quick-start')} className="text-sm font-bold px-[40px] py-[30px]">
+              <Button size="xl" variant="filled-secondary" onClick={() => navigate('/docs/quick-start')} className="text-sm font-bold px-[40px] py-[30px]">
                 View Documentation
               </Button>
             </div>
