@@ -63,8 +63,11 @@ const DocsSidebar = () => {
                     <NavLink 
                       to={item.path} 
                       className={({ isActive }) => 
-                        isActive ? 'text-[#FF3D4D] bg-muted' : 'hover:bg-muted/50'
+                        isActive 
+                          ? 'text-youversion-600 bg-muted font-medium' 
+                          : 'hover:bg-muted/50'
                       }
+                      end
                     >
                       <item.icon className="h-4 w-4" />
                       <span>{item.name}</span>
