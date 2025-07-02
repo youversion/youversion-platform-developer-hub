@@ -21,90 +21,60 @@ const Docs = () => {
                 </p>
               </div>
 
-              <div className="grid lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-8">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Zap className="h-5 w-5 text-[#FF3D4D]" />
-                        Quick Start
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <p>Get up and running with the YouVersion Platform API in minutes.</p>
-                      <CodeBlock language="bash">
-                      {`curl -H "Authorization: Bearer YOUR_API_KEY" \\
+              <div className="space-y-8">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Zap className="h-5 w-5 text-[#FF3D4D]" />
+                      Quick Start
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p>Get up and running with the YouVersion Platform API in minutes.</p>
+                    <CodeBlock language="bash">
+                    {`curl -H "Authorization: Bearer YOUR_API_KEY" \\
 https://api.youversion.com/v1/verses/john.3.16`}
-                      </CodeBlock>
-                    </CardContent>
-                  </Card>
+                    </CodeBlock>
+                  </CardContent>
+                </Card>
 
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Shield className="h-5 w-5 text-[#FF3D4D]" />
-                        Authentication
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p>All API requests require authentication using your API key in the Authorization header.</p>
-                    </CardContent>
-                  </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Shield className="h-5 w-5 text-[#FF3D4D]" />
+                      Authentication
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>All API requests require authentication using your API key in the Authorization header.</p>
+                  </CardContent>
+                </Card>
 
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <BookOpen className="h-5 w-5 text-[#FF3D4D]" />
-                        Endpoints
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div>
-                        <Badge variant="secondary" className="mb-2">GET</Badge>
-                        <p className="font-mono text-sm">/v1/verses/{"{reference}"}</p>
-                        <p className="text-sm text-muted-foreground">Get a specific Bible verse</p>
-                      </div>
-                      <div>
-                        <Badge variant="secondary" className="mb-2">GET</Badge>
-                        <p className="font-mono text-sm">/v1/bibles</p>
-                        <p className="text-sm text-muted-foreground">List available Bible translations</p>
-                      </div>
-                      <div>
-                        <Badge variant="secondary" className="mb-2">GET</Badge>
-                        <p className="font-mono text-sm">/v1/plans</p>
-                        <p className="text-sm text-muted-foreground">Get reading plans</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>API Reference</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">Verses</a>
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">Bibles</a>
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">Reading Plans</a>
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">Search</a>
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">Rate Limits</a>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>SDKs</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">JavaScript</a>
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">Python</a>
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">PHP</a>
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">Ruby</a>
-                      <a href="#" className="block text-sm hover:text-[#FF3D4D]">Swift</a>
-                    </CardContent>
-                  </Card>
-                </div>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <BookOpen className="h-5 w-5 text-[#FF3D4D]" />
+                      Endpoints
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Badge variant="secondary" className="mb-2">GET</Badge>
+                      <p className="font-mono text-sm">/v1/verses/{"{reference}"}</p>
+                      <p className="text-sm text-muted-foreground">Get a specific Bible verse</p>
+                    </div>
+                    <div>
+                      <Badge variant="secondary" className="mb-2">GET</Badge>
+                      <p className="font-mono text-sm">/v1/bibles</p>
+                      <p className="text-sm text-muted-foreground">List available Bible translations</p>
+                    </div>
+                    <div>
+                      <Badge variant="secondary" className="mb-2">GET</Badge>
+                      <p className="font-mono text-sm">/v1/plans</p>
+                      <p className="text-sm text-muted-foreground">Get reading plans</p>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
