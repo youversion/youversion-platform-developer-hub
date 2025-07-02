@@ -8,7 +8,8 @@ const docsNavItems = [
   {
     name: 'Quick Start',
     path: '/docs',
-    icon: Zap
+    icon: Zap,
+    exact: true
   },
   {
     name: 'Installation',
@@ -67,7 +68,7 @@ const DocsSidebar = () => {
                           ? 'text-youversion-600 bg-muted font-medium' 
                           : 'hover:bg-muted/50'
                       }
-                      end
+                      end={item.exact || false}
                     >
                       <item.icon className="h-4 w-4" />
                       <span>{item.name}</span>

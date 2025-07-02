@@ -7,7 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Header from "@/components/layout/Header";
 import Index from "./pages/Index";
 import GetStarted from "./pages/GetStarted";
-import Docs from "./pages/Docs";
+import Docs from "./pages/docs/Docs";
 import Installation from "./pages/docs/Installation";
 import Examples from "./pages/Examples";
 import BibleDirectory from "./pages/BibleDirectory";
