@@ -27,7 +27,7 @@ interface App {
 
 const APPS_URL = 'https://admin-446696173378.us-central1.run.app/admin/apps/list';
 const APP_KEYS_URL = 'https://admin-446696173378.us-central1.run.app/admin/apps_keys/list';
-const ORG_ID = '3e3c2422-d01f-4d10-91a3-0e0a9bc600ef';
+const ORG_ID = '3caf44b7-6f40-42e2-b04c-6457d02c47a4';
 
 const Apps = () => {
   const { toast } = useToast();
