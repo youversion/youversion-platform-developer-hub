@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Code, User, BookOpen, Zap } from 'lucide-react';
-
 const GetStarted = () => {
   return <div className="container py-12">
       <div className="max-w-4xl mx-auto">
@@ -23,7 +22,7 @@ const GetStarted = () => {
             <CardContent>
               <CardDescription className="mb-4">Sign up for a developer account and create an App key to start making requests to the YouVersion APIs.</CardDescription>
               <Button asChild variant="default">
-                <Link to="/platform">Sign in to YouVersion</Link>
+                <Link to="/signin">Sign in to YouVersion</Link>
               </Button>
             </CardContent>
           </Card>
@@ -86,5 +85,4 @@ const GetStarted = () => {
       </div>
     </div>;
 };
-
 export default GetStarted;
