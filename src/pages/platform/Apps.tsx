@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -6,7 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
 interface App {
+  id: string;
   name: string;
   description: string;
   website: string;
@@ -19,54 +22,84 @@ interface App {
   updated: string;
   approved: boolean;
   commercialStatus: string;
+  callback_uri?: string;
 }
+
+const APPS_URL = 'https://admin-446696173378.us-central1.run.app/admin/apps/list';
+const APP_KEYS_URL = 'https://admin-446696173378.us-central1.run.app/admin/apps_keys/list';
+const ORG_ID = '3caf44b7-6f40-42e2-b04c-6457d02c47a4';
+
 const Apps = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [selectedApp, setSelectedApp] = useState<App | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewApp, setIsNewApp] = useState(false);
-  const [apps, setApps] = useState<App[]>([{
-    name: "My Bible App",
-    description: "A comprehensive Bible reading app with daily devotionals and study tools",
-    website: "https://mybibleapp.com",
-    appleAppStore: "https://apps.apple.com/app/my-bible-app/id123456789",
-    googlePlayStore: "https://play.google.com/store/apps/details?id=com.mybibleapp",
-    apiKey: "a39576d5-53b7-446e-b9d0-55ac97384bfe",
-    status: "Active",
-    requests: "1,247",
-    created: "2024-01-15",
-    updated: "2024-06-28",
-    approved: true,
-    commercialStatus: "Non-Commercial"
-  }, {
-    name: "Daily Devotions",
-    description: "Start your day with inspiring devotions and Bible verses",
-    website: "https://dailydevotions.org",
-    appleAppStore: "",
-    googlePlayStore: "https://play.google.com/store/apps/details?id=com.dailydevotions",
-    apiKey: "b48687e6-64c8-557f-c0e1-66bd08495cgf",
-    status: "Active",
-    requests: "543",
-    created: "2024-02-20",
-    updated: "2024-06-25",
-    approved: true,
-    commercialStatus: "Non-Commercial"
-  }, {
-    name: "Study Notes App",
-    description: "Take and organize your Bible study notes with powerful search features",
-    website: "",
-    appleAppStore: "",
-    googlePlayStore: "",
-    apiKey: "c59798f7-75d9-668g-d1f2-77ce19506dhg",
-    status: "Development",
-    requests: "89",
-    created: "2024-03-10",
-    updated: "2024-06-30",
-    approved: false,
-    commercialStatus: "Commercial"
-  }]);
+  const [apps, setApps] = useState<App[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [creationDialog, setCreationDialog] = useState<{ open: boolean; message: string; appKey: string } | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const [appsRes, keysRes] = await Promise.all([
+          fetch(APPS_URL, {
+            headers: {
+              'Authorization': 'Basic ' + btoa('admin:findslife'),
+              'Accept': 'application/json',
+            },
+          }),
+          fetch(APP_KEYS_URL, {
+            headers: {
+              'Authorization': 'Basic ' + btoa('admin:findslife'),
+              'Accept': 'application/json',
+            },
+          })
+        ]);
+
+        if (!appsRes.ok) throw new Error('Failed to fetch apps');
+        if (!keysRes.ok) throw new Error('Failed to fetch app keys');
+
+        const appsData = await appsRes.json();
+        const keysData = await keysRes.json();
+
+        // build map app_id -> public_key (choose first accepted key)
+        const keyMap: Record<string, string> = {};
+        for (const k of keysData) {
+          if (!keyMap[k.app_id]) {
+            keyMap[k.app_id] = k.public_key;
+          }
+        }
+
+        const filtered = appsData.filter((app: any) => app.organization_id === ORG_ID);
+        const mapped: App[] = filtered.map((app: any) => ({
+          id: app.id,
+          name: app.names?.en || 'Untitled',
+          description: app.description || '',
+          website: app.website_url || '',
+          appleAppStore: app.apple_url || '',
+          googlePlayStore: app.play_store_url || '',
+          apiKey: keyMap[app.id] || '',
+          status: app.status || '',
+          requests: app.requests?.toLocaleString?.() || '0',
+          created: app.created || '',
+          updated: app.updated || '',
+          approved: app.status === 'active',
+          commercialStatus: (app.commercial || '').toLowerCase() === 'commercial' ? 'Commercial' : 'Non-Commercial',
+          callback_uri: app.callback_uri || '',
+        }));
+        setApps(mapped);
+      } catch (err: any) {
+        setError(err.message || 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   const generateAppKey = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       const r = Math.random() * 16 | 0;
@@ -74,6 +107,7 @@ const Apps = () => {
       return v.toString(16);
     });
   };
+
   const copyApiKey = async (apiKey: string) => {
     try {
       await navigator.clipboard.writeText(apiKey);
@@ -89,20 +123,23 @@ const Apps = () => {
       });
     }
   };
+
   const handleViewDetails = (app: App) => {
     setSelectedApp(app);
     setIsNewApp(false);
     setIsModalOpen(true);
   };
+
   const handleNewApplication = () => {
     const newApp: App = {
+      id: '',
       name: '',
       description: '',
       website: '',
       appleAppStore: '',
       googlePlayStore: '',
-      apiKey: generateAppKey(),
-      status: 'Development',
+      apiKey: '',
+      status: 'pending',
       requests: '0',
       created: new Date().toISOString().split('T')[0],
       updated: new Date().toISOString().split('T')[0],
@@ -113,26 +150,79 @@ const Apps = () => {
     setIsNewApp(true);
     setIsModalOpen(true);
   };
-  const handleSaveApp = (updatedApp: App) => {
+
+  const handleSaveApp = async (updatedApp: App) => {
     if (isNewApp) {
-      setApps(prevApps => [...prevApps, updatedApp]);
-      toast({
-        title: "Application Created",
-        description: "The new application has been created successfully."
-      });
+      // Call API to create app
+      try {
+        const response = await fetch('https://admin-446696173378.us-central1.run.app/admin/apps/create', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Basic ' + btoa('admin:findslife'),
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            organization_id: ORG_ID,
+            names: JSON.stringify({ en: updatedApp.name }),
+            callback_uri: updatedApp.callback_uri?.trim() || "https://www.youversion.com/",
+            bible_licenses: '[1]',
+            description: updatedApp.description,
+            website_url: updatedApp.website,
+            apple_url: updatedApp.appleAppStore,
+            play_store_url: updatedApp.googlePlayStore,
+            commercial: updatedApp.commercialStatus.toLowerCase() === 'commercial' ? 'commercial' : 'non-commercial',
+          }),
+        });
+        const data = await response.json();
+        if (!data.success) throw new Error(data.message || 'Failed to create app');
+
+        // Fetch public_key for the new default_key_id
+        let publicKey = '';
+        try {
+          const keysRes = await fetch(APP_KEYS_URL, {
+            headers: {
+              'Authorization': 'Basic ' + btoa('admin:findslife'),
+              'Accept': 'application/json',
+            },
+          });
+          if (keysRes.ok) {
+            const keysData = await keysRes.json();
+            const match = keysData.find((k: any) => k.id === data.default_key_id);
+            if (match) publicKey = match.public_key;
+          }
+        } catch {}
+
+        setApps(prevApps => [
+          ...prevApps,
+          {
+            ...updatedApp,
+            id: data.app_id,
+            apiKey: publicKey,
+          },
+        ]);
+        setCreationDialog({ open: true, message: data.message, appKey: publicKey });
+      } catch (err: any) {
+        toast({
+          title: 'Error',
+          description: err.message || 'Failed to create application',
+          variant: 'destructive',
+        });
+      }
     } else {
       setApps(prevApps => prevApps.map(app => app.apiKey === updatedApp.apiKey ? updatedApp : app));
       toast({
-        title: "Application Updated",
-        description: "The application details have been saved successfully."
+        title: 'Application Updated',
+        description: 'The application details have been saved successfully.'
       });
     }
   };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedApp(null);
     setIsNewApp(false);
   };
+
   return <div className="container py-12">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
@@ -147,7 +237,11 @@ const Apps = () => {
             New Application
           </Button>
         </div>
-
+        {loading ? (
+          <div className="text-center py-12 text-muted-foreground">Loading applications...</div>
+        ) : error ? (
+          <div className="text-center py-12 text-red-500">{error}</div>
+        ) : (
         <div className="grid gap-6 md:grid-cols-2">
           {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200">
               <CardHeader className="pb-4">
@@ -210,20 +304,36 @@ const Apps = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-2 mt-6 pt-4 border-t">
-                  <Button size="sm" variant="filled-secondary" className="flex-1">
-                    Regenerate Key
-                  </Button>
-                  <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="flex-1">
+                <div className="mt-6 pt-4 border-t">
+                  <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="w-full">
                     View Details
                   </Button>
                 </div>
               </CardContent>
             </Card>)}
         </div>
+        )}
       </div>
 
       <AppDetailsModal app={selectedApp} isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveApp} isNewApp={isNewApp} />
+      {creationDialog?.open && (
+        <Dialog open={creationDialog.open} onOpenChange={() => setCreationDialog(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Application Created</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>{creationDialog.message}</div>
+              <div>
+                <span className="font-semibold">Public Key:</span>
+                <span className="ml-2 font-mono">{creationDialog.appKey}</span>
+              </div>
+              <Button onClick={() => setCreationDialog(null)} className="mt-2">Close</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>;
 };
+
 export default Apps;

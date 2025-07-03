@@ -22,6 +22,7 @@ interface App {
   updated: string;
   approved: boolean;
   commercialStatus: string;
+  callback_uri?: string;
 }
 
 interface AppDetailsModalProps {
@@ -39,6 +40,7 @@ interface FormData {
   appleAppStore: string;
   googlePlayStore: string;
   commercialStatus: string;
+  callback_uri?: string;
 }
 
 const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: AppDetailsModalProps) => {
@@ -50,9 +52,11 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
       website: '',
       appleAppStore: '',
       googlePlayStore: '',
-      commercialStatus: 'Non-Commercial'
+      commercialStatus: 'Non-Commercial',
+      callback_uri: '',
     }
   });
+  const [saving, setSaving] = React.useState(false);
 
   React.useEffect(() => {
     if (app) {
@@ -62,6 +66,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
       setValue('appleAppStore', app.appleAppStore);
       setValue('googlePlayStore', app.googlePlayStore);
       setValue('commercialStatus', app.commercialStatus || 'Non-Commercial');
+      setValue('callback_uri', app.callback_uri || '');
     }
   }, [app, setValue]);
 
@@ -77,7 +82,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
     setValue('commercialStatus', value);
   };
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     if (app && data.name.trim()) {
       const updatedApp = {
         ...app,
@@ -87,10 +92,17 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
         appleAppStore: data.appleAppStore,
         googlePlayStore: data.googlePlayStore,
         commercialStatus: data.commercialStatus,
+        callback_uri: data.callback_uri,
         updated: new Date().toISOString().split('T')[0],
+        apiKey: isNewApp ? '' : app.apiKey,
       };
-      onSave(updatedApp);
-      onClose();
+      setSaving(true);
+      try {
+        await onSave(updatedApp);
+        onClose();
+      } finally {
+        setSaving(false);
+      }
     }
   };
 
@@ -206,6 +218,16 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
                 />
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="callback_uri">Callback URI</Label>
+                <Input
+                  id="callback_uri"
+                  {...register('callback_uri')}
+                  placeholder="https://yourapp.com/callback"
+                  type="url"
+                />
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="appleAppStore">Apple App Store URL</Label>
@@ -228,20 +250,22 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="apiKey">App Key</Label>
-                <div className="flex space-x-2">
-                  <Input
-                    id="apiKey"
-                    value={app.apiKey}
-                    readOnly
-                    className="bg-muted font-mono text-sm"
-                  />
-                  <Button type="button" size="sm" variant="stroked" onClick={copyApiKey}>
-                    <Copy className="h-4 w-4" />
-                  </Button>
+              {!isNewApp && (
+                <div className="space-y-2">
+                  <Label htmlFor="apiKey">App Key</Label>
+                  <div className="flex space-x-2">
+                    <Input
+                      id="apiKey"
+                      value={app.apiKey}
+                      readOnly
+                      className="bg-muted font-mono text-sm"
+                    />
+                    <Button type="button" size="sm" variant="stroked" onClick={copyApiKey}>
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {!isNewApp && (
                 <div className="grid grid-cols-3 gap-4">
@@ -270,8 +294,8 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
                 <Button type="button" variant="stroked" onClick={handleClose}>
                   Cancel
                 </Button>
-                <Button type="submit">
-                  {isNewApp ? 'Create Application' : 'Save Changes'}
+                <Button type="submit" disabled={saving}>
+                  {saving ? (isNewApp ? 'Creating...' : 'Saving...') : (isNewApp ? 'Create Application' : 'Save Changes')}
                 </Button>
               </div>
             </form>
