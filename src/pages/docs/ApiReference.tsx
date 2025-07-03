@@ -69,7 +69,7 @@ class YouVersionAPI {
         guard let url = URL(string: "${url}") else { return }
         
         var request = URLRequest(url: url)
-        request.setValue("Bearer \\(apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("\\(apiKey)", forHTTPHeaderField: "X-API-Key")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         do {

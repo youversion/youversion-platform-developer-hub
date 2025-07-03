@@ -32,8 +32,7 @@ const Docs = () => {
                   <CardContent className="space-y-4">
                     <p>Get up and running with the YouVersion Platform API in minutes.</p>
                     <CodeBlock language="bash">
-                    {`curl -H "Authorization: Bearer YOUR_API_KEY" \\
-https://api.youversion.com/v1/verses/john.3.16`}
+                    {`curl -H "X-App-Key: YOUR_APP_KEY" https://api-dev.youversion.com/v1/bibles/206/usfms/JHN.3.16`}
                     </CodeBlock>
                   </CardContent>
                 </Card>
@@ -42,11 +41,23 @@ https://api.youversion.com/v1/verses/john.3.16`}
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Shield className="h-5 w-5 text-[#FF3D4D]" />
-                      Authentication
+                      Authorization
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p>All API requests require authentication using your API key in the Authorization header.</p>
+                    <p>All API requests require your app key in the `X-App-Key` header.</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Shield className="h-5 w-5 text-[#FF3D4D]" />
+                      Authentiation
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>Requests for user's information require sign in with YouVersion.</p>
                   </CardContent>
                 </Card>
 
@@ -60,18 +71,13 @@ https://api.youversion.com/v1/verses/john.3.16`}
                   <CardContent className="space-y-4">
                     <div>
                       <Badge variant="secondary" className="mb-2">GET</Badge>
-                      <p className="font-mono text-sm">/v1/verses/{"{reference}"}</p>
+                      <p className="font-mono text-sm">/v1/bibles/{"{version_id}"}/usfms/JHN.3.16</p>
                       <p className="text-sm text-muted-foreground">Get a specific Bible verse</p>
                     </div>
                     <div>
                       <Badge variant="secondary" className="mb-2">GET</Badge>
                       <p className="font-mono text-sm">/v1/bibles</p>
-                      <p className="text-sm text-muted-foreground">List available Bible translations</p>
-                    </div>
-                    <div>
-                      <Badge variant="secondary" className="mb-2">GET</Badge>
-                      <p className="font-mono text-sm">/v1/plans</p>
-                      <p className="text-sm text-muted-foreground">Get reading plans</p>
+                      <p className="text-sm text-muted-foreground">List Bible versions available with your app key.</p>
                     </div>
                   </CardContent>
                 </Card>
