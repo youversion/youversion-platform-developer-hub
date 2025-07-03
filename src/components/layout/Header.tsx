@@ -67,7 +67,7 @@ const Header = () => {
           {!isAuthenticated && <Button asChild variant="filled-contrast" size="sm" className="text-sm px-3">
               <Link to="/signin">
                 <span className="hidden sm:inline">Get App ID</span>
-                <span className="sm:hidden">Sign In</span>
+                <span className="sm:hidden">Get App ID</span>
               </Link>
             </Button>}
 
