@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -46,7 +45,7 @@ interface FormData {
 
 const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: AppDetailsModalProps) => {
   const { toast } = useToast();
-  const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormData>({
     defaultValues: {
       name: '',
       description: '',
@@ -178,12 +177,22 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
           <div className="lg:col-span-2">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Application Name</Label>
+                <Label htmlFor="name">Application Name <span className="text-red-500">*</span></Label>
                 <Input
                   id="name"
-                  {...register('name', { required: true })}
+                  {...register('name', { 
+                    required: 'Application name is required',
+                    minLength: {
+                      value: 1,
+                      message: 'Application name cannot be empty'
+                    }
+                  })}
                   placeholder="Enter application name"
+                  className={errors.name ? 'border-red-500' : ''}
                 />
+                {errors.name && (
+                  <p className="text-sm text-red-500">{errors.name.message}</p>
+                )}
               </div>
 
               <div className="space-y-2">
