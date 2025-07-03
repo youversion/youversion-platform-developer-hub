@@ -35,11 +35,12 @@ const Header = () => {
     path: '/style-guide'
   }];
   return <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center space-x-8">
+      <div className="container flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center space-x-4 sm:space-x-8">
           <Link to="/" className="flex items-center space-x-2">
             <img src="/lovable-uploads/96d1a6db-0f5a-40d5-83ff-ceb74c2ab021.png" alt="YouVersion Platform Logo" className="h-8 w-8 rounded" />
-            <span className="font-bold text-xl tracking-tighter">YouVersion Platform</span>
+            <span className="font-bold text-lg sm:text-xl tracking-tighter hidden xs:block">YouVersion Platform</span>
+            <span className="font-bold text-lg tracking-tighter block xs:hidden">YV Platform</span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">
@@ -56,15 +57,18 @@ const Header = () => {
           </nav>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 sm:space-x-4">
           <div className="hidden md:block">
             <SearchBar />
           </div>
           
           <ThemeToggle />
           
-          {!isAuthenticated && <Button asChild variant="filled-contrast">
-              <Link to="/signin">Get App Keys</Link>
+          {!isAuthenticated && <Button asChild variant="filled-contrast" size="sm" className="text-sm px-3">
+              <Link to="/signin">
+                <span className="hidden sm:inline">Get App Keys</span>
+                <span className="sm:hidden">Sign In</span>
+              </Link>
             </Button>}
 
           <Button variant="borderless" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -74,8 +78,8 @@ const Header = () => {
       </div>
 
       {isMobileMenuOpen && <div className="md:hidden border-t">
-          <nav className="container py-4 space-y-2">
-            <div className="mb-4">
+          <nav className="container py-3 space-y-2 px-4 sm:px-6 lg:px-8">
+            <div className="mb-3">
               <SearchBar />
             </div>
             
