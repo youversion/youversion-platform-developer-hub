@@ -318,15 +318,29 @@ const Apps = () => {
       <AppDetailsModal app={selectedApp} isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveApp} isNewApp={isNewApp} />
       {creationDialog?.open && (
         <Dialog open={creationDialog.open} onOpenChange={() => setCreationDialog(null)}>
-          <DialogContent>
+          <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
               <DialogTitle>Application Created</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div>{creationDialog.message}</div>
-              <div>
+              <div className="space-y-2">
                 <span className="font-semibold">Public Key:</span>
-                <span className="ml-2 font-mono">{creationDialog.appKey}</span>
+                <div className="flex items-center gap-2">
+                  <Input
+                    value={creationDialog.appKey}
+                    readOnly
+                    className="bg-muted font-mono text-xs"
+                  />
+                  <Button
+                    size="sm"
+                    variant="stroked"
+                    onClick={() => copyApiKey(creationDialog.appKey)}
+                    className="h-9 w-9 p-0 flex-shrink-0"
+                  >
+                    <Copy className="h-3 w-3" />
+                  </Button>
+                </div>
               </div>
               <Button onClick={() => setCreationDialog(null)} className="mt-2">Close</Button>
             </div>
