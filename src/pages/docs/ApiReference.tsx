@@ -64,14 +64,14 @@ print(data)`;
 class YouVersionAPI {
     private let apiKey = "YOUR_API_KEY"
     private let baseURL = "https://api-dev.youversion.com/v1"
-    
+
     func getVerses() async {
         guard let url = URL(string: "${url}") else { return }
-        
+
         var request = URLRequest(url: url)
-        request.setValue("\\(apiKey)", forHTTPHeaderField: "X-API-Key")
+        request.setValue("\\(apiKey)", forHTTPHeaderField: "X-App-ID")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        
+
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
             let json = try JSONSerialization.jsonObject(with: data)
