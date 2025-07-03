@@ -48,8 +48,7 @@ const Verses = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <CodeBlock language="bash">
-{`curl -H "Authorization: Bearer YOUR_API_KEY" \\
-https://api.youversion.com/v1/verses/john.3.16`}
+{`curl -H "X-API-Key: YOUR_API_KEY" https://api-dev.youversion.com/v1/bibles/206/usfms/JHN.3.16`}
                   </CodeBlock>
                   <CodeBlock language="json">
 {`{
@@ -75,8 +74,7 @@ https://api.youversion.com/v1/verses/john.3.16`}
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <CodeBlock language="bash">
-{`curl -H "Authorization: Bearer YOUR_API_KEY" \\
-https://api.youversion.com/v1/verses/john.3.16-18`}
+{`curl -H "X-API-Key: YOUR_API_KEY" https://api-dev.youversion.com/v1/bibles/206/usfms/JHN.3.16-18`}
                   </CodeBlock>
                   <CodeBlock language="json">
 {`{

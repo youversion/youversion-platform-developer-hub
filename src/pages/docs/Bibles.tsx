@@ -30,8 +30,7 @@ const Bibles = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <CodeBlock language="bash">
-{`curl -H "Authorization: Bearer YOUR_API_KEY" \\
-https://api.youversion.com/v1/bibles`}
+{`curl -H "X-API-Key: YOUR_API_KEY" https://api-dev.youversion.com/v1/bibles`}
                   </CodeBlock>
                   <CodeBlock language="json">
 {`{
@@ -69,8 +68,7 @@ https://api.youversion.com/v1/bibles`}
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <CodeBlock language="bash">
-{`curl -H "Authorization: Bearer YOUR_API_KEY" \\
-https://api.youversion.com/v1/bibles?language=spanish`}
+{`curl -H "X-API-Key: YOUR_API_KEY" https://api-dev.youversion.com/v1/bibles?language_ranges=spa`}
                   </CodeBlock>
                   <p className="text-sm text-muted-foreground">
                     Filter results by language to find translations in specific languages.

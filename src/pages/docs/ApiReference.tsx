@@ -16,7 +16,7 @@ const ApiReference = () => {
   const [isPlaygroundOpen, setIsPlaygroundOpen] = useState(true);
 
   const buildRequestUrl = () => {
-    const baseUrl = 'https://api.youversion.com/v1';
+    const baseUrl = 'https://api-dev.youversion.com/v1';
     if (selectedEndpoint === 'Get Verse') {
       return `${baseUrl}/verses/${selectedReference}?version=${selectedVersion}`;
     }
@@ -63,7 +63,7 @@ print(data)`;
 
 class YouVersionAPI {
     private let apiKey = "YOUR_API_KEY"
-    private let baseURL = "https://api.youversion.com/v1"
+    private let baseURL = "https://api-dev.youversion.com/v1"
     
     func getVerses() async {
         guard let url = URL(string: "${url}") else { return }

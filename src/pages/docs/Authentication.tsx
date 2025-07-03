@@ -32,7 +32,7 @@ const Authentication = () => {
                   <p>All API requests require authentication using your API key in the Authorization header.</p>
                   <CodeBlock language="bash">
 {`curl -H "Authorization: Bearer YOUR_API_KEY" \\
-https://api.youversion.com/v1/verses/john.3.16`}
+https://api-dev.youversion.com/v1/verses/john.3.16`}
                   </CodeBlock>
                 </CardContent>
               </Card>
