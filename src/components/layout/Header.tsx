@@ -40,7 +40,7 @@ const Header = () => {
           <Link to="/" className="flex items-center space-x-2">
             <img src="/lovable-uploads/96d1a6db-0f5a-40d5-83ff-ceb74c2ab021.png" alt="YouVersion Platform Logo" className="h-8 w-8 rounded" />
             <span className="font-bold text-lg sm:text-xl tracking-tighter hidden xs:block">YouVersion Platform</span>
-            <span className="font-bold text-lg tracking-tighter block xs:hidden">YV Platform</span>
+            <span className="font-bold text-lg tracking-tighter block xs:hidden">YouVersion Platform</span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">
