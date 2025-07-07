@@ -32,7 +32,7 @@ const Docs = () => {
                   <CardContent className="space-y-4">
                     <p>Get up and running with the YouVersion Platform API in minutes.</p>
                     <CodeBlock language="bash">
-                    {`curl -H "X-App-Key: YOUR_APP_KEY" https://api-dev.youversion.com/v1/bibles/206/usfms/JHN.3.16`}
+                    {`curl -H "X-App-Id: YOUR_APP_ID" https://api-dev.youversion.com/v1/bibles/206/usfms/JHN.3.16`}
                     </CodeBlock>
                   </CardContent>
                 </Card>
@@ -45,7 +45,7 @@ const Docs = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p>All API requests require your app key in the `X-App-Key` header.</p>
+                    <p>All API requests require your app key in the `X-App-Id` header.</p>
                   </CardContent>
                 </Card>
 
