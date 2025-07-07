@@ -11,8 +11,8 @@ const docsNavItems = [
     icon: Zap
   },
   {
-    name: 'Installation',
-    path: '/docs/installation',
+    name: 'SDKs',
+    path: '/docs/sdks',
     icon: Download
   },
   {
