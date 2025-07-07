@@ -39,6 +39,11 @@ const docsNavItems = [
     name: 'Search',
     path: '/docs/search',
     icon: Search
+  },
+  {
+    name: 'USFM Reference',
+    path: '/docs/usfm-reference',
+    icon: FileText
   }
 ];
 
