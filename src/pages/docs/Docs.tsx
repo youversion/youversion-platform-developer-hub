@@ -53,7 +53,7 @@ const Docs = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Shield className="h-5 w-5 text-[#FF3D4D]" />
-                      Authentiation
+                      Authentication
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
