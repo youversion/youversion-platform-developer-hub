@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import DocsSidebar from '@/components/layout/DocsSidebar';
+import DocsSidebar from '@/components/layout/DocsSidebar';
 import {
   Table,
   TableBody,
@@ -98,6 +100,10 @@ const USFMReference = () => {
   ];
 
   return (
+  <SidebarProvider>
+      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+        <DocsSidebar />
+ 
     <div className="container py-12">
       <div className="max-w-7xl mx-auto space-y-8">
         <div>
