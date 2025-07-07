@@ -20,6 +20,54 @@ interface ApiCall {
 
 const CALLS: ApiCall[] = [
   {
+    id: "biblesCollection",
+    title: "/v1/bibles?language_ranges=en*",
+    description: "Get a collection of Bibles for all regions & variants of the English language.",
+    url: "https://api-dev.youversion.com/v1/bibles?language_ranges=en*",
+  },
+  {
+    id: "bibleResource",
+    title: "/v1/bibles/206",
+    description: "Get details for Bible version.",
+    url: "https://api-dev.youversion.com/v1/bibles/206",
+  },
+  {
+    id: "bibleBooksCollection",
+    title: "/v1/bibles/206/books",
+    description: "List books for Bible version 206.",
+    url: "https://api-dev.youversion.com/v1/bibles/206/books",
+  },
+  {
+    id: "bibleBooksResource",
+    title: "/v1/bibles/206/books/mat",
+    description: "Get details for the book MAT in version 206 (e.g. Matthew).",
+    url: "https://api-dev.youversion.com/v1/bibles/206/books/mat",
+  },
+  {
+    id: "bibleBooksChaptersCollection",
+    title: "/v1/bibles/206/books/mat/chapters",
+    description: "List chapters for Matthew in the Bible version 206.",
+    url: "https://api-dev.youversion.com/v1/bibles/206/books/mat/chapters",
+  },
+  {
+    id: "bibleBooksChaptersResource",
+    title: "/v1/bibles/206/books/mat/chapters/1",
+    description: "Get details for the first chapter in the book of Matthew in Bible version 206.",
+    url: "https://api-dev.youversion.com/v1/bibles/206/books/mat/chapters/1",
+  },
+  {
+    id: "bibleBooksChaptersVersesCollection",
+    title: "/v1/bibles/206/books/mat/chapters/1/verses",
+    description: "List verses for the first chapter in the book of Matthew in Bible version 206.",
+    url: "https://api-dev.youversion.com/v1/bibles/206/books/mat/chapters/1/verses",
+  },
+  {
+    id: "bibleBooksChaptersVersesResource",
+    title: "/v1/bibles/206/books/mat/chapters/1/verses/1",
+    description: "Get details for the a verse in the first chapter of Matthew in the Bible version 206.",
+    url: "https://api-dev.youversion.com/v1/bibles/206/books/mat/chapters/1/verses/1",
+  },
+  {
     id: "bibleVersions",
     title: "/bible/versions",
     description: "List Bible versions that your application can access.",
