@@ -112,7 +112,7 @@ const Apps = () => {
     try {
       await navigator.clipboard.writeText(apiKey);
       toast({
-        title: "App Key Copied",
+        title: "App Id Copied",
         description: "The app key has been copied to your clipboard."
       });
     } catch (err) {
@@ -276,7 +276,7 @@ const Apps = () => {
                   <div className="bg-muted/50 rounded-xl p-4 border dark:bg-slate-700">
                     <div className="flex items-center gap-2 mb-3">
                       <Key className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-medium text-foreground">App Key</span>
+                      <span className="text-sm font-medium text-foreground">App Id</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Input value={app.apiKey} readOnly disabled className="bg-background font-mono text-xs flex-1 h-9" />

@@ -116,7 +116,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
       try {
         await navigator.clipboard.writeText(app.apiKey);
         toast({
-          title: "App Key Copied",
+          title: "App Id Copied",
           description: "The app key has been copied to your clipboard.",
         });
       } catch (err) {
@@ -151,7 +151,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
     },
     {
       id: 2,
-      action: 'App Key Generated',
+      action: 'App Id Generated',
       timestamp: app?.created || '2024-01-15',
       details: 'Unique app key assigned'
     },
@@ -262,7 +262,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
               {!isNewApp && (
                 <div className="space-y-2">
-                  <Label htmlFor="apiKey">App Key</Label>
+                  <Label htmlFor="apiKey">App Id</Label>
                   <div className="flex space-x-2">
                     <Input
                       id="apiKey"
