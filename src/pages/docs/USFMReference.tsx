@@ -101,10 +101,10 @@ const USFMReference = () => {
 
   return (
   <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="flex w-full min-h-screen">
         <DocsSidebar />
- 
-    <div className="container py-12">
+        <div className="flex-1 overflow-auto">
+          <div className="container py-12">
       <div className="max-w-7xl mx-auto space-y-8">
         <div>
           <h1 className="text-4xl font-bold mb-4">USFM Reference</h1>
@@ -210,8 +210,9 @@ const USFMReference = () => {
         </Card>
       </div>
     </div>
-      </div>
-    </SidebarProvider>
+  </div>
+</div>
+</SidebarProvider>
   );
 };
 
