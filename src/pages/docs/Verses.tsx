@@ -22,9 +22,7 @@ const Verses = () => {
                 <div className="px-2 py-1 rounded bg-muted text-muted-foreground text-xs mt-2">
                   For a full list of valid book identifiers, see
                   <a
-                    href="https://ubsicap.github.io/usfm/identification/books.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/docs/usfm-reference"
                     className="underline ml-1"
                   >
                     USFM Book Identifiers
@@ -116,12 +114,10 @@ const Verses = () => {
                     <div className="text-xs text-muted-foreground mt-2">
                       For a full list of valid book identifiers, see
                       <a
-                      href="https://ubsicap.github.io/usfm/identification/books.html"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline ml-1"
+                        href="/docs/usfm-reference"
+                        className="underline ml-1"
                       >
-                      USFM Book Identifiers
+                        USFM Book Identifiers
                       </a>.
                     </div>
                     <br/>
