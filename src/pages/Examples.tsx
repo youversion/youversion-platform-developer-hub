@@ -75,9 +75,9 @@ const CALLS: ApiCall[] = [
   },
   {
     id: "bibleVersion",
-    title: "/bible/version?version=1",
+    title: "/bible/version?version=206",
     description: "Get details for a specific Bible version (KJV in this example).",
-    url: "https://api-dev.youversion.com/bible/version?version=1",
+    url: "https://api-dev.youversion.com/bible/version?version=206",
   },
   {
     id: "biblePassage",
@@ -94,9 +94,9 @@ const CALLS: ApiCall[] = [
   },
   {
     id: "votdText",
-    title: "/votd/today?version=1",
+    title: "/votd/today?version=206",
     description: "Get the Verse of the Day with text (KJV in this example).",
-    url: "https://api-dev.youversion.com/votd/today?version=1",
+    url: "https://api-dev.youversion.com/votd/today?version=206",
   },
   {
     id: "authMe",
@@ -111,7 +111,7 @@ const CALLS: ApiCall[] = [
     title: "/highlights/chapter",
     description:
       "Get highlights in John 3 for the authenticated user (requires LAT).",
-    url: "https://api-dev.youversion.com/highlights/chapter?lat=$YVP_LAT&version=111&usfm=JHN.3",
+    url: "https://api-dev.youversion.com/highlights/chapter?lat=$YVP_LAT&version=20611&usfm=JHN.3",
     requiresLat: true,
   },
   {
