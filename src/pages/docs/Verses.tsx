@@ -42,9 +42,13 @@ const Verses = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <CodeBlock language="bash">
-{`curl -H "X-App-ID: YOUR_APP_ID" 'https://api-dev.youversion.com/v1/bibles/206/books/mat/chapters/1/verses/1'`}
-                  </CodeBlock>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Request URL</label>
+                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                      <Badge variant="secondary">GET</Badge>
+                      <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles/206/books/mat/chapters/1/verses/1</code>
+                    </div>
+                  </div>
                   <div className="text-xs text-muted-foreground mb-1">Response:</div>
                   <CodeBlock language="json">
 {`{
@@ -68,9 +72,13 @@ const Verses = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <CodeBlock language="bash">
-{`curl -s -H "X-App-ID: YOUR-APP-ID" 'https://api-dev.youversion.com/v1/bibles/206/books/mat/chapters/1/verses'`}
-                  </CodeBlock>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Request URL</label>
+                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                      <Badge variant="secondary">GET</Badge>
+                      <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles/206/books/mat/chapters/1/verses</code>
+                    </div>
+                  </div>
                   <div className="text-xs text-muted-foreground mb-1">Response:</div>
                   <CodeBlock language="json">
 {`{
@@ -122,9 +130,13 @@ const Verses = () => {
                     </div>
                     <br/>
                   </div>
-                  <CodeBlock language="bash">
-{`curl -H "X-App-ID: YOUR_APP_ID" 'https://api-dev.youversion.com/bible/passage?version=206&usfm=JHN.4.34'`}
-                  </CodeBlock>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Request URL</label>
+                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                      <Badge variant="secondary">GET</Badge>
+                      <code className="text-sm flex-1">https://api-dev.youversion.com/bible/passage?version=206&usfm=JHN.4.34</code>
+                    </div>
+                  </div>
                     <div>
                     <div className="text-xs text-muted-foreground mb-1">Response:</div>
                     <CodeBlock language="text">

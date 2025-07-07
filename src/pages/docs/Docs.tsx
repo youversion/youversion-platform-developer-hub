@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Code, Zap, Shield } from 'lucide-react';
+import { KeyRound, Zap, Shield, UserRound, CodeXml } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import CodeBlock from '@/components/ui/code-block';
@@ -25,14 +25,29 @@ const Docs = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
+                      <KeyRound className="h-5 w-5 text-[#FF3D4D]" />
+                      Get an App Key
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>
+                      To use the YouVersion Platform API, you need to register your app and obtain an <code>X-App-Id</code> (app key).<br />
+                      Visit <a href="/get-started" rel="noopener noreferrer" className="text-blue-600 underline">developers.youversion.com/get-started</a> to create an account and register your application.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
                       <Zap className="h-5 w-5 text-[#FF3D4D]" />
-                      Quick Start
+                      Your First Request
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p>Get up and running with the YouVersion Platform API in minutes.</p>
                     <CodeBlock language="bash">
-                    {`curl -H "X-App-Id: YOUR_APP_ID" https://api-dev.youversion.com/v1/bibles/206/usfms/JHN.3.16`}
+                    {`curl -H "X-App-Id: YOUR_APP_ID" https://api-dev.youversion.com/v1/bibles/206/books/jhn/chapters/3/verses/16`}
                     </CodeBlock>
                   </CardContent>
                 </Card>
@@ -40,12 +55,15 @@ const Docs = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Shield className="h-5 w-5 text-[#FF3D4D]" />
-                      Authorization
+                      <CodeXml className="h-5 w-5 text-[#FF3D4D]" />
+                      Jump into the SDKs
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p>All API requests require your app key in the `X-App-Id` header.</p>
+                    <p>
+                      Build faster with our official SDKs for <strong>Swift</strong>, <strong>React</strong>, and <strong>JavaScript</strong>.
+                      Find installation instructions and usage examples in our <a href="/docs/sdks" className="text-blue-600 underline">SDK documentation</a>.
+                    </p>
                   </CardContent>
                 </Card>
 
@@ -53,32 +71,23 @@ const Docs = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Shield className="h-5 w-5 text-[#FF3D4D]" />
-                      Authentication
+                      <a href="#authorization" className="hover:underline">Authorization</a>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>All API requests require your app key in the <code>X-App-Id</code> header.</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <UserRound className="h-5 w-5 text-[#FF3D4D]" />
+                      <a href="#authentication" className="hover:underline">Authentication</a>
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p>Requests for user's information require sign in with YouVersion.</p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <BookOpen className="h-5 w-5 text-[#FF3D4D]" />
-                      Endpoints
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <Badge variant="secondary" className="mb-2">GET</Badge>
-                      <p className="font-mono text-sm">/v1/bibles/{"{version_id}"}/usfms/JHN.3.16</p>
-                      <p className="text-sm text-muted-foreground">Get a specific Bible verse</p>
-                    </div>
-                    <div>
-                      <Badge variant="secondary" className="mb-2">GET</Badge>
-                      <p className="font-mono text-sm">/v1/bibles</p>
-                      <p className="text-sm text-muted-foreground">List Bible versions available with your app key.</p>
-                    </div>
                   </CardContent>
                 </Card>
               </div>
