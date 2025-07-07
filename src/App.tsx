@@ -9,7 +9,7 @@ import Header from "@/components/layout/Header";
 import Index from "./pages/Index";
 import GetStarted from "./pages/GetStarted";
 import Docs from "./pages/docs/Docs";
-import Installation from "./pages/docs/Installation";
+import SDKs from "./pages/docs/Installation";
 import Examples from "./pages/Examples";
 import BibleDirectory from "./pages/BibleDirectory";
 import Support from "./pages/Support";
@@ -41,7 +41,7 @@ const App = () => <QueryClientProvider client={queryClient}>
                 <Route path="/" element={<Index />} />
                 <Route path="/get-started" element={<GetStarted />} />
                 <Route path="/docs/quick-start" element={<Docs />} />
-                <Route path="/docs/installation" element={<Installation />} />
+                <Route path="/docs/sdks" element={<SDKs />} />
                 <Route path="/docs/authentication" element={<Authentication />} />
                 <Route path="/docs/api-reference" element={<ApiReference />} />
                 <Route path="/docs/verses" element={<Verses />} />
