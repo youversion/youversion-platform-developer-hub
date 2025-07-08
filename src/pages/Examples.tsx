@@ -186,7 +186,7 @@ const Examples: React.FC = () => {
           <p className="text-muted-foreground text-lg">
             Enter your YouVersion Platform <code>App&nbsp;ID</code> (and optional
             <code className="ml-1">LAT</code>) to run the sample commands below
-            and inspect their live responses.
+            and inspect their live responses. To get your "Limited Access Token (LAT)" by going to the following link and select "Staging" and paste your App Key into the form. Link: https://lifechurch.gitlab.io/youversion/apis/platform/yvp-login-flutter/
           </p>
         </div>
 
