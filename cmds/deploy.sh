@@ -16,6 +16,10 @@ SERVICE_NAME="developer-hub"
 IMAGE_URI="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE_NAME}:${TAG}"
 
 # Ensure Docker Buildx is set up
+if docker buildx inspect builder >/dev/null 2>&1; then
+  docker buildx rm builder
+fi
+
 if ! docker buildx ls | grep -q "builder"; then
   echo "Creating and using buildx builder..."
   docker buildx create --name builder --use
