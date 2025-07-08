@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Globe, Shield, Download } from 'lucide-react';
+import { FileText, AlignJustify, Book } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import CodeBlock from '@/components/ui/code-block';
@@ -21,78 +21,130 @@ const Bibles = () => {
                 </p>
               </div>
 
+              {/* Updated: List All Bibles */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Download className="h-5 w-5 text-youversion-600" />
+                    <FileText className="h-5 w-5 text-youversion-600" />
                     List All Bibles
                   </CardTitle>
+                  <CardDescription>
+                    Get a collection of Bibles for all regions & variants of the English language.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <CodeBlock language="bash">
-{`curl -H "X-App-ID: YOUR_API_KEY" https://api-dev.youversion.com/v1/bibles`}
-                  </CodeBlock>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Request URL</label>
+                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                      <Badge variant="secondary">GET</Badge>
+                      <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles?language_ranges=en*</code>
+                    </div>
+                  </div>
                   <CodeBlock language="json">
 {`{
   "bibles": [
     {
-      "id": "niv",
-      "name": "New International Version",
-      "abbreviation": "NIV",
-      "language": "English",
-      "language_code": "en",
-      "public_domain": false,
-      "copyright": "Biblica, Inc."
+      "id": 12,
+      "abbreviation": "ASV",
+      "copyright": "",
+      "language": {
+        "iso_639_1": "en",
+        "iso_639_3": "eng",
+        "name": "English",
+        "local_name": "English",
+        "text_direction": "ltr"
+      },
+      "local_abbreviation": "ASV",
+      "local_title": "American Standard Version",
+      "info": "",
+      "info_url": "",
+      "title": "American Standard Version"
     },
-    {
-      "id": "esv",
-      "name": "English Standard Version",
-      "abbreviation": "ESV", 
-      "language": "English",
-      "language_code": "en",
-      "public_domain": false,
-      "copyright": "Crossway"
-    }
+    ...
   ]
 }`}
                   </CodeBlock>
                 </CardContent>
               </Card>
 
+              {/* Updated: Get Bible Details */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Globe className="h-5 w-5 text-youversion-600" />
-                    Filter by Language
+                    <Book className="h-5 w-5 text-youversion-600" />
+                    Get Bible Details
                   </CardTitle>
+                  <CardDescription>
+                    Get details for a specific Bible version.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <CodeBlock language="bash">
-{`curl -H "X-App-ID: YOUR_API_KEY" https://api-dev.youversion.com/v1/bibles?language_ranges=spa`}
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Request URL</label>
+                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                      <Badge variant="secondary">GET</Badge>
+                      <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles/206</code>
+                    </div>
+                  </div>
+                  <CodeBlock language="json">
+{`{
+  "id": 206,
+  "abbreviation": "engWEBUS",
+  "copyright": "This Public Domain Bible text is courtesy of eBible.org.",
+  "language": {
+    "iso_639_1": "en",
+    "iso_639_3": "eng",
+    "name": "English",
+    "local_name": "English",
+    "text_direction": "ltr"
+  },
+  "local_abbreviation": "WEBUS",
+  "local_title": "World English Bible, American English Edition, without Strong's Numbers",
+  "info": "",
+  "info_url": "",
+  "title": "World English Bible, American English Edition, without Strong's Numbers"
+}`}
                   </CodeBlock>
-                  <p className="text-sm text-muted-foreground">
-                    Filter results by language to find translations in specific languages.
-                  </p>
                 </CardContent>
               </Card>
 
+              {/* Updated: List Books in a Bible */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Shield className="h-5 w-5 text-youversion-600" />
-                    Copyright Information
+                    <AlignJustify className="h-5 w-5 text-youversion-600" />
+                    List Books in a Bible
                   </CardTitle>
+                  <CardDescription>
+                    List books for a specific Bible version.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p>Each Bible translation includes copyright information:</p>
-                  <ul className="list-disc list-inside space-y-2">
-                    <li><strong>public_domain</strong> - Whether the translation is in public domain</li>
-                    <li><strong>copyright</strong> - Copyright holder information</li>
-                    <li><strong>license_url</strong> - Link to full license terms</li>
-                  </ul>
-                  <p className="text-sm text-muted-foreground mt-4">
-                    Always check licensing requirements before using Bible content in your application.
-                  </p>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Request URL</label>
+                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                      <Badge variant="secondary">GET</Badge>
+                      <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles/206/books</code>
+                    </div>
+                  </div>
+                  <CodeBlock language="json">
+{`{
+  "data": [
+    {
+      "usfm": "GEN",
+      "title": "Genesis",
+      "abbreviation": "Gen",
+      "canon": "ot"
+    },
+    {
+      "usfm": "EXO",
+      "title": "Exodus",
+      "abbreviation": "Exo",
+      "canon": "ot"
+    }
+  ]
+}`}
+                  </CodeBlock>
                 </CardContent>
               </Card>
             </div>
