@@ -151,7 +151,7 @@ const Examples: React.FC = () => {
           <p className="text-muted-foreground text-lg">
             Enter your YouVersion Platform <code>App&nbsp;ID</code> (and optional
             <code className="ml-1">LAT</code>) to run the sample commands below
-            and inspect their live responses. Get your "Limited Access Token" (LAT) by going to the <a href="https://lifechurch.gitlab.io/youversion/apis/platform/yvp-login-flutter/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">following link</a> and select "Staging" and paste your App Key into the form.
+            and inspect their live responses. <br></br><b>HACKATHON NOTE:</b> Get your "Limited Access Token" (LAT) by going to the <a href="https://lifechurch.gitlab.io/youversion/apis/platform/yvp-login-flutter/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">following link</a> and select "Staging" and paste your App Key into the form.
           </p>
         </div>
 
