@@ -111,7 +111,7 @@ const CALLS: ApiCall[] = [
     title: "/highlights/chapter",
     description:
       "Get highlights in John 3 for the authenticated user (requires LAT).",
-    url: "https://api-dev.youversion.com/highlights/chapter?lat=$YVP_LAT&version=20611&usfm=JHN.3",
+    url: "https://api-dev.youversion.com/highlights/chapter?lat=$YVP_LAT&version=206&usfm=JHN.3",
     requiresLat: true,
   },
   {
