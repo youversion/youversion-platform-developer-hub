@@ -2,7 +2,9 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { BookOpen, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { BookOpen, Search, ExternalLink } from 'lucide-react';
+
 const BibleDirectory = () => {
   const bibles = [{
     name: "New International Version",
@@ -47,10 +49,22 @@ const BibleDirectory = () => {
     year: "1979",
     license: "Commercial"
   }];
+
   return <div className="container py-12 canvas-primary">
       <div className="max-w-6xl mx-auto">
         <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-4">Bible Directory</h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-4xl font-bold">Bible Directory</h1>
+            <Button 
+              variant="stroked" 
+              size="default"
+              onClick={() => window.open('https://bible-directory.vercel.app', '_blank')}
+              className="flex items-center gap-2"
+            >
+              Hackathon Directory
+              <ExternalLink className="h-4 w-4" />
+            </Button>
+          </div>
           <p className="text-xl text-muted-foreground">
             Browse available Bible translations for your applications
           </p>
@@ -105,4 +119,5 @@ const BibleDirectory = () => {
       </div>
     </div>;
 };
+
 export default BibleDirectory;
