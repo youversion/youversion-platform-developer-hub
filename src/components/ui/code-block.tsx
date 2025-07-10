@@ -33,7 +33,7 @@ const CodeBlock = ({ children, language, className, copyable = true }: CodeBlock
           </div>
         )}
         <pre className="text-sm font-mono">
-          <code>{children}</code>
+          <code className="px-8 py-4">{children}</code>
         </pre>
         {copyable && (
           <Button
