@@ -3,6 +3,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 interface CodeBlockProps {
   children: React.ReactNode;
@@ -12,9 +13,15 @@ interface CodeBlockProps {
 }
 
 const CodeBlock = ({ children, language, className, copyable = true }: CodeBlockProps) => {
+  const { toast } = useToast();
+  
   const handleCopy = () => {
     const text = typeof children === 'string' ? children : '';
     navigator.clipboard.writeText(text);
+    toast({
+      title: "Code copied",
+      description: "Code has been copied to your clipboard.",
+    });
   };
 
   return (
