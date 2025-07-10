@@ -14,8 +14,6 @@ const Login = () => {
       setActiveTab('signin');
     } else if (location.pathname === '/create-account') {
       setActiveTab('create');
-    } else if (location.pathname === '/yv-connect') {
-      setActiveTab('connect');
     }
   }, [location.pathname]);
   return <div className="container py-20">
@@ -28,7 +26,7 @@ const Login = () => {
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
               <TabsTrigger value="create">Create Account</TabsTrigger>
               
@@ -42,9 +40,6 @@ const Login = () => {
               <CreateAccountForm />
             </TabsContent>
             
-            <TabsContent value="connect" className="mt-6">
-              <ConnectForm />
-            </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
