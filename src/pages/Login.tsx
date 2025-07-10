@@ -20,9 +20,7 @@ const Login = () => {
       <Card className="w-full max-w-[620px] mx-auto">
         <CardHeader>
           <CardTitle>Welcome to the YouVersion Platform</CardTitle>
-          <CardDescription>
-            Access your developer account or create a new one
-          </CardDescription>
+          <CardDescription>Access your developer account or create a new one by using your YouVersion Account.</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
