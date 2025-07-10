@@ -19,6 +19,9 @@ IMAGE_URI="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE_NAME}:${T
 if ! docker buildx ls | grep -q "builder"; then
   echo "Creating and using buildx builder..."
   docker buildx create --name builder --use
+else
+  echo "Using existing buildx builder..."
+  docker buildx use builder
 fi
 
 echo "Building and pushing multi-platform image to Artifact Registry: $IMAGE_URI"
