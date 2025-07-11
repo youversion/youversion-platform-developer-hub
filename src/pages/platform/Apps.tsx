@@ -39,13 +39,22 @@ const Apps = () => {
   const [error, setError] = useState<string | null>(null);
   const [creationDialog, setCreationDialog] = useState<{ open: boolean; message: string; appKey: string } | null>(null);
 
+  // Pagination state
+  const [pageIndex, setPageIndex] = useState<number>(0);       // Zero-based page number
+  const [pageSize, setPageSize] = useState<number>(10);        // Items per page
+  const [totalRecords, setTotalRecords] = useState<number>(0); // Total items on the server
+
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const [appsRes, keysRes] = await Promise.all([
-          fetch(APPS_URL, {
+        // Build paginated URL
+          const offset = pageIndex * pageSize;
+          const appsUrlWithParams = `${APPS_URL}?start=${offset}&length=${pageSize}`;
+          const [appsRes, keysRes] = await Promise.all([
+          fetch(appsUrlWithParams, {
             headers: {
               'Authorization': 'Basic ' + btoa('admin:findslife'),
               'Accept': 'application/json',
@@ -64,6 +73,8 @@ const Apps = () => {
 
                         // Parse API JSON responses
         const rawApps = await appsRes.json();
+        // Read total count for pagination
+        setTotalRecords(rawApps.recordsTotal ?? rawApps.recordsFiltered ?? 0);
         console.debug('Raw Apps:', rawApps);
         const rawKeys = await keysRes.json();
         console.debug('Raw Keys:', rawKeys);
@@ -121,7 +132,7 @@ const Apps = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [pageIndex, pageSize]);
 
   const generateAppKey = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -265,6 +276,7 @@ const Apps = () => {
         ) : error ? (
           <div className="text-center py-12 text-red-500">{error}</div>
         ) : (
+        <>
         <div className="grid gap-6 md:grid-cols-2">
           {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200">
               <CardHeader className="pb-4">
@@ -335,6 +347,29 @@ const Apps = () => {
               </CardContent>
             </Card>)}
         </div>
+          {/* Pagination Controls */}
+          <div className="flex items-center justify-between mt-6">
+            <span className="text-sm">
+              Showing {pageIndex * pageSize + 1}–{Math.min((pageIndex + 1) * pageSize, totalRecords)} of {totalRecords}
+            </span>
+            <div className="space-x-2">
+              <Button
+                size="sm"
+                disabled={pageIndex === 0}
+                onClick={() => setPageIndex((p) => p - 1)}
+              >
+                Previous
+              </Button>
+              <Button
+                size="sm"
+                disabled={(pageIndex + 1) * pageSize >= totalRecords}
+                onClick={() => setPageIndex((p) => p + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </>
         )}
       </div>
 
