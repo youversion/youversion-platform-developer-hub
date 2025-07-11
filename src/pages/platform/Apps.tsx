@@ -132,7 +132,7 @@ const Apps = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [pageIndex, pageSize]);
 
   const generateAppKey = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
