@@ -15,16 +15,12 @@ SERVICE_NAME="developer-hub"
 
 IMAGE_URI="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE_NAME}:${TAG}"
 
-# Ensure Docker Buildx is set up
-if docker buildx inspect builder >/dev/null 2>&1; then
-  docker buildx rm builder
-fi
-
-if ! docker buildx ls | grep -q "builder"; then
-  echo "Creating and using buildx builder..."
+# Ensure Docker Buildx builder named "builder" exists
+if ! docker buildx inspect builder >/dev/null 2>&1; then
+  echo "Builder 'builder' not found; creating and using new builder..."
   docker buildx create --name builder --use
 else
-  echo "Using existing buildx builder..."
+  echo "Using existing buildx builder 'builder'..."
   docker buildx use builder
 fi
 
