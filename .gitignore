@@ -25,4 +25,3 @@ dist-ssr
 
 # Google Cloud SDK
 /bin/zsh/google-cloud-sdk/
-exec -l /

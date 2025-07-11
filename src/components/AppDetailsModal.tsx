@@ -232,10 +232,32 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
                 <Label htmlFor="callback_uri">Callback URI</Label>
                 <Input
                   id="callback_uri"
-                  {...register('callback_uri')}
+                  {...register('callback_uri', {
+                    validate: (value: string) => {
+                      if (!value) return true;
+                      try {
+                        const url = new URL(value);
+                        if (url.protocol === 'https:') return true;
+                        if (
+                          url.protocol === 'http:' &&
+                          (url.hostname === 'localhost' || url.hostname === '127.0.0.1')
+                        )
+                          return true;
+                        return 'Callback URI must use https, unless using localhost or 127.0.0.1';
+                      } catch {
+                        return 'Invalid URL';
+                      }
+                    },
+                  })}
                   placeholder="https://yourapp.com/callback"
                   type="url"
+                  className={errors.callback_uri ? 'border-red-500' : ''}
                 />
+                {errors.callback_uri && (
+                  <p className="text-sm text-red-500">
+                    {errors.callback_uri.message}
+                  </p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
