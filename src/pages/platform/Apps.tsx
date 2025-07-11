@@ -62,18 +62,28 @@ const Apps = () => {
         if (!appsRes.ok) throw new Error('Failed to fetch apps');
         if (!keysRes.ok) throw new Error('Failed to fetch app keys');
 
-        const appsData = await appsRes.json();
-        const keysData = await keysRes.json();
+                        // Parse API JSON responses
+        const rawApps = await appsRes.json();
+        const rawKeys = await keysRes.json();
 
-        // build map app_id -> public_key (choose first accepted key)
+        // Normalize responses to arrays
+        const appsArray: any[] = Array.isArray(rawApps)
+          ? rawApps
+          : (Array.isArray((rawApps as any).data) ? (rawApps as any).data : []);
+        const keysArray: any[] = Array.isArray(rawKeys)
+          ? rawKeys
+          : (Array.isArray((rawKeys as any).data) ? (rawKeys as any).data : []);
+
+        // Build map app_id -> public_key
         const keyMap: Record<string, string> = {};
-        for (const k of keysData) {
-          if (!keyMap[k.app_id]) {
+        for (const k of keysArray) {
+          if (k.app_id && !keyMap[k.app_id]) {
             keyMap[k.app_id] = k.public_key;
           }
         }
 
-        const filtered = appsData.filter((app: any) => app.organization_id === ORG_ID);
+        // Filter apps by organization
+        const filtered = appsArray.filter((app: any) => app.organization_id === ORG_ID);
         const mapped: App[] = filtered.map((app: any) => ({
           id: app.id,
           name: app.names?.en || 'Untitled',
