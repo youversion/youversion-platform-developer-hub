@@ -67,12 +67,19 @@ const Apps = () => {
         const rawKeys = await keysRes.json();
 
         // Normalize responses to arrays
-        const appsArray: any[] = Array.isArray(rawApps)
-          ? rawApps
-          : (Array.isArray((rawApps as any).data) ? (rawApps as any).data : []);
-        const keysArray: any[] = Array.isArray(rawKeys)
-          ? rawKeys
-          : (Array.isArray((rawKeys as any).data) ? (rawKeys as any).data : []);
+        // Unwrap pagination wrapper if present
+
+        // Unwrap paginated data wrapper if present, normalize to arrays
+        const appsArray: any[] = Array.isArray((rawApps as any).data)
+          ? (rawApps as any).data
+          : Array.isArray(rawApps)
+            ? rawApps
+            : [];
+        const keysArray: any[] = Array.isArray((rawKeys as any).data)
+          ? (rawKeys as any).data
+          : Array.isArray(rawKeys)
+            ? rawKeys
+            : [];
 
         // Build map app_id -> public_key
         const keyMap: Record<string, string> = {};
