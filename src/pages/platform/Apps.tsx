@@ -276,6 +276,7 @@ const Apps = () => {
         ) : error ? (
           <div className="text-center py-12 text-red-500">{error}</div>
         ) : (
+        <>
         <div className="grid gap-6 md:grid-cols-2">
           {apps.map((app, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200">
               <CardHeader className="pb-4">
@@ -346,6 +347,29 @@ const Apps = () => {
               </CardContent>
             </Card>)}
         </div>
+          {/* Pagination Controls */}
+          <div className="flex items-center justify-between mt-6">
+            <span className="text-sm">
+              Showing {pageIndex * pageSize + 1}–{Math.min((pageIndex + 1) * pageSize, totalRecords)} of {totalRecords}
+            </span>
+            <div className="space-x-2">
+              <Button
+                size="sm"
+                disabled={pageIndex === 0}
+                onClick={() => setPageIndex((p) => p - 1)}
+              >
+                Previous
+              </Button>
+              <Button
+                size="sm"
+                disabled={(pageIndex + 1) * pageSize >= totalRecords}
+                onClick={() => setPageIndex((p) => p + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </>
         )}
       </div>
 
