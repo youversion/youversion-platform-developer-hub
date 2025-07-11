@@ -64,22 +64,28 @@ const Apps = () => {
 
                         // Parse API JSON responses
         const rawApps = await appsRes.json();
+        console.debug('Raw Apps:', rawApps);
         const rawKeys = await keysRes.json();
+        console.debug('Raw Keys:', rawKeys);
 
         // Normalize responses to arrays
         // Unwrap pagination wrapper if present
 
-        // Unwrap paginated data wrapper if present, normalize to arrays
-        const appsArray: any[] = Array.isArray((rawApps as any).data)
-          ? (rawApps as any).data
-          : Array.isArray(rawApps)
-            ? rawApps
-            : [];
-        const keysArray: any[] = Array.isArray((rawKeys as any).data)
-          ? (rawKeys as any).data
-          : Array.isArray(rawKeys)
-            ? rawKeys
-            : [];
+        // Normalize responses to arrays, unwrap possible paginated or named wrappers
+        const appsJson: any = rawApps;
+        const appsSource = Array.isArray(appsJson.data)
+          ? appsJson.data
+          : Array.isArray(appsJson.apps)
+            ? appsJson.apps
+            : appsJson;
+        const appsArray: any[] = Array.isArray(appsSource) ? appsSource : [];
+        const keysJson: any = rawKeys;
+        const keysSource = Array.isArray(keysJson.data)
+          ? keysJson.data
+          : Array.isArray(keysJson.keys)
+            ? keysJson.keys
+            : keysJson;
+        const keysArray: any[] = Array.isArray(keysSource) ? keysSource : [];
 
         // Build map app_id -> public_key
         const keyMap: Record<string, string> = {};
@@ -89,8 +95,8 @@ const Apps = () => {
           }
         }
 
-        // Filter apps by organization
-        const filtered = appsArray.filter((app: any) => app.organization_id === ORG_ID);
+        // Use all apps (remove organization filter for now)
+        const filtered = appsArray;
         const mapped: App[] = filtered.map((app: any) => ({
           id: app.id,
           name: app.names?.en || 'Untitled',
