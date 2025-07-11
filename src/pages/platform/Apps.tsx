@@ -39,6 +39,12 @@ const Apps = () => {
   const [error, setError] = useState<string | null>(null);
   const [creationDialog, setCreationDialog] = useState<{ open: boolean; message: string; appKey: string } | null>(null);
 
+  // Pagination state
+  const [pageIndex, setPageIndex] = useState<number>(0);       // Zero-based page number
+  const [pageSize, setPageSize] = useState<number>(10);        // Items per page
+  const [totalRecords, setTotalRecords] = useState<number>(0); // Total items on the server
+
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
