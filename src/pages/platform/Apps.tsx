@@ -50,8 +50,11 @@ const Apps = () => {
       setLoading(true);
       setError(null);
       try {
-        const [appsRes, keysRes] = await Promise.all([
-          fetch(APPS_URL, {
+        // Build paginated URL
+          const offset = pageIndex * pageSize;
+          const appsUrlWithParams = `${APPS_URL}?start=${offset}&length=${pageSize}`;
+          const [appsRes, keysRes] = await Promise.all([
+          fetch(appsUrlWithParams, {
             headers: {
               'Authorization': 'Basic ' + btoa('admin:findslife'),
               'Accept': 'application/json',
@@ -70,6 +73,8 @@ const Apps = () => {
 
                         // Parse API JSON responses
         const rawApps = await appsRes.json();
+        // Read total count for pagination
+        setTotalRecords(rawApps.recordsTotal ?? rawApps.recordsFiltered ?? 0);
         console.debug('Raw Apps:', rawApps);
         const rawKeys = await keysRes.json();
         console.debug('Raw Keys:', rawKeys);
