@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -95,15 +95,58 @@ const CALLS: ApiCall[] = [{
   requiresLat: true
 }];
 const Examples: React.FC = () => {
-  const [appId, setAppId] = useState<string>("");
+  const appId = "AYjVYEWhzZOXoAoFYQssYj6zMYAeJAXk7ziCAFkzq5cJxveM";
   const [lat, setLat] = useState<string>("");
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [loadingIds, setLoadingIds] = useState<Set<string>>(new Set());
-  const runCall = async (call: ApiCall) => {
-    if (!appId) {
-      alert("Please enter your App ID first.");
-      return;
+
+  // Check for a LAT in local storage on initial load
+  useEffect(() => {
+    const storedLat = localStorage.getItem('yvp_lat');
+    if (storedLat) {
+      setLat(storedLat);
+      // Optional: clear the LAT from storage after using it
+      // localStorage.removeItem('yvp_lat');
     }
+  }, []);
+
+  // Load the YouVersion Platform SDK and wire up auth callbacks
+  useEffect(() => {
+    if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+      const script = document.createElement("script");
+      script.type = "module";
+      script.src = "https://api-dev.youversion.com/sdk.js";
+      document.head.appendChild(script);
+    }
+
+    // Assign auth callback handlers expected by the SDK
+    (window as any).onYouVersionAuthComplete = (authData: any) => {
+      console.log("Login successful!", authData);
+      if (authData?.lat) {
+        setLat(authData.lat);
+      }
+    };
+
+    (window as any).onYouVersionAuthLoad = (authData: any) => {
+      console.log("Auth data loaded:", authData);
+    };
+
+    (window as any).onYouVersionLogout = () => {
+      console.log("User logged out");
+      setLat("");
+    };
+  }, []);
+
+  // Keep the app ID in sync with the data attribute the SDK relies on
+  useEffect(() => {
+    if (appId) {
+      document.body.dataset.youversionPlatformAppId = appId;
+    } else {
+      delete (document.body.dataset as any).youversionPlatformAppId;
+    }
+  }, [appId]);
+
+  const runCall = async (call: ApiCall) => {
     if (call.requiresLat && !lat) {
       alert("This request requires a LAT. Please enter your LAT first.");
       return;
@@ -146,6 +189,10 @@ const Examples: React.FC = () => {
   };
   return <div className="container py-12">
       <div className="max-w-7xl mx-auto space-y-8">
+        <div className="mb-6">
+          {/* @ts-ignore – custom web component from the YouVersion SDK */}
+          <youversion-login-button></youversion-login-button>
+        </div>
         <div>
           <h1 className="text-4xl font-bold mb-4">Interactive API Explorer</h1>
           <p className="text-muted-foreground text-lg">
@@ -164,10 +211,6 @@ const Examples: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div>
-              <label className="block mb-1 font-medium">App&nbsp;ID</label>
-              <Input placeholder="1234abcd..." value={appId} onChange={e => setAppId(e.target.value)} />
-            </div>
             <div>
               <label className="block mb-1 font-medium">Limited Access Token (LAT) (optional)</label>
               <Input placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." value={lat} onChange={e => setLat(e.target.value)} />

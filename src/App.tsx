@@ -27,6 +27,8 @@ import Settings from "./pages/platform/Settings";
 import Notifications from "./pages/platform/Notifications";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Callback from "./pages/Callback";
+import Join from "./pages/Join";
 const queryClient = new QueryClient();
 const App = () => <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="system" storageKey="youversion-theme">
@@ -56,6 +58,8 @@ const App = () => <QueryClientProvider client={queryClient}>
                 <Route path="/signin" element={<Login />} />
                 <Route path="/create-account" element={<Login />} />
                 <Route path="/yv-connect" element={<Login />} />
+                <Route path="/callback" element={<Callback />} />
+                <Route path="/join" element={<Join />} />
                 <Route path="/platform" element={<Platform />}>
                   <Route path="apps" element={<Apps />} />
                   <Route path="analytics" element={<Analytics />} />

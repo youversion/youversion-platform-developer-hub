@@ -1,45 +1,27 @@
 import React, { useEffect, useState } from 'react';
-
-declare global {
-  interface Window {
-    loadUserData?: (lat: string, yvp_user_id: string) => void;
-  }
-}
+import { useNavigate } from 'react-router-dom';
 
 const Callback = () => {
-  const [status, setStatus] = useState('Loading...');
-  const [query, setQuery] = useState('');
-  const [hash, setHash] = useState('');
+  const [status, setStatus] = useState('Processing sign in...');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setQuery(window.location.search);
-    setHash(window.location.hash);
-    // Example: parse query params or hash for auth data
     const params = new URLSearchParams(window.location.search);
     const lat = params.get('lat');
-    const yvp_user_id = params.get('yvp_user_id');
 
-    if (lat && yvp_user_id) {
-      if (typeof window.loadUserData === 'function') {
-        window.loadUserData(lat, yvp_user_id);
-        setStatus('Sign in successful! Redirecting...');
-      } else {
-        setStatus('Sign in successful, but loadUserData is not defined.');
-      }
+    if (lat) {
+      localStorage.setItem('yvp_lat', lat);
+      setStatus('Sign in successful! Redirecting...');
+      navigate('/examples');
     } else {
-      setStatus('No authentication data found in callback URL.');
+      setStatus('Authentication failed. No LAT provided in callback.');
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="container py-20 text-center">
       <h1 className="text-3xl font-bold mb-4">YouVersion Sign In</h1>
       <p>{status}</p>
-      <div className="mt-8 text-left max-w-xl mx-auto">
-        <div className="mb-2"><b>Query string:</b> <code>{query}</code></div>
-        <div className="mb-2"><b>Hash:</b> <code>{hash}</code></div>
-        <div className="mb-2"><b>All query params:</b> <code>{JSON.stringify(Object.fromEntries(new URLSearchParams(query)), null, 2)}</code></div>
-      </div>
     </div>
   );
 };
