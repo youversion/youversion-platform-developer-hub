@@ -257,7 +257,8 @@ const Apps = () => {
     setIsNewApp(false);
   };
 
-  return <div className="container py-12">
+  return (
+    <div className="container py-12">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -381,6 +382,7 @@ const Apps = () => {
               <DialogTitle>Application Created</DialogTitle>
               <DialogDescription>{creationDialog.message}</DialogDescription>
             </DialogHeader>
+            <div className="space-y-4">
               <div className="space-y-2">
                 <span className="font-semibold">Public Key:</span>
                 <div className="flex items-center gap-2">
@@ -404,7 +406,8 @@ const Apps = () => {
           </DialogContent>
         </Dialog>
       )}
-    </div>;
+    </div>
+  );
 };
 
 export default Apps;
