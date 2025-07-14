@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface App {
   id: string;
@@ -257,8 +257,7 @@ const Apps = () => {
     setIsNewApp(false);
   };
 
-  return (
-    <div className="container py-12">
+  return <div className="container py-12">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -380,9 +379,9 @@ const Apps = () => {
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
               <DialogTitle>Application Created</DialogTitle>
-              <DialogDescription>{creationDialog.message}</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
+              <div>{creationDialog.message}</div>
               <div className="space-y-2">
                 <span className="font-semibold">Public Key:</span>
                 <div className="flex items-center gap-2">
@@ -406,8 +405,7 @@ const Apps = () => {
           </DialogContent>
         </Dialog>
       )}
-    </div>
-  );
+    </div>;
 };
 
 export default Apps;
