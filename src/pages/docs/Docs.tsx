@@ -34,12 +34,12 @@ const Docs = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <KeyRound className="h-5 w-5 text-[#FF3D4D]" />
-                      Get an App Key
+                      Create an App ID
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p>
-                      To use the YouVersion Platform API, you need to register your app and obtain an <code>X-App-Id</code> (app key).<br />
+                      To use the YouVersion Platform API, you need to register your app and obtain an <code>X-App-Id</code> (app id).<br />
                       Visit <a href="/get-started" rel="noopener noreferrer" className="text-blue-600 underline">developers.youversion.com/get-started</a> to create an account and register your application.
                     </p>
                   </CardContent>
