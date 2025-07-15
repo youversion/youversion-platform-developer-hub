@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,13 +10,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import StatementOfFaithModal from "@/components/StatementOfFaithModal";
@@ -28,12 +21,18 @@ const GOOGLE_MAPS_API_KEY = "AIzaSyDa5uwzQ5wwtYTUG5CxdZLoPkqnJG1BKwE";
 // This is a separate key from the Maps API key
 const ADDRESS_VALIDATION_API_KEY = "AIzaSyDa5uwzQ5wwtYTUG5CxdZLoPkqnJG1BKwE";
 
+interface UserData {
+  avatar_url?: string;
+  first_name?: string;
+  last_name?: string;
+  id?: number;
+}
 
 interface FormState {
   accountType: "organization" | "individual";
   organizationName: string;
-  fullName: string;
-  role: string;
+  firstName: string;
+  lastName: string;
   address: {
     description: string;
     placeId: string;
@@ -46,10 +45,30 @@ interface FormState {
 const Join: React.FC = () => {
   const [formState, setFormState] = useState<Partial<FormState>>({
     accountType: "organization",
-    role: "owner",
   });
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [sofModalOpen, setSofModalOpen] = useState(false);
   const [tosModalOpen, setTosModalOpen] = useState(false);
+
+  // Load user data from localStorage on component mount
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('yvp_user_data');
+    if (storedUserData) {
+      try {
+        const parsedUserData: UserData = JSON.parse(storedUserData);
+        setUserData(parsedUserData);
+        
+        // Prefill the form with user data
+        setFormState(prev => ({
+          ...prev,
+          firstName: parsedUserData.first_name || '',
+          lastName: parsedUserData.last_name || ''
+        }));
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
+    }
+  }, []);
 
   const handlePlaceSelect = (place: google.maps.places.PlaceResult) => {
     console.log("Selected Place: ", place);
@@ -65,10 +84,6 @@ const Join: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormState(prev => ({ ...prev, [id]: value }));
-  };
-
-  const handleSelectChange = (id: keyof FormState) => (value: string) => {
     setFormState(prev => ({ ...prev, [id]: value }));
   };
 
@@ -116,6 +131,21 @@ const Join: React.FC = () => {
     }
   };
 
+  // Get user's initials for avatar fallback
+  const getUserInitials = () => {
+    if (userData?.first_name && userData?.last_name) {
+      return `${userData.first_name[0]}${userData.last_name[0]}`;
+    }
+    return "U";
+  };
+
+  // Get greeting message
+  const getGreeting = () => {
+    if (userData?.first_name) {
+      return `Just one more step ${userData.first_name}!`;
+    }
+    return "Just one more step!";
+  };
 
   return (
     <>
@@ -125,11 +155,14 @@ const Join: React.FC = () => {
             <CardHeader className="text-center">
               <div className="mx-auto mb-4">
                 <Avatar className="h-24 w-24">
-                  <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-                  <AvatarFallback>U</AvatarFallback>
+                  <AvatarImage 
+                    src={userData?.avatar_url?.replace('{width}', '96').replace('{height}', '96')} 
+                    alt="User" 
+                  />
+                  <AvatarFallback>{getUserInitials()}</AvatarFallback>
                 </Avatar>
               </div>
-              <h2 className="text-2xl font-bold">Just one more step Elizabeth!</h2>
+              <h2 className="text-2xl font-bold">{getGreeting()}</h2>
               <p className="text-3xl font-bold">
                 Register as an Organization or an Individual
               </p>
@@ -168,28 +201,26 @@ const Join: React.FC = () => {
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="md:col-span-2 space-y-2">
-                    <Label htmlFor="fullName">First and Last Name</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name</Label>
                     <Input
-                      id="fullName"
-                      placeholder="Elizabeth Haynes (autofilled)"
-                      value={formState.fullName || ""}
+                      id="firstName"
+                      placeholder={userData ? userData.first_name || "First Name" : "First Name"}
+                      value={formState.firstName || ""}
                       onChange={handleInputChange}
+                      disabled
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="role">Role</Label>
-                    <Select onValueChange={handleSelectChange('role')} value={formState.role}>
-                      <SelectTrigger id="role">
-                        <SelectValue placeholder="Owner" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="owner">Owner</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="member">Member</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input
+                      id="lastName"
+                      placeholder={userData ? userData.last_name || "Last Name" : "Last Name"}
+                      value={formState.lastName || ""}
+                      onChange={handleInputChange}
+                      disabled
+                    />
                   </div>
                 </div>
 

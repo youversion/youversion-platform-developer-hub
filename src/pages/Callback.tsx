@@ -11,8 +11,47 @@ const Callback = () => {
 
     if (lat) {
       localStorage.setItem('yvp_lat', lat);
-      setStatus('Sign in successful! Redirecting...');
-      navigate('/examples');
+      setStatus('Sign in successful! Fetching user data...');
+      
+      // Fetch user data using the LAT token
+      const appId = "AYjVYEWhzZOXoAoFYQssYj6zMYAeJAXk7ziCAFkzq5cJxveM";
+      const fetchUserData = async () => {
+        try {
+          const response = await fetch(`https://api-dev.youversion.com/auth/me?lat=${encodeURIComponent(lat)}`, {
+            method: 'GET',
+            headers: {
+              'X-App-ID': appId
+            }
+          });
+          
+          if (response.ok) {
+            const userData = await response.json();
+            console.log('User data fetched:', userData);
+            
+            // Store user data for prefilling the form
+            localStorage.setItem('yvp_user_data', JSON.stringify(userData));
+            
+            setStatus('User data fetched! Redirecting to join page...');
+            setTimeout(() => {
+              navigate('/join');
+            }, 1000);
+          } else {
+            console.error('Failed to fetch user data:', response.status);
+            setStatus('Failed to fetch user data. Redirecting to join page...');
+            setTimeout(() => {
+              navigate('/join');
+            }, 2000);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          setStatus('Error fetching user data. Redirecting to join page...');
+          setTimeout(() => {
+            navigate('/join');
+          }, 2000);
+        }
+      };
+      
+      fetchUserData();
     } else {
       setStatus('Authentication failed. No LAT provided in callback.');
     }

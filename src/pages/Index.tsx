@@ -1,10 +1,60 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
+
+// Extend window interface for YouVersion SDK callbacks
+declare global {
+  interface Window {
+    onYouVersionAuthComplete?: (authData: { lat?: string }) => void;
+    onYouVersionAuthLoad?: (authData: unknown) => void;
+    onYouVersionLogout?: () => void;
+  }
+}
+
 const Index = () => {
   const navigate = useNavigate();
+
+  // Load the YouVersion Platform SDK and set up auth callbacks
+  useEffect(() => {
+    // Load the SDK script if not already loaded
+    if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+      const script = document.createElement("script");
+      script.type = "module";
+      script.src = "https://api-dev.youversion.com/sdk.js";
+      document.head.appendChild(script);
+    }
+
+    // Set the app ID for the SDK
+    const appId = "AYjVYEWhzZOXoAoFYQssYj6zMYAeJAXk7ziCAFkzq5cJxveM";
+    document.body.dataset.youversionPlatformAppId = appId;
+
+    // Set up auth callback handlers
+    window.onYouVersionAuthComplete = (authData: { lat?: string }) => {
+      console.log("Login successful!", authData);
+      if (authData?.lat) {
+        // Store the LAT token and navigate to callback
+        localStorage.setItem('yvp_lat', authData.lat);
+        navigate('/callback');
+      }
+    };
+
+    window.onYouVersionAuthLoad = (authData: unknown) => {
+      console.log("Auth data loaded:", authData);
+    };
+
+    window.onYouVersionLogout = () => {
+      console.log("User logged out");
+      localStorage.removeItem('yvp_lat');
+    };
+
+    // Cleanup function to remove the app ID when component unmounts
+    return () => {
+      delete (document.body.dataset as Record<string, string>).youversionPlatformAppId;
+    };
+  }, [navigate]);
+
   return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 dark:text-white bg-gradient-to-b from-white via-slate-400 to-slate-600 dark:from-slate-900 dark:via-slate-400 dark:to-slate-600">
@@ -15,6 +65,9 @@ const Index = () => {
             </h1>
             <p className="text-xl mb-8 text-black dark:text-slate-200">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col gap-4 items-center">
+              <div className="mb-6">
+                <youversion-login-button></youversion-login-button>
+              </div>
               <Button size="xl" variant="filled-contrast" onClick={() => navigate('/get-started')} className="text-sm font-bold py-[30px] px-[40px]">
                 Join the YouVersion Platform
               </Button>
