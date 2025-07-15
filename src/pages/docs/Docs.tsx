@@ -21,6 +21,14 @@ const Docs = () => {
                 </p>
               </div>
 
+              <Card className="mb-8">
+                <CardContent className="pt-6">
+                  <p>
+                    Sign in to YouVersion and create your developer account at <a href="https://login.youversion.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">login.youversion.com</a>
+                  </p>
+                </CardContent>
+              </Card>
+
               <div className="space-y-8">
                 <Card>
                   <CardHeader>
@@ -32,7 +40,7 @@ const Docs = () => {
                   <CardContent>
                     <p>
                       To use the YouVersion Platform API, you need to register your app and obtain an <code>X-App-Id</code> (app key).<br />
-                      Visit <a href="/get-started" rel="noopener noreferrer" className="text-blue-600 underline">Create an App ID</a> to create an account and register your application.
+                      Visit <a href="/get-started" rel="noopener noreferrer" className="text-blue-600 underline">developers.youversion.com/get-started</a> to create an account and register your application.
                     </p>
                   </CardContent>
                 </Card>
