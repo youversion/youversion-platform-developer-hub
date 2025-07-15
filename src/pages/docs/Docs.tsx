@@ -21,6 +21,14 @@ const Docs = () => {
                 </p>
               </div>
 
+              <Card className="mb-8">
+                <CardContent className="pt-6">
+                  <p>
+                    Sign in to YouVersion and create your developer account at <a href="https://login.youversion.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">login.youversion.com</a>
+                  </p>
+                </CardContent>
+              </Card>
+
               <div className="space-y-8">
                 <Card>
                   <CardHeader>
