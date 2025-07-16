@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
 import CodeBlock from "@/components/ui/code-block";
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
@@ -210,6 +212,14 @@ const Examples: React.FC = () => {
                   and inspect their live responses. <br></br><b>HACKATHON NOTE:</b> Get your "Limited Access Token" (LAT) by going to the <a href="https://lifechurch.gitlab.io/youversion/apis/platform/yvp-login-flutter/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">following link</a> and click "Log in with YouVersion"; don't change other fields. Copy the "lat" value from the Auth response.
                 </p>
               </div>
+
+              {/* Warning notification */}
+              <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950">
+                <AlertTriangle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                <AlertDescription className="text-yellow-800 dark:text-yellow-200">
+                  Should be moved to API reference
+                </AlertDescription>
+              </Alert>
 
               {/* Credentials */}
               <Card>
