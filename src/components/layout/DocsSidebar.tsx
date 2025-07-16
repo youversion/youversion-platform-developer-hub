@@ -52,14 +52,6 @@ const apiSubNavItems = [
   {
     name: 'Endpoints',
     path: '/docs/api/endpoints'
-  },
-  {
-    name: 'Rate Limits',
-    path: '/docs/api/rate-limits'
-  },
-  {
-    name: 'Response Format',
-    path: '/docs/api/response-format'
   }
 ];
 
