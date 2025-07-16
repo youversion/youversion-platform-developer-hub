@@ -10,7 +10,7 @@ const docsNavItems = [
     path: '/docs/quick-start',
     icon: Zap
   },
-    {
+  {
     name: 'API Reference',
     path: '/docs/api-reference',
     icon: Code
