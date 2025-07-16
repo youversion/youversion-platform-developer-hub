@@ -47,11 +47,11 @@ const App = () => <QueryClientProvider client={queryClient}>
                 <Route path="/docs/quick-start" element={<Docs />} />
                 <Route path="/docs/sdks" element={<SDKs />} />
                 <Route path="/docs/authentication" element={<Authentication />} />
-                <Route path="/docs/api-reference" element={<ApiReference />} />
+                <Route path="/docs/api" element={<ApiReference />} />
                 <Route path="/docs/verses" element={<Verses />} />
                 <Route path="/docs/bibles" element={<Bibles />} />
                 <Route path="/docs/search" element={<SearchDocs />} />
-                <Route path="/docs/api-reference/endpoints" element={<Endpoints />} />
+                <Route path="/docs/api/endpoints" element={<Endpoints />} />
                 <Route path="/docs/usfm-reference" element={<USFMReference />} />
                 <Route path="/docs/examples" element={<Examples />} />
                 <Route path="/bible-directory" element={<BibleDirectory />} />

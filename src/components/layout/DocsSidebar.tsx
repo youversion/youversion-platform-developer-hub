@@ -31,7 +31,7 @@ const docsNavItems = [
 const apiSubNavItems = [
   {
     name: 'Overview',
-    path: '/docs/api-reference'
+    path: '/docs/api'
   },
   {
     name: 'Authentication',
@@ -51,22 +51,22 @@ const apiSubNavItems = [
   },
   {
     name: 'Endpoints',
-    path: '/docs/api-reference/endpoints'
+    path: '/docs/api/endpoints'
   },
   {
     name: 'Rate Limits',
-    path: '/docs/api-reference/rate-limits'
+    path: '/docs/api/rate-limits'
   },
   {
     name: 'Response Format',
-    path: '/docs/api-reference/response-format'
+    path: '/docs/api/response-format'
   }
 ];
 
 const DocsSidebar = () => {
   const location = useLocation();
   const [isApiOpen, setIsApiOpen] = useState(() => 
-    location.pathname.startsWith('/docs/api-reference') ||
+    location.pathname.startsWith('/docs/api') ||
     location.pathname === '/docs/authentication' ||
     location.pathname === '/docs/verses' ||
     location.pathname === '/docs/bibles' ||
@@ -102,7 +102,7 @@ const DocsSidebar = () => {
                 <Collapsible open={isApiOpen} onOpenChange={setIsApiOpen}>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton 
-                      isActive={location.pathname.startsWith('/docs/api-reference') ||
+                      isActive={location.pathname.startsWith('/docs/api') ||
                                location.pathname === '/docs/authentication' ||
                                location.pathname === '/docs/verses' ||
                                location.pathname === '/docs/bibles' ||
