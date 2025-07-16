@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import Index from "./pages/Index";
 import GetStarted from "./pages/GetStarted";
 import Docs from "./pages/docs/Docs";
@@ -71,6 +72,7 @@ const App = () => <QueryClientProvider client={queryClient}>
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
+            <Footer />
           </div>
         </BrowserRouter>
       </TooltipProvider>
