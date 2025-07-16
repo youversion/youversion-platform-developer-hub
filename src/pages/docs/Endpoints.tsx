@@ -4,20 +4,19 @@ import DocsSidebar from '@/components/layout/DocsSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-
 const Endpoints = () => {
-  return (
-    <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+  return <SidebarProvider>
+      <div className="flex w-full" style={{
+      height: 'calc(100vh - 64px)'
+    }}>
         <DocsSidebar />
         <div className="flex-1 canvas-primary">
           <div className="container py-12">
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="mb-8">
                 <h1 className="text-4xl font-bold mb-4">API Endpoints</h1>
-                <p className="text-xl text-muted-foreground">
-                  Complete reference for all YouVersion Platform API endpoints
-                </p>
+                <p className="text-xl text-muted-foreground">PLACE SWAGGER DOCS HERE
+Complete reference for all YouVersion Platform API endpoints</p>
               </div>
 
               {/* Base URL */}
@@ -306,8 +305,6 @@ const Endpoints = () => {
           </div>
         </div>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
-
 export default Endpoints;
