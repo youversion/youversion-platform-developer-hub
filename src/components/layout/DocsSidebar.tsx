@@ -10,6 +10,11 @@ const docsNavItems = [
     path: '/docs/quick-start',
     icon: Zap
   },
+    {
+    name: 'API Reference',
+    path: '/docs/api-reference',
+    icon: Code
+  },
   {
     name: 'SDKs',
     path: '/docs/sdks',
@@ -19,11 +24,6 @@ const docsNavItems = [
     name: 'Authentication',
     path: '/docs/authentication',
     icon: Shield
-  },
-  {
-    name: 'API Reference',
-    path: '/docs/api-reference',
-    icon: Code
   },
   {
     name: 'Verses',
