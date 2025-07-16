@@ -20,6 +20,7 @@ import Verses from "./pages/docs/Verses";
 import Bibles from "./pages/docs/Bibles";
 import SearchDocs from "./pages/docs/SearchDocs";
 import USFMReference from "./pages/docs/USFMReference";
+import Endpoints from "./pages/docs/Endpoints";
 import Platform from "./pages/Platform";
 import Apps from "./pages/platform/Apps";
 import Analytics from "./pages/platform/Analytics";
@@ -50,6 +51,7 @@ const App = () => <QueryClientProvider client={queryClient}>
                 <Route path="/docs/verses" element={<Verses />} />
                 <Route path="/docs/bibles" element={<Bibles />} />
                 <Route path="/docs/search" element={<SearchDocs />} />
+                <Route path="/docs/api-reference/endpoints" element={<Endpoints />} />
                 <Route path="/docs/usfm-reference" element={<USFMReference />} />
                 <Route path="/docs/examples" element={<Examples />} />
                 <Route path="/bible-directory" element={<BibleDirectory />} />
