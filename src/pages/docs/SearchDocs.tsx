@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Search, Filter, Star, TrendingUp } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Search, Filter, Star, TrendingUp, AlertTriangle } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import CodeBlock from '@/components/ui/code-block';
@@ -20,6 +21,13 @@ const SearchDocs = () => {
                   Search Bible content with powerful filtering and ranking
                 </p>
               </div>
+
+              <Alert variant="destructive" className="mb-8">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription>
+                  Placeholder page only - not real data or usage instructions
+                </AlertDescription>
+              </Alert>
 
               <Card>
                 <CardHeader>
