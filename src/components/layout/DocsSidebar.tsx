@@ -94,21 +94,24 @@ const DocsSidebar = () => {
                 <Collapsible open={isApiOpen} onOpenChange={setIsApiOpen}>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton 
-                      asChild
                       isActive={location.pathname.startsWith('/docs/api') ||
                                location.pathname === '/docs/authentication' ||
                                location.pathname === '/docs/verses' ||
                                location.pathname === '/docs/bibles' ||
                                location.pathname === '/docs/search'}
                       className="w-full justify-between"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsApiOpen(!isApiOpen);
+                      }}
                     >
-                      <NavLink to="/docs/api" className="flex items-center justify-between w-full">
+                      <div className="flex items-center justify-between w-full">
                         <div className="flex items-center">
                           <Code className="h-4 w-4 mr-2" />
                           <span>API Reference</span>
                         </div>
                         <ChevronDown className={`h-4 w-4 transition-transform ${isApiOpen ? 'rotate-180' : ''}`} />
-                      </NavLink>
+                      </div>
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
