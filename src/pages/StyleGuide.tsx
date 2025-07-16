@@ -5,8 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Palette, Type, Layout, Zap } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useToast } from '@/hooks/use-toast';
+import { Palette, Type, Layout, Zap, Bell, Info, AlertTriangle, CheckCircle, X } from 'lucide-react';
 const StyleGuide = () => {
+  const { toast } = useToast();
   return <div className="container py-12">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
@@ -287,15 +292,62 @@ const StyleGuide = () => {
                 <CardTitle>Form Elements</CardTitle>
                 <CardDescription>Input fields and form components</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
+                {/* Text Input */}
                 <div>
-                  <Label htmlFor="example-input">Label</Label>
-                  <Input id="example-input" placeholder="Placeholder text" />
+                  <h4 className="font-medium mb-3">Text Input</h4>
+                  <div>
+                    <Label htmlFor="example-input">Label</Label>
+                    <Input id="example-input" placeholder="Placeholder text" />
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <Badge>Default Badge</Badge>
-                  <Badge variant="secondary">Secondary Badge</Badge>
-                  <Badge variant="outline">Outline Badge</Badge>
+
+                {/* Checkboxes */}
+                <div>
+                  <h4 className="font-medium mb-3">Checkboxes</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="terms" />
+                      <Label htmlFor="terms">Accept terms and conditions</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="marketing" defaultChecked />
+                      <Label htmlFor="marketing">Subscribe to marketing emails</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="disabled" disabled />
+                      <Label htmlFor="disabled">Disabled option</Label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Radio Buttons */}
+                <div>
+                  <h4 className="font-medium mb-3">Radio Buttons</h4>
+                  <RadioGroup defaultValue="option1">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="option1" id="option1" />
+                      <Label htmlFor="option1">Option 1</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="option2" id="option2" />
+                      <Label htmlFor="option2">Option 2</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="option3" id="option3" />
+                      <Label htmlFor="option3">Option 3</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                {/* Badges */}
+                <div>
+                  <h4 className="font-medium mb-3">Badges</h4>
+                  <div className="flex gap-2">
+                    <Badge>Default Badge</Badge>
+                    <Badge variant="secondary">Secondary Badge</Badge>
+                    <Badge variant="outline">Outline Badge</Badge>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -336,6 +388,149 @@ const StyleGuide = () => {
                 <div>
                   <p className="text-sm font-medium mb-2">Section Spacing</p>
                   <p className="text-sm text-muted-foreground">Use py-12 for main sections, py-6 for subsections</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Notifications Section */}
+        <section className="mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <Bell className="h-6 w-6 text-[#FF3D4D]" />
+            <h2 className="text-2xl font-bold">Notifications</h2>
+          </div>
+          
+          <div className="space-y-6">
+            {/* Alerts */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Alerts</CardTitle>
+                <CardDescription>Static notification components for important messages</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Alert>
+                  <Info className="h-4 w-4" />
+                  <AlertTitle>Info</AlertTitle>
+                  <AlertDescription>
+                    This is an informational alert for general information.
+                  </AlertDescription>
+                </Alert>
+
+                <Alert variant="destructive">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>
+                    This is a destructive alert for errors and critical issues.
+                  </AlertDescription>
+                </Alert>
+
+                <Alert className="border-green-200 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400">
+                  <CheckCircle className="h-4 w-4" />
+                  <AlertTitle>Success</AlertTitle>
+                  <AlertDescription>
+                    This is a success alert for positive actions and confirmations.
+                  </AlertDescription>
+                </Alert>
+
+                <Alert className="border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-400">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTitle>Warning</AlertTitle>
+                  <AlertDescription>
+                    This is a warning alert for important notices that need attention.
+                  </AlertDescription>
+                </Alert>
+              </CardContent>
+            </Card>
+
+            {/* Toast Notifications */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Toast Notifications</CardTitle>
+                <CardDescription>Dynamic notifications that appear temporarily</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex flex-wrap gap-2">
+                  <Button 
+                    onClick={() => toast({
+                      title: "Success",
+                      description: "Your action was completed successfully.",
+                    })}
+                  >
+                    Show Success Toast
+                  </Button>
+
+                  <Button 
+                    variant="filled-contrast"
+                    onClick={() => toast({
+                      title: "Error",
+                      description: "Something went wrong. Please try again.",
+                      variant: "destructive",
+                    })}
+                  >
+                    Show Error Toast
+                  </Button>
+
+                  <Button 
+                    variant="stroked"
+                    onClick={() => toast({
+                      title: "Info",
+                      description: "Here's some helpful information for you.",
+                    })}
+                  >
+                    Show Info Toast
+                  </Button>
+
+                  <Button 
+                    variant="filled-secondary"
+                    onClick={() => toast({
+                      title: "Undo",
+                      description: "Your file was saved.",
+                      action: (
+                        <Button variant="stroked" size="sm">
+                          Undo
+                        </Button>
+                      ),
+                    })}
+                  >
+                    Toast with Action
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Inline Notifications */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Inline Notifications</CardTitle>
+                <CardDescription>Small contextual notifications within content</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 p-3 bg-blue-50 border border-blue-200 rounded-lg dark:bg-blue-900/20 dark:border-blue-800">
+                    <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    <span className="text-sm text-blue-800 dark:text-blue-200">This is an inline info notification</span>
+                  </div>
+
+                  <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg dark:bg-green-900/20 dark:border-green-800">
+                    <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                    <span className="text-sm text-green-800 dark:text-green-200">This is an inline success notification</span>
+                  </div>
+
+                  <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg dark:bg-amber-900/20 dark:border-amber-800">
+                    <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                    <span className="text-sm text-amber-800 dark:text-amber-200">This is an inline warning notification</span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2 p-3 bg-red-50 border border-red-200 rounded-lg dark:bg-red-900/20 dark:border-red-800">
+                    <div className="flex items-center gap-2">
+                      <X className="h-4 w-4 text-red-600 dark:text-red-400" />
+                      <span className="text-sm text-red-800 dark:text-red-200">This is an inline error notification</span>
+                    </div>
+                    <Button variant="borderless" size="sm" className="h-6 w-6 p-0 text-red-600 hover:text-red-800 dark:text-red-400">
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
