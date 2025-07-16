@@ -2,7 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Download, Smartphone, Globe, Code, Zap } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Download, Smartphone, Globe, Code, Zap, AlertTriangle } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import Footer from '@/components/layout/Footer';
@@ -23,6 +24,14 @@ const SDKs = () => {
                   Complete documentation and code examples for integrating the YouVersion Platform into your application.
                 </p>
               </div>
+
+              {/* Warning notification */}
+              <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950">
+                <AlertTriangle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                <AlertDescription className="text-yellow-800 dark:text-yellow-200">
+                  Information may be incorrect
+                </AlertDescription>
+              </Alert>
 
               {/* Platform Tabs */}
               <Tabs defaultValue="ios" className="w-full">
