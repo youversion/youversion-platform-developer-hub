@@ -1,15 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { AlertTriangle } from 'lucide-react';
 
 const Footer = () => {
   return (
     <footer className="bg-muted/30 border-t">
       {/* Notification Bar */}
-      <div className="bg-destructive/90 text-destructive-foreground">
+      <div className="bg-amber-50 border-b border-amber-200 dark:bg-amber-900/20 dark:border-amber-800">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 text-center">
-          <p className="text-sm font-medium">
-            Footer is a placeholder and not final
-          </p>
+          <div className="flex items-center justify-center gap-2">
+            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
+              Footer is a placeholder and not final
+            </p>
+          </div>
         </div>
       </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
