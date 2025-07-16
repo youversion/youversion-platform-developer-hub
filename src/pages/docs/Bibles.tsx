@@ -4,43 +4,45 @@ import { Badge } from '@/components/ui/badge';
 import { FileText, AlignJustify, Book } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import Footer from '@/components/layout/Footer';
 import CodeBlock from '@/components/ui/code-block';
 
 const Bibles = () => {
   return (
     <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="flex w-full min-h-screen">
         <DocsSidebar />
-        <div className="flex-1 canvas-primary">
-          <div className="container py-12">
-            <div className="max-w-4xl mx-auto space-y-8">
-              <div className="mb-8">
-                <h1 className="text-4xl font-bold mb-4">Bibles API</h1>
-                <p className="text-xl text-muted-foreground">
-                  Access information about available Bible translations and versions
-                </p>
-              </div>
+        <div className="flex-1 canvas-primary flex flex-col">
+          <div className="flex-1">
+            <div className="container py-12">
+              <div className="max-w-4xl mx-auto space-y-8">
+                <div className="mb-8">
+                  <h1 className="text-4xl font-bold mb-4">Bibles API</h1>
+                  <p className="text-xl text-muted-foreground">
+                    Access information about available Bible translations and versions
+                  </p>
+                </div>
 
-              {/* Updated: List All Bibles */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5 text-youversion-600" />
-                    List All Bibles
-                  </CardTitle>
-                  <CardDescription>
-                    Get a collection of Bibles for all regions & variants of the English language.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Request URL</label>
-                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
-                      <Badge variant="secondary">GET</Badge>
-                      <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles?language_ranges=en*</code>
+                {/* Updated: List All Bibles */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <FileText className="h-5 w-5 text-youversion-600" />
+                      List All Bibles
+                    </CardTitle>
+                    <CardDescription>
+                      Get a collection of Bibles for all regions & variants of the English language.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Request URL</label>
+                      <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                        <Badge variant="secondary">GET</Badge>
+                        <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles?language_ranges=en*</code>
+                      </div>
                     </div>
-                  </div>
-                  <CodeBlock language="json">
+                    <CodeBlock language="json">
 {`{
   "bibles": [
     {
@@ -63,30 +65,30 @@ const Bibles = () => {
     ...
   ]
 }`}
-                  </CodeBlock>
-                </CardContent>
-              </Card>
+                    </CodeBlock>
+                  </CardContent>
+                </Card>
 
-              {/* Updated: Get Bible Details */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Book className="h-5 w-5 text-youversion-600" />
-                    Get Bible Details
-                  </CardTitle>
-                  <CardDescription>
-                    Get details for a specific Bible version.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Request URL</label>
-                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
-                      <Badge variant="secondary">GET</Badge>
-                      <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles/206</code>
+                {/* Updated: Get Bible Details */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Book className="h-5 w-5 text-youversion-600" />
+                      Get Bible Details
+                    </CardTitle>
+                    <CardDescription>
+                      Get details for a specific Bible version.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Request URL</label>
+                      <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                        <Badge variant="secondary">GET</Badge>
+                        <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles/206</code>
+                      </div>
                     </div>
-                  </div>
-                  <CodeBlock language="json">
+                    <CodeBlock language="json">
 {`{
   "id": 206,
   "abbreviation": "engWEBUS",
@@ -104,30 +106,30 @@ const Bibles = () => {
   "info_url": "",
   "title": "World English Bible, American English Edition, without Strong's Numbers"
 }`}
-                  </CodeBlock>
-                </CardContent>
-              </Card>
+                    </CodeBlock>
+                  </CardContent>
+                </Card>
 
-              {/* Updated: List Books in a Bible */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <AlignJustify className="h-5 w-5 text-youversion-600" />
-                    List Books in a Bible
-                  </CardTitle>
-                  <CardDescription>
-                    List books for a specific Bible version.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Request URL</label>
-                    <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
-                      <Badge variant="secondary">GET</Badge>
-                      <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles/206/books</code>
+                {/* Updated: List Books in a Bible */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <AlignJustify className="h-5 w-5 text-youversion-600" />
+                      List Books in a Bible
+                    </CardTitle>
+                    <CardDescription>
+                      List books for a specific Bible version.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Request URL</label>
+                      <div className="flex items-center gap-2 bg-muted p-3 rounded-md">
+                        <Badge variant="secondary">GET</Badge>
+                        <code className="text-sm flex-1">https://api-dev.youversion.com/v1/bibles/206/books</code>
+                      </div>
                     </div>
-                  </div>
-                  <CodeBlock language="json">
+                    <CodeBlock language="json">
 {`{
   "data": [
     {
@@ -144,11 +146,13 @@ const Bibles = () => {
     }
   ]
 }`}
-                  </CodeBlock>
-                </CardContent>
-              </Card>
+                    </CodeBlock>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     </SidebarProvider>
