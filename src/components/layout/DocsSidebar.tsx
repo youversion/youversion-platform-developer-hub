@@ -38,12 +38,12 @@ const apiSubNavItems = [
     path: '/docs/authentication'
   },
   {
-    name: 'Verses',
-    path: '/docs/verses'
-  },
-  {
     name: 'Bibles',
     path: '/docs/bibles'
+  },
+  {
+    name: 'Verses',
+    path: '/docs/verses'
   },
   {
     name: 'Search API',
