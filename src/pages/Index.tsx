@@ -2,6 +2,13 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
 
 // Extend window interface for YouVersion SDK callbacks
@@ -13,8 +20,45 @@ declare global {
   }
 }
 
+const apps = [
+  {
+    name: "Lovable Preview Dev Portal",
+    callback_uri: "https://preview--yv-platform-dev.lovable.app/callback",
+    app_id: "gGzypYFGGi7eGzFGYEiSyMnlbtDBfAYQs2YO6AHgE7jrjZIF",
+  },
+  {
+    name: "Lovable Editor Dev Portal",
+    callback_uri: "https://lovable.dev/projects/1db92764-c613-4359-a989-a9a7c646763e/callback",
+    app_id: "gKtUcNTYQ0mcAYte9Uta9KZRUAA4u5FcdOnTYmggiBFtKStJ",
+  },
+  {
+    name: "YV Dev Portal",
+    callback_uri: "https://developers.youversion.com/callback",
+    app_id: "1IuLqckR2TeTBSfwbBRD5Q65G2cMg0UrOIaYZQpqxcMdoeVX",
+  },
+  {
+    name: "Localhost8080 Dev Portal",
+    callback_uri: "http://localhost:8080/callback",
+    app_id: "iAfkrb9YmBbmASXMGPXxxwLXEFXkXa7cyLLwzc2GpQuGgtJW",
+  },
+];
+
+
 const Index = () => {
   const navigate = useNavigate();
+  const [selectedApp, setSelectedApp] = React.useState(() => {
+    const currentHostname = window.location.hostname;
+    const matchedApp = apps.find((app) => {
+      try {
+        const appHostname = new URL(app.callback_uri).hostname;
+        return appHostname === currentHostname;
+      } catch (e) {
+        return false;
+      }
+    });
+    return matchedApp || apps[0];
+  });
+
 
   // Load the YouVersion Platform SDK and set up auth callbacks
   useEffect(() => {
@@ -27,8 +71,7 @@ const Index = () => {
     }
 
     // Set the app ID for the SDK
-    const appId = "AYjVYEWhzZOXoAoFYQssYj6zMYAeJAXk7ziCAFkzq5cJxveM";
-    document.body.dataset.youversionPlatformAppId = appId;
+    document.body.dataset.youversionPlatformAppId = selectedApp.app_id;
 
     // Set up auth callback handlers
     window.onYouVersionAuthComplete = (authData: { lat?: string }) => {
@@ -53,7 +96,7 @@ const Index = () => {
     return () => {
       delete (document.body.dataset as Record<string, string>).youversionPlatformAppId;
     };
-  }, [navigate]);
+  }, [navigate, selectedApp]);
 
   return <div className="min-h-screen">
       {/* Hero Section */}
@@ -66,7 +109,34 @@ const Index = () => {
             <p className="text-xl mb-8 text-black dark:text-slate-200">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col gap-4 items-center">
               <div className="mb-6">
-                <youversion-login-button></youversion-login-button>
+                <youversion-login-button callback-uri={selectedApp.callback_uri}></youversion-login-button>
+                <div className="mt-4">
+                  <Select
+                    onValueChange={(value) => {
+                      const app = apps.find((app) => app.app_id === value);
+                      if (app) {
+                        setSelectedApp(app);
+                      }
+                    }}
+                    defaultValue={selectedApp.app_id}
+                  >
+                    <SelectTrigger className="w-[280px]">
+                      <SelectValue placeholder="Select an app" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {apps.map((app) => (
+                        <SelectItem key={app.app_id} value={app.app_id}>
+                          <div className="flex flex-col">
+                            <div>{app.name}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {app.callback_uri}
+                            </div>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <Button size="xl" variant="filled-contrast" onClick={() => navigate('/get-started')} className="text-sm font-bold py-[30px] px-[40px]">
                 Join the YouVersion Platform
