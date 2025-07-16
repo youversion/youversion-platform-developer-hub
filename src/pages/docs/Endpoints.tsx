@@ -17,8 +17,7 @@ const Endpoints = () => {
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="mb-8">
                 <h1 className="text-4xl font-bold mb-4">API Endpoints</h1>
-                <p className="text-xl text-muted-foreground">PLACE SWAGGER DOCS HERE
-Complete reference for all YouVersion Platform API endpoints</p>
+                <p className="text-xl text-muted-foreground">Complete reference for all YouVersion Platform API endpoints</p>
               </div>
 
               {/* Warning notification */}
