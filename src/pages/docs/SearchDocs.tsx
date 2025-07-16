@@ -22,12 +22,10 @@ const SearchDocs = () => {
                 </p>
               </div>
 
-              <Alert variant="destructive" className="mb-8">
-                <AlertTriangle className="h-4 w-4" />
-                <AlertDescription>
-                  Placeholder page only - not real data or usage instructions
-                </AlertDescription>
-              </Alert>
+              <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg dark:bg-amber-900/20 dark:border-amber-800 mb-8">
+                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                <span className="text-sm text-amber-800 dark:text-amber-200">Placeholder page only - not real data or usage instructions</span>
+              </div>
 
               <Card>
                 <CardHeader>
