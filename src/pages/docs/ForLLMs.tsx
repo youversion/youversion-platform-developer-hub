@@ -24,6 +24,13 @@ const ForLLMs = () => {
                   </p>
                 </div>
 
+                <Alert className="mb-8">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertDescription>
+                    Placeholder - needs real code snippets and information
+                  </AlertDescription>
+                </Alert>
+
                 {/* Overview */}
                 <Card>
                   <CardHeader>
