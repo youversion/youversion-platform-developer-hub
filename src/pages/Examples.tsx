@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CodeBlock from "@/components/ui/code-block";
+import { SidebarProvider } from '@/components/ui/sidebar';
+import DocsSidebar from '@/components/layout/DocsSidebar';
 interface ApiCall {
   id: string;
   title: string;
@@ -187,61 +189,70 @@ const Examples: React.FC = () => {
       });
     }
   };
-  return <div className="container py-12">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="mb-6">
-          {/* @ts-ignore – custom web component from the YouVersion SDK */}
-          <youversion-login-button></youversion-login-button>
-        </div>
-        <div>
-          <h1 className="text-4xl font-bold mb-4">Interactive API Explorer</h1>
-          <p className="text-muted-foreground text-lg">
-            Enter your YouVersion Platform <code>App&nbsp;ID</code> (and optional
-            <code className="ml-1">LAT</code>) to run the sample commands below
-            and inspect their live responses. <br></br><b>HACKATHON NOTE:</b> Get your "Limited Access Token" (LAT) by going to the <a href="https://lifechurch.gitlab.io/youversion/apis/platform/yvp-login-flutter/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">following link</a> and click "Log in with YouVersion"; don't change other fields. Copy the "lat" value from the Auth response.
-          </p>
-        </div>
+  return (
+    <SidebarProvider>
+      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+        <DocsSidebar />
+        <div className="flex-1 canvas-primary">
+          <div className="container py-12">
+            <div className="max-w-7xl mx-auto space-y-8">
+              <div className="mb-6">
+                {/* @ts-ignore – custom web component from the YouVersion SDK */}
+                <youversion-login-button></youversion-login-button>
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold mb-4">Interactive API Explorer</h1>
+                <p className="text-muted-foreground text-lg">
+                  Enter your YouVersion Platform <code>App&nbsp;ID</code> (and optional
+                  <code className="ml-1">LAT</code>) to run the sample commands below
+                  and inspect their live responses. <br></br><b>HACKATHON NOTE:</b> Get your "Limited Access Token" (LAT) by going to the <a href="https://lifechurch.gitlab.io/youversion/apis/platform/yvp-login-flutter/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">following link</a> and click "Log in with YouVersion"; don't change other fields. Copy the "lat" value from the Auth response.
+                </p>
+              </div>
 
-        {/* Credentials */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Credentials</CardTitle>
-            <CardDescription>
-              Provide the values that will be used for all API requests.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="block mb-1 font-medium">Limited Access Token (LAT) (optional)</label>
-              <Input placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." value={lat} onChange={e => setLat(e.target.value)} />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Calls */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {CALLS.map(call => {
-          const curlCommand = `curl -s -H \"X-App-ID: ${appId || "$YVP_APP_ID"}\" '${call.url.replace("$YVP_LAT", lat || "$YVP_LAT")}'`;
-          return <Card key={call.id} className="flex flex-col">
+              {/* Credentials */}
+              <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">{call.title}</CardTitle>
-                  <CardDescription>{call.description}</CardDescription>
+                  <CardTitle>Credentials</CardTitle>
+                  <CardDescription>
+                    Provide the values that will be used for all API requests.
+                  </CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-col gap-4 flex-1">
-                  <CodeBlock language="bash">{curlCommand}</CodeBlock>
-
-                  <Button size="sm" onClick={() => runCall(call)} disabled={loadingIds.has(call.id)}>
-                    {loadingIds.has(call.id) ? "Running…" : "Run"}
-                  </Button>
-
-                  {responses[call.id] && <CodeBlock language="json" copyable={false} className="max-h-96 overflow-y-auto">
-                      {responses[call.id]}
-                    </CodeBlock>}
+                <CardContent className="space-y-4">
+                  <div>
+                    <label className="block mb-1 font-medium">Limited Access Token (LAT) (optional)</label>
+                    <Input placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." value={lat} onChange={e => setLat(e.target.value)} />
+                  </div>
                 </CardContent>
-              </Card>;
-        })}
+              </Card>
+
+              {/* Calls */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {CALLS.map(call => {
+                const curlCommand = `curl -s -H \"X-App-ID: ${appId || "$YVP_APP_ID"}\" '${call.url.replace("$YVP_LAT", lat || "$YVP_LAT")}'`;
+                return <Card key={call.id} className="flex flex-col">
+                      <CardHeader>
+                        <CardTitle className="text-lg">{call.title}</CardTitle>
+                        <CardDescription>{call.description}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex flex-col gap-4 flex-1">
+                        <CodeBlock language="bash">{curlCommand}</CodeBlock>
+
+                        <Button size="sm" onClick={() => runCall(call)} disabled={loadingIds.has(call.id)}>
+                          {loadingIds.has(call.id) ? "Running…" : "Run"}
+                        </Button>
+
+                        {responses[call.id] && <CodeBlock language="json" copyable={false} className="max-h-96 overflow-y-auto">
+                            {responses[call.id]}
+                          </CodeBlock>}
+                      </CardContent>
+                    </Card>;
+              })}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>;
+    </SidebarProvider>
+  );
 };
 export default Examples;
