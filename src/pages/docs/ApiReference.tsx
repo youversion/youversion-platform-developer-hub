@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Code, Book, Search, Database, ChevronDown, Play } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Code, Book, Search, Database, ChevronDown, Play, AlertTriangle } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import Footer from '@/components/layout/Footer';
@@ -107,6 +108,14 @@ class YouVersionAPI {
                   Complete reference for all YouVersion Platform API endpoints
                 </p>
               </div>
+
+              {/* Warning notification */}
+              <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950">
+                <AlertTriangle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                <AlertDescription className="text-yellow-800 dark:text-yellow-200">
+                  Page currently not working
+                </AlertDescription>
+              </Alert>
 
               {/* API Playground */}
               <Card>
