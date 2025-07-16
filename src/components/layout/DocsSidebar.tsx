@@ -17,21 +17,6 @@ const docsNavItems = [
     icon: Download
   },
   {
-    name: 'Authentication',
-    path: '/docs/authentication',
-    icon: Shield
-  },
-  {
-    name: 'Verses',
-    path: '/docs/verses',
-    icon: BookOpen
-  },
-  {
-    name: 'Bibles',
-    path: '/docs/bibles',
-    icon: FileText
-  },
-  {
     name: 'USFM Reference',
     path: '/docs/usfm-reference',
     icon: FileText
@@ -54,6 +39,18 @@ const apiSubNavItems = [
     path: '/docs/api-reference'
   },
   {
+    name: 'Authentication',
+    path: '/docs/authentication'
+  },
+  {
+    name: 'Verses',
+    path: '/docs/verses'
+  },
+  {
+    name: 'Bibles',
+    path: '/docs/bibles'
+  },
+  {
     name: 'Endpoints',
     path: '/docs/api-reference/endpoints'
   },
@@ -70,7 +67,10 @@ const apiSubNavItems = [
 const DocsSidebar = () => {
   const location = useLocation();
   const [isApiOpen, setIsApiOpen] = useState(() => 
-    location.pathname.startsWith('/docs/api-reference')
+    location.pathname.startsWith('/docs/api-reference') ||
+    location.pathname === '/docs/authentication' ||
+    location.pathname === '/docs/verses' ||
+    location.pathname === '/docs/bibles'
   );
   
   return (
@@ -109,7 +109,10 @@ const DocsSidebar = () => {
                 <Collapsible open={isApiOpen} onOpenChange={setIsApiOpen}>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton 
-                      isActive={location.pathname.startsWith('/docs/api-reference')}
+                      isActive={location.pathname.startsWith('/docs/api-reference') ||
+                               location.pathname === '/docs/authentication' ||
+                               location.pathname === '/docs/verses' ||
+                               location.pathname === '/docs/bibles'}
                       className="w-full justify-between"
                     >
                       <div className="flex items-center">
