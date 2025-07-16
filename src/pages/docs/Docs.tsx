@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { KeyRound, Zap, Shield, UserRound, CodeXml } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { KeyRound, Zap, Shield, UserRound, CodeXml, AlertTriangle } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import Footer from '@/components/layout/Footer';
@@ -20,6 +21,13 @@ const Docs = () => {
                   Get up and running with the YouVersion Platform API in minutes
                 </p>
               </div>
+
+              <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950 mb-8">
+                <AlertTriangle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                <AlertDescription className="text-yellow-800 dark:text-yellow-200">
+                  Needs info verification
+                </AlertDescription>
+              </Alert>
 
               <Card className="mb-8">
                 <CardContent className="pt-6">
