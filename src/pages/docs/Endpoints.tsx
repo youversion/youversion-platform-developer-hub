@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { AlertTriangle } from 'lucide-react';
 const Endpoints = () => {
   return (
     <SidebarProvider>
@@ -18,6 +19,12 @@ const Endpoints = () => {
                 <h1 className="text-4xl font-bold mb-4">API Endpoints</h1>
                 <p className="text-xl text-muted-foreground">PLACE SWAGGER DOCS HERE
 Complete reference for all YouVersion Platform API endpoints</p>
+              </div>
+
+              {/* Warning notification */}
+              <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg dark:bg-amber-900/20 dark:border-amber-800 mb-6">
+                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                <span className="text-sm text-amber-800 dark:text-amber-200">Place Swagger .js here</span>
               </div>
 
               {/* Base URL */}
