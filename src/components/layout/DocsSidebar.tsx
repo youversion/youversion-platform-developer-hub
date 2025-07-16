@@ -87,22 +87,15 @@ const DocsSidebar = () => {
           <SidebarGroupLabel>Documentation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {docsNavItems.map(item => {
-                const isActive = location.pathname === item.path;
-                return (
-                  <SidebarMenuItem key={item.path}>
-                    <SidebarMenuButton asChild isActive={isActive}>
-                      <NavLink 
-                        to={item.path} 
-                        end
-                      >
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.name}</span>
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+              {/* Quick Start */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={location.pathname === '/docs/quick-start'}>
+                  <NavLink to="/docs/quick-start" end>
+                    <Zap className="h-4 w-4" />
+                    <span>Quick Start</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               
               {/* API Reference with collapsible sub-navigation */}
               <SidebarMenuItem>
@@ -140,6 +133,24 @@ const DocsSidebar = () => {
                   </CollapsibleContent>
                 </Collapsible>
               </SidebarMenuItem>
+
+              {/* Other navigation items */}
+              {docsNavItems.slice(1).map(item => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <SidebarMenuItem key={item.path}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <NavLink 
+                        to={item.path} 
+                        end
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.name}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
