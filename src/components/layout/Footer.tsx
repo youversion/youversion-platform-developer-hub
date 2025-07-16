@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="bg-destructive/90 text-destructive-foreground">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 text-center">
           <p className="text-sm font-medium">
-            Placeholder and not final
+            Footer is a placeholder and not final
           </p>
         </div>
       </div>
