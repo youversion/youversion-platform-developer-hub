@@ -22,6 +22,7 @@ import Bibles from "./pages/docs/Bibles";
 import SearchDocs from "./pages/docs/SearchDocs";
 import USFMReference from "./pages/docs/USFMReference";
 import Endpoints from "./pages/docs/Endpoints";
+import ForLLMs from "./pages/docs/ForLLMs";
 import Platform from "./pages/Platform";
 import Apps from "./pages/platform/Apps";
 import Analytics from "./pages/platform/Analytics";
@@ -55,6 +56,7 @@ const AppContent = () => {
           <Route path="/docs/api/endpoints" element={<Endpoints />} />
           <Route path="/docs/usfm-reference" element={<USFMReference />} />
           <Route path="/docs/examples" element={<Examples />} />
+          <Route path="/docs/for-llms" element={<ForLLMs />} />
           <Route path="/bible-directory" element={<BibleDirectory />} />
           <Route path="/support" element={<Support />} />
           <Route path="/style-guide" element={<StyleGuide />} />

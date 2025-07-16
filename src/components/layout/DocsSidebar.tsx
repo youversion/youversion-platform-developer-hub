@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, Code, Zap, Shield, Search, FileText, Download, Play, ChevronDown } from 'lucide-react';
+import { BookOpen, Code, Zap, Shield, Search, FileText, Download, Play, ChevronDown, Brain } from 'lucide-react';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader } from '@/components/ui/sidebar';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
@@ -25,6 +25,11 @@ const docsNavItems = [
     name: 'Examples',
     path: '/docs/examples',
     icon: Play
+  },
+  {
+    name: 'For LLMs',
+    path: '/docs/for-llms',
+    icon: Brain
   }
 ];
 
