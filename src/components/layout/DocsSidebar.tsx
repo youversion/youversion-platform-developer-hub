@@ -110,7 +110,7 @@ const DocsSidebar = () => {
                       className="w-full justify-between"
                     >
                       <div className="flex items-center">
-                        <Code className="h-4 w-4" />
+                        <Code className="h-4 w-4 mr-2" />
                         <span>API Reference</span>
                       </div>
                       <ChevronDown className={`h-4 w-4 transition-transform ${isApiOpen ? 'rotate-180' : ''}`} />
