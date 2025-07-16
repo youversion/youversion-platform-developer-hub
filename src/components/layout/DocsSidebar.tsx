@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, Code, Zap, Shield, Search, FileText, Download } from 'lucide-react';
+import { BookOpen, Code, Zap, Shield, Search, FileText, Download, Play } from 'lucide-react';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader } from '@/components/ui/sidebar';
 
 const docsNavItems = [
@@ -44,6 +44,11 @@ const docsNavItems = [
     name: 'Search',
     path: '/docs/search',
     icon: Search
+  },
+  {
+    name: 'Examples',
+    path: '/docs/examples',
+    icon: Play
   }
 ];
 
