@@ -10,7 +10,7 @@ import Footer from "@/components/layout/Footer";
 import Index from "./pages/Index";
 import GetStarted from "./pages/GetStarted";
 import Docs from "./pages/docs/Docs";
-import SDKs from "./pages/docs/Installation";
+import SDKs from "./pages/docs/SDK";
 import Examples from "./pages/Examples";
 import BibleDirectory from "./pages/BibleDirectory";
 import Support from "./pages/Support";
