@@ -4,14 +4,16 @@ import { Badge } from '@/components/ui/badge';
 import { Shield, Key, Lock, CheckCircle } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import Footer from '@/components/layout/Footer';
 import CodeBlock from '@/components/ui/code-block';
 
 const Authentication = () => {
   return (
     <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="flex w-full min-h-screen">
         <DocsSidebar />
-        <div className="flex-1 canvas-primary">
+        <div className="flex-1 canvas-primary flex flex-col">
+          <div className="flex-1">
           <div className="container py-12">
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="mb-8">
@@ -71,7 +73,9 @@ https://api-dev.youversion.com/v1/bibles/206/books/jhn/chapters/3/verses/16`}
                 </CardContent>
               </Card>
             </div>
+            </div>
           </div>
+          <Footer />
         </div>
       </div>
     </SidebarProvider>

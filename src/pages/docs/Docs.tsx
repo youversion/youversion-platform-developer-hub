@@ -4,14 +4,14 @@ import { Badge } from '@/components/ui/badge';
 import { KeyRound, Zap, Shield, UserRound, CodeXml } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import Footer from '@/components/layout/Footer';
 import CodeBlock from '@/components/ui/code-block';
 const Docs = () => {
   return <SidebarProvider>
-      <div className="flex w-full" style={{
-      height: 'calc(100vh - 64px)'
-    }}>
+      <div className="flex w-full min-h-screen">
         <DocsSidebar />
-        <div className="flex-1 canvas-primary">
+        <div className="flex-1 canvas-primary flex flex-col">
+          <div className="flex-1">
           <div className="container py-12">
             <div className="max-w-4xl mx-auto">
               <div className="mb-12">
@@ -100,7 +100,9 @@ const Docs = () => {
                 </Card>
               </div>
             </div>
+            </div>
           </div>
+          <Footer />
         </div>
       </div>
     </SidebarProvider>;

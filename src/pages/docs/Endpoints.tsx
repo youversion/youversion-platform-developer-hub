@@ -1,16 +1,17 @@
 import React from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import Footer from '@/components/layout/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 const Endpoints = () => {
-  return <SidebarProvider>
-      <div className="flex w-full" style={{
-      height: 'calc(100vh - 64px)'
-    }}>
+  return (
+    <SidebarProvider>
+      <div className="flex w-full min-h-screen">
         <DocsSidebar />
-        <div className="flex-1 canvas-primary">
+        <div className="flex-1 canvas-primary flex flex-col">
+          <div className="flex-1">
           <div className="container py-12">
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="mb-8">
@@ -302,9 +303,12 @@ Complete reference for all YouVersion Platform API endpoints</p>
               </Card>
 
             </div>
+            </div>
           </div>
+          <Footer />
         </div>
       </div>
-    </SidebarProvider>;
+    </SidebarProvider>
+  );
 };
 export default Endpoints;

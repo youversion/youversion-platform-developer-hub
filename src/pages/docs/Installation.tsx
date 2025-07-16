@@ -5,14 +5,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Download, Smartphone, Globe, Code, Zap } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import Footer from '@/components/layout/Footer';
 import CodeBlock from '@/components/ui/code-block';
 
 const SDKs = () => {
   return (
     <SidebarProvider>
-      <div className="flex w-full canvas-primary" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="flex w-full min-h-screen">
         <DocsSidebar />
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col">
+          <div className="flex-1">
           <div className="container py-12">
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="mb-8">
@@ -327,7 +329,9 @@ struct LoginView: View {
               </Tabs>
             </div>
           </div>
+          <Footer />
         </div>
+      </div>
       </div>
     </SidebarProvider>
   );

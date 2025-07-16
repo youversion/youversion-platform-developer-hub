@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Code, Book, Search, Database, ChevronDown, Play } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import Footer from '@/components/layout/Footer';
 import CodeBlock from '@/components/ui/code-block';
 
 const ApiReference = () => {
@@ -94,9 +95,10 @@ class YouVersionAPI {
 
   return (
     <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="flex w-full min-h-screen">
         <DocsSidebar />
-        <div className="flex-1 canvas-primary">
+        <div className="flex-1 canvas-primary flex flex-col">
+          <div className="flex-1">
           <div className="container py-12">
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="mb-8">
@@ -299,7 +301,9 @@ class YouVersionAPI {
                 </CardContent>
               </Card>
             </div>
+            </div>
           </div>
+          <Footer />
         </div>
       </div>
     </SidebarProvider>

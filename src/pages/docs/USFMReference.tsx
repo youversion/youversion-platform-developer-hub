@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import Footer from '@/components/layout/Footer';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import {
   Table,
@@ -103,7 +104,8 @@ const USFMReference = () => {
   <SidebarProvider>
       <div className="flex w-full min-h-screen">
         <DocsSidebar />
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto flex flex-col">
+          <div className="flex-1">
           <div className="container py-12">
       <div className="max-w-7xl mx-auto space-y-8">
         <div>
@@ -209,9 +211,11 @@ const USFMReference = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  </div>
-</div>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      </div>
 </SidebarProvider>
   );
 };

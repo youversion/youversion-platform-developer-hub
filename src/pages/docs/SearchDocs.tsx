@@ -5,14 +5,16 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Search, Filter, Star, TrendingUp, AlertTriangle } from 'lucide-react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
+import Footer from '@/components/layout/Footer';
 import CodeBlock from '@/components/ui/code-block';
 
 const SearchDocs = () => {
   return (
     <SidebarProvider>
-      <div className="flex w-full" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="flex w-full min-h-screen">
         <DocsSidebar />
-        <div className="flex-1 canvas-primary">
+        <div className="flex-1 canvas-primary flex flex-col">
+          <div className="flex-1">
           <div className="container py-12">
             <div className="max-w-4xl mx-auto space-y-8">
               <div className="mb-8">
@@ -102,7 +104,9 @@ https://api.youversion.com/v1/search?q=love&book=john&version=niv&limit=10`}
                 </CardContent>
               </Card>
             </div>
+            </div>
           </div>
+          <Footer />
         </div>
       </div>
     </SidebarProvider>
