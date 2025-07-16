@@ -22,11 +22,6 @@ const docsNavItems = [
     icon: FileText
   },
   {
-    name: 'Search',
-    path: '/docs/search',
-    icon: Search
-  },
-  {
     name: 'Examples',
     path: '/docs/examples',
     icon: Play
@@ -51,6 +46,10 @@ const apiSubNavItems = [
     path: '/docs/bibles'
   },
   {
+    name: 'Search API',
+    path: '/docs/search'
+  },
+  {
     name: 'Endpoints',
     path: '/docs/api-reference/endpoints'
   },
@@ -70,7 +69,8 @@ const DocsSidebar = () => {
     location.pathname.startsWith('/docs/api-reference') ||
     location.pathname === '/docs/authentication' ||
     location.pathname === '/docs/verses' ||
-    location.pathname === '/docs/bibles'
+    location.pathname === '/docs/bibles' ||
+    location.pathname === '/docs/search'
   );
   
   return (
@@ -105,7 +105,8 @@ const DocsSidebar = () => {
                       isActive={location.pathname.startsWith('/docs/api-reference') ||
                                location.pathname === '/docs/authentication' ||
                                location.pathname === '/docs/verses' ||
-                               location.pathname === '/docs/bibles'}
+                               location.pathname === '/docs/bibles' ||
+                               location.pathname === '/docs/search'}
                       className="w-full justify-between"
                     >
                       <div className="flex items-center">
