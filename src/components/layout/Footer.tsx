@@ -3,11 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { AlertTriangle } from 'lucide-react';
 
 const Footer = () => {
-  const location = useLocation();
-  const isDocsPage = location.pathname.startsWith('/docs');
-
   return (
-    <footer className={`bg-muted/30 border-t ${isDocsPage ? 'ml-64' : ''}`}>
+    <footer className="bg-muted/30 border-t">
       {/* Notification Bar */}
       <div className="bg-amber-50 border-b border-amber-200 dark:bg-amber-900/20 dark:border-amber-800">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 text-center">
