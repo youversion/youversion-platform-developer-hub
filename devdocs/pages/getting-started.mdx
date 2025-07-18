@@ -1,0 +1,169 @@
+---
+title: Getting Started
+description: Quick start guide for the YouVersion Bible API
+---
+
+This guide will help you get up and running with the YouVersion Bible API quickly. Follow these steps to make your first API call.
+
+## Prerequisites
+
+Before you begin, you'll need:
+
+- An API key from the YouVersion Platform Team
+- Basic knowledge of HTTP requests
+- A programming language of your choice (we'll show examples in multiple languages)
+
+## Step 1: Get Your API Key
+
+Contact the YouVersion Platform Team to obtain your API key. You'll need to provide:
+
+- Your name and contact information
+- Description of your application
+- Intended use case for the API
+
+## Step 2: Make Your First Request
+
+Let's start by retrieving a list of available Bible versions. This is a great way to test your connection and see what's available.
+
+### Using cURL
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     https://api.youversion.com/v1/bibles
+```
+
+### Using JavaScript (Node.js)
+
+```javascript
+const fetch = require('node-fetch');
+
+async function getBibles() {
+  const response = await fetch('https://api.youversion.com/v1/bibles', {
+    headers: {
+      'X-App-Id': 'YOUR_API_KEY'
+    }
+  });
+  
+  const data = await response.json();
+  console.log(data);
+}
+
+getBibles();
+```
+
+### Using Python
+
+```python
+import requests
+
+def get_bibles():
+    headers = {
+        'X-App-Id': 'YOUR_API_KEY'
+    }
+    
+    response = requests.get('https://api.youversion.com/v1/bibles', headers=headers)
+    data = response.json()
+    print(data)
+
+get_bibles()
+```
+
+## Step 3: Explore Bible Versions
+
+The response will include a list of available Bible versions. Each version has:
+
+- `id`: Unique identifier for the Bible version
+- `abbreviation`: Short code (e.g., "NIV", "KJV")
+- `title`: Full name of the Bible version
+- `language`: Language information
+
+## Step 4: Get Bible Details
+
+Once you have a Bible version ID, you can get detailed information about it:
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     https://api.youversion.com/v1/bibles/111
+```
+
+## Step 5: Explore Books
+
+Get all books available in a specific Bible version:
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     https://api.youversion.com/v1/bibles/111/books
+```
+
+## Step 6: Get Chapter Content
+
+Retrieve the content of a specific chapter:
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     https://api.youversion.com/v1/bibles/111/books/MAT/chapters/1/verses
+```
+
+## Common Parameters
+
+### Language Ranges
+
+When requesting Bible versions, you can specify language preferences:
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     "https://api.youversion.com/v1/bibles?language_ranges=en,es,fr"
+```
+
+### Pagination
+
+Many endpoints support pagination using the `next_page_token` parameter:
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     "https://api.youversion.com/v1/bibles?next_page_token=2"
+```
+
+## Error Handling
+
+Always handle potential errors in your code:
+
+```javascript
+async function getBibles() {
+  try {
+    const response = await fetch('https://api.youversion.com/v1/bibles', {
+      headers: {
+        'X-App-Id': 'YOUR_API_KEY'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching bibles:', error);
+  }
+}
+```
+
+## Next Steps
+
+Now that you've made your first API call, you can:
+
+1. **Explore the full API reference** to see all available endpoints
+2. **Build your application** using the data you retrieve
+3. **Check out our examples** for more complex use cases
+4. **Review authentication** details for production use
+
+## Need Help?
+
+If you run into any issues:
+
+- Check the [API Reference](/api) for detailed endpoint documentation
+- Review the [Authentication](/authentication) guide
+- Contact the YouVersion Platform Team for support
+
+Happy coding! 🚀 

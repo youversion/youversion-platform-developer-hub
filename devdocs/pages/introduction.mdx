@@ -1,0 +1,54 @@
+---
+title: Welcome to YouVersion Bible API
+description: Comprehensive documentation for the YouVersion Bible API
+---
+
+The YouVersion Bible API provides developers with access to a comprehensive collection of Bible translations, books, chapters, and verses. This API enables you to integrate Bible content into your applications, websites, and services.
+
+## What's Available
+
+Our API provides access to:
+
+- **Bible Versions**: Access to hundreds of Bible translations in multiple languages
+- **Books**: All 66 books of the Bible (and additional deuterocanonical books where available)
+- **Chapters**: Complete chapter content for each book
+- **Verses**: Individual verse content with proper formatting
+
+## Getting Started
+
+To get started with the YouVersion Bible API:
+
+1. **Authentication**: All requests require an API key via the `X-App-Id` header
+2. **Base URL**: Use one of our available server endpoints
+3. **Explore**: Check out our [API Reference](/api) to see all available endpoints
+
+## API Endpoints
+
+The API is organized around RESTful principles and provides the following main endpoints:
+
+- `GET /bibles` - Retrieve available Bible versions
+- `GET /bibles/{version_id}` - Get details for a specific Bible version
+- `GET /bibles/{version_id}/books` - Get all books for a Bible version
+- `GET /bibles/{version_id}/books/{book_usfm}` - Get content for a specific book
+- `GET /bibles/{version_id}/books/{book_usfm}/chapters` - Get chapters for a book
+- `GET /bibles/{version_id}/books/{book_usfm}/chapters/{chapter_number}/verses` - Get verses for a chapter
+
+## Authentication
+
+All API requests require authentication using an API key. Include your API key in the `X-App-Id` header with every request:
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" https://api.youversion.com/v1/bibles
+```
+
+## Rate Limiting
+
+Please be mindful of our rate limits to ensure fair usage for all developers. Check the response headers for rate limit information.
+
+## Support
+
+If you need help integrating with our API or have questions about the documentation, please reach out to our support team.
+
+---
+
+Ready to get started? Explore our [API Reference](/api) to see all available endpoints and start building with the YouVersion Bible API!
