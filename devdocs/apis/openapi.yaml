@@ -1,0 +1,1363 @@
+openapi: 3.0.3
+servers:
+- url: http://127.0.0.1:8000/v1
+  description: Local dev server
+- url: https://api-dev.youversion.com/v1
+  description: Development API Gateway
+- url: https://api.youversion.com/v1
+  description: Production API Gateway
+info:
+  description: Apigee API proxy service for existing API calls.
+  version: v1
+  title: Transformers
+  contact:
+    name: Platform Team
+paths:
+  /bibles:
+    get:
+      summary: Get a collection of Bibles based on given parameters.
+      description: Get a collection of Bibles based on given parameters.
+      operationId: v1.bibles.collection_get
+      parameters:
+      - name: language_ranges
+        description: "An ordered list of comma-separated language ranges as desired
+          by the client. A language range is much like a language tag but may contain
+          wildcards. The full definition can be found here: https://www.rfc-editor.org/rfc/rfc4647.html#section-2\n\
+          Language ranges in this parameter may only be of the Basic Range format."
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            example: en
+            pattern: ^([A-z]{1,8}([-_][0-9A-z]{1,8})*)$|^\*$
+      - description: API key for authentication
+        in: header
+        name: X-App-Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          description: Bible version identifier
+                          example: 111
+                          readOnly: true
+                          type: integer
+                        abbreviation:
+                          description: Bible version abbreviation
+                          example: NIV
+                          readOnly: true
+                          type: string
+                        copyright:
+                          description: Copyright text provided by the publisher 
+                            for the given Bible version.
+                          example: Biblica is the worldwide publisher and 
+                            translation sponsor of the New International 
+                            Version—one of the most widely read contemporary 
+                            English versions of the Bible.
+                          readOnly: true
+                          type: string
+                        info:
+                          description: Footer information to display in the 
+                            reader for the Bible version
+                          example: The Holy Bible
+                          readOnly: true
+                          type: string
+                        info_url:
+                          description: URL to link to publisher page from the 
+                            reader's footer
+                          example: https://www.biblica.com/yv-learn-more/
+                          readOnly: true
+                          type: string
+                        language:
+                          description: Language object for this Bible version
+                          readOnly: true
+                          properties:
+                            iso_639_1:
+                              description: The ISO 639-1 representation of the 
+                                language if it exists
+                              example: en
+                              readOnly: true
+                              type: string
+                            iso_639_3:
+                              description: The ISO 639-3 representation of the 
+                                language if it exists
+                              example: eng
+                              readOnly: true
+                              type: string
+                            name:
+                              description: The English name of the language.
+                              example: English
+                              readOnly: true
+                              type: string
+                            local_name:
+                              description: The localized name of the language.
+                              example: English
+                              readOnly: true
+                              type: string
+                            text_direction:
+                              description: ltr for "left-to-right" and rtl for 
+                                "right-to-left"
+                              example: ltr
+                              readOnly: true
+                              type: string
+                          type: object
+                        local_abbreviation:
+                          description: Localized Bible version abbreviation
+                          example: NIV
+                          readOnly: true
+                          type: string
+                        local_title:
+                          description: Localized title of Bible version
+                          example: New International Version
+                          readOnly: true
+                          type: string
+                        title:
+                          description: English title of Bible version
+                          example: New International Version 2011
+                          readOnly: true
+                          type: string
+                    readOnly: true
+                    type: array
+                  next_page_token:
+                    example: '2'
+                    readOnly: true
+                    type: string
+          headers:
+            Cache-Control:
+              description: Used to specify directives that MUST be obeyed by all
+                caching mechanisms along the response chain. The directives 
+                specify behavior intended to prevent caches from adversely 
+                interfering with the response. These directives typically 
+                override the default caching algorithms.  It is measured in 
+                seconds. See RFC 2616 section 14.9 for more details.
+              schema:
+                type: string
+                example: private, max-age=86400
+            Vary:
+              description: The Vary field value indicates the set of 
+                request-header fields that fully determines, while the response 
+                is fresh, whether a cache is permitted to use the response to 
+                reply to a subsequent request without revalidation. For 
+                uncacheable or stale responses, the Vary field value advises the
+                user agent about the criteria that were used to select the 
+                representation. A Vary field value of "*" implies that a cache 
+                cannot determine from the request headers of a subsequent 
+                request whether this response is the appropriate representation.
+                See RFC 2616 section 13.6 for use of the Vary header field by 
+                caches.
+              schema:
+                type: string
+                example: Accept, Accept-Encoding, Accept-Language
+        '204':
+          description: No data associated with given parameters
+        '400':
+          description: Invalid query string parameters
+        '406':
+          description: Invalid Accept header
+  /bibles/{version_id}:
+    get:
+      summary: Get a Bible resource by its id.
+      description: Get a Bible resource by its id.
+      operationId: v1.bibles.resource_get
+      parameters:
+      - description: The Bible version identifier
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: integer
+          example: 111
+          format: int32
+      - description: API key for authentication
+        in: header
+        name: X-App-Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: Bible version identifier
+                    example: 111
+                    readOnly: true
+                    type: integer
+                  abbreviation:
+                    description: Bible version abbreviation
+                    example: NIV
+                    readOnly: true
+                    type: string
+                  copyright:
+                    description: Copyright text provided by the publisher for 
+                      the given Bible version.
+                    example: Biblica is the worldwide publisher and translation 
+                      sponsor of the New International Version—one of the most 
+                      widely read contemporary English versions of the Bible.
+                    readOnly: true
+                    type: string
+                  info:
+                    description: Footer information to display in the reader for
+                      the Bible version
+                    example: The Holy Bible
+                    readOnly: true
+                    type: string
+                  info_url:
+                    description: URL to link to publisher page from the reader's
+                      footer
+                    example: https://www.biblica.com/yv-learn-more/
+                    readOnly: true
+                    type: string
+                  language:
+                    description: Language object for this Bible version
+                    readOnly: true
+                    properties:
+                      iso_639_1:
+                        description: The ISO 639-1 representation of the 
+                          language if it exists
+                        example: en
+                        readOnly: true
+                        type: string
+                      iso_639_3:
+                        description: The ISO 639-3 representation of the 
+                          language if it exists
+                        example: eng
+                        readOnly: true
+                        type: string
+                      name:
+                        description: The English name of the language.
+                        example: English
+                        readOnly: true
+                        type: string
+                      local_name:
+                        description: The localized name of the language.
+                        example: English
+                        readOnly: true
+                        type: string
+                      text_direction:
+                        description: ltr for "left-to-right" and rtl for 
+                          "right-to-left"
+                        example: ltr
+                        readOnly: true
+                        type: string
+                    type: object
+                  local_abbreviation:
+                    description: Localized Bible version abbreviation
+                    example: NIV
+                    readOnly: true
+                    type: string
+                  local_title:
+                    description: Localized title of Bible version
+                    example: New International Version
+                    readOnly: true
+                    type: string
+                  title:
+                    description: English title of Bible version
+                    example: New International Version 2011
+                    readOnly: true
+                    type: string
+          headers:
+            Cache-Control:
+              description: Used to specify directives that MUST be obeyed by all
+                caching mechanisms along the response chain. The directives 
+                specify behavior intended to prevent caches from adversely 
+                interfering with the response. These directives typically 
+                override the default caching algorithms.  It is measured in 
+                seconds. See RFC 2616 section 14.9 for more details.
+              schema:
+                type: string
+                example: private, max-age=86400
+            Vary:
+              description: The Vary field value indicates the set of 
+                request-header fields that fully determines, while the response 
+                is fresh, whether a cache is permitted to use the response to 
+                reply to a subsequent request without revalidation. For 
+                uncacheable or stale responses, the Vary field value advises the
+                user agent about the criteria that were used to select the 
+                representation. A Vary field value of "*" implies that a cache 
+                cannot determine from the request headers of a subsequent 
+                request whether this response is the appropriate representation.
+                See RFC 2616 section 13.6 for use of the Vary header field by 
+                caches.
+              schema:
+                type: string
+                example: Accept, Accept-Encoding, Accept-Language
+        '400':
+          description: Invalid query string parameters
+        '404':
+          description: Resource not found
+        '406':
+          description: Invalid Accept header
+  /bibles/{version_id}/books:
+    get:
+      summary: Get a collection of Books for the given Bible
+      description: Get a collection of Books for the given Bible
+      operationId: v1.bibles_books.collection_get
+      parameters:
+      - description: The Bible version identifier
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: integer
+          example: 111
+          format: int32
+      - description: API key for authentication
+        in: header
+        name: X-App-Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      type: object
+                      properties:
+                        abbreviation:
+                          description: Book name abbreviation if provided by the
+                            publisher
+                          example: Gen
+                          readOnly: true
+                          type: string
+                        canon:
+                          description: Indicates if this is Old Testament, New 
+                            Testament, or Deuterocanonical
+                          example: ot
+                          readOnly: true
+                          type: string
+                        title:
+                          description: Book title
+                          example: Genesis
+                          type: string
+                        usfm:
+                          description: USFM book identifier
+                          example: MAT
+                          readOnly: true
+                          type: string
+                    readOnly: true
+                    type: array
+                  next_page_token:
+                    example: '2'
+                    readOnly: true
+                    type: string
+                required:
+                - data
+                additionalProperties: false
+          headers:
+            Cache-Control:
+              description: Used to specify directives that MUST be obeyed by all
+                caching mechanisms along the response chain. The directives 
+                specify behavior intended to prevent caches from adversely 
+                interfering with the response. These directives typically 
+                override the default caching algorithms.  It is measured in 
+                seconds. See RFC 2616 section 14.9 for more details.
+              schema:
+                type: string
+                example: private, max-age=86400
+            Vary:
+              description: The Vary field value indicates the set of 
+                request-header fields that fully determines, while the response 
+                is fresh, whether a cache is permitted to use the response to 
+                reply to a subsequent request without revalidation. For 
+                uncacheable or stale responses, the Vary field value advises the
+                user agent about the criteria that were used to select the 
+                representation. A Vary field value of "*" implies that a cache 
+                cannot determine from the request headers of a subsequent 
+                request whether this response is the appropriate representation.
+                See RFC 2616 section 13.6 for use of the Vary header field by 
+                caches.
+              schema:
+                type: string
+                example: Accept, Accept-Encoding, Accept-Language
+        '204':
+          description: No data associated with given parameters
+        '400':
+          description: Invalid query string parameters
+        '404':
+          description: Resource not found
+        '406':
+          description: Invalid Accept header
+  /bibles/{version_id}/books/{book_usfm}:
+    get:
+      summary: Get Bible text for a version by its USFM identifiers.
+      description: Get Bible text for a version by its USFM identifiers.
+      operationId: v1.bibles_books.resource_get
+      parameters:
+      - description: The Bible Book USFM identifier
+        in: path
+        name: book_usfm
+        required: true
+        schema:
+          example: MAT
+          minLength: 3
+          maxLength: 3
+          type: string
+      - description: The Bible version identifier
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: integer
+          example: 111
+          format: int32
+      - description: API key for authentication
+        in: header
+        name: X-App-Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  abbreviation:
+                    description: Book name abbreviation if provided by the 
+                      publisher
+                    example: Gen
+                    readOnly: true
+                    type: string
+                  canon:
+                    description: Indicates if this is Old Testament, New 
+                      Testament, or Deuterocanonical
+                    example: ot
+                    readOnly: true
+                    type: string
+                  title:
+                    description: Book title
+                    example: Genesis
+                    type: string
+                  usfm:
+                    description: USFM book identifier
+                    example: MAT
+                    readOnly: true
+                    type: string
+          headers:
+            Cache-Control:
+              description: Used to specify directives that MUST be obeyed by all
+                caching mechanisms along the response chain. The directives 
+                specify behavior intended to prevent caches from adversely 
+                interfering with the response. These directives typically 
+                override the default caching algorithms.  It is measured in 
+                seconds. See RFC 2616 section 14.9 for more details.
+              schema:
+                type: string
+                example: private, max-age=86400
+            Vary:
+              description: The Vary field value indicates the set of 
+                request-header fields that fully determines, while the response 
+                is fresh, whether a cache is permitted to use the response to 
+                reply to a subsequent request without revalidation. For 
+                uncacheable or stale responses, the Vary field value advises the
+                user agent about the criteria that were used to select the 
+                representation. A Vary field value of "*" implies that a cache 
+                cannot determine from the request headers of a subsequent 
+                request whether this response is the appropriate representation.
+                See RFC 2616 section 13.6 for use of the Vary header field by 
+                caches.
+              schema:
+                type: string
+                example: Accept, Accept-Encoding, Accept-Language
+        '400':
+          description: Invalid query string parameters
+        '404':
+          description: Resource not found
+        '406':
+          description: Invalid Accept header
+  /bibles/{version_id}/books/{book_usfm}/chapters:
+    get:
+      summary: Get a collection of Chapters for the given Bible and Book
+      description: Get a collection of Chapters for the given Bible and Book
+      operationId: v1.bibles_books_chapters.collection_get
+      parameters:
+      - description: The Bible Book USFM identifier
+        in: path
+        name: book_usfm
+        required: true
+        schema:
+          example: MAT
+          minLength: 3
+          maxLength: 3
+          type: string
+      - description: The Bible version identifier
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: integer
+          example: 111
+          format: int32
+      - description: API key for authentication
+        in: header
+        name: X-App-Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          description: Human readable chapter title
+                          example: 1
+                          readOnly: true
+                          type: string
+                        usfm:
+                          description: USFM chapter identifier
+                          example: MAT.1
+                          readOnly: true
+                          type: string
+                    readOnly: true
+                  next_page_token:
+                    type: string
+                    example: '2'
+                    readOnly: true
+                required:
+                - data
+                additionalProperties: false
+          headers:
+            Cache-Control:
+              description: Used to specify directives that MUST be obeyed by all
+                caching mechanisms along the response chain. The directives 
+                specify behavior intended to prevent caches from adversely 
+                interfering with the response. These directives typically 
+                override the default caching algorithms.  It is measured in 
+                seconds. See RFC 2616 section 14.9 for more details.
+              schema:
+                type: string
+                example: private, max-age=86400
+            Vary:
+              description: The Vary field value indicates the set of 
+                request-header fields that fully determines, while the response 
+                is fresh, whether a cache is permitted to use the response to 
+                reply to a subsequent request without revalidation. For 
+                uncacheable or stale responses, the Vary field value advises the
+                user agent about the criteria that were used to select the 
+                representation. A Vary field value of "*" implies that a cache 
+                cannot determine from the request headers of a subsequent 
+                request whether this response is the appropriate representation.
+                See RFC 2616 section 13.6 for use of the Vary header field by 
+                caches.
+              schema:
+                type: string
+                example: Accept, Accept-Encoding, Accept-Language
+        '204':
+          description: No data associated with given parameters
+        '400':
+          description: Invalid query string parameters
+        '404':
+          description: Resource not found
+        '406':
+          description: Invalid Accept header
+  /bibles/{version_id}/books/{book_usfm}/chapters/{chapter_usfm}:
+    get:
+      summary: Get Chapter resource for a version by its USFM identifiers.
+      description: Get Chapter resource for a version by its USFM identifiers.
+      operationId: v1.bibles_books_chapters.resource_get
+      parameters:
+      - description: The Bible Book USFM identifier
+        in: path
+        name: book_usfm
+        required: true
+        schema:
+          example: MAT
+          minLength: 3
+          maxLength: 3
+          type: string
+      - description: The Bible Chapter USFM identifier
+        in: path
+        name: chapter_usfm
+        required: true
+        schema:
+          type: string
+          example: 1
+          minLength: 1
+          maxLength: 7
+      - description: The Bible version identifier
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: integer
+          example: 111
+          format: int32
+      - description: API key for authentication
+        in: header
+        name: X-App-Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    description: Human readable chapter title
+                    example: 1
+                    readOnly: true
+                    type: string
+                  usfm:
+                    description: USFM chapter identifier
+                    example: MAT.1
+                    readOnly: true
+                    type: string
+          headers:
+            Cache-Control:
+              description: Used to specify directives that MUST be obeyed by all
+                caching mechanisms along the response chain. The directives 
+                specify behavior intended to prevent caches from adversely 
+                interfering with the response. These directives typically 
+                override the default caching algorithms.  It is measured in 
+                seconds. See RFC 2616 section 14.9 for more details.
+              schema:
+                type: string
+                example: private, max-age=86400
+            Vary:
+              description: The Vary field value indicates the set of 
+                request-header fields that fully determines, while the response 
+                is fresh, whether a cache is permitted to use the response to 
+                reply to a subsequent request without revalidation. For 
+                uncacheable or stale responses, the Vary field value advises the
+                user agent about the criteria that were used to select the 
+                representation. A Vary field value of "*" implies that a cache 
+                cannot determine from the request headers of a subsequent 
+                request whether this response is the appropriate representation.
+                See RFC 2616 section 13.6 for use of the Vary header field by 
+                caches.
+              schema:
+                type: string
+                example: Accept, Accept-Encoding, Accept-Language
+        '400':
+          description: Invalid query string parameters
+        '404':
+          description: Resource not found
+        '406':
+          description: Invalid Accept header
+  /bibles/{version_id}/books/{book_usfm}/chapters/{chapter_usfm}/verses:
+    get:
+      summary: Get a collection of Verses by the USFM identifiers.
+      description: Get a collection of Verses by the USFM identifiers.
+      operationId: v1.bibles_books_chapters_verses.collection_get
+      parameters:
+      - description: The Bible Book USFM identifier
+        in: path
+        name: book_usfm
+        required: true
+        schema:
+          example: MAT
+          minLength: 3
+          maxLength: 3
+          type: string
+      - description: The Bible Chapter USFM identifier
+        in: path
+        name: chapter_usfm
+        required: true
+        schema:
+          type: string
+          example: 1
+          minLength: 1
+          maxLength: 7
+      - name: format
+        description: The format of content returned. May be one of "text" or 
+          "html".
+        in: query
+        required: false
+        schema:
+          default: html
+          enum:
+          - text
+          - html
+          example: html
+          type: string
+      - name: page_size
+        description: The number of items to return in the collection
+        in: query
+        required: false
+        schema:
+          default: 25
+          example: 25
+          type: integer
+      - name: page_token
+        description: The page token to retrieve results from.
+        in: query
+        required: false
+        schema:
+          default: '1'
+          example: '1'
+          type: string
+      - description: The Bible version identifier
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: integer
+          example: 111
+          format: int32
+      - description: API key for authentication
+        in: header
+        name: X-App-Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        content:
+                          description: The content of the verse in either html 
+                            or text format.
+                          example: Jesus wept.
+                          readOnly: true
+                          type: string
+                        reference:
+                          description: The content of the verse in either html 
+                            or text format.
+                          example: John 11:35
+                          readOnly: true
+                          type: string
+                        usfm:
+                          description: USFM verse identifier
+                          example: JHN.11.35
+                          readOnly: true
+                          type: string
+                    readOnly: true
+                  next_page_token:
+                    type: string
+                    readOnly: true
+                    example: '2'
+                required:
+                - data
+                additionalProperties: false
+          headers:
+            Cache-Control:
+              description: Used to specify directives that MUST be obeyed by all
+                caching mechanisms along the response chain. The directives 
+                specify behavior intended to prevent caches from adversely 
+                interfering with the response. These directives typically 
+                override the default caching algorithms.  It is measured in 
+                seconds. See RFC 2616 section 14.9 for more details.
+              schema:
+                type: string
+                example: private, max-age=86400
+            Vary:
+              description: The Vary field value indicates the set of 
+                request-header fields that fully determines, while the response 
+                is fresh, whether a cache is permitted to use the response to 
+                reply to a subsequent request without revalidation. For 
+                uncacheable or stale responses, the Vary field value advises the
+                user agent about the criteria that were used to select the 
+                representation. A Vary field value of "*" implies that a cache 
+                cannot determine from the request headers of a subsequent 
+                request whether this response is the appropriate representation.
+                See RFC 2616 section 13.6 for use of the Vary header field by 
+                caches.
+              schema:
+                type: string
+                example: Accept, Accept-Encoding, Accept-Language
+        '204':
+          description: No data associated with given parameters
+        '400':
+          description: Invalid query string parameters
+        '406':
+          description: Invalid Accept header
+  /bibles/{version_id}/books/{book_usfm}/chapters/{chapter_usfm}/verses/{verse_usfm}:
+    get:
+      summary: Get a Verse resource for a version by its USFM identifiers.
+      description: Get a Verse resource for a version by its USFM identifiers.
+      operationId: v1.bibles_books_chapters_verses.resource_get
+      parameters:
+      - description: The Bible Book USFM identifier
+        in: path
+        name: book_usfm
+        required: true
+        schema:
+          example: MAT
+          minLength: 3
+          maxLength: 3
+          type: string
+      - description: The Bible Chapter USFM identifier
+        in: path
+        name: chapter_usfm
+        required: true
+        schema:
+          type: string
+          example: 1
+          minLength: 1
+          maxLength: 7
+      - name: format
+        description: The format of content returned. May be one of "text" or 
+          "html".
+        in: query
+        required: false
+        schema:
+          default: html
+          enum:
+          - text
+          - html
+          example: html
+          type: string
+      - description: The Bible Verse USFM identifier
+        in: path
+        name: verse_usfm
+        required: true
+        schema:
+          type: string
+          example: 1
+          minLength: 1
+          maxLength: 7
+      - description: The Bible version identifier
+        in: path
+        name: version_id
+        required: true
+        schema:
+          type: integer
+          example: 111
+          format: int32
+      - description: API key for authentication
+        in: header
+        name: X-App-Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    description: The content of the verse in either html or text
+                      format.
+                    example: Jesus wept.
+                    readOnly: true
+                    type: string
+                  reference:
+                    description: The content of the verse in either html or text
+                      format.
+                    example: John 11:35
+                    readOnly: true
+                    type: string
+                  usfm:
+                    description: USFM verse identifier
+                    example: JHN.11.35
+                    readOnly: true
+                    type: string
+          headers:
+            Cache-Control:
+              description: Used to specify directives that MUST be obeyed by all
+                caching mechanisms along the response chain. The directives 
+                specify behavior intended to prevent caches from adversely 
+                interfering with the response. These directives typically 
+                override the default caching algorithms.  It is measured in 
+                seconds. See RFC 2616 section 14.9 for more details.
+              schema:
+                type: string
+                example: private, max-age=86400
+            Vary:
+              description: The Vary field value indicates the set of 
+                request-header fields that fully determines, while the response 
+                is fresh, whether a cache is permitted to use the response to 
+                reply to a subsequent request without revalidation. For 
+                uncacheable or stale responses, the Vary field value advises the
+                user agent about the criteria that were used to select the 
+                representation. A Vary field value of "*" implies that a cache 
+                cannot determine from the request headers of a subsequent 
+                request whether this response is the appropriate representation.
+                See RFC 2616 section 13.6 for use of the Vary header field by 
+                caches.
+              schema:
+                type: string
+                example: Accept, Accept-Encoding, Accept-Language
+        '400':
+          description: Invalid query string parameters
+        '404':
+          description: Resource not found
+        '406':
+          description: Invalid Accept header
+components:
+  headers:
+    Cache-Control:
+      description: Used to specify directives that MUST be obeyed by all caching
+        mechanisms along the response chain. The directives specify behavior 
+        intended to prevent caches from adversely interfering with the response.
+        These directives typically override the default caching algorithms.  It 
+        is measured in seconds. See RFC 2616 section 14.9 for more details.
+      schema:
+        type: string
+        example: private, max-age=86400
+    Vary:
+      description: The Vary field value indicates the set of request-header 
+        fields that fully determines, while the response is fresh, whether a 
+        cache is permitted to use the response to reply to a subsequent request 
+        without revalidation. For uncacheable or stale responses, the Vary field
+        value advises the user agent about the criteria that were used to select
+        the representation. A Vary field value of "*" implies that a cache 
+        cannot determine from the request headers of a subsequent request 
+        whether this response is the appropriate representation. See RFC 2616 
+        section 13.6 for use of the Vary header field by caches.
+      schema:
+        type: string
+        example: Accept, Accept-Encoding, Accept-Language
+  parameters:
+    basic_language_ranges:
+      name: language_ranges
+      description: "An ordered list of comma-separated language ranges as desired
+        by the client. A language range is much like a language tag but may contain
+        wildcards. The full definition can be found here: https://www.rfc-editor.org/rfc/rfc4647.html#section-2\n\
+        Language ranges in this parameter may only be of the Basic Range format."
+      in: query
+      required: true
+      schema:
+        type: array
+        items:
+          type: string
+          example: en
+          pattern: ^([A-z]{1,8}([-_][0-9A-z]{1,8})*)$|^\*$
+    book_usfm:
+      description: The Bible Book USFM identifier
+      in: path
+      name: book_usfm
+      required: true
+      schema:
+        example: MAT
+        minLength: 3
+        maxLength: 3
+        type: string
+    chapter_usfm:
+      description: The Bible Chapter USFM identifier
+      in: path
+      name: chapter_usfm
+      required: true
+      schema:
+        type: string
+        example: 1
+        minLength: 1
+        maxLength: 7
+    format:
+      name: format
+      description: The format of content returned. May be one of "text" or 
+        "html".
+      in: query
+      required: false
+      schema:
+        default: html
+        enum:
+        - text
+        - html
+        example: html
+        type: string
+    page_size:
+      name: page_size
+      description: The number of items to return in the collection
+      in: query
+      required: false
+      schema:
+        default: 25
+        example: 25
+        type: integer
+    page_token:
+      name: page_token
+      description: The page token to retrieve results from.
+      in: query
+      required: false
+      schema:
+        default: '1'
+        example: '1'
+        type: string
+    verse_usfm:
+      description: The Bible Verse USFM identifier
+      in: path
+      name: verse_usfm
+      required: true
+      schema:
+        type: string
+        example: 1
+        minLength: 1
+        maxLength: 7
+    version_id:
+      description: The Bible version identifier
+      in: path
+      name: version_id
+      required: true
+      schema:
+        type: integer
+        example: 111
+        format: int32
+    x_app_id:
+      description: API key for authentication
+      in: header
+      name: X-App-Id
+      required: true
+      schema:
+        type: string
+  schemas:
+    bible:
+      type: object
+      properties:
+        id:
+          description: Bible version identifier
+          example: 111
+          readOnly: true
+          type: integer
+        abbreviation:
+          description: Bible version abbreviation
+          example: NIV
+          readOnly: true
+          type: string
+        copyright:
+          description: Copyright text provided by the publisher for the given 
+            Bible version.
+          example: Biblica is the worldwide publisher and translation sponsor of
+            the New International Version—one of the most widely read 
+            contemporary English versions of the Bible.
+          readOnly: true
+          type: string
+        info:
+          description: Footer information to display in the reader for the Bible
+            version
+          example: The Holy Bible
+          readOnly: true
+          type: string
+        info_url:
+          description: URL to link to publisher page from the reader's footer
+          example: https://www.biblica.com/yv-learn-more/
+          readOnly: true
+          type: string
+        language:
+          description: Language object for this Bible version
+          readOnly: true
+          properties:
+            iso_639_1:
+              description: The ISO 639-1 representation of the language if it 
+                exists
+              example: en
+              readOnly: true
+              type: string
+            iso_639_3:
+              description: The ISO 639-3 representation of the language if it 
+                exists
+              example: eng
+              readOnly: true
+              type: string
+            name:
+              description: The English name of the language.
+              example: English
+              readOnly: true
+              type: string
+            local_name:
+              description: The localized name of the language.
+              example: English
+              readOnly: true
+              type: string
+            text_direction:
+              description: ltr for "left-to-right" and rtl for "right-to-left"
+              example: ltr
+              readOnly: true
+              type: string
+          type: object
+        local_abbreviation:
+          description: Localized Bible version abbreviation
+          example: NIV
+          readOnly: true
+          type: string
+        local_title:
+          description: Localized title of Bible version
+          example: New International Version
+          readOnly: true
+          type: string
+        title:
+          description: English title of Bible version
+          example: New International Version 2011
+          readOnly: true
+          type: string
+    bibles:
+      type: object
+      properties:
+        data:
+          items:
+            type: object
+            properties:
+              id:
+                description: Bible version identifier
+                example: 111
+                readOnly: true
+                type: integer
+              abbreviation:
+                description: Bible version abbreviation
+                example: NIV
+                readOnly: true
+                type: string
+              copyright:
+                description: Copyright text provided by the publisher for the 
+                  given Bible version.
+                example: Biblica is the worldwide publisher and translation 
+                  sponsor of the New International Version—one of the most 
+                  widely read contemporary English versions of the Bible.
+                readOnly: true
+                type: string
+              info:
+                description: Footer information to display in the reader for the
+                  Bible version
+                example: The Holy Bible
+                readOnly: true
+                type: string
+              info_url:
+                description: URL to link to publisher page from the reader's 
+                  footer
+                example: https://www.biblica.com/yv-learn-more/
+                readOnly: true
+                type: string
+              language:
+                description: Language object for this Bible version
+                readOnly: true
+                properties:
+                  iso_639_1:
+                    description: The ISO 639-1 representation of the language if
+                      it exists
+                    example: en
+                    readOnly: true
+                    type: string
+                  iso_639_3:
+                    description: The ISO 639-3 representation of the language if
+                      it exists
+                    example: eng
+                    readOnly: true
+                    type: string
+                  name:
+                    description: The English name of the language.
+                    example: English
+                    readOnly: true
+                    type: string
+                  local_name:
+                    description: The localized name of the language.
+                    example: English
+                    readOnly: true
+                    type: string
+                  text_direction:
+                    description: ltr for "left-to-right" and rtl for 
+                      "right-to-left"
+                    example: ltr
+                    readOnly: true
+                    type: string
+                type: object
+              local_abbreviation:
+                description: Localized Bible version abbreviation
+                example: NIV
+                readOnly: true
+                type: string
+              local_title:
+                description: Localized title of Bible version
+                example: New International Version
+                readOnly: true
+                type: string
+              title:
+                description: English title of Bible version
+                example: New International Version 2011
+                readOnly: true
+                type: string
+          readOnly: true
+          type: array
+        next_page_token:
+          example: '2'
+          readOnly: true
+          type: string
+    book:
+      type: object
+      properties:
+        abbreviation:
+          description: Book name abbreviation if provided by the publisher
+          example: Gen
+          readOnly: true
+          type: string
+        canon:
+          description: Indicates if this is Old Testament, New Testament, or 
+            Deuterocanonical
+          example: ot
+          readOnly: true
+          type: string
+        title:
+          description: Book title
+          example: Genesis
+          type: string
+        usfm:
+          description: USFM book identifier
+          example: MAT
+          readOnly: true
+          type: string
+    books:
+      type: object
+      properties:
+        data:
+          items:
+            type: object
+            properties:
+              abbreviation:
+                description: Book name abbreviation if provided by the publisher
+                example: Gen
+                readOnly: true
+                type: string
+              canon:
+                description: Indicates if this is Old Testament, New Testament, 
+                  or Deuterocanonical
+                example: ot
+                readOnly: true
+                type: string
+              title:
+                description: Book title
+                example: Genesis
+                type: string
+              usfm:
+                description: USFM book identifier
+                example: MAT
+                readOnly: true
+                type: string
+          readOnly: true
+          type: array
+        next_page_token:
+          example: '2'
+          readOnly: true
+          type: string
+      required:
+      - data
+      additionalProperties: false
+    chapter:
+      type: object
+      properties:
+        title:
+          description: Human readable chapter title
+          example: 1
+          readOnly: true
+          type: string
+        usfm:
+          description: USFM chapter identifier
+          example: MAT.1
+          readOnly: true
+          type: string
+    chapters:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                description: Human readable chapter title
+                example: 1
+                readOnly: true
+                type: string
+              usfm:
+                description: USFM chapter identifier
+                example: MAT.1
+                readOnly: true
+                type: string
+          readOnly: true
+        next_page_token:
+          type: string
+          example: '2'
+          readOnly: true
+      required:
+      - data
+      additionalProperties: false
+    verse:
+      type: object
+      properties:
+        content:
+          description: The content of the verse in either html or text format.
+          example: Jesus wept.
+          readOnly: true
+          type: string
+        reference:
+          description: The content of the verse in either html or text format.
+          example: John 11:35
+          readOnly: true
+          type: string
+        usfm:
+          description: USFM verse identifier
+          example: JHN.11.35
+          readOnly: true
+          type: string
+    verses:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              content:
+                description: The content of the verse in either html or text 
+                  format.
+                example: Jesus wept.
+                readOnly: true
+                type: string
+              reference:
+                description: The content of the verse in either html or text 
+                  format.
+                example: John 11:35
+                readOnly: true
+                type: string
+              usfm:
+                description: USFM verse identifier
+                example: JHN.11.35
+                readOnly: true
+                type: string
+          readOnly: true
+        next_page_token:
+          type: string
+          readOnly: true
+          example: '2'
+      required:
+      - data
+      additionalProperties: false

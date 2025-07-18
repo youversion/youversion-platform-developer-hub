@@ -1,0 +1,492 @@
+---
+title: Examples
+description: Practical examples and use cases for the YouVersion Bible API
+---
+
+This page provides practical examples of how to use the YouVersion Bible API in real-world scenarios. Each example includes code snippets in multiple programming languages.
+
+## Example 1: Daily Verse Application
+
+Create an application that displays a random verse each day.
+
+### JavaScript (Node.js)
+
+```javascript
+const fetch = require('node-fetch');
+
+async function getDailyVerse() {
+  try {
+    // Get NIV Bible (ID: 111)
+    const bibleResponse = await fetch('https://api.youversion.com/v1/bibles/111', {
+      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+    });
+    
+    // Get John 3:16
+    const verseResponse = await fetch(
+      'https://api.youversion.com/v1/bibles/111/books/JHN/chapters/3/verses',
+      { headers: { 'X-App-Id': 'YOUR_API_KEY' } }
+    );
+    
+    const verses = await verseResponse.json();
+    const john316 = verses.data.find(verse => verse.reference === 'John 3:16');
+    
+    console.log(`Today's Verse: ${john316.reference}`);
+    console.log(john316.content);
+  } catch (error) {
+    console.error('Error fetching daily verse:', error);
+  }
+}
+
+getDailyVerse();
+```
+
+### Python
+
+```python
+import requests
+import random
+
+def get_daily_verse():
+    headers = {'X-App-Id': 'YOUR_API_KEY'}
+    
+    # Get a random book (simplified - you'd want to get all books first)
+    books = ['GEN', 'EXO', 'MAT', 'JHN', 'ROM', 'REV']
+    random_book = random.choice(books)
+    
+    # Get verses from the random book, chapter 1
+    response = requests.get(
+        f'https://api.youversion.com/v1/bibles/111/books/{random_book}/chapters/1/verses',
+        headers=headers
+    )
+    
+    if response.status_code == 200:
+        verses = response.json()['data']
+        if verses:
+            random_verse = random.choice(verses)
+            print(f"Today's Verse: {random_verse['reference']}")
+            print(random_verse['content'])
+    else:
+        print(f"Error: {response.status_code}")
+
+get_daily_verse()
+```
+
+## Example 2: Bible Search Application
+
+Create a search interface that allows users to find Bible content.
+
+### React Component
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function BibleSearch() {
+  const [bibles, setBibles] = useState([]);
+  const [selectedBible, setSelectedBible] = useState(null);
+  const [books, setBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [chapters, setChapters] = useState([]);
+  const [selectedChapter, setSelectedChapter] = useState(null);
+  const [verses, setVerses] = useState([]);
+
+  useEffect(() => {
+    // Load available Bibles
+    fetch('https://api.youversion.com/v1/bibles', {
+      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+    })
+    .then(response => response.json())
+    .then(data => setBibles(data.data));
+  }, []);
+
+  const loadBooks = (bibleId) => {
+    fetch(`https://api.youversion.com/v1/bibles/${bibleId}/books`, {
+      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+    })
+    .then(response => response.json())
+    .then(data => setBooks(data.data));
+  };
+
+  const loadChapters = (bibleId, bookUsfm) => {
+    fetch(`https://api.youversion.com/v1/bibles/${bibleId}/books/${bookUsfm}/chapters`, {
+      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+    })
+    .then(response => response.json())
+    .then(data => setChapters(data.data));
+  };
+
+  const loadVerses = (bibleId, bookUsfm, chapterNumber) => {
+    fetch(`https://api.youversion.com/v1/bibles/${bibleId}/books/${bookUsfm}/chapters/${chapterNumber}/verses`, {
+      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+    })
+    .then(response => response.json())
+    .then(data => setVerses(data.data));
+  };
+
+  return (
+    <div className="bible-search">
+      <h2>Bible Search</h2>
+      
+      {/* Bible Selection */}
+      <select onChange={(e) => {
+        setSelectedBible(e.target.value);
+        loadBooks(e.target.value);
+      }}>
+        <option>Select a Bible</option>
+        {bibles.map(bible => (
+          <option key={bible.id} value={bible.id}>
+            {bible.title} ({bible.abbreviation})
+          </option>
+        ))}
+      </select>
+
+      {/* Book Selection */}
+      {selectedBible && (
+        <select onChange={(e) => {
+          setSelectedBook(e.target.value);
+          loadChapters(selectedBible, e.target.value);
+        }}>
+          <option>Select a Book</option>
+          {books.map(book => (
+            <option key={book.usfm} value={book.usfm}>
+              {book.title}
+            </option>
+          ))}
+        </select>
+      )}
+
+      {/* Chapter Selection */}
+      {selectedBook && (
+        <select onChange={(e) => {
+          setSelectedChapter(e.target.value);
+          loadVerses(selectedBible, selectedBook, e.target.value);
+        }}>
+          <option>Select a Chapter</option>
+          {chapters.map(chapter => (
+            <option key={chapter.usfm} value={chapter.title}>
+              {chapter.title}
+            </option>
+          ))}
+        </select>
+      )}
+
+      {/* Verses Display */}
+      {verses.length > 0 && (
+        <div className="verses">
+          <h3>Chapter {selectedChapter}</h3>
+          {verses.map(verse => (
+            <div key={verse.usfm} className="verse">
+              <strong>{verse.reference}</strong>
+              <p>{verse.content}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default BibleSearch;
+```
+
+## Example 3: Multi-Language Bible App
+
+Create an application that can display Bible content in multiple languages.
+
+### Python Flask Application
+
+```python
+from flask import Flask, render_template, request, jsonify
+import requests
+
+app = Flask(__name__)
+
+API_KEY = 'YOUR_API_KEY'
+BASE_URL = 'https://api.youversion.com/v1'
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/api/bibles')
+def get_bibles():
+    language = request.args.get('language', 'en')
+    
+    response = requests.get(f'{BASE_URL}/bibles', 
+                          headers={'X-App-Id': API_KEY},
+                          params={'language_ranges': language})
+    
+    return jsonify(response.json())
+
+@app.route('/api/verse/<int:bible_id>/<book>/<int:chapter>/<int:verse>')
+def get_verse(bible_id, book, chapter, verse):
+    # Get all verses in the chapter
+    response = requests.get(
+        f'{BASE_URL}/bibles/{bible_id}/books/{book}/chapters/{chapter}/verses',
+        headers={'X-App-Id': API_KEY}
+    )
+    
+    if response.status_code == 200:
+        verses = response.json()['data']
+        # Find the specific verse (simplified - you'd want better verse matching)
+        if verse <= len(verses):
+            return jsonify(verses[verse - 1])
+    
+    return jsonify({'error': 'Verse not found'}), 404
+
+@app.route('/api/parallel/<book>/<int:chapter>/<int:verse>')
+def get_parallel_verse(book, chapter, verse):
+    # Get the same verse in multiple Bible versions
+    bibles = [111, 112, 113]  # NIV, KJV, ESV
+    parallel_verses = []
+    
+    for bible_id in bibles:
+        try:
+            response = requests.get(
+                f'{BASE_URL}/bibles/{bible_id}/books/{book}/chapters/{chapter}/verses',
+                headers={'X-App-Id': API_KEY}
+            )
+            
+            if response.status_code == 200:
+                verses = response.json()['data']
+                if verse <= len(verses):
+                    parallel_verses.append({
+                        'bible_id': bible_id,
+                        'verse': verses[verse - 1]
+                    })
+        except:
+            continue
+    
+    return jsonify({'parallel_verses': parallel_verses})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+## Example 4: Bible Study Tool
+
+Create a tool that helps users study specific passages with context.
+
+### JavaScript (Browser)
+
+```javascript
+class BibleStudyTool {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseUrl = 'https://api.youversion.com/v1';
+  }
+
+  async getPassage(bibleId, book, startChapter, startVerse, endChapter, endVerse) {
+    const passage = [];
+    
+    for (let chapter = startChapter; chapter <= endChapter; chapter++) {
+      const response = await fetch(
+        `${this.baseUrl}/bibles/${bibleId}/books/${book}/chapters/${chapter}/verses`,
+        { headers: { 'X-App-Id': this.apiKey } }
+      );
+      
+      const verses = await response.json();
+      
+      // Filter verses based on range
+      const chapterVerses = verses.data.filter(verse => {
+        const verseNumber = parseInt(verse.reference.split(':')[1]);
+        if (chapter === startChapter && chapter === endChapter) {
+          return verseNumber >= startVerse && verseNumber <= endVerse;
+        } else if (chapter === startChapter) {
+          return verseNumber >= startVerse;
+        } else if (chapter === endChapter) {
+          return verseNumber <= endVerse;
+        } else {
+          return true;
+        }
+      });
+      
+      passage.push(...chapterVerses);
+    }
+    
+    return passage;
+  }
+
+  async getCrossReferences(bibleId, book, chapter, verse) {
+    // This would integrate with a cross-reference API
+    // For now, we'll return related verses from the same book
+    const response = await fetch(
+      `${this.baseUrl}/bibles/${bibleId}/books/${book}/chapters/${chapter}/verses`,
+      { headers: { 'X-App-Id': this.apiKey } }
+    );
+    
+    const verses = await response.json();
+    return verses.data.slice(Math.max(0, verse - 2), verse + 1);
+  }
+
+  async getBibleInfo(bibleId) {
+    const response = await fetch(
+      `${this.baseUrl}/bibles/${bibleId}`,
+      { headers: { 'X-App-Id': this.apiKey } }
+    );
+    
+    return response.json();
+  }
+}
+
+// Usage
+const studyTool = new BibleStudyTool('YOUR_API_KEY');
+
+async function studyPassage() {
+  try {
+    // Get John 3:16-17
+    const passage = await studyTool.getPassage(111, 'JHN', 3, 16, 3, 17);
+    
+    console.log('Passage:');
+    passage.forEach(verse => {
+      console.log(`${verse.reference}: ${verse.content}`);
+    });
+    
+    // Get context
+    const context = await studyTool.getCrossReferences(111, 'JHN', 3, 16);
+    
+    console.log('\nContext:');
+    context.forEach(verse => {
+      console.log(`${verse.reference}: ${verse.content}`);
+    });
+    
+  } catch (error) {
+    console.error('Error studying passage:', error);
+  }
+}
+
+studyPassage();
+```
+
+## Example 5: Bible Reading Plan
+
+Create a reading plan that tracks user progress through the Bible.
+
+### Node.js with Express
+
+```javascript
+const express = require('express');
+const fetch = require('node-fetch');
+
+const app = express();
+app.use(express.json());
+
+const API_KEY = 'YOUR_API_KEY';
+const BASE_URL = 'https://api.youversion.com/v1';
+
+// In-memory storage (use a database in production)
+const readingPlans = new Map();
+
+// Create a reading plan
+app.post('/api/reading-plans', (req, res) => {
+  const { userId, bibleId, startDate, endDate } = req.body;
+  
+  // Generate daily reading assignments
+  const plan = generateReadingPlan(bibleId, startDate, endDate);
+  
+  readingPlans.set(userId, {
+    plan,
+    progress: new Set(),
+    startDate,
+    endDate
+  });
+  
+  res.json({ planId: userId, plan });
+});
+
+// Mark a passage as read
+app.post('/api/reading-plans/:userId/complete', (req, res) => {
+  const { userId } = req.params;
+  const { book, chapter, verse } = req.body;
+  
+  const userPlan = readingPlans.get(userId);
+  if (!userPlan) {
+    return res.status(404).json({ error: 'Reading plan not found' });
+  }
+  
+  const passageKey = `${book}-${chapter}-${verse}`;
+  userPlan.progress.add(passageKey);
+  
+  res.json({ 
+    completed: true, 
+    progress: userPlan.progress.size,
+    total: userPlan.plan.length
+  });
+});
+
+// Get today's reading
+app.get('/api/reading-plans/:userId/today', async (req, res) => {
+  const { userId } = req.params;
+  const userPlan = readingPlans.get(userId);
+  
+  if (!userPlan) {
+    return res.status(404).json({ error: 'Reading plan not found' });
+  }
+  
+  const today = new Date().toISOString().split('T')[0];
+  const todayReading = userPlan.plan.find(reading => reading.date === today);
+  
+  if (!todayReading) {
+    return res.json({ message: 'No reading scheduled for today' });
+  }
+  
+  // Fetch the actual content
+  try {
+    const response = await fetch(
+      `${BASE_URL}/bibles/${userPlan.bibleId}/books/${todayReading.book}/chapters/${todayReading.chapter}/verses`,
+      { headers: { 'X-App-Id': API_KEY } }
+    );
+    
+    const verses = await response.json();
+    
+    res.json({
+      date: today,
+      reading: todayReading,
+      content: verses.data,
+      completed: userPlan.progress.has(`${todayReading.book}-${todayReading.chapter}`)
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch reading content' });
+  }
+});
+
+function generateReadingPlan(bibleId, startDate, endDate) {
+  // Simplified plan generation
+  // In a real app, you'd create a more sophisticated algorithm
+  const plan = [];
+  const books = ['GEN', 'EXO', 'MAT', 'JHN', 'ROM'];
+  
+  let currentDate = new Date(startDate);
+  const end = new Date(endDate);
+  
+  while (currentDate <= end) {
+    const book = books[Math.floor(Math.random() * books.length)];
+    const chapter = Math.floor(Math.random() * 50) + 1;
+    
+    plan.push({
+      date: currentDate.toISOString().split('T')[0],
+      book,
+      chapter,
+      bibleId
+    });
+    
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  
+  return plan;
+}
+
+app.listen(3000, () => {
+  console.log('Bible Reading Plan API running on port 3000');
+});
+```
+
+## Next Steps
+
+These examples demonstrate just a few ways to use the YouVersion Bible API. You can:
+
+- **Build mobile apps** that work offline with cached content
+- **Create study tools** with cross-references and commentaries
+- **Develop educational applications** for Bible study
+- **Integrate with existing platforms** to add Bible content
+
+For more complex implementations, check out our [API Reference](/api) for detailed endpoint documentation. 
