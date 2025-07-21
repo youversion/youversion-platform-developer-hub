@@ -1,5 +1,6 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { APP_ID } from '@/lib/constants';
 
 interface User {
   id: string;
@@ -65,11 +66,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       // Call /auth/me endpoint
-      const appId = "AYjVYEWhzZOXoAoFYQssYj6zMYAeJAXk7ziCAFkzq5cJxveM";
       const userResponse = await fetch(`https://api-dev.youversion.com/auth/me?lat=${encodeURIComponent(lat)}`, {
         method: 'GET',
         headers: {
-          'X-App-ID': appId
+          'X-App-ID': APP_ID
         }
       });
 
@@ -98,7 +98,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         url: orgRolesUrl,
         yvpUserId: yvpUserId,
         headers: {
-          'X-App-ID': appId,
+          'X-App-ID': APP_ID,
           'Authorization': `Bearer ${lat.substring(0, 10)}...` // Only log first 10 chars for security
         }
       });
@@ -106,7 +106,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const orgResponse = await fetch(orgRolesUrl, {
         method: 'GET',
         headers: {
-          'X-App-ID': appId,
+          'X-App-ID': APP_ID,
           'Authorization': `Bearer ${lat}`
         }
       });

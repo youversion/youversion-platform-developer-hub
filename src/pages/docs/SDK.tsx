@@ -309,7 +309,31 @@ struct LoginView: View {
                       <div>
                         <h3 className="font-semibold mb-2">Add a Login Button</h3>
                         <CodeBlock language="html">
-{`<youversion-login-button></youversion-login-button>`}
+{`<sign-in-with-youversion-button></sign-in-with-youversion-button>`}
+                        </CodeBlock>
+                        <p className="text-sm text-muted-foreground mb-2 mt-2">
+                          To handle authentication events, add these callback functions:
+                        </p>
+                        <CodeBlock language="javascript">
+{`<script>
+    window.onYouVersionAuthComplete = function(authData) {
+        // Called when user successfully authenticates
+        console.log('Auth completed:', authData.token, authData.lat, authData.yvp_user_id);
+        // Handle successful login (e.g., redirect, store token, update UI)
+    };
+    
+    window.onYouVersionAuthLoad = function(authData) {
+        // Called when auth data loads (user already signed in)
+        console.log('Auth loaded:', authData.token, authData.lat, authData.yvp_user_id);
+        // Handle existing authentication state
+    };
+    
+    window.onYouVersionSignOut = function() {
+        // Called when user logs out
+        console.log('User logged out');
+        // Handle logout (e.g., clear data, update UI)
+    };
+</script>`}
                         </CodeBlock>
                       </div>
                       <div>
