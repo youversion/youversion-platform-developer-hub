@@ -2,6 +2,17 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart3, TrendingUp, Clock, AlertCircle } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const mockChartData = [
+  { name: 'Jan', requests: 4000 },
+  { name: 'Feb', requests: 3000 },
+  { name: 'Mar', requests: 5000 },
+  { name: 'Apr', requests: 4500 },
+  { name: 'May', requests: 6000 },
+  { name: 'Jun', requests: 5500 },
+  { name: 'Jul', requests: 7000 },
+];
 
 const Analytics = () => {
   return (
@@ -75,8 +86,16 @@ const Analytics = () => {
               <CardDescription>API requests over the last 30 days</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-64 flex items-center justify-center text-muted-foreground">
-                Chart placeholder - Request volume over time
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={mockChartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="requests" stroke="hsl(var(--primary))" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>

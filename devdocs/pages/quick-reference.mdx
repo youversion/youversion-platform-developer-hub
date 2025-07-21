@@ -1,0 +1,145 @@
+---
+title: Quick Reference
+description: Quick reference guide for the YouVersion Bible API
+---
+
+This page provides a quick overview of the YouVersion Bible API endpoints and common usage patterns.
+
+## Base URLs
+
+- **Production**: `https://api.youversion.com/v1`
+- **Development**: `https://api-dev.youversion.com/v1`
+- **Local**: `http://127.0.0.1:8000/v1`
+
+## Authentication
+
+All requests require the `X-App-Id` header:
+
+```bash
+X-App-Id: YOUR_API_KEY
+```
+
+## Endpoints Overview
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/bibles` | Get available Bible versions |
+| `GET` | `/bibles/{version_id}` | Get specific Bible details |
+| `GET` | `/bibles/{version_id}/books` | Get books for a Bible |
+| `GET` | `/bibles/{version_id}/books/{book_usfm}` | Get book content |
+| `GET` | `/bibles/{version_id}/books/{book_usfm}/chapters` | Get chapters for a book |
+| `GET` | `/bibles/{version_id}/books/{book_usfm}/chapters/{chapter_number}/verses` | Get verses for a chapter |
+
+## Common Parameters
+
+### Query Parameters
+
+- `language_ranges`: Comma-separated language codes (e.g., `en,es,fr`)
+- `next_page_token`: For pagination
+
+### Path Parameters
+
+- `version_id`: Bible version identifier (integer)
+- `book_usfm`: 3-character USFM book code (e.g., `MAT`, `JHN`)
+- `chapter_number`: Chapter number (integer)
+
+## Response Format
+
+All successful responses follow this format:
+
+```json
+{
+  "data": [...],
+  "next_page_token": "string"
+}
+```
+
+## Common Bible IDs
+
+| ID | Abbreviation | Name |
+|----|--------------|------|
+| 111 | NIV | New International Version |
+| 112 | KJV | King James Version |
+| 113 | ESV | English Standard Version |
+
+## Common Book USFM Codes
+
+| Book | USFM Code |
+|------|-----------|
+| Genesis | GEN |
+| Exodus | EXO |
+| Matthew | MAT |
+| John | JHN |
+| Romans | ROM |
+| Revelation | REV |
+
+## Example Requests
+
+### Get All Bible Versions
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     https://api.youversion.com/v1/bibles
+```
+
+### Get NIV Bible Details
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     https://api.youversion.com/v1/bibles/111
+```
+
+### Get Books in NIV
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     https://api.youversion.com/v1/bibles/111/books
+```
+
+### Get John Chapter 3 Verses
+
+```bash
+curl -H "X-App-Id: YOUR_API_KEY" \
+     https://api.youversion.com/v1/bibles/111/books/JHN/chapters/3/verses
+```
+
+## Error Codes
+
+| Code | Meaning |
+|------|---------|
+| 200 | Success |
+| 204 | No Content |
+| 400 | Bad Request |
+| 401 | Unauthorized |
+| 404 | Not Found |
+| 406 | Not Acceptable |
+
+## Rate Limiting
+
+- Check `X-RateLimit-*` headers for rate limit information
+- Implement exponential backoff for 429 responses
+
+## Best Practices
+
+1. **Cache responses** when possible
+2. **Handle errors gracefully**
+3. **Use appropriate timeouts**
+4. **Validate parameters** before requests
+5. **Respect rate limits**
+
+## SDKs and Libraries
+
+While no official SDKs are available, you can use any HTTP client library:
+
+- **JavaScript**: `fetch`, `axios`, `node-fetch`
+- **Python**: `requests`, `httpx`
+- **Ruby**: `net/http`, `httparty`
+- **PHP**: `curl`, `Guzzle`
+- **Go**: `net/http`
+
+## Need More Details?
+
+- [Full API Reference](/api) - Complete endpoint documentation
+- [Getting Started](/getting-started) - Step-by-step guide
+- [Examples](/examples) - Practical code examples
+- [Error Codes](/error-codes) - Detailed error information 
