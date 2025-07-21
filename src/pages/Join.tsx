@@ -15,6 +15,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import StatementOfFaithModal from "@/components/StatementOfFaithModal";
 import TermsOfServiceModal from "@/components/TermsOfServiceModal";
 import AddressAutocomplete from "@/components/AddressAutocomplete";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // TODO: Replace with your Google Maps API key
 const GOOGLE_MAPS_API_KEY = "AIzaSyDa5uwzQ5wwtYTUG5CxdZLoPkqnJG1BKwE";
@@ -33,6 +40,7 @@ interface FormState {
   organizationName: string;
   firstName: string;
   lastName: string;
+  profitDesignation: "non-profit" | "for-profit";
   address: {
     description: string;
     placeId: string;
@@ -45,6 +53,7 @@ interface FormState {
 const Join: React.FC = () => {
   const [formState, setFormState] = useState<Partial<FormState>>({
     accountType: "organization",
+    profitDesignation: "non-profit",
   });
   const [userData, setUserData] = useState<UserData | null>(null);
   const [sofModalOpen, setSofModalOpen] = useState(false);
@@ -91,6 +100,12 @@ const Join: React.FC = () => {
     setFormState(prev => ({ ...prev, accountType: value }));
   };
 
+  const handleProfitDesignationChange = (
+    value: "non-profit" | "for-profit"
+  ) => {
+    setFormState((prev) => ({ ...prev, profitDesignation: value }));
+  };
+
   const handleCheckboxChange = (id: keyof FormState) => (checked: boolean) => {
     setFormState(prev => ({...prev, [id]: checked}));
   };
@@ -104,30 +119,84 @@ const Join: React.FC = () => {
       return;
     }
 
-    // Call Google's Address Validation API
+    if (!formState.agreeToS || !formState.agreeToSoF) {
+      alert("Please agree to both the Terms of Service and Statement of Faith.");
+      return;
+    }
+
     try {
-      const response = await fetch(`https://addressvalidation.googleapis.com/v1:validateAddress?key=${ADDRESS_VALIDATION_API_KEY}`, {
+      // Get user's yvp_id from localStorage
+      const storedUserData = localStorage.getItem('yvp_user_data');
+      if (!storedUserData) {
+        alert("User data not found. Please sign in again.");
+        return;
+      }
+
+      const parsedUserData = JSON.parse(storedUserData);
+      const yvpUserId = parsedUserData.id || parsedUserData.yvp_user_id;
+      
+      if (!yvpUserId) {
+        alert("User ID not found. Please sign in again.");
+        return;
+      }
+
+      // Determine organization name
+      let organizationName;
+      if (formState.accountType === "organization") {
+        organizationName = formState.organizationName || "My Organization";
+      } else {
+        // For individual accounts, use the user's name
+        organizationName = `${formState.firstName || parsedUserData.first_name || ''} ${formState.lastName || parsedUserData.last_name || ''}`.trim() || "Individual Account";
+      }
+
+      // Prepare the request body for organization creation
+      const requestBody = {
+        name: organizationName,
+        profit_designation: formState.profitDesignation || "non-profit",
+        is_indie: true,
+        address: {
+          formatted_address: formState.address.description,
+          name: formState.address.description,
+          place_id: formState.address.placeId
+        },
+        members: [
+          {
+            yvp_id: yvpUserId,
+            role: "owner"
+          }
+        ]
+      };
+
+      console.log("Creating organization with data:", requestBody);
+
+      // Create the organization
+      const response = await fetch('https://api-dev.youversion.com/admin/create_organization', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa('admin:findslife')
         },
-        body: JSON.stringify({
-          address: {
-            addressLines: [formState.address.description],
-          },
-        }),
+        body: JSON.stringify(requestBody)
       });
 
-      const data = await response.json();
-      console.log("Address Validation Response:", data);
-      alert("Address validation result logged to console.");
+      if (!response.ok) {
+        throw new Error(`Failed to create organization: ${response.status} ${response.statusText}`);
+      }
 
-      // Here you would handle the response (Fix, Confirm, Accept scenarios)
-      // and proceed with form submission to your backend.
+      const result = await response.json();
+      console.log("Organization created successfully:", result);
+
+      if (result.success && result.organization) {
+        alert(`Organization "${result.organization.name}" created successfully! You are now the owner.`);
+        // Redirect to platform or login to refresh the organization data
+        window.location.href = '/get-started';
+      } else {
+        throw new Error("Organization creation failed - invalid response");
+      }
 
     } catch (error) {
-      console.error("Error validating address:", error);
-      alert("An error occurred during address validation.");
+      console.error("Error creating organization:", error);
+      alert(`An error occurred while creating the organization: ${error.message}`);
     }
   };
 
@@ -200,6 +269,22 @@ const Join: React.FC = () => {
                     />
                   </div>
                 )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="profitDesignation">Profit Designation</Label>
+                  <Select
+                    onValueChange={handleProfitDesignationChange}
+                    defaultValue={formState.profitDesignation}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select profit designation" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="non-profit">Non Profit</SelectItem>
+                      <SelectItem value="for-profit">For Profit</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
