@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy } from 'lucide-react';
+import { Plus, Image, Key, Activity, Globe, Apple, PlayCircle, Copy, Trash2 } from 'lucide-react';
 import AppDetailsModal from '@/components/AppDetailsModal';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { useAuth } from '@/contexts/AuthContext';
+import { YVP_CONFIG } from '@/lib/constants';
 
 interface App {
   id: string;
@@ -25,12 +28,9 @@ interface App {
   callback_uri?: string;
 }
 
-const APPS_URL = 'https://admin-446696173378.us-central1.run.app/admin/apps/list';
-const APP_KEYS_URL = 'https://admin-446696173378.us-central1.run.app/admin/apps_keys/list';
-const ORG_ID = '3e3c2422-d01f-4d10-91a3-0e0a9bc600ef';
-
 const Apps = () => {
   const { toast } = useToast();
+  const { organization } = useAuth();
   const [selectedApp, setSelectedApp] = useState<App | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewApp, setIsNewApp] = useState(false);
@@ -38,121 +38,132 @@ const Apps = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [creationDialog, setCreationDialog] = useState<{ open: boolean; message: string; appKey: string } | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [appToDelete, setAppToDelete] = useState<App | null>(null);
 
   // Pagination state
   const [pageIndex, setPageIndex] = useState<number>(0);       // Zero-based page number
   const [pageSize, setPageSize] = useState<number>(10);        // Items per page
   const [totalRecords, setTotalRecords] = useState<number>(0); // Total items on the server
 
+  const fetchData = useCallback(async () => {
+    // Don't fetch if organization is not available yet
+    if (!organization?.id) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      // Get LAT token from localStorage
+      const lat = localStorage.getItem('yvp_lat');
+      if (!lat) {
+        throw new Error('No authentication token found');
+      }
+
+      // Fetch apps for the current organization
+      const appsUrl = `${YVP_CONFIG.API_BASE_URL}/admin/organizations/${organization.id}/apps`;
+      const keysUrl = `${YVP_CONFIG.API_BASE_URL}/admin/apps_keys/list`;
+      
+      console.log('Fetching apps for organization:', organization.id);
+      
+      const [appsRes, keysRes] = await Promise.all([
+        fetch(appsUrl, {
+          headers: {
+            'lat': lat,
+            'x-app-id': YVP_CONFIG.APP_ID,
+            'Accept': 'application/json',
+          },
+        }),
+        fetch(keysUrl, {
+          headers: {
+            'lat': lat,
+            'x-app-id': YVP_CONFIG.APP_ID,
+            'Accept': 'application/json',
+          },
+        })
+      ]);
+
+      if (!appsRes.ok) {
+        throw new Error(`Failed to fetch apps: ${appsRes.status} ${appsRes.statusText}`);
+      }
+      if (!keysRes.ok) {
+        throw new Error(`Failed to fetch app keys: ${keysRes.status} ${keysRes.statusText}`);
+      }
+
+      const rawApps = await appsRes.json();
+      const rawKeys = await keysRes.json();
+      
+      console.debug('Raw Apps:', rawApps);
+      console.debug('Raw Keys:', rawKeys);
+
+      // The org-specific API returns an array directly
+      const appsArray: any[] = Array.isArray(rawApps) ? rawApps : [];
+      
+      // For pagination, we'll use client-side pagination for now
+      setTotalRecords(appsArray.length);
+      const startIndex = pageIndex * pageSize;
+      const endIndex = startIndex + pageSize;
+      const paginatedApps = appsArray.slice(startIndex, endIndex);
+
+      const keysJson: any = rawKeys;
+      const keysSource = Array.isArray(keysJson.data)
+        ? keysJson.data
+        : Array.isArray(keysJson.keys)
+          ? keysJson.keys
+          : keysJson;
+      const keysArray: any[] = Array.isArray(keysSource) ? keysSource : [];
+
+      // Build map app_id -> public_key
+      const keyMap: Record<string, string> = {};
+      for (const k of keysArray) {
+        if (k.app_id && !keyMap[k.app_id]) {
+          keyMap[k.app_id] = k.public_key;
+        }
+      }
+      
+      const mapped: App[] = paginatedApps.map((app: any) => ({
+        id: app.id,
+        name: app.names?.en || 'Untitled',
+        description: app.description || '',
+        website: app.website_url || '',
+        appleAppStore: app.apple_url || '',
+        googlePlayStore: app.play_store_url || '',
+        apiKey: keyMap[app.id] || '',
+        status: app.status || '',
+        requests: app.requests?.toLocaleString?.() || '0', // This endpoint might not have `requests`
+        created: app.created || '', // This endpoint might not have `created`
+        updated: app.updated || '', // This endpoint might not have `updated`
+        approved: app.status === 'active',
+        commercialStatus: (app.commercial || '').toLowerCase() === 'commercial' ? 'Commercial' : 'Non-Commercial',
+        callback_uri: app.callback_uri || '',
+      }));
+      
+      setApps(mapped);
+    } catch (err: any) {
+      console.error('Error fetching apps:', err);
+      setError(err.message || 'Unknown error');
+    } finally {
+      setLoading(false);
+    }
+  }, [organization?.id, pageIndex, pageSize]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        // Build paginated URL
-          const offset = pageIndex * pageSize;
-          const appsUrlWithParams = `${APPS_URL}?start=${offset}&length=${pageSize}`;
-          const [appsRes, keysRes] = await Promise.all([
-          fetch(appsUrlWithParams, {
-            headers: {
-              'Authorization': 'Basic ' + btoa('admin:findslife'),
-              'Accept': 'application/json',
-            },
-          }),
-          fetch(APP_KEYS_URL, {
-            headers: {
-              'Authorization': 'Basic ' + btoa('admin:findslife'),
-              'Accept': 'application/json',
-            },
-          })
-        ]);
-
-        if (!appsRes.ok) throw new Error('Failed to fetch apps');
-        if (!keysRes.ok) throw new Error('Failed to fetch app keys');
-
-                        // Parse API JSON responses
-        const rawApps = await appsRes.json();
-        // Read total count for pagination
-        setTotalRecords(rawApps.recordsTotal ?? rawApps.recordsFiltered ?? 0);
-        console.debug('Raw Apps:', rawApps);
-        const rawKeys = await keysRes.json();
-        console.debug('Raw Keys:', rawKeys);
-
-        // Normalize responses to arrays
-        // Unwrap pagination wrapper if present
-
-        // Normalize responses to arrays, unwrap possible paginated or named wrappers
-        const appsJson: any = rawApps;
-        const appsSource = Array.isArray(appsJson.data)
-          ? appsJson.data
-          : Array.isArray(appsJson.apps)
-            ? appsJson.apps
-            : appsJson;
-        const appsArray: any[] = Array.isArray(appsSource) ? appsSource : [];
-        const keysJson: any = rawKeys;
-        const keysSource = Array.isArray(keysJson.data)
-          ? keysJson.data
-          : Array.isArray(keysJson.keys)
-            ? keysJson.keys
-            : keysJson;
-        const keysArray: any[] = Array.isArray(keysSource) ? keysSource : [];
-
-        // Build map app_id -> public_key
-        const keyMap: Record<string, string> = {};
-        for (const k of keysArray) {
-          if (k.app_id && !keyMap[k.app_id]) {
-            keyMap[k.app_id] = k.public_key;
-          }
-        }
-
-        // Use all apps (remove organization filter for now)
-        const filtered = appsArray;
-        const mapped: App[] = filtered.map((app: any) => ({
-          id: app.id,
-          name: app.names?.en || 'Untitled',
-          description: app.description || '',
-          website: app.website_url || '',
-          appleAppStore: app.apple_url || '',
-          googlePlayStore: app.play_store_url || '',
-          apiKey: keyMap[app.id] || '',
-          status: app.status || '',
-          requests: app.requests?.toLocaleString?.() || '0',
-          created: app.created || '',
-          updated: app.updated || '',
-          approved: app.status === 'active',
-          commercialStatus: (app.commercial || '').toLowerCase() === 'commercial' ? 'Commercial' : 'Non-Commercial',
-          callback_uri: app.callback_uri || '',
-        }));
-        setApps(mapped);
-      } catch (err: any) {
-        setError(err.message || 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
-  }, [pageIndex, pageSize]);
+  }, [fetchData]);
 
-  const generateAppKey = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      const r = Math.random() * 16 | 0;
-      const v = c == 'x' ? r : r & 0x3 | 0x8;
-      return v.toString(16);
-    });
-  };
-
-  const copyApiKey = async (apiKey: string) => {
+  const copyPublicKey = async (publicKey: string) => {
     try {
-      await navigator.clipboard.writeText(apiKey);
+      await navigator.clipboard.writeText(publicKey);
       toast({
-        title: "App Id Copied",
-        description: "The app key has been copied to your clipboard."
+        title: "Public Key Copied",
+        description: "The public key has been copied to your clipboard."
       });
     } catch (err) {
       toast({
         title: "Copy Failed",
-        description: "Failed to copy app key to clipboard.",
+        description: "Failed to copy public key to clipboard.",
         variant: "destructive"
       });
     }
@@ -185,18 +196,75 @@ const Apps = () => {
     setIsModalOpen(true);
   };
 
+  const handleDeleteClick = (app: App) => {
+    setAppToDelete(app);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDeleteApp = async () => {
+    if (!appToDelete) return;
+
+    try {
+      const lat = localStorage.getItem('yvp_lat');
+      if (!lat) {
+        throw new Error('No authentication token found');
+      }
+
+      const response = await fetch(`${YVP_CONFIG.API_BASE_URL}/admin/apps/delete`, {
+        method: 'POST',
+        headers: {
+          'lat': lat,
+          'x-app-id': YVP_CONFIG.APP_ID,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pk: appToDelete.id }),
+      });
+
+      if (!response.ok) {
+        // Try to parse error message from response
+        const errorData = await response.json().catch(() => ({ message: `Request failed with status ${response.status}` }));
+        throw new Error(errorData.message || `Failed to delete application`);
+      }
+
+      toast({
+        title: 'Application Deleted',
+        description: `"${appToDelete.name}" has been deleted successfully.`,
+      });
+
+      // Refresh the list of apps
+      await fetchData();
+
+    } catch (err: any) {
+      toast({
+        title: 'Delete Failed',
+        description: err.message || 'An unknown error occurred.',
+        variant: 'destructive',
+      });
+    } finally {
+        setAppToDelete(null);
+        setIsDeleteDialogOpen(false);
+    }
+  };
+
   const handleSaveApp = async (updatedApp: App) => {
     if (isNewApp) {
       // Call API to create app
       try {
-        const response = await fetch('https://admin-446696173378.us-central1.run.app/admin/apps/create', {
+        // Get LAT token from localStorage
+        const lat = localStorage.getItem('yvp_lat');
+        if (!lat || !organization?.id) {
+          throw new Error('No authentication token or organization found');
+        }
+
+        const response = await fetch(`${YVP_CONFIG.API_BASE_URL}/admin/apps/create`, {
           method: 'POST',
           headers: {
-            'Authorization': 'Basic ' + btoa('admin:findslife'),
+            'lat': lat,
+            'x-app-id': YVP_CONFIG.APP_ID,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            organization_id: ORG_ID,
+            organization_id: organization.id,
             names: JSON.stringify({ en: updatedApp.name }),
             callback_uri: updatedApp.callback_uri?.trim() || "https://www.youversion.com/",
             bible_licenses: '[1]',
@@ -207,25 +275,15 @@ const Apps = () => {
             commercial: updatedApp.commercialStatus.toLowerCase() === 'commercial' ? 'commercial' : 'non-commercial',
           }),
         });
+        
         const data = await response.json();
         if (!data.success) throw new Error(data.message || 'Failed to create app');
 
-        // Fetch public_key for the new default_key_id
-        let publicKey = '';
-        try {
-          const keysRes = await fetch(APP_KEYS_URL, {
-            headers: {
-              'Authorization': 'Basic ' + btoa('admin:findslife'),
-              'Accept': 'application/json',
-            },
-          });
-          if (keysRes.ok) {
-            const keysData = await keysRes.json();
-            const match = keysData.find((k: any) => k.id === data.default_key_id);
-            if (match) publicKey = match.public_key;
-          }
-        } catch {}
+        // Per user instruction, use default_key_id for the dialog
+        const publicKey = data.default_key_id;
 
+        // Also update the local state with the new app
+        // We'll use the default_key_id as the apiKey for now, until the next full refresh
         setApps(prevApps => [
           ...prevApps,
           {
@@ -243,7 +301,7 @@ const Apps = () => {
         });
       }
     } else {
-      setApps(prevApps => prevApps.map(app => app.apiKey === updatedApp.apiKey ? updatedApp : app));
+      setApps(prevApps => prevApps.map(app => app.id === updatedApp.id ? updatedApp : app));
       toast({
         title: 'Application Updated',
         description: 'The application details have been saved successfully.'
@@ -267,12 +325,14 @@ const Apps = () => {
               Manage your applications and API keys
             </p>
           </div>
-          <Button onClick={handleNewApplication}>
+          <Button onClick={handleNewApplication} disabled={!organization}>
             <Plus className="mr-2 h-4 w-4" />
             New Application
           </Button>
         </div>
-        {loading ? (
+        {!organization ? (
+          <div className="text-center py-12 text-muted-foreground">Loading organization...</div>
+        ) : loading ? (
           <div className="text-center py-12 text-muted-foreground">Loading applications...</div>
         ) : error ? (
           <div className="text-center py-12 text-red-500">{error}</div>
@@ -306,22 +366,8 @@ const Apps = () => {
                 </div>
               </CardHeader>
 
-              <CardContent className="flex-1 flex flex-col">
+              <CardContent className="flex-1 flex flex-col justify-between">
                 <div className="space-y-4 flex-1">
-                  {/* API Key Section */}
-                  <div className="bg-muted/50 rounded-xl p-4 border dark:bg-slate-700">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Key className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-medium text-foreground">App Id</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Input value={app.apiKey} readOnly disabled className="bg-background font-mono text-xs flex-1 h-9" />
-                      <Button size="sm" variant="stroked" onClick={() => copyApiKey(app.apiKey)} className="h-9 w-9 p-0 flex-shrink-0">
-                        <Copy className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  </div>
-
                   {/* Links */}
                   {(app.website || app.appleAppStore || app.googlePlayStore) && <div className="flex flex-wrap gap-3 pt-2">
                       {app.website && <a href={app.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-foreground hover:underline transition-all font-medium">
@@ -340,9 +386,13 @@ const Apps = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="mt-6 pt-4 border-t">
+                <div className="mt-6 pt-4 border-t flex items-center gap-3">
                   <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="w-full">
                     View Details
+                  </Button>
+                  <Button size="sm" variant="destructive" onClick={() => handleDeleteClick(app)} className="w-full">
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete
                   </Button>
                 </div>
               </CardContent>
@@ -351,7 +401,7 @@ const Apps = () => {
           {/* Pagination Controls */}
           <div className="flex items-center justify-between mt-6">
             <span className="text-sm">
-              Showing {pageIndex * pageSize + 1}–{Math.min((pageIndex + 1) * pageSize, totalRecords)} of {totalRecords}
+              Showing {Math.min(pageIndex * pageSize + 1, totalRecords)}–{Math.min((pageIndex + 1) * pageSize, totalRecords)} of {totalRecords}
             </span>
             <div className="space-x-2">
               <Button
@@ -363,7 +413,7 @@ const Apps = () => {
               </Button>
               <Button
                 size="sm"
-                disabled={(pageIndex + 1) * pageSize >= totalRecords}
+                disabled={(pageIndex + 1) * pageSize >= totalRecords || apps.length < pageSize}
                 onClick={() => setPageIndex((p) => p + 1)}
               >
                 Next
@@ -375,6 +425,24 @@ const Apps = () => {
       </div>
 
       <AppDetailsModal app={selectedApp} isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveApp} isNewApp={isNewApp} />
+      
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the application <span className="font-bold">"{appToDelete?.name}"</span> and all of its data.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setAppToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteApp} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {creationDialog?.open && (
         <Dialog open={creationDialog.open} onOpenChange={() => setCreationDialog(null)}>
           <DialogContent className="sm:max-w-[600px]">
@@ -394,7 +462,7 @@ const Apps = () => {
                   <Button
                     size="sm"
                     variant="stroked"
-                    onClick={() => copyApiKey(creationDialog.appKey)}
+                    onClick={() => copyPublicKey(creationDialog.appKey)}
                     className="h-9 w-9 p-0 flex-shrink-0"
                   >
                     <Copy className="h-3 w-3" />

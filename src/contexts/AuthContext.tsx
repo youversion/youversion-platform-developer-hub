@@ -17,6 +17,8 @@ interface Organization {
 interface AuthContextType {
   user: User | null;
   organization: Organization | null;
+  organizations: Organization[];
+  switchOrganization: (orgId: string) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
@@ -39,6 +41,15 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [organization, setOrganization] = useState<Organization | null>(null);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
+
+  const switchOrganization = (orgId: string) => {
+    const selectedOrg = organizations.find(org => org.id === orgId);
+    if (selectedOrg) {
+      setOrganization(selectedOrg);
+      console.log('✅ Switched to organization:', selectedOrg);
+    }
+  };
 
   const login = async (email: string, password: string) => {
     try {
@@ -51,11 +62,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
         
         // Mock organization data for the placeholder login
-        setOrganization({
+        const mockOrgs = [{
           id: '7fafd3aa-2b5f-4e64-8830-256b2512aebf',
           name: 'The Innovators Guild',
           userRole: 'admin'
-        });
+        }];
+        setOrganizations(mockOrgs);
+        setOrganization(mockOrgs[0]);
         return;
       }
 
@@ -133,20 +146,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return;
       }
 
-      // Use the first organization
-      const firstOrg = orgData[0];
+      // Store all organizations and use the first one as default
+      const allOrganizations = orgData.map((org: any) => ({
+        id: org.id,
+        name: org.name,
+        userRole: org.role
+      }));
+
+      const firstOrg = allOrganizations[0];
       console.log('✅ User belongs to organization(s). Using first org:', {
         id: firstOrg.id,
         name: firstOrg.name,
-        userRole: firstOrg.role,
-        totalOrgsFound: orgData.length
+        userRole: firstOrg.userRole,
+        totalOrgsFound: allOrganizations.length
       });
 
-      setOrganization({
-        id: firstOrg.id,
-        name: firstOrg.name,
-        userRole: firstOrg.role
-      });
+      setOrganizations(allOrganizations);
+      setOrganization(firstOrg);
 
     } catch (error) {
       console.error('Login failed:', error);
@@ -157,13 +173,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     setUser(null);
     setOrganization(null);
+    setOrganizations([]);
     localStorage.removeItem('yvp_lat');
   };
 
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, organization, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, organization, organizations, switchOrganization, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,8 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { YVP_CONFIG } from '@/lib/constants';
 
 interface App {
+  id?: string;
   name: string;
   description: string;
   website: string;
@@ -45,6 +48,7 @@ interface FormData {
 
 const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: AppDetailsModalProps) => {
   const { toast } = useToast();
+  const { organization } = useAuth();
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormData>({
     defaultValues: {
       name: '',
@@ -57,6 +61,8 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
     }
   });
   const [saving, setSaving] = React.useState(false);
+  const [publicKey, setPublicKey] = React.useState<string>('');
+  const [loadingPublicKey, setLoadingPublicKey] = React.useState(false);
 
   React.useEffect(() => {
     if (app) {
@@ -69,6 +75,54 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
       setValue('callback_uri', app.callback_uri || '');
     }
   }, [app, setValue]);
+
+  // Fetch public key for existing apps
+  React.useEffect(() => {
+    const fetchPublicKey = async () => {
+      if (!app || !app.id || isNewApp || !organization?.id) {
+        setPublicKey('');
+        return;
+      }
+
+      setLoadingPublicKey(true);
+      try {
+        const lat = localStorage.getItem('yvp_lat');
+        if (!lat) {
+          throw new Error('No authentication token found');
+        }
+
+        const response = await fetch(
+          `${YVP_CONFIG.API_BASE_URL}/admin/organizations/${organization.id}/apps/${app.id}/keys`,
+          {
+            headers: {
+              'lat': lat,
+              'x-app-id': YVP_CONFIG.APP_ID,
+              'Accept': 'application/json',
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch app keys: ${response.status} ${response.statusText}`);
+        }
+
+        const keys = await response.json();
+        // Show the first public_key as requested
+        if (Array.isArray(keys) && keys.length > 0 && keys[0].public_key) {
+          setPublicKey(keys[0].public_key);
+        } else {
+          setPublicKey('No public key found');
+        }
+      } catch (error) {
+        console.error('Error fetching public key:', error);
+        setPublicKey('Failed to load public key');
+      } finally {
+        setLoadingPublicKey(false);
+      }
+    };
+
+    fetchPublicKey();
+  }, [app, isNewApp, organization?.id]);
 
   const handleCommercialStatusChange = (value: string) => {
     if (value === 'Commercial') {
@@ -111,18 +165,18 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
     onClose();
   };
 
-  const copyApiKey = async () => {
-    if (app?.apiKey) {
+  const copyPublicKey = async () => {
+    if (publicKey && publicKey !== 'No public key found' && publicKey !== 'Failed to load public key') {
       try {
-        await navigator.clipboard.writeText(app.apiKey);
+        await navigator.clipboard.writeText(publicKey);
         toast({
-          title: "App Id Copied",
-          description: "The app key has been copied to your clipboard.",
+          title: "Public Key Copied",
+          description: "The public key has been copied to your clipboard.",
         });
       } catch (err) {
         toast({
           title: "Copy Failed",
-          description: "Failed to copy app key to clipboard.",
+          description: "Failed to copy public key to clipboard.",
           variant: "destructive",
         });
       }
@@ -284,15 +338,21 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
               {!isNewApp && (
                 <div className="space-y-2">
-                  <Label htmlFor="apiKey">App Id</Label>
+                  <Label htmlFor="publicKey">App ID</Label>
                   <div className="flex space-x-2">
                     <Input
-                      id="apiKey"
-                      value={app.apiKey}
+                      id="publicKey"
+                      value={loadingPublicKey ? 'Loading...' : publicKey}
                       readOnly
                       className="bg-muted font-mono text-sm"
                     />
-                    <Button type="button" size="sm" variant="stroked" onClick={copyApiKey}>
+                    <Button 
+                      type="button" 
+                      size="sm" 
+                      variant="stroked" 
+                      onClick={copyPublicKey}
+                      disabled={loadingPublicKey || !publicKey || publicKey === 'No public key found' || publicKey === 'Failed to load public key'}
+                    >
                       <Copy className="h-4 w-4" />
                     </Button>
                   </div>

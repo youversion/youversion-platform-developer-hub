@@ -13,7 +13,7 @@ const Platform = () => {
   } = useAuth();
   const location = useLocation();
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   // If we're on the base /platform route, show the dashboard

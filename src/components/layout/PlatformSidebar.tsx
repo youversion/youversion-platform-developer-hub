@@ -29,33 +29,38 @@ const platformNavItems = [{
   icon: Bell
 }];
 
-// Mock organizations data - replace with real data from your auth context or API
-const mockOrganizations = [{
-  id: '1',
-  name: 'Dev Org'
-}, {
-  id: '2',
-  name: 'My Startup'
-}, {
-  id: '3',
-  name: 'Client Project'
-}];
 const PlatformSidebar = () => {
   const {
     user,
+    organization,
+    organizations,
+    switchOrganization,
     logout
   } = useAuth();
   const location = useLocation();
-  const [selectedOrg, setSelectedOrg] = React.useState(mockOrganizations[0]);
+
   const getFirstName = () => {
     if (!user?.name) return 'User';
     return user.name.split(' ')[0];
   };
-  const handleOrgSwitch = (org: typeof mockOrganizations[0]) => {
-    setSelectedOrg(org);
-    // Add your organization switching logic here
-    console.log('Switching to organization:', org.name);
+
+  const handleOrgSwitch = (orgId: string) => {
+    switchOrganization(orgId);
+    console.log('Switching to organization ID:', orgId);
   };
+
+  // If no organization is selected or organizations are not loaded yet, show loading or placeholder
+  if (!organization || organizations.length === 0) {
+    return <Sidebar style={{
+      height: 'calc(100vh - 64px)',
+      top: '64px',
+      position: 'fixed'
+    }} className="w-64 canvas-primary">
+      <SidebarHeader className="p-4">
+        <SidebarGroupLabel>Loading organizations...</SidebarGroupLabel>
+      </SidebarHeader>
+    </Sidebar>;
+  }
   return <Sidebar style={{
     height: 'calc(100vh - 64px)',
     top: '64px',
@@ -66,12 +71,12 @@ const PlatformSidebar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="borderless" className="w-full justify-between">
-              <span className="text-lg font-semibold">{selectedOrg.name}</span>
+              <span className="text-lg font-semibold">{organization.name}</span>
               <ChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="start">
-            {mockOrganizations.map(org => <DropdownMenuItem key={org.id} onClick={() => handleOrgSwitch(org)} className={selectedOrg.id === org.id ? 'bg-muted' : ''}>
+            {organizations.map(org => <DropdownMenuItem key={org.id} onClick={() => handleOrgSwitch(org.id)} className={organization.id === org.id ? 'bg-muted' : ''}>
                 {org.name}
               </DropdownMenuItem>)}
           </DropdownMenuContent>
