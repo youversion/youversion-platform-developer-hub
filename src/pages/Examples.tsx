@@ -8,6 +8,7 @@ import CodeBlock from "@/components/ui/code-block";
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DocsSidebar from '@/components/layout/DocsSidebar';
 import Footer from '@/components/layout/Footer';
+import { APP_ID } from '@/lib/constants';
 interface ApiCall {
   id: string;
   title: string;
@@ -100,7 +101,7 @@ const CALLS: ApiCall[] = [{
   requiresLat: true
 }];
 const Examples: React.FC = () => {
-  const appId = "AYjVYEWhzZOXoAoFYQssYj6zMYAeJAXk7ziCAFkzq5cJxveM";
+
   const [lat, setLat] = useState<string>("");
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [loadingIds, setLoadingIds] = useState<Set<string>>(new Set());
@@ -136,7 +137,7 @@ const Examples: React.FC = () => {
       console.log("Auth data loaded:", authData);
     };
 
-    (window as any).onYouVersionLogout = () => {
+    (window as any).onYouVersionSignOut = () => {
       console.log("User logged out");
       setLat("");
     };
@@ -144,12 +145,12 @@ const Examples: React.FC = () => {
 
   // Keep the app ID in sync with the data attribute the SDK relies on
   useEffect(() => {
-    if (appId) {
-      document.body.dataset.youversionPlatformAppId = appId;
+          if (APP_ID) {
+        document.body.dataset.youversionPlatformAppId = APP_ID;
     } else {
       delete (document.body.dataset as any).youversionPlatformAppId;
     }
-  }, [appId]);
+      }, [APP_ID]);
 
   const runCall = async (call: ApiCall) => {
     if (call.requiresLat && !lat) {
@@ -163,7 +164,7 @@ const Examples: React.FC = () => {
       const res = await fetch(url, {
         method: "GET",
         headers: {
-          "X-App-ID": appId
+          "X-App-ID": APP_ID
         },
         signal: controller.signal
       });
@@ -202,7 +203,7 @@ const Examples: React.FC = () => {
             <div className="max-w-7xl mx-auto space-y-8">
               <div className="mb-6">
                 {/* @ts-ignore – custom web component from the YouVersion SDK */}
-                <youversion-login-button></youversion-login-button>
+                <sign-in-with-youversion-button></sign-in-with-youversion-button>
               </div>
               <div>
                 <h1 className="text-4xl font-bold mb-4">Interactive API Explorer</h1>
@@ -240,7 +241,7 @@ const Examples: React.FC = () => {
               {/* Calls */}
               <div className="grid md:grid-cols-2 gap-6">
                 {CALLS.map(call => {
-                const curlCommand = `curl -s -H \"X-App-ID: ${appId || "$YVP_APP_ID"}\" '${call.url.replace("$YVP_LAT", lat || "$YVP_LAT")}'`;
+                const curlCommand = `curl -s -H \"X-App-ID: ${APP_ID || "$YVP_APP_ID"}\" '${call.url.replace("$YVP_LAT", lat || "$YVP_LAT")}'`;
                 return <Card key={call.id} className="flex flex-col">
                       <CardHeader>
                         <CardTitle className="text-lg">{call.title}</CardTitle>

@@ -265,19 +265,50 @@ const Login = () => {
 {`<script type="module" src="https://api-dev.youversion.com/sdk.js"></script>`}
                       </CodeBlock>
                       
-                      <h4 className="font-semibold mt-4">Usage:</h4>
+                      <h4 className="font-semibold mt-4">Complete Example:</h4>
                       <CodeBlock language="html">
-{`<!-- Set app ID -->
-<body data-youversion-app-id="YOUR_APP_ID">
-
-<!-- Login button -->
-<youversion-login-button></youversion-login-button>
-
-<!-- Bible text -->
-<youversion-bible-text 
-  reference="JHN.3.16" 
-  version="206">
-</youversion-bible-text>`}
+{`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouVersion Platform Demo</title>
+  <script type="module" src="https://api-dev.youversion.com/sdk.js"></script>
+</head>
+<body data-youversion-platform-app-id='YOUR_APP_ID_HERE'>
+  
+  <!-- Sign In with YouVersion -->
+  <sign-in-with-youversion-button></sign-in-with-youversion-button>
+  
+  <!-- Display Bible verse -->
+  <bible-text version="111" usfm="JHN.3.16-17"></bible-text>
+  
+  <!-- Display Verse of the Day -->
+  <votd-text version="111"></votd-text>
+  
+  <!-- Auth event handlers -->
+  <script>
+    window.onYouVersionAuthComplete = function(authData) {
+        // Called when authentication completes successfully
+        console.log('Login successful!', authData.token, authData.lat, authData.yvp_user_id);
+        // Handle successful login - store token, redirect, update UI, etc.
+    };
+    
+    window.onYouVersionAuthLoad = function(authData) {
+        // Called when existing auth data loads
+        console.log('Auth data loaded:', authData.token, authData.lat, authData.yvp_user_id);
+        // Handle existing authentication state
+    };
+    
+    window.onYouVersionSignOut = function() {
+        // Called when user logs out
+        console.log('User signed out');
+        // Clear user data, update UI, etc.
+    };
+  </script>
+  
+</body>
+</html>`}
                       </CodeBlock>
                     </div>
                   </CardContent>

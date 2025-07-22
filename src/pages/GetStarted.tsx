@@ -1,22 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { Code, User, BookOpen, Zap } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+
 
 const GetStarted = () => {
-  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleAutoLogin = async () => {
-    try {
-      await login('placeholder@youversion.com', 'findslife');
-      navigate('/platform');
-    } catch (error) {
-      console.error('Auto login failed:', error);
+  // Load the YouVersion Platform SDK and set up auth callbacks
+  useEffect(() => {
+    // Load the SDK script if not already loaded
+    if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+      const script = document.createElement("script");
+      script.type = "module";
+      script.src = "https://api-dev.youversion.com/sdk.js";
+      document.head.appendChild(script);
     }
-  };
+
+    // Set a default app ID for the SDK (you can change this)
+    document.body.dataset.youversionPlatformAppId = "HA4jkyN78myh9BIiPE5Bo9FMzBcE5pjGANJOQNIx542llAC3";
+
+    // Set up auth callback handlers
+    (window as any).onYouVersionAuthComplete = (authData: any) => {
+      console.log("Login successful!", authData);
+      if (authData?.lat) {
+        // Store the LAT token and navigate to platform
+        localStorage.setItem('yvp_lat', authData.lat);
+        navigate('/platform');
+      }
+    };
+
+    (window as any).onYouVersionAuthLoad = (authData: any) => {
+      console.log("Auth data loaded:", authData);
+    };
+
+    (window as any).onYouVersionSignOut = () => {
+      console.log("User logged out");
+      localStorage.removeItem('yvp_lat');
+    };
+
+    // Cleanup function
+    return () => {
+      delete (document.body.dataset as Record<string, string>).youversionPlatformAppId;
+    };
+  }, [navigate]);
 
   return (
     <div className="container py-12">
@@ -36,9 +64,8 @@ const GetStarted = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">Sign up for a developer account and create an App key to start making requests to the YouVersion APIs.</CardDescription>
-              <Button onClick={handleAutoLogin} variant="default">
-                Sign in to YouVersion
-              </Button>
+              {/* @ts-ignore – custom web component from the YouVersion SDK */}
+              <sign-in-with-youversion-button></sign-in-with-youversion-button>
             </CardContent>
           </Card>
 

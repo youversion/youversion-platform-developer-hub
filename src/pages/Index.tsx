@@ -16,7 +16,7 @@ declare global {
   interface Window {
     onYouVersionAuthComplete?: (authData: { lat?: string }) => void;
     onYouVersionAuthLoad?: (authData: unknown) => void;
-    onYouVersionLogout?: () => void;
+    onYouVersionSignOut?: () => void;
   }
 }
 
@@ -87,7 +87,7 @@ const Index = () => {
       console.log("Auth data loaded:", authData);
     };
 
-    window.onYouVersionLogout = () => {
+    window.onYouVersionSignOut = () => {
       console.log("User logged out");
       localStorage.removeItem('yvp_lat');
     };
@@ -109,7 +109,7 @@ const Index = () => {
             <p className="text-xl mb-8 text-black dark:text-slate-200">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col gap-4 items-center">
               <div className="mb-6">
-                <youversion-login-button callback-uri={selectedApp.callback_uri}></youversion-login-button>
+                <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri}></sign-in-with-youversion-button>
                 <div className="mt-4">
                   <Select
                     onValueChange={(value) => {
