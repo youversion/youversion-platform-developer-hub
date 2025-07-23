@@ -88,22 +88,54 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error('No authentication token found');
       }
       
+      // Get the yvp_user_id from the callback URL (stored in localStorage)
+      const yvpUserId = localStorage.getItem('yvp_user_id');
+      if (!yvpUserId) {
+        throw new Error('No yvp_user_id found - please sign in again');
+      }
+      
+      console.log('🔍 Making /auth/me call:', {
+        url: `/auth/me?lat=${encodeURIComponent(lat)}`,
+        lat: lat,
+        yvpUserId: yvpUserId
+      });
+
       const userResponse = await yvpFetch(`/auth/me?lat=${encodeURIComponent(lat)}`);
 
+      console.log('📡 /auth/me API response:', {
+        status: userResponse.status,
+        statusText: userResponse.statusText,
+        ok: userResponse.ok,
+        headers: Object.fromEntries(userResponse.headers.entries())
+      });
+
       if (!userResponse.ok) {
-        throw new Error('Failed to authenticate user');
+        console.error('❌ /auth/me call failed:', {
+          status: userResponse.status,
+          statusText: userResponse.statusText
+        });
+        
+        // Try to get the error response body for more details
+        try {
+          const errorBody = await userResponse.text();
+          console.error('❌ /auth/me error response body:', errorBody);
+        } catch (e) {
+          console.error('❌ Could not read /auth/me error response body:', e);
+        }
+        
+        throw new Error(`Failed to authenticate user: ${userResponse.status} ${userResponse.statusText}`);
       }
 
       const userData = await userResponse.json();
-      const yvpUserId = userData.id?.toString();
+      console.log('✅ /auth/me response data:', userData);
       
-      if (!yvpUserId) {
-        throw new Error('No YouVersion user ID found - please sign in again');
-      }
-
-      // Set user data (use yvp_user_id as the id, ignore the numeric id from auth/me)
+      // Store user data in localStorage for the Join page to access
+      localStorage.setItem('yvp_user_data', JSON.stringify(userData));
+      console.log('💾 Stored user data in localStorage for Join page');
+      
+      // Use yvp_user_id from callback URL as the user ID (not the id from auth/me response)
       setUser({
-        id: yvpUserId,
+        id: yvpUserId, // Use the yvp_user_id from callback, not userData.id
         name: userData.name || `${userData.first_name || ''} ${userData.last_name || ''}`.trim(),
         email: userData.email || email
       });
@@ -170,6 +202,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setOrganization(null);
     setOrganizations([]);
     localStorage.removeItem('yvp_lat');
+    localStorage.removeItem('yvp_user_id');
+    localStorage.removeItem('yvp_user_data');
   }, []);
 
   const isAuthenticated = !!user;

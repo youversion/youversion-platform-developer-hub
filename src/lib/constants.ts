@@ -1,6 +1,6 @@
 // YouVersion Platform Configuration
 export const YVP_CONFIG = {
-  APP_ID: "1IuLqckR2TeTBSfwbBRD5Q65G2cMg0UrOIaYZQpqxcMdoeVX",
+  APP_ID: "dkV1PqA2YwNdtzGGYlZWAxAk72mJDUWmVd6QeIRqr9WlLjX2",
   API_BASE_URL: "https://api-dev.youversion.com",
 } as const;
 

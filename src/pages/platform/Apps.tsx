@@ -250,11 +250,11 @@ const Apps = () => {
         const data = await response.json();
         if (!data.success) throw new Error(data.message || 'Failed to create app');
 
-        // Per user instruction, use default_key_id for the dialog
-        const publicKey = data.default_key_id;
+        // Per user instruction, use default_consumer_key for the dialog
+        const publicKey = data.default_consumer_key;
 
         // Also update the local state with the new app
-        // We'll use the default_key_id as the apiKey for now, until the next full refresh
+        // We'll use the default_consumer_key as the apiKey for now, until the next full refresh
         setApps(prevApps => [
           ...prevApps,
           {

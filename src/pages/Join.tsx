@@ -154,7 +154,8 @@ const Join: React.FC = () => {
       }
 
       const parsedUserData = JSON.parse(storedUserData);
-      const yvpUserId = parsedUserData.id || parsedUserData.yvp_user_id;
+      // Get yvp_user_id from localStorage (stored from callback URL)
+      const yvpUserId = localStorage.getItem('yvp_user_id');
       
       if (!yvpUserId) {
         toast({

@@ -34,7 +34,7 @@ const apps = [
   {
     name: "YV Dev Portal",
     callback_uri: "https://developers.youversion.com/callback",
-    app_id: "1IuLqckR2TeTBSfwbBRD5Q65G2cMg0UrOIaYZQpqxcMdoeVX",
+    app_id: "dkV1PqA2YwNdtzGGYlZWAxAk72mJDUWmVd6QeIRqr9WlLjX2",
   },
   {
     name: "Localhost8080 Dev Portal",

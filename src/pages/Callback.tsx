@@ -19,13 +19,32 @@ const Callback = () => {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const lat = urlParams.get('lat');
+        const yvpUserId = urlParams.get('yvp_user_id');
+
+        console.log('🔍 Callback URL parameters:', {
+          fullUrl: window.location.href,
+          lat: lat ? `${lat.substring(0, 20)}...` : null, // Log first 20 chars of token for security
+          yvpUserId: yvpUserId,
+          allParams: Object.fromEntries(urlParams.entries())
+        });
 
         if (!lat) {
           throw new Error('No LAT token found in callback URL');
         }
 
-        // Store the LAT token for AuthContext to use
+        if (!yvpUserId) {
+          throw new Error('No yvp_user_id found in callback URL');
+        }
+
+        // Store both the LAT token and user ID for AuthContext to use
         localStorage.setItem('yvp_lat', lat);
+        localStorage.setItem('yvp_user_id', yvpUserId);
+        
+        console.log('✅ Stored authentication data in localStorage:', {
+          lat: localStorage.getItem('yvp_lat') ? 'stored' : 'failed to store',
+          yvpUserId: localStorage.getItem('yvp_user_id')
+        });
+        
         setStatus('Authentication token received. Logging in...');
 
         try {
