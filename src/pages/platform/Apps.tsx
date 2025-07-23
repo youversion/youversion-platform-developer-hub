@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { useAuth } from '@/contexts/AuthContext';
 import { YVP_CONFIG } from '@/lib/constants';
+import { yvpFetch } from '@/lib/utils';
 
 interface App {
   id: string;
@@ -56,33 +57,15 @@ const Apps = () => {
     setLoading(true);
     setError(null);
     try {
-      // Get LAT token from localStorage
-      const lat = localStorage.getItem('yvp_lat');
-      if (!lat) {
-        throw new Error('No authentication token found');
-      }
-
       // Fetch apps for the current organization
-      const appsUrl = `${YVP_CONFIG.API_BASE_URL}/admin/organizations/${organization.id}/apps`;
-      const keysUrl = `${YVP_CONFIG.API_BASE_URL}/admin/apps_keys/list`;
+      const appsUrl = `/admin/organizations/${organization.id}/apps`;
+      const keysUrl = `/admin/apps_keys/list`;
       
       console.log('Fetching apps for organization:', organization.id);
       
       const [appsRes, keysRes] = await Promise.all([
-        fetch(appsUrl, {
-          headers: {
-            'lat': lat,
-            'x-app-id': YVP_CONFIG.APP_ID,
-            'Accept': 'application/json',
-          },
-        }),
-        fetch(keysUrl, {
-          headers: {
-            'lat': lat,
-            'x-app-id': YVP_CONFIG.APP_ID,
-            'Accept': 'application/json',
-          },
-        })
+        yvpFetch(appsUrl),
+        yvpFetch(keysUrl)
       ]);
 
       if (!appsRes.ok) {
@@ -205,16 +188,9 @@ const Apps = () => {
     if (!appToDelete) return;
 
     try {
-      const lat = localStorage.getItem('yvp_lat');
-      if (!lat) {
-        throw new Error('No authentication token found');
-      }
-
-      const response = await fetch(`${YVP_CONFIG.API_BASE_URL}/admin/apps/delete`, {
+      const response = await yvpFetch('/admin/apps/delete', {
         method: 'POST',
         headers: {
-          'lat': lat,
-          'x-app-id': YVP_CONFIG.APP_ID,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ pk: appToDelete.id }),
@@ -250,17 +226,13 @@ const Apps = () => {
     if (isNewApp) {
       // Call API to create app
       try {
-        // Get LAT token from localStorage
-        const lat = localStorage.getItem('yvp_lat');
-        if (!lat || !organization?.id) {
-          throw new Error('No authentication token or organization found');
+        if (!organization?.id) {
+          throw new Error('No organization found');
         }
 
-        const response = await fetch(`${YVP_CONFIG.API_BASE_URL}/admin/apps/create`, {
+        const response = await yvpFetch('/admin/apps/create', {
           method: 'POST',
           headers: {
-            'lat': lat,
-            'x-app-id': YVP_CONFIG.APP_ID,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
@@ -390,7 +362,7 @@ const Apps = () => {
                   <Button size="sm" variant="stroked" onClick={() => handleViewDetails(app)} className="w-full">
                     View Details
                   </Button>
-                  <Button size="sm" variant="destructive" onClick={() => handleDeleteClick(app)} className="w-full">
+                  <Button size="sm" variant="stroked" onClick={() => handleDeleteClick(app)} className="w-full border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-950">
                     <Trash2 className="mr-2 h-4 w-4" />
                     Delete
                   </Button>

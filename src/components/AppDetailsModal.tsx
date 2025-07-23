@@ -10,6 +10,7 @@ import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { YVP_CONFIG } from '@/lib/constants';
+import { yvpFetch } from '@/lib/utils';
 
 interface App {
   id?: string;
@@ -86,21 +87,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
       setLoadingPublicKey(true);
       try {
-        const lat = localStorage.getItem('yvp_lat');
-        if (!lat) {
-          throw new Error('No authentication token found');
-        }
-
-        const response = await fetch(
-          `${YVP_CONFIG.API_BASE_URL}/admin/organizations/${organization.id}/apps/${app.id}/keys`,
-          {
-            headers: {
-              'lat': lat,
-              'x-app-id': YVP_CONFIG.APP_ID,
-              'Accept': 'application/json',
-            },
-          }
-        );
+        const response = await yvpFetch(`/admin/organizations/${organization.id}/apps/${app.id}/keys`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch app keys: ${response.status} ${response.statusText}`);

@@ -22,6 +22,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
+import { CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { APP_ID } from '@/lib/constants';
+import { yvpFetch } from '@/lib/utils';
 
 // TODO: Replace with your Google Maps API key
 const GOOGLE_MAPS_API_KEY = "AIzaSyDa5uwzQ5wwtYTUG5CxdZLoPkqnJG1BKwE";
@@ -58,6 +64,8 @@ const Join: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [sofModalOpen, setSofModalOpen] = useState(false);
   const [tosModalOpen, setTosModalOpen] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Load user data from localStorage on component mount
   useEffect(() => {
@@ -115,12 +123,20 @@ const Join: React.FC = () => {
     console.log("Submitting form:", formState);
 
     if (!formState.address) {
-      alert("Please select an address.");
+      toast({
+        title: "Please select an address.",
+        description: "You must provide an address for the organization.",
+        variant: "destructive",
+      });
       return;
     }
 
     if (!formState.agreeToS || !formState.agreeToSoF) {
-      alert("Please agree to both the Terms of Service and Statement of Faith.");
+      toast({
+        title: "Please agree to both the Terms of Service and Statement of Faith.",
+        description: "You must agree to both terms to proceed.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -128,7 +144,12 @@ const Join: React.FC = () => {
       // Get user's yvp_id from localStorage
       const storedUserData = localStorage.getItem('yvp_user_data');
       if (!storedUserData) {
-        alert("User data not found. Please sign in again.");
+        toast({
+          title: "User data not found. Please sign in again.",
+          description: "Your session has expired. Please sign in again.",
+          variant: "destructive",
+        });
+        navigate('/login'); // Redirect to login if user data is missing
         return;
       }
 
@@ -136,7 +157,12 @@ const Join: React.FC = () => {
       const yvpUserId = parsedUserData.id || parsedUserData.yvp_user_id;
       
       if (!yvpUserId) {
-        alert("User ID not found. Please sign in again.");
+        toast({
+          title: "User ID not found. Please sign in again.",
+          description: "Your session has expired. Please sign in again.",
+          variant: "destructive",
+        });
+        navigate('/login'); // Redirect to login if user ID is missing
         return;
       }
 
@@ -150,7 +176,7 @@ const Join: React.FC = () => {
       }
 
       // Prepare the request body for organization creation
-      const requestBody = {
+      const orgData = {
         name: organizationName,
         profit_designation: formState.profitDesignation || "non-profit",
         is_indie: true,
@@ -167,16 +193,15 @@ const Join: React.FC = () => {
         ]
       };
 
-      console.log("Creating organization with data:", requestBody);
+      console.log("Creating organization with data:", orgData);
 
       // Create the organization
-      const response = await fetch('https://api-dev.youversion.com/admin/create_organization', {
+      const response = await yvpFetch('/admin/create_organization', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa('admin:findslife')
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(orgData)
       });
 
       if (!response.ok) {
@@ -187,16 +212,22 @@ const Join: React.FC = () => {
       console.log("Organization created successfully:", result);
 
       if (result.success && result.organization) {
-        alert(`Organization "${result.organization.name}" created successfully! You are now the owner.`);
-        // Redirect to platform or login to refresh the organization data
-        window.location.href = '/get-started';
+        toast({
+          title: `Organization "${result.organization.name}" created successfully!`,
+          description: "You are now the owner of the organization.",
+        });
+        navigate('/get-started'); // Redirect to platform or login to refresh the organization data
       } else {
         throw new Error("Organization creation failed - invalid response");
       }
 
     } catch (error) {
       console.error("Error creating organization:", error);
-      alert(`An error occurred while creating the organization: ${error.message}`);
+      toast({
+        title: "An error occurred while creating the organization.",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 

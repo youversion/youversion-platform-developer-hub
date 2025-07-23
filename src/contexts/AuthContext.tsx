@@ -1,6 +1,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { APP_ID } from '@/lib/constants';
+import { yvpFetch } from '@/lib/utils';
 
 interface User {
   id: string;
@@ -79,12 +80,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       // Call /auth/me endpoint
-      const userResponse = await fetch(`https://api-dev.youversion.com/auth/me?lat=${encodeURIComponent(lat)}`, {
-        method: 'GET',
-        headers: {
-          'X-App-ID': APP_ID
-        }
-      });
+      const userResponse = await yvpFetch(`/auth/me?lat=${encodeURIComponent(lat)}`);
 
       if (!userResponse.ok) {
         throw new Error('Failed to authenticate user');
@@ -106,23 +102,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       // Call organization_roles endpoint
-      const orgRolesUrl = `https://api-dev.youversion.com/admin/users/${yvpUserId}/organization_roles`;
+      const orgRolesUrl = `/admin/users/${yvpUserId}/organization_roles`;
       console.log('🔍 Checking user organization membership:', {
         url: orgRolesUrl,
-        yvpUserId: yvpUserId,
-        headers: {
-          'X-App-ID': APP_ID,
-          'Authorization': `Bearer ${lat.substring(0, 10)}...` // Only log first 10 chars for security
-        }
+        yvpUserId: yvpUserId
       });
 
-      const orgResponse = await fetch(orgRolesUrl, {
-        method: 'GET',
-        headers: {
-          'X-App-ID': APP_ID,
-          'Authorization': `Bearer ${lat}`
-        }
-      });
+      const orgResponse = await yvpFetch(orgRolesUrl);
 
       console.log('📡 Organization roles API response:', {
         status: orgResponse.status,
