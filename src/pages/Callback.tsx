@@ -1,111 +1,74 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { APP_ID } from '@/lib/constants';
-import { yvpFetch } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 const Callback = () => {
-  const [status, setStatus] = useState('Processing sign in...');
+  const { login, isLoading } = useAuth();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const [status, setStatus] = React.useState('Processing authentication...');
+  const [hasProcessed, setHasProcessed] = React.useState(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const lat = params.get('lat');
-
-    if (lat) {
-      localStorage.setItem('yvp_lat', lat);
-      setStatus('Sign in successful! Fetching user data...');
-      
-      // Fetch user data using the LAT token
-      const fetchUserData = async () => {
-        try {
-          // Call YouVersion auth API to get user info
-          const response = await yvpFetch(`/auth/me?lat=${encodeURIComponent(lat)}`);
-          
-          if (!response.ok) {
-            throw new Error('Failed to authenticate with YouVersion');
-          }
-
-          const userData = await response.json();
-          console.log('User authenticated:', userData);
-
-          // Get the user ID from the initial redirect data stored in localStorage
-          const yvpUserId = localStorage.getItem('yvp_user_id');
-          if (!yvpUserId) {
-            throw new Error('User ID not found in localStorage');
-          }
-
-          // Call organization_roles endpoint to check user's organization membership
-          const orgRolesUrl = `/admin/users/${yvpUserId}/organization_roles`;
-          console.log(`Making request to: ${orgRolesUrl}`);
-          
-          const orgResponse = await yvpFetch(orgRolesUrl);
-
-          if (!orgResponse.ok) {
-            if (orgResponse.status === 403) {
-              console.log('User not associated with any organization, redirecting to join page');
-              window.location.href = '/join';
-              return;
-            }
-            throw new Error(`Failed to fetch organization roles: ${orgResponse.status}`);
-          }
-
-          const orgData = await orgResponse.json();
-          console.log('📋 Organization data received:', orgData);
-          
-          // Check if user is part of any organization
-          if (!orgData || orgData.length === 0) {
-            console.log('🚫 User is not part of any organization, redirecting to /join');
-            setStatus('You need to join an organization. Redirecting...');
-            setTimeout(() => {
-              navigate('/join');
-            }, 1000);
-          } else {
-            const firstOrg = orgData[0];
-            console.log('✅ User belongs to organization(s). Redirecting to platform...', {
-              totalOrgsFound: orgData.length,
-              firstOrg: firstOrg,
-              organizationId: firstOrg.id
-            });
-            
-            setStatus('Organization membership confirmed! Logging you in...');
-            
-            try {
-              // Call AuthContext login to properly authenticate the user
-              // Use placeholder values - the method will detect LAT token and use OAuth flow
-              await login('oauth@youversion.com', 'oauth_flow');
-              setStatus('Login successful! Redirecting to platform...');
-              setTimeout(() => {
-                navigate('/platform', { replace: true });
-              }, 500);
-            } catch (loginError) {
-              console.error('AuthContext login failed:', loginError);
-              setStatus('Authentication completed, redirecting to platform...');
-              setTimeout(() => {
-                navigate('/platform', { replace: true });
-              }, 1000);
-            }
-          }
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-          setStatus('Error fetching user data. Redirecting to join page...');
-          setTimeout(() => {
-            navigate('/join');
-          }, 2000);
-        }
-      };
-      
-      fetchUserData();
-    } else {
-      setStatus('Authentication failed. No LAT provided in callback.');
+    // Prevent multiple executions
+    if (hasProcessed || isLoading) {
+      return;
     }
-  }, [navigate]);
+
+    const handleCallback = async () => {
+      setHasProcessed(true);
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const lat = urlParams.get('lat');
+
+        if (!lat) {
+          throw new Error('No LAT token found in callback URL');
+        }
+
+        // Store the LAT token for AuthContext to use
+        localStorage.setItem('yvp_lat', lat);
+        setStatus('Authentication token received. Logging in...');
+
+        try {
+          // Let AuthContext handle all the authentication logic
+          await login('oauth@youversion.com', 'oauth_flow');
+          
+          setStatus('Login successful! Redirecting to platform...');
+          setTimeout(() => {
+            navigate('/platform', { replace: true });
+          }, 500);
+        } catch (loginError: any) {
+          // If login fails due to no organization, AuthContext will redirect to /join
+          // Other errors should be handled
+          if (!loginError.message?.includes('organization')) {
+            throw loginError;
+          }
+        }
+      } catch (error: any) {
+        console.error('Callback error:', error);
+        setStatus(`Authentication failed: ${error.message}. Redirecting to home...`);
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 3000);
+      }
+    };
+
+    handleCallback();
+  }, [hasProcessed, isLoading]); // Removed login and navigate from dependencies
 
   return (
-    <div className="container py-20 text-center">
-      <h1 className="text-3xl font-bold mb-4">YouVersion Sign In</h1>
-      <p>{status}</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="max-w-md w-full mx-auto p-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Completing Sign In
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300">{status}</p>
+          {isLoading && (
+            <p className="text-sm text-gray-500 mt-2">Processing authentication...</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 import { APP_ID } from '@/lib/constants';
 import { yvpFetch } from '@/lib/utils';
 
@@ -23,6 +23,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,16 +44,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [organization, setOrganization] = useState<Organization | null>(null);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const switchOrganization = (orgId: string) => {
+  const switchOrganization = useCallback((orgId: string) => {
     const selectedOrg = organizations.find(org => org.id === orgId);
     if (selectedOrg) {
       setOrganization(selectedOrg);
       console.log('✅ Switched to organization:', selectedOrg);
     }
-  };
+  }, [organizations]);
 
-  const login = async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string) => {
+    // Prevent multiple simultaneous login attempts
+    if (isLoading) {
+      console.log('Login already in progress, skipping...');
+      return;
+    }
+
+    setIsLoading(true);
     try {
       // For now, keep the mock authentication for the placeholder login
       if (email === 'placeholder@youversion.com' && password === 'findslife') {
@@ -73,13 +82,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return;
       }
 
-      // Get LAT token from localStorage (set during real YouVersion auth flow)
+      // Call /auth/me endpoint to get user data
       const lat = localStorage.getItem('yvp_lat');
       if (!lat) {
         throw new Error('No authentication token found');
       }
-
-      // Call /auth/me endpoint
+      
       const userResponse = await yvpFetch(`/auth/me?lat=${encodeURIComponent(lat)}`);
 
       if (!userResponse.ok) {
@@ -87,9 +95,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       const userData = await userResponse.json();
+      const yvpUserId = userData.id?.toString();
       
-      // Get the initial yvp_user_id (passed from the auth flow, should be in localStorage)
-      const yvpUserId = localStorage.getItem('yvp_user_id');
       if (!yvpUserId) {
         throw new Error('No YouVersion user ID found - please sign in again');
       }
@@ -153,20 +160,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [isLoading]);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     setOrganization(null);
     setOrganizations([]);
     localStorage.removeItem('yvp_lat');
-  };
+  }, []);
 
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, organization, organizations, switchOrganization, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      organization, 
+      organizations, 
+      switchOrganization, 
+      login, 
+      logout, 
+      isAuthenticated,
+      isLoading 
+    }}>
       {children}
     </AuthContext.Provider>
   );

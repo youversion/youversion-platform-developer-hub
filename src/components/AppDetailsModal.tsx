@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
-import { YVP_CONFIG } from '@/lib/constants';
 import { yvpFetch } from '@/lib/utils';
 
 interface App {
