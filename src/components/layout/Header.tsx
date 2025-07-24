@@ -5,6 +5,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import SearchBar from './SearchBar';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Menu, X } from 'lucide-react';
+import { getDevdocsUrl, getPlatformUrl } from '../../../shared/config/urls';
+import { getDefaultNavItems } from '../../../shared/config/navigation';
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
@@ -18,19 +20,19 @@ const Header = () => {
     return location.pathname === path;
   };
   const isOnPlatform = location.pathname.startsWith('/platform');
-  const publicNavItems = [{
-    name: 'Get Started',
-    path: '/get-started'
-  }, {
-    name: 'Docs',
-    path: '/docs/quick-start'
-  }, {
-    name: 'Bible Directory',
-    path: '/bible-directory'
-  }, {
-    name: 'Dev Portal Styles',
-    path: '/style-guide'
-  }];
+  // Use shared navigation configuration but override paths for cross-site navigation
+  const sharedNavItems = getDefaultNavItems();
+  const publicNavItems = sharedNavItems.map(item => {
+    if (item.name === 'Dev Docs') {
+      // Link to devdocs site
+      return {
+        ...item,
+        path: `${getDevdocsUrl()}/introduction`
+      };
+    }
+    // For other items, they should be internal links on the platform site
+    return item;
+  });
   return <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
       <div className="container flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center">
@@ -49,10 +51,27 @@ const Header = () => {
                 {(isActive('/platform') || isOnPlatform) && <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>}
               </Link>}
 
-            {publicNavItems.map(item => <Link key={item.path} to={item.path} className={`relative text-sm font-medium transition-colors hover:text-foreground ${isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'}`}>
-                {item.name}
-                {isActive(item.path) && <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>}
-              </Link>)}
+            {publicNavItems.map(item => {
+              // Check if it's an external link (Dev Docs links to devdocs site)
+              const isExternal = item.name === 'Dev Docs';
+              if (isExternal) {
+                return (
+                  <a 
+                    key={item.path} 
+                    href={item.path} 
+                    className="relative text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
+                  >
+                    {item.name}
+                  </a>
+                );
+              }
+              return (
+                <Link key={item.path} to={item.path} className={`relative text-sm font-medium transition-colors hover:text-foreground ${isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  {item.name}
+                  {isActive(item.path) && <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>}
+                </Link>
+              );
+            })}
           </nav>
           <div className="hidden md:block">
             <SearchBar />
@@ -60,12 +79,12 @@ const Header = () => {
           
           <ThemeToggle />
           
-          {!isAuthenticated && <Button asChild variant="filled-contrast" size="sm" className="text-sm px-3">
+          {/* {!isAuthenticated && <Button asChild variant="filled-contrast" size="sm" className="text-sm px-3">
               <Link to="/signin">
                 <span className="hidden sm:inline">Get App ID</span>
                 <span className="sm:hidden">Get App ID</span>
               </Link>
-            </Button>}
+            </Button>} */}
 
           <Button variant="borderless" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X /> : <Menu />}
@@ -83,9 +102,27 @@ const Header = () => {
                 Platform
               </Link>}
             
-            {publicNavItems.map(item => <Link key={item.path} to={item.path} className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'}`} onClick={() => setIsMobileMenuOpen(false)}>
-                {item.name}
-              </Link>)}
+            {publicNavItems.map(item => {
+              // Check if it's an external link (Dev Docs links to devdocs site)
+              const isExternal = item.name === 'Dev Docs';
+              if (isExternal) {
+                return (
+                  <a 
+                    key={item.path} 
+                    href={item.path} 
+                    className="block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                );
+              }
+              return (
+                <Link key={item.path} to={item.path} className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${isActive(item.path) ? 'text-foreground' : 'text-muted-foreground'}`} onClick={() => setIsMobileMenuOpen(false)}>
+                  {item.name}
+                </Link>
+              );
+            })}
           </nav>
         </div>}
     </header>;

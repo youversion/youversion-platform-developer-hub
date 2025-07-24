@@ -1,0 +1,27 @@
+---
+title: Search Results
+description: Search results for YouVersion Platform documentation
+---
+
+# Search Results
+
+<div id="search-results">
+  <div className="text-center py-8">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+    <p>Loading search results...</p>
+  </div>
+</div>
+
+<script>
+  // Simple search functionality
+  const urlParams = new URLSearchParams(window.location.search);
+  const query = urlParams.get('q');
+  
+  if (query) {
+    // For now, just show the query
+    document.getElementById('search-results').innerHTML = 
+      '<div class="mb-6"><h1 class="text-2xl font-bold mb-2">Search Results</h1><p class="text-muted-foreground">Searching for: ' + query + '</p></div>';
+  } else {
+    document.getElementById('search-results').innerHTML = '<p>No search query provided.</p>';
+  }
+</script> 

@@ -1,0 +1,2331 @@
+Quickstart
+Ready to build beautiful API documentation and developer portals in minutes? Zudoku's CLI tool will have you up and running with a modern, customizable site that your developers will love.
+
+Prerequisites
+Node.js 22.7.0+ (or 20.19+) - Download here
+A terminal or command prompt
+Your favorite code editor
+Getting Started
+Create your new Zudoku project:
+
+Code
+
+npm create zudoku@latest
+The CLI will walk you through setting up your project with interactive prompts. Choose from templates like API documentation, developer portals, or start from scratch.
+
+Navigate to your project:
+
+Code
+
+cd your-project-name
+Launch the development server:
+
+Code
+
+npm run dev
+🎉 That's it! Your Zudoku site is now running at http://localhost:3000. You'll see hot reloading as you make changes, so you can iterate quickly.
+
+What's next?
+
+Customize your theme and colors
+Add your OpenAPI specifications
+Set up authentication
+Deploy your site when you're ready to go live
+
+Configuration File
+Zudoku uses a single file for configuration. It controls the structure, metadata, style, plugins, and routing for your documentation.
+
+You can find the file in the root directory of your project. It will start with zudoku.config. The file can be in either JavaScript or TypeScript format and use a .js, .mjs, .jsx, .ts, or .tsx file extension:
+
+zudoku.config.ts
+zudoku.config.tsx
+zudoku.config.js
+zudoku.config.jsx
+zudoku.config.mjs
+When you create a project, a default configuration file is generated for you. This file is a good starting point and can be customized to suit your needs.
+
+Security Consideration
+The Zudoku configuration file runs on both client and server at runtime. Avoid including secrets directly in your config as they may be exposed to the client.
+
+Example
+Below is an example of the default Zudoku configuration. You can edit this configuration to suit your own needs.
+
+Code
+
+import type { ZudokuConfig } from "zudoku";
+const config: ZudokuConfig = {
+  navigation: [
+    {
+      type: "category",
+      label: "Documentation",
+      items: ["introduction", "example"],
+    },
+    { type: "link", to: "api", label: "API Reference" },
+  ],
+  redirects: [{ from: "/", to: "/docs/introduction" }],
+  apis: {
+    type: "file",
+    input: "./apis/openapi.yaml",
+    path: "/api",
+  },
+  docs: {
+    files: "/pages/**/*.{md,mdx}",
+  },
+};
+export default config;
+Configuration options
+apis
+There are multiple options for referencing your OpenAPI document. The example below uses a URL to an OpenAPI document, but you can also use a local file path. For full details on the options available, see the API Reference.
+
+Code
+
+{
+  // ...
+  "apis": {
+    "type": "url",
+    "input": "https://rickandmorty.zuplo.io/openapi.json",
+    "path": "/api"
+  }
+  // ...
+}
+page
+Controls global page attributes across the site, including logos and the site title.
+
+Example:
+
+Code
+
+{
+  // ...
+  "site": {
+    "title": "Our Documentation",
+    "logo": {
+      "src": {
+        "light": "/logos/zudoku-light.svg",
+        "dark": "/logos/zudoku-dark.svg"
+      },
+      "width": "99px"
+    }
+  }
+  // ...
+}
+navigation
+Defines navigation for both the top bar and the sidebar. Items can be categories, links or custom pages.
+
+Code
+
+{
+  // ...
+  "navigation": [
+    { "type": "category", "label": "Docs", "items": ["introduction"] },
+    { "type": "link", "to": "api", "label": "API Reference" }
+  ]
+  // ...
+}
+theme
+Allows you to control the dark and light themes that persist across each MDX page, and the API reference.
+
+You can customize your theme as much as you want using ShadCDN UI theme variables. In the example below only the primary and primaryForeground variables are used but you can add any additional variables from ShadCDN UI that you would like to change.
+
+Tip: Use the ShadCDN UI Theme Generator to create a great looking theme based off your primary color.
+
+Example:
+
+Code
+
+{
+  // ...
+  "theme": {
+    "light": {
+      "primary": "316 100% 50%",
+      "primaryForeground": "360 100% 100%"
+    },
+    "dark": {
+      "primary": "316 100% 50%",
+      "primaryForeground": "360 100% 100%"
+    }
+  }
+  // ...
+}
+metadata
+Controls the site metadata for your documentation. All possible options are outlined in the example below.
+
+Example:
+
+Code
+
+{
+  // ...
+  "metadata": {
+    "title": "Example Website Title",
+    "description": "This is an example description for the website.",
+    "logo": "https://example.com/logo.png",
+    "favicon": "https://example.com/favicon.ico",
+    "generator": "Website Generator 1.0",
+    "applicationName": "Example App",
+    "referrer": "no-referrer",
+    "keywords": ["example", "website", "metadata", "SEO"],
+    "authors": ["John Doe", "Jane Smith"],
+    "creator": "John Doe",
+    "publisher": "Example Publisher Inc."
+  }
+  // ...
+}
+docs
+Configures where your non API reference documentation can be found in your folder structure. The default is shown in the example below and you don't need to change it unless you want a different structure in place, or to have it match an existing structure that you already have.
+
+Example:
+
+Code
+
+{
+  // ...
+  "docs": {
+    "files": "/pages/**/*.{md,mdx}"
+  }
+  // ...
+}
+sitemap
+Controls the sitemap for your documentation. All possible options are outlined in the example below.
+
+Code
+
+{
+  // ...
+  "sitemap": {
+    // The base url for your site
+    // Required
+    "siteUrl": "https://example.com",
+    // The change frequency for the pages
+    // Defaults to daily
+    "changefreq": "daily",
+    // The priority for the pages
+    // Defaults to 0.7
+    "priority": 0.7,
+    // The output directory for the sitemap
+    // Defaults to undefined
+    "outDir": "sitemaps/",
+    // Whether to include the last modified date
+    // Defaults to true
+    "autoLastmod": true,
+    // The pages to exclude from the sitemap
+    // Can also be a function that returns an array of paths
+    // () => Promise<string[]>
+    "exclude": ["/404", "/private/page"]
+  }
+  // ...
+}
+redirects
+Implements any page redirects you want to use. This gives you control over the resource names in the URL.
+
+Example:
+
+Code
+
+{
+  // ...
+  "redirects": [
+    { "from": "/", "to": "/documentation/introduction" },
+    { "from": "/documentation", "to": "/documentation/introduction" }
+  ]
+  // ...
+}
+port
+The port on which the development server will run. Defaults to 3000. This option can also be passed to the CLI as `--port' (which takes precedence).
+
+Code
+
+{
+  "port": 9001
+}
+If the port is already in use, the next available port will be used.
+
+basePath
+Sets the base path for your documentation site. This is useful when you want to host your documentation under a specific path.
+
+Code
+
+{
+  basePath: "/docs",
+  // A page defined as `/intro` would result in: https://example.com/docs/intro
+}
+canonicalUrlOrigin
+Sets the canonical origin URL for your documentation site. This is used for SEO purposes and helps search engines understand the preferred version of a page.
+
+Code
+
+{
+  basePath: '/docs',
+  canonicalUrlOrigin: "https://example.com",
+  // visiting the page `/intro` would result in:
+  // https://example.com/docs/intro
+}
+This is the resulting HTML that will be added to the <head> of your pages:
+
+Code
+
+<link rel="canonical" href="https://example.com/docs/intro" />
+cdnUrl
+Configures the CDN URL for your documentation site's assets. You can provide either a string for a single CDN URL or an object to specify different URLs for base and media assets.
+
+Code
+
+// Single CDN URL
+{
+  cdnUrl: "https://cdn.example.com"
+}
+// Separate URLs for base and media assets
+{
+  cdnUrl: {
+    base: "https://cdn.example.com",
+    media: "https://media.example.com"
+  }
+}
+https
+Enables HTTPS for the dev server. key and cert are required and ca is optional.
+
+Code
+
+{
+  "https": {
+    "key": "/path/to/key.pem",
+    "cert": "/path/to/cert.pem",
+    "ca": "/path/to/ca.pem"
+  }
+}
+enableStatusPages
+Enables static generation of status pages for your site. This results in several files (404.html, 500.html, etc.) being generated in the dist directory. This is useful as many hosting providers will serve these files automatically when a user visits a non-existent page or encounters an error.
+
+This option is enabled by default, but you can disable it if you don't need these pages.
+
+Code
+
+{
+  enableStatusPages: false;
+}
+Multiple Files
+The configuration file is a standard JavaScript or TypeScript file, so you can split it into multiple files if you prefer. This can be useful if you have a large configuration or want to keep your code organized.
+
+For example, if you wanted to move your navigation configuration to a separate file, you could create a new file called navigation.ts and export the navigation configuration from there.
+
+Code
+
+// navigation.ts
+import type { Navigation } from "zudoku";
+export const navigation: Navigation = [
+  {
+    type: "category",
+    label: "Documentation",
+    items: ["example", "other-example"],
+  },
+];
+Then you can import the navigation configuration into your main configuration file.
+
+zudoku.config.ts
+
+// zudoku.config.ts
+import type { ZudokuConfig } from "zudoku";
+import { navigation } from "./navigation";
+const config = {
+  // ...
+  navigation,
+  // ...
+};
+export default config;
+
+Colors & Theme
+Zudoku provides flexible theming options allowing you to customize colors, import themes from shadcn registries, and add custom CSS. You can create cohesive light and dark mode experiences that match your brand.
+
+Try out the interactive Theme Playground to experiment with colors and see real-time previews of your theme changes.
+
+The theme system is built on shadcn/ui theming and Tailwind v4, giving us a great foundation to build upon:
+
+CSS variables match shadcn/ui conventions
+Tailwind v4 CSS variable system for modern styling
+Theme editors like tweakcn work out of the box
+Shadcn registries are supported
+Custom Colors
+You can manually define colors for both light and dark modes, either by extending the default theme or creating a completely custom theme. Colors can be specified as hex values, RGB, HSL, OKLCH, etc. - basically anything that is supported by Tailwind CSS:
+
+zudoku.config.ts
+
+const config = {
+  theme: {
+    light: {
+      background: "#ffffff",
+      foreground: "#020817",
+      card: "#ffffff",
+      cardForeground: "#020817",
+      popover: "#ffffff",
+      popoverForeground: "#020817",
+      primary: "#0284c7",
+      primaryForeground: "#ffffff",
+      secondary: "#f1f5f9",
+      secondaryForeground: "#020817",
+      muted: "#f1f5f9",
+      mutedForeground: "#64748b",
+      accent: "#f1f5f9",
+      accentForeground: "#020817",
+      destructive: "#ef4444",
+      destructiveForeground: "#ffffff",
+      border: "#e2e8f0",
+      input: "#e2e8f0",
+      ring: "#0284c7",
+      radius: "0.5rem",
+    },
+    dark: {
+      background: "#020817",
+      foreground: "#f8fafc",
+      card: "#020817",
+      cardForeground: "#f8fafc",
+      popover: "#020817",
+      popoverForeground: "#f8fafc",
+      primary: "#0ea5e9",
+      primaryForeground: "#f8fafc",
+      secondary: "#1e293b",
+      secondaryForeground: "#f8fafc",
+      muted: "#1e293b",
+      mutedForeground: "#94a3b8",
+      accent: "#1e293b",
+      accentForeground: "#f8fafc",
+      destructive: "#ef4444",
+      destructiveForeground: "#f8fafc",
+      border: "#1e293b",
+      input: "#1e293b",
+      ring: "#0ea5e9",
+      radius: "0.5rem",
+    },
+  },
+};
+Available Theme Variables
+Variable	Description
+background	Main background color
+foreground	Main text color
+card	Card background color
+cardForeground	Card text color
+popover	Popover background color
+popoverForeground	Popover text color
+primary	Primary action color
+primaryForeground	Text color on primary backgrounds
+secondary	Secondary action color
+secondaryForeground	Text color on secondary backgrounds
+muted	Muted/subtle background color
+mutedForeground	Text color for muted elements
+accent	Accent color for highlights
+accentForeground	Text color on accent backgrounds
+destructive	Color for destructive actions
+destructiveForeground	Text color on destructive backgrounds
+border	Border color
+input	Input field border color
+ring	Focus ring color
+radius	Border radius value
+While shadcn/ui defines additional theme variables, Zudoku currently uses only these core variables.
+
+shadcn Registry Integration
+The easiest way to customize your theme is by using a Shadcn registry theme. For example you can use the great tweakcn visual theme editor.
+
+Using tweakcn Themes
+Visit tweakcn.com to select a preset or customize your theme visually
+
+
+
+Copy the registry URL from the "Copy" section
+
+
+Add it to your configuration:
+
+zudoku.config.ts
+
+const config = {
+  theme: {
+    registryUrl: "https://tweakcn.com/r/themes/northern-lights.json",
+  },
+};
+The theme will then be automatically imported with all color variables, fonts, and styling configured for you 🚀
+
+
+You can still override specific values if needed:
+
+zudoku.config.ts
+
+const config = {
+  theme: {
+    registryUrl: "https://tweakcn.com/api/registry/theme/xyz123",
+    // Override specific colors
+    light: {
+      primary: "#0066cc",
+    },
+    dark: {
+      primary: "#3399ff",
+    },
+  },
+};
+Alternatively, you can copy the CSS code and paste it into your customCss configuration:
+
+zudoku.config.ts
+
+const config = {
+  theme: {
+    customCss: `
+      /* Copied CSS code */
+    `,
+  },
+};
+Custom CSS
+For advanced styling, you can add custom CSS either as a string or structured object:
+
+Changes to customCss require restarting the development server to take effect.
+
+CSS String
+zudoku.config.ts
+
+const config = {
+  theme: {
+    customCss: `
+      .custom {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+    `,
+  },
+};
+CSS Object
+zudoku.config.ts
+
+const config = {
+  theme: {
+    customCss: {
+      ".custom": {
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      },
+    },
+  },
+};
+Default Theme
+Zudoku comes with a built-in default theme based on shadcn/ui zinc base colors. If you want to start completely from scratch without any default styling, you can disable the default theme:
+
+zudoku.config.ts
+
+const config = {
+  theme: {
+    noDefaultTheme: true,
+    // Your custom theme configuration
+  },
+};
+When noDefaultTheme is set to true, no default colors or styling will be applied, giving you complete control over your theme. Changing this requires to restart the development server.
+
+Complete Example
+Here's a comprehensive example combining multiple theming approaches:
+
+zudoku.config.ts
+
+const config = {
+  theme: {
+    // Import base theme from registry
+    registryUrl: "https://tweakcn.com/api/registry/theme/modern-blue",
+    // Override specific colors
+    light: {
+      primary: "#0066cc",
+      accent: "#f0f9ff",
+    },
+    dark: {
+      primary: "#3399ff",
+      accent: "#0c1b2e",
+    },
+    // Custom fonts
+    fonts: {
+      sans: "Inter",
+      mono: "JetBrains Mono",
+    },
+    // Additional custom styling
+    customCss: {
+      ".hero-section": {
+        background: "var(--primary)",
+        color: "var(--primary-foreground)",
+        padding: "2rem",
+        "border-radius": "var(--radius)",
+      },
+    },
+  },
+};
+This configuration imports a base theme, customizes colors for both light and dark modes, sets fonts, and adds custom component styling.
+
+Documentation
+Zudoku uses a file-based routing system for documentation pages, similar to many modern frameworks. This page explains how routing works and how to customize it.
+
+File Based Routing
+By default, Zudoku automatically creates routes for all Markdown and MDX files based on their file path. Files are served at URLs that match their file structure, minus the file extension.
+
+Basic Examples
+File tree
+
+pages/
+├── introduction.md         → /introduction
+├── quickstart.mdx          → /quickstart
+├── guides/
+│   ├── getting-started.md  → /guides/getting-started
+│   └── advanced.md         → /guides/advanced
+└── api/
+    └── reference.md        → /api/reference
+File Extensions
+Both .md and .mdx files are supported:
+
+.md files support standard Markdown with frontmatter
+.mdx files support JSX components within Markdown
+The file extension is automatically removed from the URL.
+
+Custom Paths
+You can override the default file-based routing by specifying custom paths in your navigation configuration. When a file has a custom path, it will only be accessible at that custom path, not at its original file-based path.
+
+Navigation Configuration
+zudoku.config.tsx
+
+export default {
+  navigation: [
+    {
+      type: "doc",
+      file: "guides/getting-started.md",
+      path: "start-here", // Custom path
+      label: "Start Here",
+    },
+    {
+      type: "category",
+      label: "Advanced",
+      link: {
+        file: "guides/advanced.md",
+        path: "advanced-guide", // Custom path for category link
+      },
+      items: [
+        // ... other items
+      ],
+    },
+  ],
+};
+In this example:
+
+guides/getting-started.md is accessible at /start-here (not /guides/getting-started)
+guides/advanced.md is accessible at /advanced-guide (not /guides/advanced)
+Configuration Options
+Configure docs routing and behavior through the docs section in your config:
+
+zudoku.config.tsx
+
+export default {
+  docs: {
+    files: ["/pages/**/*.{md,mdx}"],
+    defaultOptions: {
+      toc: true,
+      disablePager: false,
+      showLastModified: true,
+      suggestEdit: {
+        url: "https://github.com/your-org/your-repo/edit/main/docs",
+        text: "Edit this page",
+      },
+    },
+  },
+};
+files
+Type: string | string[]
+Default: "/pages/**/*.{md,mdx}"
+
+Glob patterns that specify which files to include as documentation pages. You can provide a single pattern or an array of patterns.
+
+zudoku.config.tsx
+
+// Single pattern
+docs: {
+  files: "/content/**/*.md";
+}
+// Multiple patterns
+docs: {
+  files: ["/pages/**/*.{md,mdx}", "/guides/**/*.md", "/tutorials/**/*.mdx"];
+}
+defaultOptions
+Default options applied to all documentation pages. These can be overridden on individual pages using frontmatter.
+
+toc
+Type: boolean
+Default: true
+
+Whether to show the table of contents (TOC) by default.
+
+zudoku.config.tsx
+
+docs: {
+  defaultOptions: {
+    toc: false; // Hide TOC by default
+  }
+}
+disablePager
+Type: boolean
+Default: false
+
+Whether to disable the previous/next page navigation by default.
+
+zudoku.config.tsx
+
+docs: {
+  defaultOptions: {
+    disablePager: true; // Disable pager by default
+  }
+}
+showLastModified
+Type: boolean
+Default: false
+
+Whether to show the last modified date by default.
+
+zudoku.config.tsx
+
+docs: {
+  defaultOptions: {
+    showLastModified: true; // Show last modified date
+  }
+}
+suggestEdit
+Type: { url: string; text?: string }
+Default: undefined
+
+Configuration for the "Edit this page" link.
+
+zudoku.config.tsx
+
+docs: {
+  defaultOptions: {
+    suggestEdit: {
+      url: "https://github.com/your-org/your-repo/edit/main/docs",
+      text: "Edit this page on GitHub"  // Optional custom text
+    }
+  }
+}
+The url should be a template where the file path will be appended. For example, if your docs are in a docs/pages/ directory, the URL might be https://github.com/your-org/your-repo/edit/main/docs/pages.
+
+Overriding Defaults
+You can override default options on individual pages using frontmatter:
+
+Code
+
+---
+toc: false
+disablePager: true
+showLastModified: false
+---
+# My Page
+This page has custom options that override the defaults.
+Route Resolution
+Zudoku resolves routes in the following order:
+
+Custom paths from navigation - If a file has a custom path defined in navigation, it's served at that path
+File-based paths - All other files are served at their file-based paths
+Best Practices
+Use descriptive file names - File names become part of the URL, so make them clear and SEO-friendly
+Organize with folders - Use folder structure to group related content
+Custom paths for better UX - Use custom paths for important pages that need memorable URLs (sometimes also called slugs)
+Consistent naming - Use consistent naming conventions for files and folders
+
+Navigation
+Zudoku uses a single navigation array to control both the top navigation tabs and the sidebar. Items at the root of this array appear as tabs, and nested items build the sidebar tree. Navigation entries can be links, document references, categories or custom pages.
+
+Basic configuration
+The navigation is defined using the navigation array in the Zudoku config file. Each item can be one of several types. At the simplest level you may only have links and categories.
+
+Code
+
+{
+  "navigation": [
+    {
+      "type": "category",
+      "label": "Documentation",
+      "icon": "book",
+      "items": [
+        {
+          "type": "doc",
+          "file": "documentation/introduction",
+          "label": "Introduction",
+          "icon": "file-text"
+        },
+        {
+          "type": "doc",
+          "file": "documentation/getting-started",
+          "path": "/docs/quick-start",
+          "label": "Quick Start"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "to": "/api",
+      "label": "API Reference",
+      "icon": "code",
+      "description": "Complete API documentation",
+      "badge": {
+        "label": "v2.0",
+        "color": "blue"
+      },
+      "display": "always"
+    }
+  ]
+}
+Navigation Items
+Navigation items can be of these types: category, doc, link, or custom-page.
+
+link: A direct link to a page or external URL.
+category: A group of links that can be expanded or collapsed.
+doc: A reference to a document by it's file path: file.
+custom-pages: A custom page that is made of a React component, see Custom Pages
+type: link
+link is the most basic item, it directly links to a path or URL. Use this for external resources or standalone pages.
+
+Code
+
+{
+  "type": "link",
+  "label": "Support",
+  "to": "/my/api" // or: https://example.com/my-external-link
+}
+TypeScript type declaration
+type: category
+The category type groups related items under a collapsible section. The label is the displayed text, and the items array contains ids of documents, links, or other categories.
+
+Code
+
+{
+  "type": "category",
+  "label": "Getting Started",
+  "collapsible": true, // optional
+  "collapsed": false, // optional
+  "items": [
+    {
+      "type": "link",
+      "label": "Support",
+      "to": "https://support.example.com"
+    }
+  ]
+}
+TypeScript type declaration
+type: doc
+Doc is used to reference markdown files. The label is the text that will be displayed, and the file is the file path associated with a markdown file.
+
+Code
+
+{
+  "type": "doc",
+  "label": "Overview",
+  "file": "docs/overview"
+}
+TypeScript type declaration
+Using shorthands
+Documents can be referenced as strings (using their file path), which is equivalent to { "type": "doc", "file": "path" }:
+
+Code
+
+{
+  "navigation": [
+    {
+      "type": "category",
+      "label": "Documentation",
+      "icon": "book",
+      "items": [
+        "documentation/introduction",
+        "documentation/getting-started",
+        "documentation/installation"
+      ]
+    },
+    {
+      "type": "link",
+      "to": "/api",
+      "label": "API Reference",
+      "icon": "code"
+    }
+  ]
+}
+This is much more concise when you don't need custom labels, icons, or other properties for individual documents.
+
+Learn more in the Markdown documentation
+
+Custom paths
+The path property allows you to customize the URL path for a document. By default, Zudoku uses the file path to generate the URL, but you can override this behavior by specifying a custom path.
+
+type: custom-page
+Custom pages allow you to create standalone pages that are not tied to a Markdown document. This is useful for creating landing pages, dashboards, or any other custom content.
+
+Code
+
+{
+  type: "custom-page",
+  path: "/a-custom-page",
+  element: <MyCustomPage />,
+  display: "always"
+}
+TypeScript type declaration
+Display Control
+All navigation items support a display property that controls when the item should be visible:
+
+"always" (default): Always visible
+"auth": Only visible when user is authenticated
+"anon": Only visible when user is not authenticated
+"hide": Never visible (useful for temporarily hiding items)
+Code
+
+{
+  "type": "link",
+  "label": "Admin Panel",
+  "to": "/admin",
+  "display": "auth"
+}
+Badges
+Navigation items can display badges with labels and colors. Badges support an optional invert property for styling:
+
+Code
+
+{
+  "type": "doc",
+  "file": "api/v2",
+  "badge": {
+    "label": "Beta",
+    "color": "yellow"
+  }
+}
+Icons
+Icons can be added to categories and documents by specifying an icon property. The value should be the name of a Lucide icon (e.g., book , code , file-text ).
+
+Code
+
+{
+  "type": "category",
+  "label": "Getting Started",
+  "icon": "book"
+}
+They can also be set on individual documents in their front matter:
+
+Code
+
+---
+title: My Document
+sidebar_icon: book
+---
+Title & Labels
+All navigation items can have a label property that determines the displayed text. For doc items, the label is optional; if omitted, Zudoku uses the document's title from its front matter or the first # header.
+
+To override the navigation label without changing the document's title, use the sidebar_label property in the front matter:
+
+Code
+
+---
+title: My Long Title
+sidebar_label: Short Title
+---
+In this example, the document's title remains "My Long Title," but the sidebar displays "Short Title."
+
+Branding & Layout
+We offer you to customize the main aspects of your Zudoku site's appearance and behavior.
+
+Branding
+Title, logo can be configured in under the site property:
+
+zudoku.config.tsx
+
+const config = {
+  site: {
+    title: "My API Documentation",
+    logo: {
+      src: {
+        light: "/path/to/light-logo.png",
+        dark: "/path/to/dark-logo.png",
+      },
+      alt: "Company Logo",
+      href: "/",
+    },
+    // Other options...
+  },
+};
+Available Options
+Title
+Set the title of your site next to the logo in the header:
+
+zudoku.config.tsx
+
+{
+  site: {
+    title: "My API Documentation",
+  }
+}
+Logo
+Configure the site's logo with different versions for light and dark themes:
+
+zudoku.config.tsx
+
+{
+  site: {
+    logo: {
+      src: {
+        light: "/light-logo.png",
+        dark: "/dark-logo.png"
+      },
+      alt: "Company Logo",
+      width: "120px" // optional width
+    }
+  }
+}
+Colors & Theme
+We allow you to fully customize all colors, borders, etc - read more about it in Colors & Themes
+
+Layout
+Banner
+Add a banner message to the top of the page:
+
+zudoku.config.tsx
+
+{
+  site: {
+    banner: {
+      message: "Welcome to our beta documentation!",
+      color: "info", // "note" | "tip" | "info" | "caution" | "danger" or custom
+      dismissible: true
+    }
+  }
+}
+Footer
+The footer configuration has its own dedicated section. See the Footer Configuration for details.
+
+Complete Example
+Here's a comprehensive example showing all available page configuration options:
+
+zudoku.config.tsx
+
+{
+  site: {
+    title: "My API Documentation",
+    logo: {
+      src: {
+        light: "/images/logo-light.svg",
+        dark: "/images/logo-dark.svg"
+      },
+      alt: "Company Logo",
+      width: "100px",
+    },
+    banner: {
+      message: "Welcome to our documentation!",
+      color: "info",
+      dismissible: true
+    },
+  }
+}
+
+Search
+Zudoku offers search functionality that enhances user experience by enabling content discovery across your site. When configured, a search bar will appear in the header, allowing users to quickly find relevant information on any page.
+
+We currently support two search providers:
+
+Pagefind
+Inkeep
+Pagefind
+Pagefind is a lightweight, static search library that can be used to add search to your Zudoku site without any external services.
+
+To enable pagefind search, configure the search option in your configuration:
+
+Code
+
+{
+  search: {
+    type: "pagefind",
+    // Optional: Maximum number of sub results per page
+    maxSubResults: 3,
+    // Optional: Configure search result ranking (defaults shown below)
+    ranking: {
+      termFrequency: 0.8,
+      pageLength: 0.6,
+      termSimilarity: 1.2,
+      termSaturation: 1.2,
+    },
+  }
+}
+Transforming/Filtering Search Results
+You can transform or filter search results using the transformResults option. This function receives the search result along with the current auth state and context, allowing you to:
+
+Filter results based on user permissions
+Modify result content
+Add custom results
+The type of result is the same as the type returned by Pagefind's search API.
+
+Code
+
+{
+  search: {
+    type: "pagefind",
+    transformResults: ({ result, auth, context }) => {
+      // Return false to filter out the result
+      if (!auth.isAuthenticated) return false;
+      // Return true or undefined to keep the original result
+      if (result.url.includes("/private/")) return true;
+      // Return a modified result
+      return {
+        ...result,
+        title: `${result.title} (${context.meta.title})`
+      };
+    }
+  }
+}
+For more information about how Pagefind's ranking system works and how to customize it for your content, see the Pagefind ranking documentation.
+
+Inkeep
+Inkeep is an AI-powered search and chat platform that can index your documentation and provide intelligent search capabilities to your users.
+
+Setting up Inkeep Integration
+Before you can use Inkeep search in your Zudoku site, you need to set up an Inkeep integration and have your site indexed. Here's how to get started:
+
+1. Create an Inkeep Account
+Go to Inkeep and sign up for an account
+Navigate to the Inkeep Portal
+2. Set up Site Indexing
+In the Inkeep Portal, create a new project or integration
+Configure your site URL so Inkeep can crawl and index your documentation
+Ensure your Zudoku site is deployed and publicly accessible for indexing
+Wait for Inkeep to crawl and index your site content (this may take some time)
+3. Get Your Integration Credentials
+To add Inkeep search to your site you will need to copy some variables from your Inkeep account setting:
+
+API Key
+Integration ID
+Organization ID
+4. Configure Zudoku
+Once you have your credentials and your site is indexed, you can configure the search option in your Zudoku Configuration:
+
+Code
+
+{
+  // ...
+  search: {
+    type: "inkeep",
+    apiKey: "<your-api-key>",
+    integrationId: "<your-integration-id>",
+    organizationId: "<your-organization-id>",
+    primaryBrandColor: "#26D6FF",
+    organizationDisplayName: "Your Organization Name",
+  }
+  // ...
+}
+
+Footer Configuration
+The footer is a customizable component that appears at the bottom of every page in your Zudoku site. You can configure various aspects of the footer including its position, columns, social links, copyright notice, and logo.
+
+Basic Configuration
+The footer is configured in your zudoku.config.tsx file under the page.footer property:
+
+Code
+
+const config: ZudokuConfig = {
+  site: {
+    footer: {
+      // Footer configuration goes here
+      position: "center",
+      copyright: `© ${new Date().getFullYear()} YourCompany LLC. All rights reserved.`,
+      // Other options...
+    },
+  },
+  // Other configuration...
+};
+Position
+You can control the horizontal alignment of the footer content using the position property:
+
+Code
+
+footer: {
+  position: "center"; // default
+  // or
+  position: "start";
+  // or
+  position: "end";
+}
+This affects how the content in the footer's main row is positioned horizontally.
+
+Columns
+The footer can include multiple columns of links, each with its own title:
+
+Code
+
+footer: {
+  columns: [
+    {
+      title: "Product",
+      position: "center", // position in grid, optional: start, center, end
+      links: [
+        { label: "Features", href: "/features" },
+        { label: "Pricing", href: "/pricing" },
+        { label: "Documentation", href: "/docs" },
+        { label: "GitHub", href: "https://github.com/org/repo" }, // Auto-detected as external
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { label: "About", href: "/about" },
+        { label: "Blog", href: "/blog" },
+        { label: "Contact", href: "/contact" },
+      ],
+    },
+  ];
+}
+Each column can have its own positioning with the position property, which can be "start", "center", or "end". This controls how the column is positioned within the footer grid.
+
+Social Media Links
+You can add social media links to your footer:
+
+Code
+
+footer: {
+  social: [
+    {
+      icon: "github",
+      href: "https://github.com/yourusername",
+    },
+    {
+      icon: "twitter",
+      href: "https://twitter.com/yourhandle",
+      label: "Follow us", // optional label text
+    },
+  ];
+}
+The icon property currently can be one of the following values:
+
+"reddit"
+"discord"
+"github"
+"x" (Twitter)
+"linkedin"
+"facebook"
+"instagram"
+"youtube"
+"tiktok"
+"twitch"
+"pinterest"
+"snapchat"
+"whatsapp"
+"telegram"
+Or you can provide a custom React component.
+
+Copyright Notice
+Add a copyright notice with the copyright property:
+
+Code
+
+footer: {
+  copyright: `© ${new Date().getFullYear()} YourCompany LLC. All rights reserved.`;
+}
+Logo
+You can add a logo to your footer:
+
+Code
+
+footer: {
+  logo: {
+    src: {
+      light: "/path/to/light-logo.png",
+      dark: "/path/to/dark-logo.png"
+    },
+    alt: "Company Logo",
+    width: "120px" // optional width
+  }
+}
+Customizing with Slot
+Zudoku provides footer-before and footer-after slots that allow you to insert custom content before or after the main footer columns:
+
+Code
+
+// In your zudoku.config.tsx
+slots: {
+  "footer-before": () => (
+    <div>
+      <h3>Custom pre-footer content</h3>
+      <p>This appears before the columns</p>
+    </div>
+  ),
+  "footer-after": () => (
+    <div>
+      <p>Additional footer content</p>
+    </div>
+  )
+}
+Complete Example
+Here's a complete example showing all footer options:
+
+Code
+
+footer: {
+  position: "center",
+  columns: [
+    {
+      title: "Product",
+      position: "start",
+      links: [
+        { label: "Features", href: "/features" },
+        { label: "Pricing", href: "/pricing" },
+        { label: "Documentation", href: "/docs" }
+      ]
+    },
+    {
+      title: "Resources",
+      position: "center",
+      links: [
+        { label: "Blog", href: "/blog" },
+        { label: "Support", href: "/support" },
+        { label: "GitHub", href: "https://github.com/yourusername" } // Auto-detected as external
+      ]
+    }
+  ],
+  social: [
+    { icon: "github", href: "https://github.com/yourusername" },
+    { icon: "linkedin", href: "https://linkedin.com/company/yourcompany", label: "LinkedIn" }
+  ],
+  copyright: `© ${new Date().getFullYear()} YourCompany LLC. All rights reserved.`,
+  logo: {
+    src: {
+      light: "/images/logo-light.svg",
+      dark: "/images/logo-dark.svg"
+    },
+    alt: "Company Logo",
+    width: "100px"
+  }
+}
+Markdown
+Zudoku supports GitHub Flavored Markdown (GFM) with additional features for creating rich documentation.
+
+Basic Formatting
+Headers
+Use # to create headers. The number of # symbols determines the header level:
+
+Code
+
+# H1 Header
+## H2 Header
+### H3 Header
+#### H4 Header
+##### H5 Header
+###### H6 Header
+Text Formatting
+Code
+
+**Bold text**
+_Italic text_
+~~Strikethrough text~~
+`Inline code`
+Bold text
+Italic text
+Strikethrough text
+Inline code
+
+Lists
+Unordered lists:
+
+Code
+
+- Item 1
+- Item 2
+  - Nested item
+  - Another nested item
+Ordered lists:
+
+Code
+
+1. First item
+2. Second item
+   1. Nested item
+   2. Another nested item
+See list examples
+Links and Images
+Code
+
+[Link text](https://example.com)
+![Image alt text](image.jpg)
+See link and image examples
+Tables
+Code
+
+| Header 1 | Header 2 | Header 3 |
+| -------- | -------- | -------- |
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |
+See table example
+Blockquotes
+Code
+
+> This is a blockquote
+>
+> It can span multiple lines
+See blockquote example
+Frontmatter
+Frontmatter allows you to configure page metadata using YAML at the beginning of your markdown files:
+
+Code
+
+---
+title: My Page Title
+description: Page description for SEO
+navigation_icon: book
+category: Getting Started
+---
+Your markdown content starts here...
+Common frontmatter properties include title, description, sidebar_icon, and category. For a complete list of supported properties, see the Frontmatter documentation.
+
+MDX Support
+Zudoku supports MDX, allowing you to use JSX components within your markdown:
+
+my-page.mdx
+
+import MyCustomComponent from "./MyCustomComponent";
+# Regular Markdown
+This is regular markdown content.
+<MyCustomComponent prop="value" />
+You can mix markdown and JSX seamlessly.
+MDX enables you to create interactive documentation with custom React components. Learn more in the MDX documentation.
+
+Syntax Highlighting
+Zudoku uses Shiki for syntax highlighting in code blocks:
+
+Code
+
+```javascript
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
+```
+Advanced features:
+
+Line highlighting: {1,3-5}
+Word highlighting: /keyword/
+Line numbers: showLineNumbers
+Titles: title="filename.js"
+Code
+
+```tsx {4-5} /useState/ title="Counter.tsx" showLineNumbers
+import { useState } from "react";
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+See advanced features example
+For complete syntax highlighting documentation, see Code Blocks.
+
+Additional Features
+Zudoku also supports:
+
+Admonitions - Callout boxes for notes, warnings, and tips
+Task lists with checkboxes
+Emoji support :tada:
+Automatic link detection
+Task Lists
+Code
+
+- [x] Completed task
+- [ ] Incomplete task
+- [ ] Another task
+See task list example
+Collapsible Sections
+You can create collapsible content using HTML <details> and <summary> tags:
+
+Code
+
+<details>
+  <summary>Click to expand</summary>
+  This content is hidden by default and can be expanded by clicking the summary. You can include any markdown content here: - Lists - **Bold text** - Code blocks - Images
+</details>
+
+Frontmatter
+Frontmatter is metadata written in YAML format at the beginning of markdown files, enclosed between triple dashes (---). It allows you to configure various aspects of your pages without affecting the visible content.
+
+In Zudoku, frontmatter enables you to customize page titles, descriptions, navigation settings, and other document properties. Here are all the supported properties:
+
+Properties
+title
+Sets the page title that appears in the browser tab and as the document title.
+
+Code
+
+---
+title: My Page Title
+---
+description
+Provides a description for the page, which can be used for SEO and content summaries.
+
+Code
+
+---
+description: This page explains how to use Zudoku's markdown features.
+---
+category
+Assigns the page to a specific category for organizational purposes. This will be shown above the main heading of the document.
+
+Code
+
+---
+category: Getting Started
+---
+navigation_label
+Deprecated (sidebar_label)
+
+Sets a custom label for the page in the sidebar navigation, allowing you to use a shorter or different title than the main page title.
+
+Code
+
+---
+title: My Very Long Documentation Page Title
+navigation_label: Short Title
+---
+navigation_icon
+Deprecated (sidebar_icon)
+
+Specifies a Lucide icon to display next to the page in the sidebar navigation.
+
+Code
+
+---
+navigation_icon: compass
+---
+toc
+Controls whether the table of contents is displayed for the page. Set to false to hide the table of contents.
+
+Code
+
+---
+toc: false
+---
+disable_pager
+Controls whether the previous/next page navigation is displayed at the bottom of the page. Set to true to disable it.
+
+Code
+
+---
+disable_pager: true
+---
+Complete Example
+Here's an example showing multiple frontmatter properties used together:
+
+documentation.md
+
+---
+title: Advanced Configuration Guide
+description: Learn how to configure advanced features in Zudoku
+category: Configuration
+navigation_label: Advanced Config
+navigation_icon: settings
+toc: true
+disable_pager: false
+---
+This page content follows the frontmatter...
+
+MDX
+Zudoku supports MDX files for creating rich content pages. MDX is a markdown format that allows you to include JSX components in your markdown files.
+
+Getting Started
+To use MDX in your documentation, simply create files with the .mdx extension instead of .md. These files work exactly like regular markdown files but with all MDX features unlocked - you can write normal markdown content and add JSX components whenever needed.
+
+Code
+
+docs/
+├── my-page.md      # Regular markdown
+├── my-mdx-page.mdx # MDX with JSX support
+Custom Components
+Zudoku supports the use of custom components in your MDX files. This allows you to create reusable components that can be used across multiple pages.
+
+You can create a custom component in your project and reference it in the Zudoku Configuration file.
+
+For example, create the <MyCustomComponent /> component in a file called MyCustomComponent.tsx in the src directory at the root of your project.
+
+Code
+
+export default function MyCustomComponent() {
+  return <div>My Custom Component</div>;
+}
+In Zudoku Configuration you will need to import the component and add it to the customComponents option in the configuration.
+
+zudoku.config.ts
+
+import MyCustomComponent from "./src/MyCustomComponent";
+const config: ZudokuConfig = {
+  // ...
+  mdx: {
+    components: {
+      MyCustomComponent,
+    },
+  },
+  // ...
+};
+export default config;
+
+Admonitions
+In addition to the basic Markdown syntax, we have a special admonitions syntax by wrapping text with a set of 3 colons, followed by a label denoting its type.
+
+Admonitions are also commonly referred to as "Callouts". For programmatic usage, see the Callout component.
+
+Example:
+
+Code
+
+:::note
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+:::
+:::tip
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+:::
+:::info
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+:::
+:::warning
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+:::
+:::danger
+Some **content** with _Markdown_ `syntax`. Check [this `api`](#).
+:::
+Some content with Markdown syntax. Check this api.
+
+Some content with Markdown syntax. Check this api.
+
+Some content with Markdown syntax. Check this api.
+
+Some content with Markdown syntax. Check this api.
+
+Some content with Markdown syntax. Check this api.
+
+With title
+You can also add a title to the admonition by adding it after the type:
+
+Code
+
+:::warning{title="Warning of the day"}
+The path of the righteous man is beset on all sides by the iniquities of the selfish and the tyranny of evil men.
+:::
+Warning of the day
+The path of the righteous man is beset on all sides by the iniquities of the selfish and the tyranny of evil men.
+
+Usage with Prettier
+If you use Prettier to format your Markdown files, Prettier might auto-format your code to invalid admonition syntax. To avoid this problem, add empty lines around the starting and ending directives. This is also why the examples we show here all have empty lines around the content.
+
+Code
+
+<!-- Prettier doesn't change this -->
+:::note
+Hello world
+:::
+<!-- Prettier changes this -->
+:::note 
+Hello world 
+:::
+<!-- to this -->
+::: note Hello world:::
+
+Zudoku supports code blocks in Markdown using the Shiki syntax highlighting library.
+
+Syntax Highlighting
+Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out this reference for the specifications of MDX.
+
+Code
+
+```js
+console.log("Every repo must come with a mascot.");
+```
+The code block above will render as:
+
+Code
+
+console.log("Every repo must come with a mascot.");
+You can also use the SyntaxHighlight component to render code blocks in TypeScript directly.
+
+Inline Code
+You can highlight inline code using either:
+
+Regular backticks without language specification:
+
+Code
+
+`console.log("Hello World")`
+Result: console.log("Hello World")
+
+or with the tailing curly colon syntax:
+
+Code
+
+`console.log("Hello World"){:js}`
+Result: console.log("Hello World")
+
+For more details, see the Shiki Rehype documentation.
+
+You can add a title to code blocks by adding a title attribute after the backticks:
+
+Code
+
+```tsx title="hello.tsx"
+console.log("Hello, World!");
+```
+Result:
+
+hello.tsx
+
+console.log("Hello, World!");
+For a complete list of supported languages and their aliases, see the Shiki Languages documentation.
+
+Advanced Syntax Highlighting
+There are multiple ways to enhance syntax highlighting:
+
+Line highlighting
+Word highlighting
+Line numbers: showLineNumbers
+Title: title
+Example:
+
+Code
+
+```tsx {4-6} /react/ title="Example.tsx" showLineNumbers
+import { useEffect } from "react";
+function Example() {
+  useEffect(() => {
+    console.log("Mounted");
+  }, []);
+  return <div>Hello</div>;
+}
+```
+Result:
+
+Example.tsx
+
+import { useEffect } from "react";
+function Example() {
+  useEffect(() => {
+    console.log("Mounted");
+  }, []);
+  return <div>Hello</div>;
+}
+Configuration
+You can configure syntax highlighting in your zudoku.config.tsx:
+
+Changes to the syntax highlighting configuration require a restart of Zudoku to take effect.
+
+zudoku.config.ts
+
+import { defaultLanguages, type ZudokuConfig } from "zudoku";
+const config: ZudokuConfig = {
+  // ...
+  syntaxHighlighting: {
+    themes: {
+      light: "vitesse-light",
+      dark: "vitesse-dark",
+    },
+    // Extend default languages if needed
+    languages: [...defaultLanguages, "powershell"],
+  },
+};
+For a complete list of available themes and languages, see the list of Shiki themes and Shiki languages.
+
+Default Supported Languages
+By default, Zudoku supports the following languages for syntax highlighting:
+
+HTML/CSS - html, css
+JavaScript/TypeScript - javascript, js, jsx, typescript, ts, tsx
+Markdown - markdown, md
+JSON/YAML/TOML - json, yaml, toml
+Shell - bash, sh, shell
+Python - python
+Rust - rust
+SQL - sql
+PHP - php
+Ruby - ruby, rb
+Swift - swift
+Kotlin - kotlin
+Java - java
+C# - csharp, cs
+Go - go
+Objective-C - objectivec, objc
+ANSI Code Blocks
+You can use the ansi language to highlight terminal outputs with ANSI escape sequences. This is useful for displaying colored terminal output, styled text, and other terminal-specific formatting.
+
+Terminal Output
+
+colored foreground
+bold text
+dimmed text
+underlined text
+reversed text
+strikethrough text
+underlined + strikethrough text
+Usage:
+
+Code
+
+```ansi title="Terminal Output"
+[0;32mcolored foreground[0m
+[0;1mbold text[0m
+[0;2mdimmed text[0m
+[0;4munderlined text[0m
+[0;7mreversed text[0m
+[0;9mstrikethrough text[0m
+[0;4;9munderlined + strikethrough text[0m
+```
+For more details on ANSI highlighting, see the Shiki documentation.
+
+Environment Variables
+Zudoku is built on top of Vite and uses their approach for managing environment variables.
+
+Zudoku exposes environment variables under the import.meta.env object as strings automatically.
+
+To prevent accidentally leaking environment variables to the client, only variables prefixed with ZUDOKU_PUBLIC_ are exposed to your Zudoku-processed code.
+
+Security Notice
+Environment variables prefixed with ZUDOKU_PUBLIC_ will be exposed to the client-side code and visible in the browser. Never use this prefix for sensitive information like API keys, passwords, or other secrets.
+
+Local Env Files
+When developing locally, you can create a .env file in the root of your project and add environment-specific variables. See the Vite documentation for more information on supported files.
+
+Here is an example of a .env.local file:
+
+Code
+
+ZUDOKU_PUBLIC_PAGE_TITLE=My Page Title
+You can access this variable in your application like this:
+
+Code
+
+const title = import.meta.env.ZUDOKU_PUBLIC_PAGE_TITLE;
+Configuration Files
+Environment variables can also be used in your configuration files. When referencing environment variables in your configuration files, you can use process.env directly.
+
+Code
+
+import type { ZudokuConfig } from "zudoku";
+const config: ZudokuConfig = {
+  authentication: {
+    type: "auth0",
+    clientId: process.env.ZUDOKU_PUBLIC_AUTH_CLIENT_ID,
+    domain: process.env.ZUDOKU_PUBLIC_AUTH_DOMAIN,
+  },
+};
+React Components
+If you need to access environment variables inside a custom react component, you can access them via import.meta.env. Public environment variables are inlined during the build process.
+
+Code
+
+import React from "react";
+export const MyComponent = () => {
+  return <h1>{import.meta.env.ZUDOKU_PUBLIC_PAGE_TITLE}</h1>;
+};
+IntelliSense for TypeScript
+By default, Zudoku provides type definitions for import.meta.env in zudoku/client.d.ts. While you can define more custom env variables in .env.[mode] files, you may want to get TypeScript IntelliSense for user-defined env variables that are prefixed with ZUDOKU_PUBLIC_.
+
+To achieve this, you can create a zudoku-env.d.ts in the src directory, then augment ImportMetaEnv like this:
+
+Code
+
+/// <reference types="zudoku/client" />
+interface ImportMetaEnv {
+  readonly ZUDOKU_PUBLIC_APP_TITLE: string;
+  // more env variables...
+}
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+Imports will break type augmentation
+If the ImportMetaEnv augmentation does not work, make sure you do not have any import statements in vite-env.d.ts. A helpful explanation can be found on this StackOverflow reply.
+
+Custom pages
+If you want to include pages in your documentation that have greater flexibility than MDX pages, it is possible to include custom pages of your own.
+
+These pages are typically built using standard React markup and can borrow from a set of prebuilt components that Zudoku already has such as buttons, links and headers.
+
+Start by creating the page you want to add.
+
+Setup a custom page
+Each custom page is a page component of its own and lives in a src directory at the root of your project. Let's create the <MyCustomPage /> component as an example.
+
+From the root of your project run this command:
+
+Code
+
+touch src/MyCustomPage.tsx
+You can now open /src/MyCustomPage.tsx in the editor of your choice. It will be empty.
+
+Copy and paste this code to implement the page:
+
+Code
+
+import { Button, Head, Link } from "zudoku/components";
+export const MyCustomPage = () => {
+  return (
+    <section className="">
+      <Head>
+        <title>My Custom Page</title>
+      </Head>
+      <div>
+        <p>Welcome to MyCustomPage</p>
+      </div>
+    </section>
+  );
+};
+Configuration
+In the Zudoku Configuration you will need to do the following:
+
+Change Your Config Extension
+In order to embed jsx/tsx components into your Zudoku config, you will need to change your file extension from ts to tsx (or js to jsx if not using TypeScript).
+
+Code
+
+zudoku.config.ts -> zudoku.config.tsx
+Import Your Module
+Import the <MyCustomPage /> component that you created.
+
+Code
+
+import { MyCustomPage } from "./src/MyCustomPage";
+Add a navigation entry
+Add a custom-page item to the navigation configuration. Each page you want to add to the site must be its own object.
+
+The path key can be set to whatever you like. This will appear as part of the URL in the address bar of the browser.
+
+The element key references the name of the custom page component that you want to load.
+
+Code
+
+{
+  // ...
+  navigation: [
+    {
+      type: "custom-page",
+      path: "/a-custom-page",
+      element: <MyCustomPage />,
+    },
+  ]
+  // ...
+}
+This configuration will allow Zudoku to load the contents of the <MyCustomPage /> component when a user clicks on a link that points to /a-custom-page.
+
+Troubleshooting
+Updating Your
+tsconfig.json
+Your include property in tsconfig.json should automatically be updated to reflect the new custom pages, but in case it isn't, it should look like this:
+
+Code
+
+{
+  ...
+  "include": ["src", "zudoku.config.tsx", "src/MyCustomPage.tsx"]
+}
+Navigation Migration
+This guide explains how to migrate existing configurations that used topNavigation, sidebar and customPages to the new unified navigation configuration introduced in vNEXT.
+
+Overview
+Navigation is now configured through a single navigation array. Items at the root level become top navigation tabs, while nested categories automatically form the sidebar. Custom pages are added using the custom-page item type.
+
+Before and After
+Before
+
+const config: ZudokuConfig = {
+  topNavigation: [
+    { id: "docs", label: "Docs" },
+    { id: "api", label: "API" },
+  ],
+  sidebar: {
+    docs: [{ type: "doc", id: "introduction" }],
+  },
+  customPages: [{ path: "/playground", render: Playground, prose: false }],
+  apis: {
+    type: "file",
+    input: "./openapi.json",
+    navigationId: "api",
+  },
+};
+After
+
+const config: ZudokuConfig = {
+  navigation: [
+    {
+      type: "category",
+      label: "Docs",
+      items: ["introduction"],
+    },
+    {
+      type: "custom-page",
+      path: "/playground",
+      element: <Playground />,
+    },
+    {
+      type: "link",
+      to: "/api",
+      label: "API",
+    },
+  ],
+  apis: [
+    {
+      path: "/api",
+      type: "file",
+      input: "./openapi.json",
+    },
+  ],
+};
+Migration steps
+Create a navigation array
+
+Move all items from topNavigation and your sidebar into a new navigation array.
+
+Convert custom pages
+
+Replace entries in customPages with type: "custom-page" items inside navigation.
+
+Update plugin configs
+
+Replace all uses of navigationId with path in plugin options like apis or catalogs. Navigation items of type link should use the to property to reference the path of the API or catalog.
+
+Reference plugin paths in navigation
+
+Items produced by plugins are not added automatically. Add links or categories in your navigation so users can access them.
+
+Vite Config
+Zuplo is built on top of Vite and can be customized using a Vite configuration file if advanced functionality is required.
+
+Not all configurations are supported in Zudoku, but common tasks like adding plugins will generally work as expected. Simply create a vite.config.ts file in the root of your project and set the configuration options as needed.
+
+Zudoku will automatically pick up the configuration file and will use it to augment the built-in configuration.
+
+You can find an example project on GitHub that demonstrates how to use a custom Vite configuration with Zudoku.
+
+
+Slots
+Slots provide a powerful way to inject custom content into predefined locations throughout Zudoku. They allow you to extend the default layout and functionality without modifying the core components.
+
+Configuration
+You can define slots in your zudoku.config.tsx file using the slots property:
+
+Code
+
+import type { ZudokuConfig } from "zudoku";
+import { Button } from "zudoku/ui/Button.js";
+const config: ZudokuConfig = {
+  // ... other config
+  slots: {
+    "head-navigation-end": () => (
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="icon" asChild>
+          <a href="https://github.com/your-repo">
+            <GithubIcon className="w-4 h-4" />
+          </a>
+        </Button>
+      </div>
+    ),
+    "footer-before": <div>Custom footer content</div>,
+  },
+};
+export default config;
+Slot Types
+Slots accept either:
+
+React components/elements: JSX elements
+Function components: Functions that return JSX elements and receive routing props
+Code
+
+slots: {
+  // JSX element
+  "footer-after": <CustomFooter />,
+  // Function with access to routing props
+  "head-navigation-end": ({ navigate, location, searchParams }) => (
+    <Button
+      onClick={() => navigate('/settings')}
+      variant={location.pathname === '/settings' ? 'default' : 'ghost'}
+    >
+      Settings
+    </Button>
+  ),
+}
+Functions receive an object with routing properties:
+
+location - Current route location
+navigate - Navigation function
+searchParams - URL search parameters
+setSearchParams - Function to update search parameters
+params - Route parameters
+Type Safety
+Zudoku provides full TypeScript support for slot names. All predefined slot names will show up with autocomplete when you type them in your configuration.
+
+Advanced Usage
+For more advanced slot usage, including programmatic slot management, dynamic content, and adding custom slot names, see the Slot Component documentation.
+
+Examples
+Adding Social Links to Header
+Code
+
+slots: {
+  "head-navigation-end": () => (
+    <div className="flex items-center gap-2">
+      <Button variant="ghost" size="icon" asChild>
+        <a href="https://github.com/your-org" target="_blank">
+          <GithubIcon className="w-4 h-4" />
+        </a>
+      </Button>
+      <Button variant="ghost" size="icon" asChild>
+        <a href="https://discord.gg/your-server" target="_blank">
+          <DiscordIcon className="w-4 h-4" />
+        </a>
+      </Button>
+    </div>
+  ),
+}
+Dynamic Content with Routing
+Code
+
+slots: {
+  "top-navigation-side": ({ location, navigate }) => (
+    <div className="flex items-center gap-2">
+      <Button
+        variant={location.pathname === '/docs' ? 'default' : 'ghost'}
+        onClick={() => navigate('/docs')}
+      >
+        Documentation
+      </Button>
+      <Button
+        variant={location.pathname === '/api' ? 'default' : 'ghost'}
+        onClick={() => navigate('/api')}
+      >
+        API Reference
+      </Button>
+    </div>
+  ),
+}
+
+Custom Plugins
+Zudoku is highly extensible. You can create custom plugins to add new functionality to your documentation site. This guide will show you how to create and use plugins in your Zudoku configuration.
+
+Plugin Types
+All plugins in Zudoku must implement the ZudokuPlugin type, which is a union of these plugin interfaces:
+
+CommonPlugin: Basic plugin with initialization, head elements, and MDX component customization
+ProfileMenuPlugin: Add custom items to the profile menu
+NavigationPlugin: Define custom routes and sidebar items
+ApiIdentityPlugin: Provide API identities for testing
+SearchProviderPlugin: Implement custom search functionality
+EventConsumerPlugin: Handle custom events
+You can find all available plugin interfaces in the Zudoku source code.
+
+Defining Plugins
+You can define plugins in your Zudoku configuration using objects with explicit type declarations:
+
+Common Plugin Example
+Code
+
+import { ZudokuPlugin } from "zudoku";
+const commonPlugin: ZudokuPlugin = {
+  initialize: async (context) => {
+    // Initialization logic
+  },
+  getHead: () => <link rel="stylesheet" href="/custom-styles.css" />,
+  getMdxComponents: () => ({
+    // Custom MDX components
+  }),
+};
+const config: ZudokuConfig = {
+  // ... other config
+  plugins: [commonPlugin],
+};
+API Identity Plugin Example
+Code
+
+import { ZudokuPlugin, ApiIdentity } from "zudoku";
+const apiIdentityPlugin: ZudokuPlugin = {
+  getIdentities: async (context) => {
+    return [
+      {
+        label: "Test User",
+        id: "test-user",
+        authorizeRequest: (request: Request) => {
+          request.headers.set("Authorization", "Bearer test-token");
+          return request;
+        },
+      },
+    ] as ApiIdentity[];
+  },
+};
+// In your zudoku.config.tsx
+const config: ZudokuConfig = {
+  // ... other config
+  plugins: [apiIdentityPlugin],
+};
+Example Implementations
+Here are some common plugin implementations:
+
+Google Tag Manager
+Below is a sample of adding the necessary scripts for GTM, but this could apply to any tag manager or tracking script.
+
+Code
+
+import { ZudokuPlugin } from "zudoku";
+const commonPlugin: ZudokuPlugin = {
+  getHead: () => {
+    return (
+      <script>
+        {`
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-<YOUR GTM ID HERE>");`}
+      </script>
+    );
+  },
+};
+Tracking
+page_view
+Events
+Zudoku is a single page application so typical page_view events are not captured by most analytics scripts or tag managers. Instead, you must listen to the location event with a plugin and log navigation changes in code.
+
+Code
+
+import { ZudokuPlugin, ZudokuEvents } from "zudoku";
+const navigationLoggerPlugin: ZudokuPlugin = {
+  events: {
+    location: ({ from, to }) => {
+      if (!from) return;
+      window.dataLayer.push({
+        event: "page_view",
+        page_path: to.pathname,
+        page_title: document.title,
+        page_location: window.location.href,
+      });
+    },
+  },
+};
+If you are using TypeScript, you will also need to add the following type declaration to the file this plugin is declared
+
+Code
+
+declare global {
+  interface Window {
+    dataLayer: Record<string, any>[];
+  }
+}
+Navigation Plugin
+Code
+
+import { ZudokuPlugin, RouteObject } from "zudoku";
+const navigationPlugin: ZudokuPlugin = {
+  getRoutes: (): RouteObject[] => {
+    return [
+      {
+        path: "/custom",
+        element: <CustomPage />,
+      },
+    ];
+  },
+  getSidebar: async (path: string) => {
+    // Return custom sidebar items
+    return {
+      items: [{ id: "custom", label: "Custom Page" }],
+    };
+  },
+};
+Event Consumer Plugin
+Code
+
+import { ZudokuPlugin } from "zudoku";
+const eventConsumerPlugin: ZudokuPlugin = {
+  events: {
+    location: ({ from, to }) => {
+      if (!from) {
+        console.log(`Initial navigation to: ${to.pathname}`);
+      } else {
+        console.log(`Navigation from ${from.pathname} to ${to.pathname}`);
+      }
+    },
+  },
+};
+
+Events
+Zudoku provides an events system that allows plugins to react to various application events. This system enables you to build dynamic features that respond to user interactions and application state changes.
+
+Available Events
+Currently, Zudoku supports the following events:
+
+location
+Code
+
+type LocationEvent = (e: { from?: Location; to: Location }) => void;
+Emitted when the user navigates to a different route. Provides both the previous (from) and current (to) Location objects from react-router.
+
+Note that the from location will be undefined on the initial page load.
+
+Consuming Events in Plugins
+To consume events in your plugin, you can implement the events property in your plugin. This is useful for performing actions like sending analytics events or anything else that's not directly related to the UI.
+
+Code
+
+import { ZudokuPlugin, ZudokuEvents } from "zudoku";
+const navigationLoggerPlugin: ZudokuPlugin = {
+  events: {
+    location: ({ from, to }) => {
+      if (!from) {
+        console.log(`Initial navigation to: ${to.pathname}`);
+      } else {
+        console.log(`User navigated from: ${from.pathname} to: ${to.pathname}`);
+      }
+    },
+  },
+};
+Example in Zudoku Config
+In your zudoku.config.ts, you can define the events like this:
+
+Code
+
+export default {
+  plugins: [
+    {
+      events: {
+        location: ({ from, to }) => {
+          if (!from) return;
+          // E.g. send an analytics event
+          sendAnalyticsEvent({
+            from: from.pathname,
+            to: to.pathname,
+          });
+        },
+      },
+    },
+  ],
+};
+Using Events in Components
+Zudoku provides a convenient useEvent hook to subscribe to events in your React components. The hook can be used in three different ways:
+
+1. Getting the Latest Event Data
+If you just want to access the latest event data without a callback:
+
+Code
+
+import { useEvent } from "zudoku/hooks";
+function MyComponent() {
+  const locationEvent = useEvent("location");
+  return <div>Current path: {locationEvent?.to.pathname}</div>;
+}
+2. Using Event Data in a Component
+If you want to transform the event data, return a value from the callback:
+
+Code
+
+import { useEvent } from "zudoku/hooks";
+function MyComponent() {
+  const pathname = useEvent("location", ({ to }) => to.pathname);
+  return <div>Current path: {pathname}</div>;
+}
+3. Using a Callback for Side Effects
+If you just want to perform side effects when the event occurs:
+
+Code
+
+import { useEvent } from "zudoku/hooks";
+function MyComponent() {
+  useEvent("location", ({ from, to }) => {
+    if (from) {
+      console.log(`Navigation: ${from.pathname} → ${to.pathname}`);
+    }
+    // No return value needed for side effects
+  });
+  return <div>My Component</div>;
+}
+The useEvent hook automatically handles subscription and cleanup in the React lifecycle, making it easy to work with events in your components.
+
