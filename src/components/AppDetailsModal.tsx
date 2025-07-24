@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useForm } from 'react-hook-form';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -44,6 +45,9 @@ interface FormData {
   googlePlayStore: string;
   commercialStatus: string;
   callback_uri?: string;
+  confirmNonCommercial: boolean;
+  confirmNoPaywalls: boolean;
+  confirmNoAdvertisements: boolean;
 }
 
 const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: AppDetailsModalProps) => {
@@ -58,11 +62,17 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
       googlePlayStore: '',
       commercialStatus: 'Non-Commercial',
       callback_uri: '',
+      confirmNonCommercial: false,
+      confirmNoPaywalls: false,
+      confirmNoAdvertisements: false,
     }
   });
   const [saving, setSaving] = React.useState(false);
   const [publicKey, setPublicKey] = React.useState<string>('');
   const [loadingPublicKey, setLoadingPublicKey] = React.useState(false);
+  const [confirmNonCommercial, setConfirmNonCommercial] = React.useState(false);
+  const [confirmNoPaywalls, setConfirmNoPaywalls] = React.useState(false);
+  const [confirmNoAdvertisements, setConfirmNoAdvertisements] = React.useState(false);
 
   React.useEffect(() => {
     if (app) {
@@ -123,6 +133,16 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
   };
 
   const onSubmit = async (data: FormData) => {
+    // Validate required checkboxes for new applications
+    if (isNewApp && (!confirmNonCommercial || !confirmNoPaywalls || !confirmNoAdvertisements)) {
+      toast({
+        title: "Required Confirmations",
+        description: "Please confirm all required statements about non-commercial use.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (app && data.name.trim()) {
       const updatedApp = {
         ...app,
@@ -148,6 +168,9 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
   const handleClose = () => {
     reset();
+    setConfirmNonCommercial(false);
+    setConfirmNoPaywalls(false);
+    setConfirmNoAdvertisements(false);
     onClose();
   };
 
@@ -247,6 +270,48 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
                   </SelectContent>
                 </Select>
               </div>
+
+              {isNewApp && (
+                <div className="space-y-4 p-4 border rounded-lg bg-muted/20">
+                  <Label className="text-base font-semibold">We confirm that our use of the licensed IP</Label>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Checkbox
+                      id="confirmNonCommercial"
+                      checked={confirmNonCommercial}
+                      onCheckedChange={(checked) => setConfirmNonCommercial(checked === true)}
+                      className="mt-1"
+                    />
+                    <Label htmlFor="confirmNonCommercial" className="text-sm leading-relaxed cursor-pointer">
+                      will be truly non-commercial per the definition provided and free of charge in all respects
+                    </Label>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <Checkbox
+                      id="confirmNoPaywalls"
+                      checked={confirmNoPaywalls}
+                      onCheckedChange={(checked) => setConfirmNoPaywalls(checked === true)}
+                      className="mt-1"
+                    />
+                    <Label htmlFor="confirmNoPaywalls" className="text-sm leading-relaxed cursor-pointer">
+                      will not offer any materials/access behind paywalls
+                    </Label>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <Checkbox
+                      id="confirmNoAdvertisements"
+                      checked={confirmNoAdvertisements}
+                      onCheckedChange={(checked) => setConfirmNoAdvertisements(checked === true)}
+                      className="mt-1"
+                    />
+                    <Label htmlFor="confirmNoAdvertisements" className="text-sm leading-relaxed cursor-pointer">
+                      will not run any advertisements, etc. as part of our platform/website/mobile application
+                    </Label>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>

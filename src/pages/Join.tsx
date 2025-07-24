@@ -28,6 +28,7 @@ import { CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { APP_ID } from '@/lib/constants';
 import { yvpFetch } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 // TODO: Replace with your Google Maps API key
 const GOOGLE_MAPS_API_KEY = "AIzaSyDa5uwzQ5wwtYTUG5CxdZLoPkqnJG1BKwE";
@@ -66,6 +67,7 @@ const Join: React.FC = () => {
   const [tosModalOpen, setTosModalOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Load user data from localStorage on component mount
   useEffect(() => {
@@ -217,7 +219,15 @@ const Join: React.FC = () => {
           title: `Organization "${result.organization.name}" created successfully!`,
           description: "You are now the owner of the organization.",
         });
-        navigate('/get-started'); // Redirect to platform or login to refresh the organization data
+        
+        // Log in the user after successful organization creation to properly authenticate them
+        try {
+          await login('oauth@youversion.com', 'oauth_flow');
+          navigate('/platform'); // Now redirect to platform since user is authenticated
+        } catch (loginError) {
+          console.error('Failed to authenticate after organization creation:', loginError);
+          navigate('/get-started'); // Fallback to get-started if login fails
+        }
       } else {
         throw new Error("Organization creation failed - invalid response");
       }
