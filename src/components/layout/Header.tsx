@@ -33,13 +33,15 @@ const Header = () => {
   }];
   return <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
       <div className="container flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center space-x-4 sm:space-x-8">
+        <div className="flex items-center">
           <Link to="/" className="flex items-center space-x-2">
             <img src="/lovable-uploads/96d1a6db-0f5a-40d5-83ff-ceb74c2ab021.png" alt="YouVersion Platform Logo" className="h-8 w-8 rounded" />
             <span className="font-bold text-lg sm:text-xl tracking-tighter hidden xs:block">YouVersion Platform</span>
             <span className="font-bold text-lg tracking-tighter block xs:hidden">YouVersion Platform</span>
           </Link>
+        </div>
 
+        <div className="flex items-center space-x-2 sm:space-x-4">
           <nav className="hidden md:flex items-center space-x-6">
             {/* Platform link - only show when authenticated */}
             {isAuthenticated && <Link to="/platform" className={`relative text-sm font-medium transition-colors hover:text-foreground ${isActive('/platform') || isOnPlatform ? 'text-foreground' : 'text-muted-foreground'}`}>
@@ -52,9 +54,6 @@ const Header = () => {
                 {isActive(item.path) && <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>}
               </Link>)}
           </nav>
-        </div>
-
-        <div className="flex items-center space-x-2 sm:space-x-4">
           <div className="hidden md:block">
             <SearchBar />
           </div>
