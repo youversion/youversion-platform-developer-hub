@@ -1,13 +1,53 @@
 import type { ZudokuConfig } from "zudoku";
+import { ZudokuNavigation } from "./components/ZudokuNavigation";
+import DevdocsSearchBar from "./components/DevdocsSearchBar";
+import { getDefaultNavItems } from "../shared/config/navigation";
 
 const config: ZudokuConfig = {
   site: {
     logo: {
       src: { light: "/youversion-logo.png", dark: "/youversion-logo.png" },
       alt: "YouVersion Bible API",
-      width: "40px",
+      width: "30px",
     },
-    title: "YouVersion Bible API Documentation",
+    // banner: {
+    //   message: "Welcome to our documentation!",
+    //   color: "info",
+    //   dismissible: true
+    // },
+    footer: {
+      // Footer configuration goes here
+      position: "center",
+      copyright: `© ${new Date().getFullYear()} YouVersion. All rights reserved.`,
+      // Other options...
+    },
+    title: "YouVersion Platform",
+  },
+  // Add slots configuration to integrate your navigation
+  slots: {
+    "head-title": () => (
+    <div className="flex items-center space-x-2">
+      <img 
+        src="/youversion-logo.png" 
+        alt="YouVersion" 
+        className="h-6 w-6" 
+      />
+      <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        YouVersion Platform
+      </span>
+    </div>
+  ),
+    "head-navigation-end": () => (
+      <div className="flex items-center space-x-4">
+      
+      <ZudokuNavigation
+        isAuthenticated={false}
+        navItems={getDefaultNavItems()}
+      />
+      <DevdocsSearchBar />
+    </div>
+      
+    ),
   },
   theme: {
     light: {
@@ -130,6 +170,18 @@ const config: ZudokuConfig = {
       path: "/api",
     },
   ],
+  // search: {
+  //   type: "pagefind",
+  //   // Optional: Maximum number of sub results per page
+  //   maxSubResults: 3,
+  //   // Optional: Configure search result ranking (defaults shown below)
+  //   ranking: {
+  //     termFrequency: 0.8,
+  //     pageLength: 0.6,
+  //     termSimilarity: 1.2,
+  //     termSaturation: 1.2,
+  //   },
+  // },
 };
 
 
