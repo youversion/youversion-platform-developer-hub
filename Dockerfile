@@ -5,9 +5,11 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json ./
+# Copy devdocs directory needed for postinstall script
+COPY devdocs ./devdocs
 RUN npm ci
 
-# Copy source and build
+# Copy rest of source and build
 COPY . .
 RUN npm run build
 
