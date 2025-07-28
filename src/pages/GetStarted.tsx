@@ -126,7 +126,7 @@ const GetStarted = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">Sign up for a developer account and create an App key to start making requests to the YouVersion APIs.</CardDescription>
-              <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()}></sign-in-with-youversion-button>
+              <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} stroked></sign-in-with-youversion-button>
             </CardContent>
           </Card>
 
