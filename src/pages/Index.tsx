@@ -2,13 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useTheme } from '@/contexts/ThemeContext';
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
 
 // Extend window interface for YouVersion SDK callbacks
@@ -17,6 +11,15 @@ declare global {
     onYouVersionAuthComplete?: (authData: { lat?: string }) => void;
     onYouVersionAuthLoad?: (authData: unknown) => void;
     onYouVersionSignOut?: () => void;
+  }
+}
+
+// Declare custom element for YouVersion sign-in button
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'sign-in-with-youversion-button': any;
+    }
   }
 }
 
@@ -46,6 +49,7 @@ const apps = [
 
 const Index = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [selectedApp, setSelectedApp] = React.useState(() => {
     const currentHostname = window.location.hostname;
     const matchedApp = apps.find((app) => {
@@ -58,6 +62,14 @@ const Index = () => {
     });
     return matchedApp || apps[0];
   });
+
+  // Helper function to get the resolved theme
+  const getResolvedTheme = () => {
+    if (theme === "system") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    return theme;
+  };
 
 
   // Load the YouVersion Platform SDK and set up auth callbacks
@@ -109,38 +121,8 @@ const Index = () => {
             <p className="text-xl mb-8 text-black dark:text-slate-200">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col gap-4 items-center">
               <div className="mb-6">
-                <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri}></sign-in-with-youversion-button>
-                <div className="mt-4">
-                  <Select
-                    onValueChange={(value) => {
-                      const app = apps.find((app) => app.app_id === value);
-                      if (app) {
-                        setSelectedApp(app);
-                      }
-                    }}
-                    defaultValue={selectedApp.app_id}
-                  >
-                    <SelectTrigger className="w-[280px]">
-                      <SelectValue placeholder="Select an app" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {apps.map((app) => (
-                        <SelectItem key={app.app_id} value={app.app_id}>
-                          <div className="flex flex-col">
-                            <div>{app.name}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {app.callback_uri}
-                            </div>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} text="Join the YouVersion Platform"></sign-in-with-youversion-button>
               </div>
-              <Button size="xl" variant="filled-contrast" onClick={() => navigate('/get-started')} className="text-sm font-bold py-[30px] px-[40px]">
-                Join the YouVersion Platform
-              </Button>
               <Button size="xl" variant="filled-secondary" onClick={() => navigate('/docs/quick-start')} className="text-sm font-bold px-[40px] py-[30px]">
                 View Documentation
               </Button>

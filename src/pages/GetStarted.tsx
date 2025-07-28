@@ -2,11 +2,73 @@ import React, { useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Code, User, BookOpen, Zap } from 'lucide-react';
 
+// Extend window interface for YouVersion SDK callbacks
+declare global {
+  interface Window {
+    onYouVersionAuthComplete?: (authData: { lat?: string }) => void;
+    onYouVersionAuthLoad?: (authData: unknown) => void;
+    onYouVersionSignOut?: () => void;
+  }
+}
+
+// Declare custom element for YouVersion sign-in button
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'sign-in-with-youversion-button': any;
+    }
+  }
+}
+
+const apps = [
+  {
+    name: "Lovable Preview Dev Portal",
+    callback_uri: "https://preview--yv-platform-dev.lovable.app/callback",
+    app_id: "gGzypYFGGi7eGzFGYEiSyMnlbtDBfAYQs2YO6AHgE7jrjZIF",
+  },
+  {
+    name: "Lovable Editor Dev Portal",
+    callback_uri: "https://lovable.dev/projects/1db92764-c613-4359-a989-a9a7c646763e/callback",
+    app_id: "gKtUcNTYQ0mcAYte9Uta9KZRUAA4u5FcdOnTYmggiBFtKStJ",
+  },
+  {
+    name: "YV Dev Portal",
+    callback_uri: "https://developers.youversion.com/callback",
+    app_id: "dkV1PqA2YwNdtzGGYlZWAxAk72mJDUWmVd6QeIRqr9WlLjX2",
+  },
+  {
+    name: "Localhost8080 Dev Portal",
+    callback_uri: "http://localhost:8080/callback",
+    app_id: "iAfkrb9YmBbmASXMGPXxxwLXEFXkXa7cyLLwzc2GpQuGgtJW",
+  },
+];
 
 const GetStarted = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const [selectedApp, setSelectedApp] = React.useState(() => {
+    const currentHostname = window.location.hostname;
+    const matchedApp = apps.find((app) => {
+      try {
+        const appHostname = new URL(app.callback_uri).hostname;
+        return appHostname === currentHostname;
+      } catch (e) {
+        return false;
+      }
+    });
+    return matchedApp || apps[0];
+  });
+
+  // Helper function to get the resolved theme
+  const getResolvedTheme = () => {
+    if (theme === "system") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    return theme;
+  };
 
   // Load the YouVersion Platform SDK and set up auth callbacks
   useEffect(() => {
@@ -18,33 +80,33 @@ const GetStarted = () => {
       document.head.appendChild(script);
     }
 
-    // Set a default app ID for the SDK (you can change this)
-    document.body.dataset.youversionPlatformAppId = "HA4jkyN78myh9BIiPE5Bo9FMzBcE5pjGANJOQNIx542llAC3";
+    // Set the app ID for the SDK
+    document.body.dataset.youversionPlatformAppId = selectedApp.app_id;
 
     // Set up auth callback handlers
-    (window as any).onYouVersionAuthComplete = (authData: any) => {
+    window.onYouVersionAuthComplete = (authData: { lat?: string }) => {
       console.log("Login successful!", authData);
       if (authData?.lat) {
-        // Store the LAT token and navigate to platform
+        // Store the LAT token and navigate to callback
         localStorage.setItem('yvp_lat', authData.lat);
-        navigate('/platform');
+        navigate('/callback');
       }
     };
 
-    (window as any).onYouVersionAuthLoad = (authData: any) => {
+    window.onYouVersionAuthLoad = (authData: unknown) => {
       console.log("Auth data loaded:", authData);
     };
 
-    (window as any).onYouVersionSignOut = () => {
+    window.onYouVersionSignOut = () => {
       console.log("User logged out");
       localStorage.removeItem('yvp_lat');
     };
 
-    // Cleanup function
+    // Cleanup function to remove the app ID when component unmounts
     return () => {
       delete (document.body.dataset as Record<string, string>).youversionPlatformAppId;
     };
-  }, [navigate]);
+  }, [navigate, selectedApp]);
 
   return (
     <div className="container py-12">
@@ -64,8 +126,7 @@ const GetStarted = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">Sign up for a developer account and create an App key to start making requests to the YouVersion APIs.</CardDescription>
-              {/* @ts-ignore – custom web component from the YouVersion SDK */}
-              <sign-in-with-youversion-button></sign-in-with-youversion-button>
+              <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()}></sign-in-with-youversion-button>
             </CardContent>
           </Card>
 
