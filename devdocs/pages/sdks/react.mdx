@@ -1,0 +1,564 @@
+---
+title: React SDK
+description: YouVersion Platform SDK for React applications
+---
+<PageBanner 
+  message="Please check this page for inaccuracies."
+  color="caution" 
+  dismissible={false} 
+/>
+
+The YouVersion Platform SDK for React provides hooks and components for integrating Bible content into your React applications.
+
+## Overview
+
+Our React SDK enables you to easily integrate Bible content into your React applications with custom hooks, components, and utilities designed specifically for React development.
+
+## Installation
+
+### Standard Method
+
+You can install this package directly from its GitHub repository. In your project's terminal, run:
+
+```bash
+npm install github:youversion/yvp-react-sdk
+```
+
+### Alternative Method (for CI/CD or Build Tools)
+
+Some build environments (like Docker containers, Netlify, Vercel, or other no-code platforms) may not have SSH configured. If the command above fails with an SSH error, use the `git+https` URL instead:
+
+```bash
+npm install git+https://github.com/youversion/yvp-react-sdk.git
+```
+
+### A Note on Imports
+
+When you install directly from GitHub, the package name is taken from the `package.json` file, not from a scoped NPM registry name. Therefore, your import statements should use `yvp-react-sdk`:
+
+```tsx
+// Correct import
+import { useYouVersionLogin } from 'yvp-react-sdk';
+
+// Incorrect import
+import { useYouVersionLogin } from '@youversion/yvp-react-sdk'; // This will not work
+```
+
+## Quick Start
+
+### How to Use
+
+The SDK is designed to be straightforward. The two main parts you'll use together are:
+
+1. `YouVersionLoginButton`: A pre-styled "Sign in with YouVersion" button component.
+2. `useYouVersionLogin`: A React hook that provides the `login` function for the button and handles the `onSuccess` and `onError` callbacks.
+
+### Step 1: Add the Login Button
+
+In the component where you want your login button, import `YouVersionLoginButton` and `useYouVersionLogin`. Use the hook to get a `login` function, and pass that function to the button's `onClick` prop.
+
+```tsx
+// src/components/Login.tsx
+import React, { useState } from 'react';
+import {
+  YouVersionLoginButton,
+  useYouVersionLogin,
+  LoginSuccess,
+  LoginError,
+} from 'yvp-react-sdk';
+
+const Login = () => {
+  const [loginData, setLoginData] = useState<LoginSuccess | null>(null);
+  const [error, setError] = useState<LoginError | null>(null);
+
+  const { login } = useYouVersionLogin({
+    appId: 'YOUR_YVP_APP_ID', // Replace with your app_id from YVP
+    onSuccess: (result) => {
+      setLoginData(result);
+      setError(null);
+      console.log('Login successful! You can now use the LAT:', result.lat);
+    },
+    onError: (error) => {
+      setError(error);
+      console.error('Login failed:', error);
+    },
+  });
+
+  return (
+    <div>
+      <h2>Sign In</h2>
+      {loginData ? (
+        <div>
+          <p>Welcome! You are logged in.</p>
+        </div>
+      ) : (
+        <YouVersionLoginButton onClick={login} />
+      )}
+      {error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
+    </div>
+  );
+};
+
+export default Login;
+```
+
+### Step 2: Handle the Login Callback
+
+YouVersion will redirect the user to a specific callback URL after they log in. You need to create a page in your application to handle this redirect.
+
+**Important:** You must register this callback URL (e.g., `http://localhost:3000/callback`) in your app's settings on the YouVersion Platform developer portal.
+
+Create a simple component for your callback route that calls the `processLoginCallback` function.
+
+```tsx
+// src/pages/Callback.tsx
+import React, { useEffect } from 'react';
+import { processLoginCallback } from 'yvp-react-sdk';
+
+const CallbackPage = () => {
+  useEffect(() => {
+    // This function handles communication with the main window and closes the popup.
+    processLoginCallback();
+  }, []);
+
+  return <p>Processing login, please wait...</p>;
+};
+
+export default CallbackPage;
+```
+
+### Step 3: Set Up Your Routes
+
+Make sure your application's router is set up to render the `CallbackPage` component at the correct path. Here is an example using `react-router-dom`:
+
+```tsx
+// src/App.tsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import CallbackPage from './pages/Callback';
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/callback" element={<CallbackPage />} />
+        {/* Other routes... */}
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+```
+
+### Step 4 (Optional): Fetching User Data
+
+Once you have a `lat` (Limited Access Token) from a successful login, you can use the included `fetchUserProfile` helper function to get the user's details.
+
+```tsx
+import { fetchUserProfile, UserProfile, LoginSuccess } from 'yvp-react-sdk';
+import { useState } from 'react';
+
+// ... inside your component ...
+
+const [user, setUser] = useState<UserProfile | null>(null);
+
+const handleLoginSuccess = async (loginData: LoginSuccess) => {
+  try {
+    const profile = await fetchUserProfile(loginData.lat);
+    setUser(profile);
+    console.log('User profile:', profile);
+  } catch (e) {
+    console.error("Failed to fetch user profile:", e);
+  }
+};
+```
+
+This will return a `UserProfile` object:
+
+```ts
+interface UserProfile {
+  id: number;
+  first_name: string;
+  last_name: string;
+  avatar_url: string; // A URL template, e.g. "//.../{width}x{height}/...jpg"
+}
+```
+
+## Provider Setup
+
+Wrap your app with the YouVersion Platform provider:
+
+```tsx
+import { YouVersionProvider } from 'yvp-react-sdk';
+
+function App() {
+  return (
+    <YouVersionProvider apiKey="YOUR_APP_ID">
+      <YourApp />
+    </YouVersionProvider>
+  );
+}
+```
+
+## Hooks
+
+### useYouVersionLogin
+
+The main hook for handling YouVersion authentication:
+
+```tsx
+const { login } = useYouVersionLogin({
+  appId: 'YOUR_YVP_APP_ID',
+  onSuccess: (result) => {
+    console.log('Login successful:', result.lat);
+  },
+  onError: (error) => {
+    console.error('Login failed:', error);
+  },
+});
+```
+
+### useBibles
+
+Get all available Bible versions:
+
+```tsx
+const { data: bibles, loading, error } = useBibles();
+```
+
+### useBible
+
+Get a specific Bible version:
+
+```tsx
+const { data: bible, loading, error } = useBible(111);
+```
+
+### useBooks
+
+Get books for a Bible version:
+
+```tsx
+const { data: books, loading, error } = useBooks(111);
+```
+
+### useChapter
+
+Get chapter content:
+
+```tsx
+const { data: chapter, loading, error } = useChapter({
+  bibleId: 111,
+  bookUsfm: 'JHN',
+  chapterNumber: 3
+});
+```
+
+### useSearch
+
+Search Bible content:
+
+```tsx
+const { data: results, loading, error, search } = useSearch();
+
+// Trigger search
+search('love', { bibleId: 111 });
+```
+
+## Components
+
+### YouVersionLoginButton
+
+A pre-styled "Sign in with YouVersion" button component:
+
+```tsx
+import { YouVersionLoginButton } from 'yvp-react-sdk';
+
+function LoginComponent() {
+  const { login } = useYouVersionLogin({
+    appId: 'YOUR_APP_ID',
+    onSuccess: (result) => console.log('Success:', result),
+    onError: (error) => console.error('Error:', error),
+  });
+
+  return <YouVersionLoginButton onClick={login} />;
+}
+```
+
+### BibleSelector
+
+A pre-built component for selecting Bible versions:
+
+```tsx
+import { BibleSelector } from 'yvp-react-sdk';
+
+function MyComponent() {
+  const [selectedBible, setSelectedBible] = useState(111);
+  
+  return (
+    <BibleSelector
+      value={selectedBible}
+      onChange={setSelectedBible}
+      placeholder="Select a Bible version"
+    />
+  );
+}
+```
+
+### VerseDisplay
+
+Display Bible verses with formatting:
+
+```tsx
+import { VerseDisplay } from 'yvp-react-sdk';
+
+function VerseComponent() {
+  return (
+    <VerseDisplay
+      bibleId={111}
+      bookUsfm="JHN"
+      chapterNumber={3}
+      verseNumber={16}
+      showVerseNumbers={true}
+      showFootnotes={true}
+    />
+  );
+}
+```
+
+## Configuration
+
+### Provider Options
+
+```tsx
+<YouVersionProvider
+  apiKey="YOUR_APP_ID"
+  baseUrl="https://api.youversion.com/v1"
+  cacheOptions={{
+    maxAge: 3600, // 1 hour
+    maxSize: 100
+  }}
+>
+  <YourApp />
+</YouVersionProvider>
+```
+
+## Error Handling
+
+The SDK provides comprehensive error handling:
+
+```tsx
+function ErrorBoundary({ children }) {
+  const [error, setError] = useState(null);
+  
+  if (error) {
+    return (
+      <div className="error">
+        <h2>Something went wrong</h2>
+        <p>{error.message}</p>
+        <button onClick={() => setError(null)}>Try again</button>
+      </div>
+    );
+  }
+  
+  return children;
+}
+```
+
+## Examples
+
+### Complete Login Implementation
+
+```tsx
+import React, { useState } from 'react';
+import {
+  YouVersionLoginButton,
+  useYouVersionLogin,
+  LoginSuccess,
+  LoginError,
+  fetchUserProfile,
+  UserProfile,
+} from 'yvp-react-sdk';
+
+const LoginApp = () => {
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const { login } = useYouVersionLogin({
+    appId: 'YOUR_YVP_APP_ID',
+    onSuccess: async (loginData: LoginSuccess) => {
+      setIsLoading(true);
+      try {
+        const profile = await fetchUserProfile(loginData.lat);
+        setUser(profile);
+        setError(null);
+      } catch (e) {
+        setError('Failed to fetch user profile');
+        console.error(e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    onError: (error: LoginError) => {
+      setError(error.message);
+      setIsLoading(false);
+    },
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <h1>YouVersion Login Demo</h1>
+      {user ? (
+        <div>
+          <h2>Welcome, {user.first_name}!</h2>
+          <p>You are successfully logged in.</p>
+          <button onClick={() => setUser(null)}>Logout</button>
+        </div>
+      ) : (
+        <div>
+          <YouVersionLoginButton onClick={login} />
+          {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LoginApp;
+```
+
+### Bible Reader Component
+
+```tsx
+import { useBible, useChapter, VerseDisplay } from 'yvp-react-sdk';
+
+function BibleReader({ bibleId, bookUsfm, chapterNumber }) {
+  const { data: bible } = useBible(bibleId);
+  const { data: chapter, loading } = useChapter({
+    bibleId,
+    bookUsfm,
+    chapterNumber
+  });
+  
+  if (loading) return <div>Loading chapter...</div>;
+  
+  return (
+    <div>
+      <h1>{bible?.name} - {bookUsfm} {chapterNumber}</h1>
+      <VerseDisplay
+        bibleId={bibleId}
+        bookUsfm={bookUsfm}
+        chapterNumber={chapterNumber}
+        showVerseNumbers={true}
+      />
+    </div>
+  );
+}
+```
+
+### Search Component
+
+```tsx
+import { useSearch } from 'yvp-react-sdk';
+
+function SearchComponent() {
+  const [query, setQuery] = useState('');
+  const { data: results, loading, search } = useSearch();
+  
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (query.trim()) {
+      search(query, { bibleId: 111 });
+    }
+  };
+  
+  return (
+    <div>
+      <form onSubmit={handleSearch}>
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search Bible..."
+        />
+        <button type="submit">Search</button>
+      </form>
+      
+      {loading && <div>Searching...</div>}
+      
+      {results?.map((result, index) => (
+        <div key={index}>
+          <h3>{result.reference}</h3>
+          <p>{result.text}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+## Running the Demo App
+
+This repository includes a functional demo application in the `/example` directory that demonstrates a complete implementation.
+
+1. Navigate to the `/example` directory: `cd example`
+2. Install dependencies: `npm install`
+3. Start the development server: `npm start`
+
+The demo will open at `http://localhost:3000`.
+
+## Adding to package.json directly
+
+Instead of running `npm install` you can declare the dependency in your **package.json** like this:
+
+```json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "yvp-react-sdk": "git+https://github.com/youversion/yvp-react-sdk.git"
+  }
+}
+```
+
+Then run `npm install` and the SDK will be pulled from GitHub using HTTPS.
+
+## TypeScript Support
+
+The SDK includes full TypeScript support:
+
+```tsx
+import type { 
+  Bible, 
+  Book, 
+  Chapter, 
+  SearchResult, 
+  LoginSuccess, 
+  LoginError, 
+  UserProfile 
+} from 'yvp-react-sdk';
+
+interface BibleAppProps {
+  initialBibleId: number;
+}
+
+interface LoginComponentProps {
+  onLoginSuccess: (data: LoginSuccess) => void;
+  onLoginError: (error: LoginError) => void;
+}
+```
+
+## Support
+
+For support with the React SDK:
+
+- **Documentation**: [SDK Reference](/sdks/react/reference)
+- **GitHub**: [YouVersion Platform React](https://github.com/youversion/yvp-react-sdk)
+- **Issues**: [GitHub Issues](https://github.com/youversion/yvp-react-sdk/issues) 

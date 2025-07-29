@@ -2,6 +2,11 @@
 title: Examples
 description: Practical examples and use cases for the YouVersion Bible API
 ---
+<PageBanner 
+  message="Please check this page for inaccuracies."
+  color="caution" 
+  dismissible={false} 
+/>
 
 This page provides practical examples of how to use the YouVersion Bible API in real-world scenarios. Each example includes code snippets in multiple programming languages.
 
@@ -18,13 +23,13 @@ async function getDailyVerse() {
   try {
     // Get NIV Bible (ID: 111)
     const bibleResponse = await fetch('https://api.youversion.com/v1/bibles/111', {
-      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+      headers: { 'X-App-Id': 'YOUR_APP_ID' }
     });
     
     // Get John 3:16
     const verseResponse = await fetch(
       'https://api.youversion.com/v1/bibles/111/books/JHN/chapters/3/verses',
-      { headers: { 'X-App-Id': 'YOUR_API_KEY' } }
+      { headers: { 'X-App-Id': 'YOUR_APP_ID' } }
     );
     
     const verses = await verseResponse.json();
@@ -47,7 +52,7 @@ import requests
 import random
 
 def get_daily_verse():
-    headers = {'X-App-Id': 'YOUR_API_KEY'}
+    headers = {'X-App-Id': 'YOUR_APP_ID'}
     
     # Get a random book (simplified - you'd want to get all books first)
     books = ['GEN', 'EXO', 'MAT', 'JHN', 'ROM', 'REV']
@@ -92,7 +97,7 @@ function BibleSearch() {
   useEffect(() => {
     // Load available Bibles
     fetch('https://api.youversion.com/v1/bibles', {
-      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+      headers: { 'X-App-Id': 'YOUR_APP_ID' }
     })
     .then(response => response.json())
     .then(data => setBibles(data.data));
@@ -100,7 +105,7 @@ function BibleSearch() {
 
   const loadBooks = (bibleId) => {
     fetch(`https://api.youversion.com/v1/bibles/${bibleId}/books`, {
-      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+      headers: { 'X-App-Id': 'YOUR_APP_ID' }
     })
     .then(response => response.json())
     .then(data => setBooks(data.data));
@@ -108,7 +113,7 @@ function BibleSearch() {
 
   const loadChapters = (bibleId, bookUsfm) => {
     fetch(`https://api.youversion.com/v1/bibles/${bibleId}/books/${bookUsfm}/chapters`, {
-      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+      headers: { 'X-App-Id': 'YOUR_APP_ID' }
     })
     .then(response => response.json())
     .then(data => setChapters(data.data));
@@ -116,7 +121,7 @@ function BibleSearch() {
 
   const loadVerses = (bibleId, bookUsfm, chapterNumber) => {
     fetch(`https://api.youversion.com/v1/bibles/${bibleId}/books/${bookUsfm}/chapters/${chapterNumber}/verses`, {
-      headers: { 'X-App-Id': 'YOUR_API_KEY' }
+      headers: { 'X-App-Id': 'YOUR_APP_ID' }
     })
     .then(response => response.json())
     .then(data => setVerses(data.data));
@@ -200,7 +205,7 @@ import requests
 
 app = Flask(__name__)
 
-API_KEY = 'YOUR_API_KEY'
+API_KEY = 'YOUR_APP_ID'
 BASE_URL = 'https://api.youversion.com/v1'
 
 @app.route('/')
@@ -217,11 +222,11 @@ def get_bibles():
     
     return jsonify(response.json())
 
-@app.route('/api/verse/<int:bible_id>/<book>/<int:chapter>/<int:verse>')
-def get_verse(bible_id, book, chapter, verse):
+@app.route('/api/verse/<int:version_id>/<book>/<int:chapter>/<int:verse>')
+def get_verse(version_id, book, chapter, verse):
     # Get all verses in the chapter
     response = requests.get(
-        f'{BASE_URL}/bibles/{bible_id}/books/{book}/chapters/{chapter}/verses',
+        f'{BASE_URL}/bibles/{version_id}/books/{book}/chapters/{chapter}/verses',
         headers={'X-App-Id': API_KEY}
     )
     
@@ -239,10 +244,10 @@ def get_parallel_verse(book, chapter, verse):
     bibles = [111, 112, 113]  # NIV, KJV, ESV
     parallel_verses = []
     
-    for bible_id in bibles:
+    for version_id in bibles:
         try:
             response = requests.get(
-                f'{BASE_URL}/bibles/{bible_id}/books/{book}/chapters/{chapter}/verses',
+                f'{BASE_URL}/bibles/{version_id}/books/{book}/chapters/{chapter}/verses',
                 headers={'X-App-Id': API_KEY}
             )
             
@@ -250,7 +255,7 @@ def get_parallel_verse(book, chapter, verse):
                 verses = response.json()['data']
                 if verse <= len(verses):
                     parallel_verses.append({
-                        'bible_id': bible_id,
+                        'version_id': version_id,
                         'verse': verses[verse - 1]
                     })
         except:
@@ -270,18 +275,18 @@ Create a tool that helps users study specific passages with context.
 
 ```javascript
 class BibleStudyTool {
-  constructor(apiKey) {
-    this.apiKey = apiKey;
+  constructor(appId) {
+    this.appId = appId;
     this.baseUrl = 'https://api.youversion.com/v1';
   }
 
-  async getPassage(bibleId, book, startChapter, startVerse, endChapter, endVerse) {
+  async getPassage(versionId, book, startChapter, startVerse, endChapter, endVerse) {
     const passage = [];
     
     for (let chapter = startChapter; chapter <= endChapter; chapter++) {
       const response = await fetch(
-        `${this.baseUrl}/bibles/${bibleId}/books/${book}/chapters/${chapter}/verses`,
-        { headers: { 'X-App-Id': this.apiKey } }
+        `${this.baseUrl}/bibles/${versionId}/books/${book}/chapters/${chapter}/verses`,
+        { headers: { 'X-App-Id': this.appId } }
       );
       
       const verses = await response.json();
@@ -306,22 +311,22 @@ class BibleStudyTool {
     return passage;
   }
 
-  async getCrossReferences(bibleId, book, chapter, verse) {
+  async getCrossReferences(versionId, book, chapter, verse) {
     // This would integrate with a cross-reference API
     // For now, we'll return related verses from the same book
     const response = await fetch(
-      `${this.baseUrl}/bibles/${bibleId}/books/${book}/chapters/${chapter}/verses`,
-      { headers: { 'X-App-Id': this.apiKey } }
+      `${this.baseUrl}/bibles/${versionId}/books/${book}/chapters/${chapter}/verses`,
+      { headers: { 'X-App-Id': this.appId } }
     );
     
     const verses = await response.json();
     return verses.data.slice(Math.max(0, verse - 2), verse + 1);
   }
 
-  async getBibleInfo(bibleId) {
+  async getBibleInfo(versionId) {
     const response = await fetch(
-      `${this.baseUrl}/bibles/${bibleId}`,
-      { headers: { 'X-App-Id': this.apiKey } }
+      `${this.baseUrl}/bibles/${versionId}`,
+      { headers: { 'X-App-Id': this.appId } }
     );
     
     return response.json();
@@ -329,7 +334,7 @@ class BibleStudyTool {
 }
 
 // Usage
-const studyTool = new BibleStudyTool('YOUR_API_KEY');
+const studyTool = new BibleStudyTool('YOUR_APP_ID');
 
 async function studyPassage() {
   try {
@@ -370,7 +375,7 @@ const fetch = require('node-fetch');
 const app = express();
 app.use(express.json());
 
-const API_KEY = 'YOUR_API_KEY';
+const APP_ID = 'YOUR_APP_ID';
 const BASE_URL = 'https://api.youversion.com/v1';
 
 // In-memory storage (use a database in production)

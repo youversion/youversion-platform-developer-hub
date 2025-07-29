@@ -3,22 +3,28 @@ title: Authentication
 description: Learn how to authenticate with the YouVersion Bible API
 ---
 
-The YouVersion Bible API uses API key authentication to secure all requests. This ensures that only authorized applications can access the API.
+<PageBanner 
+  message="Please check this page for inaccuracies."
+  color="caution" 
+  dismissible={false} 
+/>
 
-## API Key Authentication
+The YouVersion Bible API uses App ID authentication to secure all requests. This ensures that only authorized applications can access the API.
 
-All API requests must include your API key in the `X-App-Id` header. This header is required for every endpoint.
+## App ID Authentication
+
+All API requests must include your App ID in the `X-App-Id` header. This header is required for every endpoint.
 
 ### Header Format
 
 ```
-X-App-Id: YOUR_API_KEY
+X-App-Id: YOUR_APP_ID
 ```
 
 ### Example Request
 
 ```bash
-curl -H "X-App-Id: YOUR_API_KEY" \
+curl -H "X-App-Id: YOUR_APP_ID" \
      https://api.youversion.com/v1/bibles
 ```
 
@@ -40,19 +46,19 @@ curl -H "X-App-Id: YOUR_API_KEY" \
 }
 ```
 
-## Getting Your API Key
+## Getting Your App ID
 
-To obtain an API key for the YouVersion Bible API:
+To obtain an App ID for the YouVersion Bible API:
 
 1. Contact the YouVersion Platform Team
 2. Provide details about your application and use case
-3. Receive your unique API key
+3. Receive your unique App ID
 
 ## Security Best Practices
 
-- **Keep your API key secure**: Never expose your API key in client-side code or public repositories
-- **Use environment variables**: Store your API key in environment variables or secure configuration files
-- **Rotate keys regularly**: Consider rotating your API key periodically for enhanced security
+- **Keep your App ID secure**: Never expose your App ID in client-side code or public repositories
+- **Use environment variables**: Store your App ID in environment variables or secure configuration files
+- **Rotate keys regularly**: Consider rotating your App ID periodically for enhanced security
 - **Monitor usage**: Keep track of your API usage to detect any unauthorized access
 
 ## Error Responses
@@ -62,13 +68,13 @@ If authentication fails, you'll receive a `401 Unauthorized` response:
 ```json
 {
   "error": "Unauthorized",
-  "message": "Invalid or missing API key"
+  "message": "Invalid or missing App ID"
 }
 ```
 
 ## Rate Limiting
 
-API keys are subject to rate limiting to ensure fair usage. Check the response headers for rate limit information:
+App IDs are subject to rate limiting to ensure fair usage. Check the response headers for rate limit information:
 
 - `X-RateLimit-Limit`: Maximum requests per time window
 - `X-RateLimit-Remaining`: Remaining requests in current window
@@ -82,4 +88,4 @@ The API is available in multiple environments:
 - **Production**: `https://api.youversion.com/v1`
 - **Local**: `http://127.0.0.1:8000/v1` (for development purposes)
 
-Use the appropriate environment for your use case and ensure your API key is valid for the environment you're targeting. 
+Use the appropriate environment for your use case and ensure your App ID is valid for the environment you're targeting. 

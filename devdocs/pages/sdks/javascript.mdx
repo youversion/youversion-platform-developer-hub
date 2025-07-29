@@ -1,0 +1,512 @@
+---
+title: JavaScript SDK
+description: YouVersion Platform SDK for JavaScript and Node.js applications
+---
+<PageBanner 
+  message="Please check this page for inaccuracies."
+  color="caution" 
+  dismissible={false} 
+/>
+
+The YouVersion Platform SDK for JavaScript provides a comprehensive library for integrating Bible content into your JavaScript and Node.js applications.
+
+## Overview
+
+Our JavaScript SDK enables you to access Bible content, search functionality, and YouVersion Platform features from any JavaScript environment - browsers, Node.js, or other JavaScript runtimes.
+
+## Installation
+
+### Via CDN
+
+The easiest way to get started is via CDN:
+
+```html
+<script type="module" src="https://api-dev.youversion.com/sdk.js"></script>
+```
+
+### npm (coming soon)
+
+```bash
+npm install @youversion/yvp-javascript-sdk
+```
+
+## Quick Start
+
+### Add App ID
+
+Get your App ID from your friendly neighborhood YouVersion Platform representative. The App ID is not a secret and can be exposed in your code.
+
+Add the App ID to your page either on the body element or in a script tag:
+
+```html
+<body data-youversion-platform-app-id='YOUR_APP_ID'>
+```
+
+### Display a Bible verse
+
+```html
+<bible-text usfm="JHN.3.16" version="111"></bible-text>
+```
+
+Or for a range:
+
+```html
+<bible-text usfm="JHN.3.16-JHN.3.17" version="111"></bible-text>
+```
+
+### Display the Verse of the Day
+
+```html
+<votd-text version="111"></votd-text>
+```
+
+### Add a Login Button
+
+```html
+<sign-in-with-youversion-button></sign-in-with-youversion-button>
+```
+
+To handle authentication events, add these callback functions:
+
+```javascript
+<script>
+    window.onYouVersionAuthComplete = function(authData) {
+        // Called when user successfully authenticates
+        console.log('Auth completed:', authData.token, authData.lat, authData.yvp_user_id);
+        // Handle successful login (e.g., redirect, store token, update UI)
+    };
+    
+    window.onYouVersionAuthLoad = function(authData) {
+        // Called when auth data loads (user already signed in)
+        console.log('Auth loaded:', authData.token, authData.lat, authData.yvp_user_id);
+        // Handle existing authentication state
+    };
+    
+    window.onYouVersionSignOut = function() {
+        // Called when user logs out
+        console.log('User logged out');
+        // Handle logout (e.g., clear data, update UI)
+    };
+</script>
+```
+
+## Web Components
+
+### Bible Text Component
+
+Display Bible verses with automatic formatting:
+
+```html
+<!-- Single verse -->
+<bible-text usfm="JHN.3.16" version="111"></bible-text>
+
+<!-- Verse range -->
+<bible-text usfm="JHN.3.16-JHN.3.17" version="111"></bible-text>
+
+<!-- Multiple verses -->
+<bible-text usfm="JHN.3.16,MAT.5.3-5" version="111"></bible-text>
+```
+
+### Verse of the Day Component
+
+Display the current verse of the day:
+
+```html
+<!-- Default version -->
+<votd-text></votd-text>
+
+<!-- Specific version -->
+<votd-text version="111"></votd-text>
+
+<!-- With reference only -->
+<votd-reference></votd-reference>
+```
+
+### Login Button Component
+
+Pre-styled YouVersion login button:
+
+```html
+<sign-in-with-youversion-button></sign-in-with-youversion-button>
+```
+
+## Features
+
+- **Bible Text**: Display Bible verses with version support
+- **Verse of the Day**: Show the daily verse
+- **Login**: YouVersion OAuth login functionality
+- **Web Components**: Custom HTML elements for easy integration
+- **Authentication**: Complete OAuth flow with callbacks
+- **Multiple Versions**: Support for hundreds of Bible translations
+- **Responsive Design**: Components adapt to different screen sizes
+
+## API Methods
+
+### Bible Operations
+
+```javascript
+// Get all Bible versions
+const bibles = await platform.getBibles();
+
+// Get specific Bible version
+const bible = await platform.getBible(bibleId);
+
+// Get Bible with language filter
+const bibles = await platform.getBibles({
+  languageRanges: ['en', 'es']
+});
+```
+
+### Book Operations
+
+```javascript
+// Get all books for a Bible version
+const books = await platform.getBooks(bibleId);
+
+// Get specific book
+const book = await platform.getBook(bibleId, bookUsfm);
+
+// Get book content
+const content = await platform.getBookContent(bibleId, bookUsfm);
+```
+
+### Chapter Operations
+
+```javascript
+// Get chapters for a book
+const chapters = await platform.getChapters(bibleId, bookUsfm);
+
+// Get specific chapter
+const chapter = await platform.getChapter(bibleId, bookUsfm, chapterNumber);
+
+// Get chapter content
+const content = await platform.getChapterContent(bibleId, bookUsfm, chapterNumber);
+```
+
+### Verse Operations
+
+```javascript
+// Get verses for a chapter
+const verses = await platform.getVerses(bibleId, bookUsfm, chapterNumber);
+
+// Get specific verse
+const verse = await platform.getVerse(bibleId, bookUsfm, chapterNumber, verseNumber);
+
+// Get verse range
+const verses = await platform.getVerseRange(bibleId, bookUsfm, chapterNumber, startVerse, endVerse);
+```
+
+### Search Operations
+
+```javascript
+// Search Bible content
+const results = await platform.search(query, {
+  bibleId: 111,
+  bookUsfm: 'JHN',
+  chapterNumber: 3
+});
+
+// Advanced search with options
+const results = await platform.search('love', {
+  bibleId: 111,
+  limit: 10,
+  offset: 0,
+  highlight: true
+});
+```
+
+## Error Handling
+
+The SDK provides comprehensive error handling:
+
+```javascript
+try {
+  const bibles = await platform.getBibles();
+  console.log('Success:', bibles);
+} catch (error) {
+  if (error.code === 'INVALID_API_KEY') {
+    console.error('Invalid App ID');
+  } else if (error.code === 'RATE_LIMIT_EXCEEDED') {
+    console.error('Rate limit exceeded');
+  } else {
+    console.error('Unexpected error:', error.message);
+  }
+}
+```
+
+## Configuration Options
+
+```javascript
+const platform = new YouVersionPlatform({
+  apiKey: 'YOUR_APP_ID',
+  baseUrl: 'https://api.youversion.com/v1',
+  timeout: 30000, // 30 seconds
+  retries: 3,
+  cache: {
+    enabled: true,
+    maxAge: 3600, // 1 hour
+    maxSize: 100
+  }
+});
+```
+
+## Browser Usage
+
+### ES6 Modules
+
+```javascript
+import { YouVersionPlatform } from '@youversion/platform-js';
+
+const platform = new YouVersionPlatform({
+  apiKey: 'YOUR_APP_ID'
+});
+```
+
+### UMD (Universal Module Definition)
+
+```html
+<script src="https://unpkg.com/@youversion/platform-js@latest/dist/index.umd.js"></script>
+<script>
+  const platform = new YouVersionPlatform.Platform({
+    apiKey: 'YOUR_APP_ID'
+  });
+</script>
+```
+
+## Node.js Usage
+
+```javascript
+const { YouVersionPlatform } = require('@youversion/platform-js');
+
+const platform = new YouVersionPlatform({
+  apiKey: 'YOUR_APP_ID'
+});
+
+async function getBibleContent() {
+  try {
+    const bibles = await platform.getBibles();
+    console.log('Available bibles:', bibles);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+getBibleContent();
+```
+
+## Examples
+
+### Complete Bible Reader Application
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Reader</title>
+    <script type="module" src="https://api-dev.youversion.com/sdk.js"></script>
+</head>
+<body data-youversion-platform-app-id='YOUR_APP_ID'>
+    <header>
+        <h1>Bible Reader</h1>
+        <sign-in-with-youversion-button></sign-in-with-youversion-button>
+    </header>
+    
+    <main>
+        <section>
+            <h2>Verse of the Day</h2>
+            <votd-text version="111"></votd-text>
+        </section>
+        
+        <section>
+            <h2>John 3:16</h2>
+            <bible-text usfm="JHN.3.16" version="111"></bible-text>
+        </section>
+        
+        <section>
+            <h2>Multiple Verses</h2>
+            <bible-text usfm="JHN.3.16-JHN.3.17,MAT.5.3-5" version="111"></bible-text>
+        </section>
+    </main>
+
+    <script>
+        // Handle authentication events
+        window.onYouVersionAuthComplete = function(authData) {
+            console.log('Login successful:', authData);
+            // Update UI to show user is logged in
+            document.querySelector('header').innerHTML += '<p>Welcome! You are logged in.</p>';
+        };
+        
+        window.onYouVersionAuthLoad = function(authData) {
+            console.log('User already authenticated:', authData);
+            // User was already logged in
+        };
+        
+        window.onYouVersionSignOut = function() {
+            console.log('User logged out');
+            // Update UI to show user is logged out
+        };
+    </script>
+</body>
+</html>
+```
+
+### Dynamic Bible Content
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Bible Content</title>
+    <script type="module" src="https://api-dev.youversion.com/sdk.js"></script>
+</head>
+<body data-youversion-platform-app-id='YOUR_APP_ID'>
+    <div id="bible-content">
+        <h2>Loading...</h2>
+    </div>
+    
+    <button onclick="loadVerse()">Load John 3:16</button>
+    <button onclick="loadChapter()">Load John 3</button>
+
+    <script>
+        function loadVerse() {
+            const container = document.getElementById('bible-content');
+            container.innerHTML = '<bible-text usfm="JHN.3.16" version="111"></bible-text>';
+        }
+        
+        function loadChapter() {
+            const container = document.getElementById('bible-content');
+            container.innerHTML = '<bible-text usfm="JHN.3" version="111"></bible-text>';
+        }
+        
+        // Load initial content
+        loadVerse();
+    </script>
+</body>
+</html>
+```
+
+### Search Implementation
+
+```javascript
+async function searchBible(query, bibleId = 111) {
+  try {
+    const results = await platform.search(query, {
+      bibleId,
+      limit: 20,
+      highlight: true
+    });
+
+    return results.map(result => ({
+      reference: result.reference,
+      text: result.text,
+      bible: result.bible.name,
+      score: result.score
+    }));
+  } catch (error) {
+    console.error('Search failed:', error);
+    return [];
+  }
+}
+
+// Usage
+const results = await searchBible('love');
+results.forEach(result => {
+  console.log(`${result.reference}: ${result.text}`);
+});
+```
+
+### Caching Implementation
+
+```javascript
+class CachedBiblePlatform extends YouVersionPlatform {
+  constructor(config) {
+    super(config);
+    this.cache = new Map();
+  }
+
+  async getBible(id) {
+    const cacheKey = `bible_${id}`;
+    
+    if (this.cache.has(cacheKey)) {
+      return this.cache.get(cacheKey);
+    }
+
+    const bible = await super.getBible(id);
+    this.cache.set(cacheKey, bible);
+    return bible;
+  }
+
+  async getChapter(bibleId, bookUsfm, chapterNumber) {
+    const cacheKey = `chapter_${bibleId}_${bookUsfm}_${chapterNumber}`;
+    
+    if (this.cache.has(cacheKey)) {
+      return this.cache.get(cacheKey);
+    }
+
+    const chapter = await super.getChapter(bibleId, bookUsfm, chapterNumber);
+    this.cache.set(cacheKey, chapter);
+    return chapter;
+  }
+}
+```
+
+## Development
+
+### Building the SDK
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Build the SDK:
+   ```bash
+   npm run build
+   ```
+
+3. Deploy to GCP (requires gcloud CLI and permissions):
+   ```bash
+   chmod +x deploy.sh
+   ./deploy.sh
+   ```
+
+## TypeScript Support
+
+The SDK includes full TypeScript support:
+
+```typescript
+import { YouVersionPlatform, Bible, Book, Chapter, Verse } from '@youversion/platform-js';
+
+interface BibleReaderConfig {
+  apiKey: string;
+  defaultBibleId?: number;
+}
+
+class BibleReader {
+  private platform: YouVersionPlatform;
+  
+  constructor(config: BibleReaderConfig) {
+    this.platform = new YouVersionPlatform(config);
+  }
+
+  async getBible(id: number): Promise<Bible> {
+    return await this.platform.getBible(id);
+  }
+
+  async getChapter(bibleId: number, bookUsfm: string, chapterNumber: number): Promise<Chapter> {
+    return await this.platform.getChapter(bibleId, bookUsfm, chapterNumber);
+  }
+}
+```
+
+## Support
+
+For support with the JavaScript SDK:
+
+- **Documentation**: [SDK Reference](/sdks/javascript/reference)
+- **GitHub**: [YouVersion Platform JS](https://github.com/youversion/yvp-javascript-sdk)
+- **Issues**: [GitHub Issues](https://github.com/youversion/yvp-javascript-sdk/issues) 

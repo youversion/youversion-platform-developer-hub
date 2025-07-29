@@ -2,6 +2,11 @@
 title: Quick Reference
 description: Quick reference guide for the YouVersion Bible API
 ---
+<PageBanner 
+  message="Please check this page for inaccuracies."
+  color="caution" 
+  dismissible={false} 
+/>
 
 This page provides a quick overview of the YouVersion Bible API endpoints and common usage patterns.
 
@@ -16,7 +21,7 @@ This page provides a quick overview of the YouVersion Bible API endpoints and co
 All requests require the `X-App-Id` header:
 
 ```bash
-X-App-Id: YOUR_API_KEY
+X-App-Id: YOUR_APP_ID
 ```
 
 ## Endpoints Overview
@@ -78,28 +83,28 @@ All successful responses follow this format:
 ### Get All Bible Versions
 
 ```bash
-curl -H "X-App-Id: YOUR_API_KEY" \
+curl -H "X-App-Id: YOUR_APP_ID" \
      https://api.youversion.com/v1/bibles
 ```
 
 ### Get NIV Bible Details
 
 ```bash
-curl -H "X-App-Id: YOUR_API_KEY" \
+curl -H "X-App-Id: YOUR_APP_ID" \
      https://api.youversion.com/v1/bibles/111
 ```
 
 ### Get Books in NIV
 
 ```bash
-curl -H "X-App-Id: YOUR_API_KEY" \
+curl -H "X-App-Id: YOUR_APP_ID" \
      https://api.youversion.com/v1/bibles/111/books
 ```
 
 ### Get John Chapter 3 Verses
 
 ```bash
-curl -H "X-App-Id: YOUR_API_KEY" \
+curl -H "X-App-Id: YOUR_APP_ID" \
      https://api.youversion.com/v1/bibles/111/books/JHN/chapters/3/verses
 ```
 
