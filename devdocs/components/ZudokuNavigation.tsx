@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getPlatformUrl, getDevdocsUrl, getCurrentSiteUrl } from '../../shared/config/urls';
 import { NavItem, getDefaultNavItems } from '../../shared/config/navigation';
 
@@ -11,12 +11,15 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
   navItems = [],
   isAuthenticated = false
 }) => {
-  //const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOnDevdocsSite, setIsOnDevdocsSite] = useState(false);
 
-  // Check if we're on the devdocs site
-  const currentSiteUrl = getCurrentSiteUrl();
-  const devdocsUrl = getDevdocsUrl();
-  const isOnDevdocsSite = currentSiteUrl === devdocsUrl;
+  // Check if we're on the devdocs site - only on client-side to avoid hydration issues
+  useEffect(() => {
+    const currentSiteUrl = getCurrentSiteUrl();
+    const devdocsUrl = getDevdocsUrl();
+    setIsOnDevdocsSite(currentSiteUrl === devdocsUrl);
+  }, []);
+
   // Use shared navigation configuration but override for devdocs site
   const defaultNavItems = getDefaultNavItems();
   const finalNavItems = navItems.length > 0 ? navItems : defaultNavItems;

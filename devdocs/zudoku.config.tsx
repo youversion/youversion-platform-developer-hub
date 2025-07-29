@@ -2,13 +2,14 @@ import type { ZudokuConfig } from "zudoku";
 import { ZudokuNavigation } from "./components/ZudokuNavigation";
 import DevdocsSearchBar from "./components/DevdocsSearchBar";
 import { getDefaultNavItems } from "../shared/config/navigation";
+import { PageBanner } from "./components/PageBanner";
 
 const config: ZudokuConfig = {
   site: {
     logo: {
       src: { light: "/youversion-logo.png", dark: "/youversion-logo.png" },
       alt: "YouVersion Bible API",
-      width: "30px",
+      width: "32px",
     },
     // banner: {
     //   message: "Welcome to our documentation!",
@@ -18,25 +19,20 @@ const config: ZudokuConfig = {
     footer: {
       // Footer configuration goes here
       position: "center",
-      copyright: `© ${new Date().getFullYear()} YouVersion. All rights reserved.`,
+      copyright: `© 2025 YouVersion. All rights reserved.`,
       // Other options...
     },
     title: "YouVersion Platform",
   },
+  // Add MDX components configuration
+  mdx: {
+    components: {
+      PageBanner: PageBanner as any,
+    },
+  },
   // Add slots configuration to integrate your navigation
   slots: {
-    "head-title": () => (
-    <div className="flex items-center space-x-2">
-      <img 
-        src="/youversion-logo.png" 
-        alt="YouVersion" 
-        className="h-6 w-6" 
-      />
-      <span className="font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-        YouVersion Platform
-      </span>
-    </div>
-  ),
+    "head-title": () => null,
     "head-navigation-end": () => (
       <div className="flex items-center space-x-4">
       
@@ -91,12 +87,46 @@ const config: ZudokuConfig = {
       border: "oklch(28% 0.037 260)",
       input: "oklch(28% 0.037 260)",
       ring: "212.7 26.8% 83.9"
-    }
+    },
+    // Add custom CSS to override header styling
+    customCss: `
+      /* Import Inter font */
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+      
+      /* Set Inter as the base font family globally */
+      * {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+      }
+      
+      /* Ensure body and html also use Inter */
+      body, html {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+      }
+      /* Override Zudoku header container to match main site styling */
+      header .max-w-screen-2xl {
+        max-width: 1400px !important;
+        width: 1400px !important;
+        font-weight: 500 !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+        }
+      /* Override Zudoku header fonts to match main site styling */
+      header .max-w-screen-2xl .flex a .font-semibold.text-2xl {
+        font-weight: 700 !important;
+        font-size: 18px !important;
+        letter-spacing: -0.05em !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+        }
+      header .max-w-screen-2xl .flex a div {
+        column-gap: 8px !important;
+        }
+    `
   },
+
   navigation: [
     {
       type: "category",
       label: "Documentation",
+      icon: "book-open",
       items: [
         {
           type: "category",
@@ -115,7 +145,7 @@ const config: ZudokuConfig = {
           items: [
             {
               type: "link",
-              icon: "book",
+              icon: "code",
               label: "API Reference",
               to: "/api",
             },
@@ -124,11 +154,13 @@ const config: ZudokuConfig = {
         {
           type: "category",
           label: "Guides",
-          icon: "book-open",
+          icon: "book",
           items: [
             "/quick-reference",
+            "/usfm-reference",
             "/examples",
             "/error-codes",
+            "/search",
           ],
         },
         {
@@ -154,9 +186,42 @@ const config: ZudokuConfig = {
       ],
     },
     {
+      type: "category",
+      label: "SDKs",
+      icon: "file-box",
+      items: [
+        {
+          type: "doc",
+          icon: "smartphone",
+          label: "Apple OS",
+          file: "sdks/apple-os",
+        },
+        {
+          type: "doc",
+          icon: "code",
+          label: "React",
+          file: "sdks/react",
+        },
+        {
+          type: "doc",
+          icon: "file-code",
+          label: "Javascript",
+          file: "sdks/javascript",
+        },
+      ],
+    },
+    {
       type: "link",
       to: "/api",
       label: "API Reference",
+      icon: "code",
+    },
+    {
+      type: "link",
+      to: "/for-llms",
+      label: "For LLMs",
+      icon: "bot",
+      description: "Complete documentation index for LLM consumption",
     },
   ],
   redirects: [

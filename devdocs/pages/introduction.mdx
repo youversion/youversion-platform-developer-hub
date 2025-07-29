@@ -1,9 +1,14 @@
 ---
-title: Welcome to YouVersion Bible API
-description: Comprehensive documentation for the YouVersion Bible API
+title: YouVersion Platform Developer Docs
+description: Comprehensive documentation for the YouVersion Bible SDKs and APIs
 ---
+<PageBanner 
+  message="Please check this page for inaccuracies."
+  color="caution" 
+  dismissible={false} 
+/>
 
-The YouVersion Bible API provides developers with access to a comprehensive collection of Bible translations, books, chapters, and verses. This API enables you to integrate Bible content into your applications, websites, and services.
+The YouVersion Platform provides developers with access to a comprehensive collection of Bible versions, books, chapters, and verses. This API enables you to integrate Bible content into your applications, websites, and services.
 
 ## What's Available
 
@@ -18,7 +23,7 @@ Our API provides access to:
 
 To get started with the YouVersion Bible API:
 
-1. **Authentication**: All requests require an API key via the `X-App-Id` header
+1. **Authentication**: All requests require an App ID via the `X-App-Id` header
 2. **Base URL**: Use one of our available server endpoints
 3. **Explore**: Check out our [API Reference](/api) to see all available endpoints
 
@@ -35,10 +40,10 @@ The API is organized around RESTful principles and provides the following main e
 
 ## Authentication
 
-All API requests require authentication using an API key. Include your API key in the `X-App-Id` header with every request:
+All API requests require authentication using an App ID. Include your App ID in the `X-App-Id` header with every request:
 
 ```bash
-curl -H "X-App-Id: YOUR_API_KEY" https://api.youversion.com/v1/bibles
+curl -H "X-App-Id: YOUR_APP_ID" https://api.youversion.com/v1/bibles
 ```
 
 ## Rate Limiting

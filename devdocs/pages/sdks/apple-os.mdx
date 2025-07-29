@@ -1,0 +1,421 @@
+---
+title: Apple OS SDK
+description: YouVersion Platform SDK for Apple iOS and macOS development
+---
+<PageBanner 
+  message="Please check this page for inaccuracies."
+  color="caution" 
+  dismissible={false} 
+/>
+
+The YouVersion Platform SDK for Apple OS provides native iOS and macOS integration for accessing Bible content and YouVersion Platform features.
+
+## Overview
+
+Our Apple OS SDK enables you to integrate Bible content directly into your iOS and macOS applications. The SDK provides a native Swift interface for accessing Bible translations, books, chapters, and verses with full SwiftUI support.
+
+## Installation
+
+### Swift Package Manager
+
+Add the YouVersion Platform SDK to your project using Swift Package Manager:
+
+1. Register your app with YouVersion Platform and acquire an app key
+2. In Xcode, go to File → Add Package Dependencies
+3. Add the repository URL and select "Up to Next Major Version"
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/youversion/yvp-swift-sdk.git", from: "1.0.0")
+]
+```
+
+### CocoaPods
+
+Add the following to your `Podfile`:
+
+```ruby
+pod 'YouVersionPlatform', '~> 1.0'
+```
+
+## Quick Start
+
+### App Configuration
+
+Configure the SDK in your app's main entry point:
+
+```swift
+import YouVersionPlatform
+
+@main
+struct YourApp: App {
+    init() {
+        YouVersionPlatform.configure(appKey: "YOUR_APP_KEY_HERE")
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+```
+
+### Displaying Scripture in SwiftUI
+
+```swift
+import YouVersionPlatform
+
+struct DemoView: View {
+    @StateObject private var version: BibleVersion
+    
+    init() {
+        _version = StateObject(wrappedValue: BibleVersion(111).readied())
+    }
+
+    var body: some View {
+        if let ref = version.usfm("JHN.3.16-17") {
+            ScrollView {
+                BibleTextView(ref)
+            }
+        }
+    }
+}
+```
+
+## Authentication
+
+### Login Implementation
+
+Implement YouVersion login with AuthenticationServices:
+
+```swift
+import YouVersionPlatform
+import AuthenticationServices
+
+class ContextProvider: NSObject, ASWebAuthenticationPresentationContextProviding {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = scene.windows.first else {
+            return ASPresentationAnchor()
+        }
+        return window
+    }
+}
+
+struct LoginView: View {
+    @State private var contextProvider = ContextProvider()
+    
+    var body: some View {
+        LoginWithYouVersionButton() {
+            YouVersionPlatform.login(
+                contextProvider: contextProvider,
+                required: [.bibles],
+                optional: [.highlights]
+            ) { result in
+                switch result {
+                case .success(let info):
+                    print("Login successful: \(info)")
+                    // Save the LAT locally for API calls
+                case .failure(let error):
+                    print("Login failed: \(error)")
+                }
+            }
+        }
+    }
+}
+```
+
+### Fetching User Data
+
+Once authenticated, you can fetch user information and verse of the day:
+
+```swift
+private func loadUserData(lat: String) {
+    Task {
+        do {
+            let info = try await YouVersionPlatform.fetchUserInfo(lat: lat)
+            self.userWelcome = "Welcome, \(info.firstName)!"
+            
+            let votd = try await YouVersionPlatform.fetchVerseOfTheDay(
+                lat: lat, 
+                translation: 1
+            )
+            self.votdTitle = "\(votd.reference) (\(votd.translation))"
+            self.votdText = votd.text
+            self.votdCopyright = votd.copyright
+        } catch {
+            print("Error loading user data: \(error)")
+        }
+    }
+}
+```
+
+## API Methods
+
+### Bible Operations
+
+```swift
+// Get all Bible versions
+platform.getBibles { result in
+    switch result {
+    case .success(let bibles):
+        print("Available bibles: \(bibles)")
+    case .failure(let error):
+        print("Error: \(error)")
+    }
+}
+
+// Get specific Bible version
+platform.getBible(id: 111) { result in
+    switch result {
+    case .success(let bible):
+        print("Bible: \(bible.name)")
+    case .failure(let error):
+        print("Error: \(error)")
+    }
+}
+```
+
+### Book Operations
+
+```swift
+// Get books for a Bible version
+platform.getBooks(bibleId: 111) { result in
+    switch result {
+    case .success(let books):
+        print("Books: \(books)")
+    case .failure(let error):
+        print("Error: \(error)")
+    }
+}
+```
+
+### Chapter Operations
+
+```swift
+// Get chapter content
+platform.getChapter(bibleId: 111, bookUsfm: "JHN", chapterNumber: 3) { result in
+    switch result {
+    case .success(let chapter):
+        print("Chapter content: \(chapter.verses)")
+    case .failure(let error):
+        print("Error: \(error)")
+    }
+}
+```
+
+### Search Operations
+
+```swift
+// Search Bible content
+platform.searchBible(query: "love", bibleId: 111) { result in
+    switch result {
+    case .success(let searchResults):
+        for result in searchResults {
+            print("Found: \(result.verse)")
+        }
+    case .failure(let error):
+        print("Search error: \(error)")
+    }
+}
+```
+
+## Features
+
+- **Native Swift Interface**: Type-safe API with Swift concurrency support
+- **SwiftUI Integration**: Built-in SwiftUI components for Bible text display
+- **Authentication Services**: Native iOS authentication with YouVersion
+- **Automatic Caching**: Built-in caching for improved performance
+- **Offline Support**: Download Bible content for offline use
+- **Search Integration**: Full-text search across Bible content
+- **Multiple Translations**: Support for hundreds of Bible versions
+- **User Data**: Access to user profile and preferences
+- **Verse of the Day**: Daily verse functionality
+
+## Error Handling
+
+The SDK provides comprehensive error handling:
+
+```swift
+enum YouVersionError: Error {
+    case invalidAppId
+    case networkError
+    case bibleNotFound
+    case invalidRequest
+    case rateLimitExceeded
+    case authenticationFailed
+    case userNotAuthenticated
+}
+```
+
+## Examples
+
+### Complete Bible Reader App
+
+```swift
+import SwiftUI
+import YouVersionPlatform
+
+struct BibleReaderApp: App {
+    init() {
+        YouVersionPlatform.configure(appKey: "YOUR_APP_KEY")
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+struct ContentView: View {
+    @StateObject private var authManager = AuthenticationManager()
+    
+    var body: some View {
+        if authManager.isAuthenticated {
+            BibleReaderView()
+        } else {
+            LoginView()
+        }
+    }
+}
+
+struct BibleReaderView: View {
+    @StateObject private var version = BibleVersion(111).readied()
+    @State private var selectedReference: String = "JHN.3.16"
+    
+    var body: some View {
+        NavigationView {
+            VStack {
+                if let ref = version.usfm(selectedReference) {
+                    BibleTextView(ref)
+                        .padding()
+                }
+                
+                Button("Load John 3:16") {
+                    selectedReference = "JHN.3.16"
+                }
+            }
+            .navigationTitle("Bible Reader")
+        }
+    }
+}
+```
+
+### Search Implementation
+
+```swift
+struct SearchView: View {
+    @State private var searchQuery = ""
+    @State private var searchResults: [SearchResult] = []
+    @State private var isSearching = false
+    
+    var body: some View {
+        VStack {
+            TextField("Search Bible...", text: $searchQuery)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .onSubmit {
+                    performSearch()
+                }
+            
+            if isSearching {
+                ProgressView()
+            } else {
+                List(searchResults, id: \.id) { result in
+                    VStack(alignment: .leading) {
+                        Text(result.reference)
+                            .font(.headline)
+                        Text(result.text)
+                            .font(.body)
+                    }
+                }
+            }
+        }
+        .padding()
+    }
+    
+    private func performSearch() {
+        isSearching = true
+        
+        YouVersionPlatform.search(query: searchQuery, bibleId: 111) { result in
+            DispatchQueue.main.async {
+                isSearching = false
+                switch result {
+                case .success(let results):
+                    searchResults = results
+                case .failure(let error):
+                    print("Search failed: \(error)")
+                }
+            }
+        }
+    }
+}
+```
+
+## Configuration Options
+
+```swift
+// Configure with custom options
+YouVersionPlatform.configure(
+    appKey: "YOUR_APP_KEY",
+    baseURL: "https://api.youversion.com/v1",
+    cacheEnabled: true,
+    cacheMaxAge: 3600,
+    timeout: 30
+)
+```
+
+## TypeScript Support
+
+The SDK includes full Swift type safety with comprehensive models:
+
+```swift
+// Bible models
+struct Bible: Codable {
+    let id: Int
+    let name: String
+    let abbreviation: String
+    let language: Language
+}
+
+struct Book: Codable {
+    let usfm: String
+    let name: String
+    let chapters: [Chapter]
+}
+
+struct Chapter: Codable {
+    let number: Int
+    let verses: [Verse]
+}
+
+struct Verse: Codable {
+    let number: Int
+    let text: String
+    let reference: String
+}
+
+// User models
+struct UserInfo: Codable {
+    let id: Int
+    let firstName: String
+    let lastName: String
+    let avatarURL: String?
+}
+
+struct VerseOfTheDay: Codable {
+    let reference: String
+    let text: String
+    let translation: String
+    let copyright: String
+}
+```
+
+## Support
+
+For support with the Apple OS SDK:
+
+- **Documentation**: [SDK Reference](/sdks/apple-os/reference)
+- **GitHub**: [YouVersion Platform iOS](https://github.com/youversion/yvp-swift-sdk)
+- **Issues**: [GitHub Issues](https://github.com/youversion/yvp-swift-sdk/issues) 

@@ -2,6 +2,11 @@
 title: Error Codes
 description: Complete list of error codes and their meanings for the YouVersion Bible API
 ---
+<PageBanner 
+  message="Please check this page for inaccuracies."
+  color="caution" 
+  dismissible={false} 
+/>
 
 The YouVersion Bible API uses standard HTTP status codes to indicate the success or failure of requests. This page documents all possible error responses and how to handle them.
 
@@ -15,7 +20,7 @@ The YouVersion Bible API uses standard HTTP status codes to indicate the success
 ### 4xx Client Errors
 
 - **400 Bad Request**: Invalid query string parameters or request format
-- **401 Unauthorized**: Missing or invalid API key
+- **401 Unauthorized**: Missing or invalid App ID
 - **404 Not Found**: The requested resource was not found
 - **406 Not Acceptable**: Invalid Accept header
 
@@ -36,11 +41,11 @@ The YouVersion Bible API uses standard HTTP status codes to indicate the success
 ```json
 {
   "error": "Unauthorized",
-  "message": "Invalid or missing API key"
+  "message": "Invalid or missing App ID"
 }
 ```
 
-**Solution**: Ensure you're including a valid API key in the `X-App-Id` header with every request.
+**Solution**: Ensure you're including a valid App ID in the `X-App-Id` header with every request.
 
 ### Invalid Parameters
 
@@ -113,11 +118,11 @@ The YouVersion Bible API uses standard HTTP status codes to indicate the success
 ### JavaScript (Fetch API)
 
 ```javascript
-async function makeApiRequest(url, apiKey) {
+async function makeApiRequest(url, appId) {
   try {
     const response = await fetch(url, {
       headers: {
-        'X-App-Id': apiKey,
+        'X-App-Id': appId,
         'Accept': 'application/json'
       }
     });
@@ -140,7 +145,7 @@ async function makeApiRequest(url, apiKey) {
 
 // Usage
 try {
-  const bibles = await makeApiRequest('https://api.youversion.com/v1/bibles', 'YOUR_API_KEY');
+  const bibles = await makeApiRequest('https://api.youversion.com/v1/bibles', 'YOUR_APP_ID');
   console.log('Bibles:', bibles);
 } catch (error) {
   console.error('Failed to fetch bibles:', error.message);
@@ -169,7 +174,7 @@ def make_api_request(url, api_key):
         
     except requests.exceptions.HTTPError as e:
         if e.response.status_code == 401:
-            print("Authentication failed. Check your API key.")
+            print("Authentication failed. Check your App ID.")
         elif e.response.status_code == 404:
             print("Resource not found. Check the URL and parameters.")
         elif e.response.status_code == 400:
@@ -183,7 +188,7 @@ def make_api_request(url, api_key):
         return None
 
 # Usage
-bibles = make_api_request('https://api.youversion.com/v1/bibles', 'YOUR_API_KEY')
+bibles = make_api_request('https://api.youversion.com/v1/bibles', 'YOUR_APP_ID')
 if bibles:
     print('Bibles:', bibles)
 ```
@@ -192,7 +197,7 @@ if bibles:
 
 ```bash
 # Example with error handling
-response=$(curl -s -w "%{http_code}" -H "X-App-Id: YOUR_API_KEY" \
+response=$(curl -s -w "%{http_code}" -H "X-App-Id: YOUR_APP_ID" \
   https://api.youversion.com/v1/bibles)
 
 http_code="${response: -3}"
@@ -201,7 +206,7 @@ body="${response%???}"
 if [ "$http_code" = "200" ]; then
     echo "Success: $body"
 elif [ "$http_code" = "401" ]; then
-    echo "Authentication failed. Check your API key."
+    echo "Authentication failed. Check your App ID."
 elif [ "$http_code" = "404" ]; then
     echo "Resource not found."
 elif [ "$http_code" = "400" ]; then
@@ -247,7 +252,7 @@ While not explicitly documented in the OpenAPI spec, the API may implement rate 
 
 You can test error handling by:
 
-1. **Invalid API key**: Use a fake API key to test 401 responses
+1. **Invalid App ID**: Use a fake App ID to test 401 responses
 2. **Invalid Bible ID**: Use a non-existent Bible ID (e.g., 99999) to test 404 responses
 3. **Invalid parameters**: Use malformed query parameters to test 400 responses
 4. **Network issues**: Disconnect from the internet to test connection errors

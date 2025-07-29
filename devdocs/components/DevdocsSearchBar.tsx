@@ -11,14 +11,20 @@ const DevdocsSearchBar: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+
+  // Ensure we're on client-side to avoid hydration issues
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Handle search input changes
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
     
-    if (query.length > 2) {
+    if (query.length > 2 && isClient) {
       setIsLoading(true);
       performSearch(query);
     } else {
@@ -30,8 +36,13 @@ const DevdocsSearchBar: React.FC = () => {
   // Perform search using Zudoku's search functionality
   const performSearch = async (query: string) => {
     try {
+      // Only run on client-side to avoid hydration issues
+      if (typeof window === 'undefined') {
+        return;
+      }
+
       // Try to use Zudoku's built-in search if available
-      if (typeof window !== 'undefined' && (window as any).pagefind) {
+      if ((window as any).pagefind) {
         const search = await (window as any).pagefind.search(query);
         const searchResults: SearchResult[] = search.results.slice(0, 5).map((result: any) => ({
           title: result.meta.title || 'Documentation',
@@ -129,14 +140,15 @@ const DevdocsSearchBar: React.FC = () => {
             placeholder="Search documentation..."
             value={searchQuery}
             onChange={handleSearchChange}
-            onFocus={() => setIsSearchOpen(true)}
+            onFocus={() => isClient && setIsSearchOpen(true)}
+            disabled={!isClient}
             className="pl-10 w-64 h-9 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           />
         </div>
       </form>
 
       {/* Search Results Dropdown */}
-      {isSearchOpen && (searchQuery.length > 2 || isLoading) && (
+      {isClient && isSearchOpen && (searchQuery.length > 2 || isLoading) && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg z-50 max-h-96 overflow-y-auto">
           {isLoading ? (
             <div className="p-4 text-center text-muted-foreground">

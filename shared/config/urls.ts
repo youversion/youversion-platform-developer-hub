@@ -33,11 +33,12 @@ export const getDevdocsUrl = (): string => {
 };
 
 export const getCurrentSiteUrl = (): string => {
-  // This will be determined by which site is running
-  if (typeof window !== 'undefined') {
-    return window.location.origin;
+  // For SSR, always return the devdocs URL to avoid hydration mismatch
+  // The actual current site will be determined client-side after hydration
+  if (typeof window === 'undefined') {
+    return urls.devdocs.development; // Consistent fallback for SSR
   }
-  return urls.platform.development; // fallback
+  return window.location.origin;
 };
 
 export default urls; 

@@ -9,7 +9,33 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
-import { Palette, Type, Layout, Zap, Bell, Info, AlertTriangle, CheckCircle, X } from 'lucide-react';
+import { 
+  Palette, Type, Layout, Zap, Bell, Info, AlertTriangle, CheckCircle, X,
+  // Navigation & UI
+  Home, Menu, Search, Settings, User, Users, ChevronDown, ChevronUp, ChevronLeft, ChevronRight,
+  // Actions
+  Plus, Minus, Edit, Trash, Copy, Download, Upload, Save, RefreshCw, RotateCcw,
+  // Communication
+  Mail, MessageCircle, Phone, Video, Share, Link, ExternalLink,
+  // Status
+  Check, XCircle, AlertCircle, HelpCircle, Clock, Calendar, Star,
+  // Media
+  Image, Video as VideoIcon, Music, File, FileText, Folder, FolderOpen,
+  // Technology
+  Code, Smartphone, Monitor, Laptop, Tablet, Wifi, Bluetooth, Cpu, Database,
+  // Business
+  Building, Briefcase, DollarSign, CreditCard, ShoppingCart, Package, Truck,
+  // Nature
+  Heart, Leaf, Sun, Moon, Cloud, CloudRain, Wind,
+  // Objects
+  Book, BookOpen, FileBox, Library, Map, Globe, Compass, Navigation,
+  // Development
+  GitBranch, GitCommit, GitPullRequest, GitMerge, Terminal, Server, Database as DbIcon,
+  // Social
+  Facebook, Twitter, Instagram, Linkedin, Youtube, Github, Globe as GlobeIcon,
+  // Other
+  Eye, EyeOff, Lock, Unlock, Shield, Key, BellRing, Volume2, VolumeX, Mic, MicOff
+} from 'lucide-react';
 const StyleGuide = () => {
   const { toast } = useToast();
   return <div className="container py-12">
@@ -388,6 +414,416 @@ const StyleGuide = () => {
                 <div>
                   <p className="text-sm font-medium mb-2">Section Spacing</p>
                   <p className="text-sm text-muted-foreground">Use py-12 for main sections, py-6 for subsections</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Icons Section */}
+        <section className="mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <Zap className="h-6 w-6 text-[#FF3D4D]" />
+            <h2 className="text-2xl font-bold">Icons</h2>
+          </div>
+          
+          <div className="space-y-8">
+            {/* Navigation & UI Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Navigation & UI</CardTitle>
+                <CardDescription>Common navigation and interface icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Home className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Home</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Menu className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Menu</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Search className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Search</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Settings className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Settings</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <User className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">User</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Users className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Users</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <ChevronDown className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">ChevronDown</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <ChevronUp className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">ChevronUp</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <ChevronLeft className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">ChevronLeft</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <ChevronRight className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">ChevronRight</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Action Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Actions</CardTitle>
+                <CardDescription>Common action and interaction icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Plus className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Plus</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Minus className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Minus</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Edit className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Edit</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Trash className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Trash</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Copy className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Copy</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Download className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Download</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Upload className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Upload</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Save className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Save</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <RefreshCw className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">RefreshCw</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <RotateCcw className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">RotateCcw</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Technology Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Technology</CardTitle>
+                <CardDescription>Technology and development related icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Code className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Code</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Smartphone className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Smartphone</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Monitor className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Monitor</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Laptop className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Laptop</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Tablet className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Tablet</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Wifi className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Wifi</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Bluetooth className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Bluetooth</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Cpu className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Cpu</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Database className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Database</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Development Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Development</CardTitle>
+                <CardDescription>Development and version control icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <GitBranch className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">GitBranch</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <GitCommit className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">GitCommit</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <GitPullRequest className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">GitPullRequest</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <GitMerge className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">GitMerge</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Terminal className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Terminal</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Server className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Server</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Github className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Github</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Communication Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Communication</CardTitle>
+                <CardDescription>Communication and social media icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Mail className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Mail</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <MessageCircle className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">MessageCircle</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Phone className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Phone</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Video className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Video</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Share className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Share</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Link className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Link</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <ExternalLink className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">ExternalLink</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <GlobeIcon className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Globe</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Status Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Status</CardTitle>
+                <CardDescription>Status and feedback icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Check className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Check</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <XCircle className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">XCircle</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <AlertCircle className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">AlertCircle</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <HelpCircle className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">HelpCircle</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Clock className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Clock</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Calendar className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Calendar</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Star className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Star</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <BellRing className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">BellRing</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Media Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Media</CardTitle>
+                <CardDescription>Media and file related icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Image className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Image</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <VideoIcon className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Video</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Music className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Music</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <File className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">File</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <FileText className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">FileText</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <FileBox className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">FileBox</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Folder className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Folder</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <FolderOpen className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">FolderOpen</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Objects Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Objects</CardTitle>
+                <CardDescription>Common object and reference icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Book className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Book</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <BookOpen className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">BookOpen</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Library className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Library</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Map className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Map</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Globe className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Globe</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Compass className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Compass</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Navigation className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Navigation</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Security Icons */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Security</CardTitle>
+                <CardDescription>Security and access control icons</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Eye className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Eye</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <EyeOff className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">EyeOff</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Lock className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Lock</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Unlock className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Unlock</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Shield className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Shield</span>
+                  </div>
+                  <div className="flex flex-col items-center p-3 border rounded-lg">
+                    <Key className="h-6 w-6 mb-2" />
+                    <span className="text-xs text-center">Key</span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
