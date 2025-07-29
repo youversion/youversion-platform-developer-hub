@@ -123,7 +123,7 @@ const Index = () => {
               <div className="mb-6">
                 <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} text="Join the YouVersion Platform" stroked></sign-in-with-youversion-button>
               </div>
-              <Button size="xl" variant="filled-secondary" onClick={() => navigate('/docs/quick-start')} className="text-sm font-bold px-[40px] py-[30px]">
+              <Button size="xl" variant="filled-secondary" onClick={() => navigate('/docs/quick-start')} className="text-sm font-bold px-[40px] py-[25px]">
                 View Documentation
               </Button>
             </div>
