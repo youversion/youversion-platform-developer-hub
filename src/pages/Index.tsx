@@ -119,7 +119,7 @@ const Index = () => {
               Build with YouVersion
             </h1>
             <p className="text-xl mb-8 text-black dark:text-slate-200">Integrate the Bible into your applications with our powerful SDKs and APIs.</p>
-            <div className="flex flex-col gap-4 items-center">
+            <div className="flex flex-col gap-2 items-center">
               <div className="mb-6">
                 <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} text="Join the YouVersion Platform" stroked></sign-in-with-youversion-button>
               </div>
