@@ -28,7 +28,23 @@ const ApiReference = () => {
   const handleTryItOut = async () => {
     const url = buildRequestUrl();
     console.log('Making request to:', url);
-    // In a real implementation, you would make the actual API call here
+    
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'X-App-ID': 'r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN',
+          'x-yv-iid': 'install_id_example',
+          'Accept': 'application/json'
+        }
+      });
+      
+      const data = await response.json();
+      console.log('Response:', data);
+      // You could add state to display the response in the UI
+    } catch (error) {
+      console.error('Error making request:', error);
+    }
   };
 
   const getCodeExample = (language: string) => {
@@ -39,7 +55,8 @@ const ApiReference = () => {
         return `const response = await fetch('${url}', {
   method: 'GET',
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY',
+    'X-App-ID': 'r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN',
+    'x-yv-iid': 'install_id_example',
     'Accept': 'application/json'
   }
 });
@@ -52,7 +69,8 @@ console.log(data);`;
 
 url = '${url}'
 headers = {
-    'Authorization': 'Bearer YOUR_API_KEY',
+    'X-App-ID': 'r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN',
+    'x-yv-iid': 'install_id_example',
     'Accept': 'application/json'
 }
 
@@ -64,14 +82,16 @@ print(data)`;
         return `import Foundation
 
 class YouVersionAPI {
-    private let apiKey = "YOUR_API_KEY"
+    private let appId = "r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN"
+    private let installId = "install_id_example"
     private let baseURL = "https://api-dev.youversion.com/v1"
 
     func getVerses() async {
         guard let url = URL(string: "${url}") else { return }
 
         var request = URLRequest(url: url)
-        request.setValue("\\(apiKey)", forHTTPHeaderField: "X-App-ID")
+        request.setValue(appId, forHTTPHeaderField: "X-App-ID")
+        request.setValue(installId, forHTTPHeaderField: "x-yv-iid")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
 
         do {
@@ -86,7 +106,8 @@ class YouVersionAPI {
 
       case 'curl':
         return `curl -X GET '${url}' \\
-  -H 'Authorization: Bearer YOUR_API_KEY' \\
+  -H 'X-App-ID: r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN' \\
+  -H 'x-yv-iid: install_id_example' \\
   -H 'Accept: application/json'`;
 
       default:
