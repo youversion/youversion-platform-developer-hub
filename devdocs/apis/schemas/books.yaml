@@ -1,0 +1,9 @@
+type: object
+properties:
+  data:
+    items:
+      $ref: ./book.yaml
+    readOnly: true
+    type: array
+required:
+  - data

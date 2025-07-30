@@ -1,0 +1,9 @@
+description: The Bible Chapter identifier which is part of the USFM reference.
+in: path
+name: chapter_id
+required: true
+schema:
+  type: string
+  example: 1
+  minLength: 1
+  maxLength: 7

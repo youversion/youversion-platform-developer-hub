@@ -1,0 +1,11 @@
+name: language_ranges
+description: >-
+  An ordered list of comma-separated language ranges as desired by the client.
+  A language range is much like a language tag but may contain wildcards. The full
+  definition can be found here: https://www.rfc-editor.org/rfc/rfc4647.html#section-2
+
+  Language ranges in this parameter may only be of the Basic Range format.
+in: query
+required: true
+schema:
+  $ref: ../schemas/basic_language_range.yaml

@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    description: A canonical representation of the passage returned
+    example: 'MAT.1.1'
+    readOnly: true
+    type: string
+  content:
+    description: A DOM representation of the requested passage
+    example: '\n\x07MAT.1.1\x12\xef\xbf\xbd\x01\n\x0bMAT.1.1,111\x12\x03eng\x1a\xef\xbf\xbd\x01\x08\x01"\xef\xbf\xbd\x01\x08\x01\x1a\x01p"\x10\x08\x05\x12\x06\n\x01v\x12\x011\x1a\x04yv-v"\x12\x08\x05\x1a\x07yv-vlbl"\x05\x08\x06*\x011"\x19\x08\x06*\x15This is the genealogy"\x19\x08\x06*\x15 of Jesus the Messiah"*\x08\x06*& the son of David, the son of Abraham:'
+    readOnly: true
+    type: string
+  version_id:
+    description: The Bible version that was used to pull the content for the given passage
+    example: 111
+    readOnly: true
+    type: integer

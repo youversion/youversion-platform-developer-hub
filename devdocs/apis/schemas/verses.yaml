@@ -1,0 +1,9 @@
+type: object
+properties:
+  data:
+    type: array
+    items:
+      $ref: ./verse.yaml
+    readOnly: true
+required:
+  - data

@@ -1,0 +1,9 @@
+description: The Bible Book identifier which is commonly the first 3 characters of the USFM reference
+in: path
+name: book_id
+required: true
+schema:
+  example: MAT
+  minLength: 3
+  maxLength: 3
+  type: string

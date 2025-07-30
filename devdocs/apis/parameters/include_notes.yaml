@@ -1,0 +1,9 @@
+name: include_notes
+description: >-
+  Whether or not notes should be included in the Bible content.
+  The default for this field is false unless the reference is a
+  chapter or introduction (GEN.1 or GEN.INTRO1) in which case it would be true.
+in: query
+required: false
+schema:
+  type: boolean

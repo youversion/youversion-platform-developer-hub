@@ -1,0 +1,7 @@
+description: The passage identifier (verse or chapter USFM format)
+in: query
+name: passage_id
+required: false
+schema:
+  type: string
+  example: "MAT.1.1"

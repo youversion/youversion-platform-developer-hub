@@ -1,0 +1,14 @@
+type: object
+properties:
+  data:
+    items:
+      $ref: ./bible.yaml
+    readOnly: true
+    type: array
+  next_page_token:
+    description: Token to send to server when retrieving the next page of results.
+    example: "eyJzdGFydF9hdCI6IDI2fQ=="
+    readOnly: true
+    type: string
+required:
+  - data

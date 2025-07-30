@@ -1,0 +1,34 @@
+type: object
+properties:
+
+  id:
+    description: Chapter identifier based off the USFM reference
+    example: 1
+    readOnly: true
+    type: string
+
+  book_id:
+    description: Book identifier based off the USFM reference
+    example: MAT
+    readOnly: true
+    type: string
+
+  passage_id:
+    description: Passage identifier that can be used on the passages API to get the text
+    example: MAT.1
+    readOnly: true
+    type: string
+
+  title:
+    description: Human readable chapter title
+    example: 1
+    readOnly: true
+    type: string
+
+  verses:
+    items:
+      description: An ordered list of verse ids for given Bible, book, and chapter.
+      type: string
+    example: ["1", "2", "3"]
+    readOnly: true
+    type: array

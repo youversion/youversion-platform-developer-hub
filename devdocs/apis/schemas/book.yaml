@@ -1,0 +1,38 @@
+type: object
+properties:
+
+  abbreviation:
+    description: Book name abbreviation if provided by the publisher
+    example: Gen
+    readOnly: true
+    type: string
+
+  canon:
+    description: Indicates if this is Old Testament, New Testament, or Deuterocanonical
+    enum:
+      - new_testament
+      - old_testament
+      - deuterocanon
+    example: new_testament
+    readOnly: true
+    type: string
+
+  chapters:
+    items:
+      description: An ordered list of chapter ids for given Bible and book.
+      type: string
+    example: ["1", "2", "3"]
+    readOnly: true
+    type: array
+
+  id:
+    description: Book identifier which is commonly used in USFM
+    example: MAT
+    readOnly: true
+    type: string
+
+  title:
+    description: Book title
+    example: Genesis
+    readOnly: true
+    type: string

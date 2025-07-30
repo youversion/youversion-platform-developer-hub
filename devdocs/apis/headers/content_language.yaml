@@ -1,0 +1,7 @@
+description: >-
+  The localization used to serve the request. This is negotiated from the contents
+  of the Accept-Language header, but falls back to `en` if a requested language
+  can't be accommodated. See RFC 2616 section 14.12 for further details.
+schema:
+  type: string
+  example: en

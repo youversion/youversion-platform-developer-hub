@@ -1,0 +1,6 @@
+name: usfm_references
+in: path
+required: true
+schema:
+  type: string
+  example: GEN.1 or GEN.1.1 or GEN.3.4-5 or GEN.3.4+GEN.3.5

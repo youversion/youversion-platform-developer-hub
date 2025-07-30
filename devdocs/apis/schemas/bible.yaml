@@ -1,0 +1,76 @@
+type: object
+properties:
+
+  id:
+    description: Bible version identifier
+    example: 111
+    readOnly: true
+    type: integer
+
+  abbreviation:
+    description: Bible version abbreviation
+    example: NIV
+    readOnly: true
+    type: string
+
+  copyright_long:
+    description: Longer form of copyright text provided by the publisher for the given Bible version.
+    example: >-
+      "<p>Biblica is the worldwide publisher and translation sponsor of the New International Version—one of the most widely read contemporary English versions of the Bible. </p> <p>At Biblica, we believe that with God, all things are possible. Partnering with other ministries and people like you, we are reaching the world with God’s Word, providing Bibles that are easier to understand and faster to receive. When God’s Word is put into someone’s hands, it has the power to change everything. </p> <p>To learn more, visit <a href="https://www.biblica.com/privacy-policy/">biblica.com</a> and <a href="http://facebook.com/Biblica">facebook.com/Biblica</a>.</p> <p> </p>"
+    readOnly: true
+    type: string
+
+  copyright_short:
+    description: Short version of the copyright text provided by the publisher for the given Bible version.
+    example: >-
+      The Holy Bible, New International Version® NIV®
+      Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.®
+      Used by Permission of Biblica, Inc.® All rights reserved worldwide.
+    readOnly: true
+    type: string
+
+  info:
+    description: >-
+      Additional information about the Bible text version. This is commonly displayed in the
+      reader footer for the Bible.
+    example: 'The Holy Bible'
+    readOnly: true
+    type: string
+
+  publisher_url:
+    description: URL to link to publisher page from the reader's footer
+    example: "https://www.biblica.com/yv-learn-more/"
+    readOnly: true
+    type: string
+
+  language_tag:
+    description: BCP47 canonical language tag for this Bible version
+    example: en
+    readOnly: true
+    type: string
+
+  local_abbreviation:
+    description: Localized Bible version abbreviation
+    example: NIV
+    readOnly: true
+    type: string
+
+  local_title:
+    description: Localized title of Bible version
+    example: New International Version
+    readOnly: true
+    type: string
+
+  title:
+    description: English title of Bible version
+    example: New International Version 2011
+    readOnly: true
+    type: string
+
+  books:
+    items:
+      description: An ordered book list for this Bible using the book ids.
+      type: string
+    example: ["GEN", "EXO", "LEV"]
+    readOnly: true
+    type: array

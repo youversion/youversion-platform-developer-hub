@@ -1,0 +1,11 @@
+description: The Canon to filter results by
+in: path
+name: canon
+required: false
+schema:
+  enum:
+    - new_testament
+    - old_testament
+    - deuterocanon
+  example: new_testament
+  type: string

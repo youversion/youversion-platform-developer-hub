@@ -1,0 +1,8 @@
+name: page_token
+description: The page token to retrieve results from.
+in: query
+required: false
+schema:
+  type: string
+  default: '1'
+  example: '1' 

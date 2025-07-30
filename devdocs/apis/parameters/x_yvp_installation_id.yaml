@@ -1,0 +1,6 @@
+description: Installation ID for the app
+in: header
+name: X-YVP-Installation-ID
+required: true
+schema:
+  type: string
