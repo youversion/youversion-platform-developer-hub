@@ -116,44 +116,33 @@ The API provides the following main endpoint categories:
 **File:** `/search`
 **URL:** `/search`
 
-**Endpoint:** `GET /v1/bibles/\{version_id\}/search`
+**Endpoint:** `GET /v1/bibles/\{version_id\}/books/\{book_usfm\}`
 
 **Parameters:**
-- `q` (string, required): Search query
-- `limit` (integer, optional): Maximum results per page (default: 20)
-- `offset` (integer, optional): Number of results to skip (default: 0)
-- `highlight` (boolean, optional): Include highlighting in results (default: false)
+- `version_id` (integer, required): Bible version identifier (e.g., 111 for NIV)
+- `book_usfm` (string, required): 3-character USFM book identifier (e.g., GEN, MAT, JHN)
 
 **Example Request:**
 ```bash
 curl -H "X-App-Id: YOUR_APP_ID" \
-     "https://api.youversion.com/v1/bibles/111/search?q=love&limit=10"
+     "https://api.youversion.com/v1/bibles/111/books/GEN"
 ```
 
 **Response Format:**
 ```json
 {
-  "data": [
-    {
-      "reference": "John 3:16",
-      "text": "For God so loved the world...",
-      "bible": {
-        "id": 111,
-        "name": "New International Version",
-        "abbreviation": "NIV"
-      },
-      "score": 0.95
-    }
-  ],
-  "next_page_token": "string"
+  "abbreviation": "Gen",
+  "canon": "ot",
+  "title": "Genesis",
+  "usfm": "GEN"
 }
 ```
 
 **Best Practices:**
-- Use specific queries instead of generic terms
-- Implement proper error handling
-- Cache frequently searched terms
-- Handle pagination for large result sets
+- Use correct USFM codes for books
+- Handle authentication properly
+- Implement error handling
+- Cache book metadata for performance
 
 ---
 
@@ -369,10 +358,6 @@ try {
 6. **GET /v1/bibles/\{version_id\}/books/\{book_usfm\}/chapters/\{chapter_usfm\}/verses/\{verse_usfm\}**
    - Get specific verse
    - Returns verse text and metadata
-
-7. **GET /v1/bibles/\{version_id\}/search**
-   - Search Bible content
-   - Returns matching verses with context
 
 ### Authentication
 - **Required Header:** `X-App-Id: YOUR_APP_ID`

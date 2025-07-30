@@ -26,9 +26,9 @@ async function getDailyVerse() {
       headers: { 'X-App-Id': 'YOUR_APP_ID' }
     });
     
-    // Get John 3:16
+    // Get John 3:16 - using correct URL structure
     const verseResponse = await fetch(
-      'https://api.youversion.com/v1/bibles/111/books/JHN/chapters/3/verses',
+      'https://api.youversion.com/v1/bibles/111/books/JHN/chapters/3/verses/16',
       { headers: { 'X-App-Id': 'YOUR_APP_ID' } }
     );
     
@@ -58,7 +58,7 @@ def get_daily_verse():
     books = ['GEN', 'EXO', 'MAT', 'JHN', 'ROM', 'REV']
     random_book = random.choice(books)
     
-    # Get verses from the random book, chapter 1
+    # Get verses from the random book, chapter 1 - using correct URL structure
     response = requests.get(
         f'https://api.youversion.com/v1/bibles/111/books/{random_book}/chapters/1/verses',
         headers=headers
