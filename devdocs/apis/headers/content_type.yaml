@@ -1,0 +1,6 @@
+description: >-
+  The appropriate serialization type for the content. This could be on a request or a response.
+  It tells the client and server how to deserialize the body.
+schema:
+  type: string
+  example: application/json

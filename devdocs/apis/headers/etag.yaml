@@ -1,0 +1,7 @@
+description: >-
+  Provides the current value of the entity tag for the requested variant.
+  The entity tag *MAY* be used for comparison with other entities from
+  the same resource. See RFC 2616 section 14.19 for further details.
+schema:
+  type: string
+  example: W/"d665a3702eb5754bf850eaff889a8255"

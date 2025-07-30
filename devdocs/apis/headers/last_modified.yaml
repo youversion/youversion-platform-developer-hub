@@ -1,0 +1,7 @@
+description: >-
+  The Last-Modified response HTTP header contains the date and time at which the origin server
+  believes the resource was last modified. It is used as a validator to determine if a resource
+  received or stored is the same.
+schema:
+  type: string
+  example: Wed, 21 Oct 2015 07:28:00 GMT

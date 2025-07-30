@@ -17,8 +17,8 @@ export async function yvpFetch(endpoint: string, options: RequestInit = {}): Pro
   // Prepare headers
   const headers: HeadersInit = {
     'Accept': 'application/json',
-    'x-app-id': YVP_CONFIG.APP_ID,
-    'x-yv-iid': 'BDH',
+    'x-app-id': 'r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN',
+    'x-yv-iid': 'install_id_example',
     ...options.headers,
   };
 

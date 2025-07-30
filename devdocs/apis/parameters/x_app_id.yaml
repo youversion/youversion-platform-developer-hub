@@ -1,0 +1,6 @@
+description: API key for authentication
+in: header
+name: X-App-Id
+required: true
+schema:
+  type: string

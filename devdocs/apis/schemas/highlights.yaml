@@ -1,0 +1,11 @@
+type: object
+properties:
+  data:
+    items:
+      $ref: ./highlight.yaml
+    readOnly: true
+    type: array
+  next_page_token:
+    example: "eyJzdGFydF9hdCI6IDI2fQ=="
+    readOnly: true
+    type: string 

@@ -1,0 +1,47 @@
+type: object
+properties:
+  id:
+    description: Highlight identifier
+    example: 123456
+    readOnly: true
+    type: integer
+    format: int32
+
+  version_id:
+    description: Bible version identifier
+    example: 111
+    type: integer
+    format: int32
+
+  passage_id:
+    description: The passage identifier (verse USFM format)
+    example: "MAT.1.1"
+    type: string
+
+  color:
+    description: The highlight color in hex format
+    example: "44aa44"
+    type: string
+    pattern: "^[0-9a-f]{6}$"
+
+  user_id:
+    description: The user identifier
+    example: 8981
+    type: integer
+    format: int32
+
+  create_time:
+    description: The creation timestamp (Unix timestamp in seconds since epoch, GMT)
+    example: 1724854233
+    type: integer
+    format: int64
+
+  update_time:
+    description: The last update timestamp (Unix timestamp in seconds since epoch, GMT)
+    example: 1724854233
+    type: integer
+    format: int64
+
+required:
+  - version_id
+  - passage_id 

@@ -1,0 +1,8 @@
+description: The Bible version identifier
+in: path
+name: version_id
+required: true
+schema:
+  type: integer
+  example: 111
+  format: int32

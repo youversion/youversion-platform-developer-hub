@@ -1,0 +1,8 @@
+description: The user identifier
+in: query
+name: user_id
+required: false
+schema:
+  type: integer
+  example: 8981
+  format: int32 

@@ -1,0 +1,32 @@
+type: object
+properties:
+
+  id:
+    description: Verse identifier part of USFM reference
+    example: 1
+    readOnly: true
+    type: string
+
+  book_id:
+    description: Book identifier based off the USFM reference
+    example: MAT
+    readOnly: true
+    type: string
+
+  chapter_id:
+    description: Chapter identifier based off the USFM reference
+    example: 1
+    readOnly: true
+    type: string
+
+  passage_id:
+    description: Passage identifier that can be used on the passages API to get the text
+    example: MAT.1.1
+    readOnly: true
+    type: string
+
+  reference:
+    description: The human readable reference
+    example: "Matthew 1:1"
+    readOnly: true
+    type: string

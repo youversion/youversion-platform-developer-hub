@@ -1,0 +1,11 @@
+description: >-
+  The Vary field value indicates the set of request-header fields that fully determines,
+  while the response is fresh, whether a cache is permitted to use the response to reply to
+  a subsequent request without revalidation. For uncacheable or stale responses, the Vary
+  field value advises the user agent about the criteria that were used to select the
+  representation. A Vary field value of "*" implies that a cache cannot determine from the
+  request headers of a subsequent request whether this response is the appropriate
+  representation. See RFC 2616 section 13.6 for use of the Vary header field by caches.
+schema:
+  type: string
+  example: Accept, Accept-Encoding, Accept-Language

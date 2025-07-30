@@ -9,10 +9,6 @@ export const getDefaultNavItems = (): NavItem[] => [
     path: '/get-started'
   },
   {
-    name: 'Dev - old',
-    path: '/docs/quick-start'
-  },
-  {
     name: 'Dev Docs',
     path: '/introduction'
   },

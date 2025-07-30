@@ -1,0 +1,9 @@
+description: >-
+  Used to specify directives that MUST be obeyed by all caching mechanisms along the
+  response chain. The directives specify behavior intended to prevent caches from
+  adversely interfering with the response. These directives typically override the
+  default caching algorithms.  It is measured in seconds. See RFC 2616 section 14.9
+  for more details.
+schema:
+  type: string
+  example: private, max-age=86400

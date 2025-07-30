@@ -164,7 +164,8 @@ const Examples: React.FC = () => {
       const res = await fetch(url, {
         method: "GET",
         headers: {
-          "X-App-ID": APP_ID
+          "X-App-ID": "r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN",
+          "x-yv-iid": "install_id_example"
         },
         signal: controller.signal
       });
@@ -241,7 +242,7 @@ const Examples: React.FC = () => {
               {/* Calls */}
               <div className="grid md:grid-cols-2 gap-6">
                 {CALLS.map(call => {
-                const curlCommand = `curl -s -H \"X-App-ID: ${APP_ID || "$YVP_APP_ID"}\" '${call.url.replace("$YVP_LAT", lat || "$YVP_LAT")}'`;
+                const curlCommand = `curl -s -H \"X-App-ID: r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN\" -H \"x-yv-iid: install_id_example\" '${call.url.replace("$YVP_LAT", lat || "$YVP_LAT")}'`;
                 return <Card key={call.id} className="flex flex-col">
                       <CardHeader>
                         <CardTitle className="text-lg">{call.title}</CardTitle>

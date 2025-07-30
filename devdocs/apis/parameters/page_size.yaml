@@ -1,0 +1,8 @@
+name: page_size
+description: The number of items to return in the collection
+in: query
+required: false
+schema:
+  type: integer
+  default: 25
+  example: 25 

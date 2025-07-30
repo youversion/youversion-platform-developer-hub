@@ -1,0 +1,6 @@
+default: html
+enum:
+  - text
+  - html
+example: html
+type: string
