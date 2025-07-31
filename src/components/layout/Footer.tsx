@@ -71,9 +71,14 @@ const Footer = () => {
                 <Link to="/docs/examples" className="text-muted-foreground hover:text-foreground transition-colors">
                   Examples
                 </Link>
-              </li>
-            </ul>
-          </div>
+               </li>
+               <li>
+                 <Link to="/style-guide" className="text-muted-foreground hover:text-foreground transition-colors">
+                   Dev Portal Styles
+                 </Link>
+               </li>
+             </ul>
+           </div>
 
           {/* Legal */}
           <div>
@@ -88,11 +93,6 @@ const Footer = () => {
                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                    Terms of Service
                  </a>
-               </li>
-               <li>
-                 <Link to="/style-guide" className="text-muted-foreground hover:text-foreground transition-colors">
-                   Dev Portal Styles
-                 </Link>
                </li>
              </ul>
            </div>
