@@ -16,7 +16,7 @@ const Support = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 mb-12">
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="hover:shadow-lg transition-shadow hidden">
             <CardHeader>
               <MessageCircle className="h-8 w-8 text-[#FF3D4D] mb-2" />
               <CardTitle>Live Chat</CardTitle>
@@ -59,7 +59,7 @@ const Support = () => {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="hover:shadow-lg transition-shadow hidden">
             <CardHeader>
               <Users className="h-8 w-8 text-[#FF3D4D] mb-2" />
               <CardTitle>Community Forum</CardTitle>
