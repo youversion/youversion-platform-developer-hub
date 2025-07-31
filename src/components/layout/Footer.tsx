@@ -89,7 +89,7 @@ const Footer = () => {
                    Terms of Service
                  </a>
                </li>
-               <li className="hidden">
+               <li>
                  <Link to="/style-guide" className="text-muted-foreground hover:text-foreground transition-colors">
                    Dev Portal Styles
                  </Link>
