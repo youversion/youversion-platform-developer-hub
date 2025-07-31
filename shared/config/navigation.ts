@@ -17,7 +17,7 @@ export const getDefaultNavItems = (): NavItem[] => [
     path: '/bible-directory'
   },
   {
-    name: 'Dev Portal Styles',
-    path: '/style-guide'
+    name: 'Support',
+    path: '/support'
   }
-]; 
+];
