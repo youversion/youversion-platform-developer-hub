@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { MessageCircle, Mail, FileText, Users } from 'lucide-react';
 
 const Support = () => {
@@ -79,25 +80,27 @@ const Support = () => {
           <CardHeader>
             <CardTitle>Frequently Asked Questions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <h3 className="font-semibold mb-2">How do I get started with the API?</h3>
-              <p className="text-muted-foreground">
-                Sign up for a developer account and follow our quick start guide to get your API key and make your first request.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">What are the rate limits?</h3>
-              <p className="text-muted-foreground">
-                Free accounts have a limit of 1,000 requests per day. Paid plans offer higher limits and priority support.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-2">Can I use the API commercially?</h3>
-              <p className="text-muted-foreground">
-                Yes, commercial use is allowed under our terms of service. Some Bible translations may require additional licensing.
-              </p>
-            </div>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>How do I get started with the API?</AccordionTrigger>
+                <AccordionContent>
+                  Sign up for a developer account and follow our quick start guide to get your API key and make your first request.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>What are the rate limits?</AccordionTrigger>
+                <AccordionContent>
+                  Free accounts have a limit of 1,000 requests per day. Paid plans offer higher limits and priority support.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Can I use the API commercially?</AccordionTrigger>
+                <AccordionContent>
+                  Yes, commercial use is allowed under our terms of service. Some Bible translations may require additional licensing.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </CardContent>
         </Card>
       </div>
