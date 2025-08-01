@@ -83,7 +83,7 @@ const Support = () => {
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger>How do I get started with the API?</AccordionTrigger>
+                <AccordionTrigger>How do I get started with the YouVersion Platform?</AccordionTrigger>
                 <AccordionContent>
                   Sign up for a developer account and follow our quick start guide to get your APP Id and make your first request.
                 </AccordionContent>
