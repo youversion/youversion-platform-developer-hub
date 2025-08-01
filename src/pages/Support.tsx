@@ -54,8 +54,8 @@ const Support = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="stroked" className="w-full">
-                View Docs
+              <Button variant="stroked" className="w-full" asChild>
+                <a href="/introduction">View Docs</a>
               </Button>
             </CardContent>
           </Card>
