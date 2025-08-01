@@ -97,7 +97,7 @@ const Support = () => {
               <AccordionItem value="item-3">
                 <AccordionTrigger>Can I use the YouVersion Platform commercially?</AccordionTrigger>
                 <AccordionContent>
-                  Yes, commercial use is allowed under our terms of service. Some Bible translations may require additional licensing.
+                  No, commercial availability will come later as the YouVersion Platform matures.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
