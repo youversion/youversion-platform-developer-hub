@@ -22,7 +22,7 @@ const Support = () => {
               <MessageCircle className="h-8 w-8 text-[#FF3D4D] mb-2" />
               <CardTitle>Live Chat</CardTitle>
               <CardDescription>
-                Get instant help from our support team
+                Get instant help from the YouVersion support team
               </CardDescription>
             </CardHeader>
             <CardContent>
