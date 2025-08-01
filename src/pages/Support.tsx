@@ -85,7 +85,7 @@ const Support = () => {
               <AccordionItem value="item-1">
                 <AccordionTrigger>How do I get started with the API?</AccordionTrigger>
                 <AccordionContent>
-                  Sign up for a developer account and follow our quick start guide to get your APP key and make your first request.
+                  Sign up for a developer account and follow our quick start guide to get your APP Id and make your first request.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
