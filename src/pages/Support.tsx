@@ -95,7 +95,7 @@ const Support = () => {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger>Can I use the API commercially?</AccordionTrigger>
+                <AccordionTrigger>Can I use the YouVersion Platform commercially?</AccordionTrigger>
                 <AccordionContent>
                   Yes, commercial use is allowed under our terms of service. Some Bible translations may require additional licensing.
                 </AccordionContent>
