@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { MessageCircle, Mail, FileText, Users } from 'lucide-react';
+import SupportTicketForm from '@/components/SupportTicketForm';
 
 const Support = () => {
   return (
@@ -39,9 +40,11 @@ const Support = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="stroked" className="w-full">
-                Send Email
-              </Button>
+              <SupportTicketForm>
+                <Button variant="stroked" className="w-full">
+                  Send Email
+                </Button>
+              </SupportTicketForm>
             </CardContent>
           </Card>
 
