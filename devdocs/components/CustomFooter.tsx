@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { AlertTriangle } from 'lucide-react';
 
-const Footer = () => {
+const CustomFooter = () => {
   return (
     <footer className="bg-muted/30 border-t">
       {/* Notification Bar */}
@@ -31,19 +30,19 @@ const Footer = () => {
             <h4 className="font-medium mb-3">Products</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/bible-directory" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/bible-directory" className="text-muted-foreground hover:text-foreground transition-colors">
                   Bible Directory
-                </Link>
+                </a>
               </li>
               <li className="hidden">
-                <Link to="/platform" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/platform" className="text-muted-foreground hover:text-foreground transition-colors">
                   Platform Dashboard
-                </Link>
+                </a>
               </li>
               <li className="hidden">
-                <Link to="/platform/apps" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/platform/apps" className="text-muted-foreground hover:text-foreground transition-colors">
                   App Management
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -53,29 +52,29 @@ const Footer = () => {
             <h4 className="font-medium mb-3">Resources</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/docs/quick-start" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/getting-started" className="text-muted-foreground hover:text-foreground transition-colors">
                   Documentation
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/get-started" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/getting-started" className="text-muted-foreground hover:text-foreground transition-colors">
                   Getting Started
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/support" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                   Support
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/docs/examples" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/examples" className="text-muted-foreground hover:text-foreground transition-colors">
                   Examples
-                </Link>
+                </a>
                </li>
                <li>
-                 <Link to="/style-guide" className="text-muted-foreground hover:text-foreground transition-colors">
+                 <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                    Dev Portal Styles
-                 </Link>
+                 </a>
                </li>
              </ul>
            </div>
@@ -109,4 +108,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default CustomFooter; 

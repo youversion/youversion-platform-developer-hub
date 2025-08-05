@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import SearchBar from './SearchBar';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Menu, X } from 'lucide-react';
-import { getDevdocsUrl, getPlatformUrl } from '../../../shared/config/urls';
+import { getDevdocsUrl, getPlatformUrl, getBiblesUrl } from '../../../shared/config/urls';
 import { getDefaultNavItems } from '../../../shared/config/navigation';
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -30,6 +30,13 @@ const Header = () => {
         path: `${getDevdocsUrl()}/introduction`
       };
     }
+    if (item.name === 'Bible Directory') {
+      // Link to bibles site
+      return {
+        ...item,
+        path: getBiblesUrl()
+      };
+    }
     // For other items, they should be internal links on the platform site
     return item;
   });
@@ -52,8 +59,8 @@ const Header = () => {
               </Link>}
 
             {publicNavItems.map(item => {
-              // Check if it's an external link (Dev Docs links to devdocs site)
-              const isExternal = item.name === 'Dev Docs';
+              // Check if it's an external link (Dev Docs and Bible Directory link to external sites)
+              const isExternal = item.name === 'Dev Docs' || item.name === 'Bible Directory';
               if (isExternal) {
                 return (
                   <a 
@@ -103,8 +110,8 @@ const Header = () => {
               </Link>}
             
             {publicNavItems.map(item => {
-              // Check if it's an external link (Dev Docs links to devdocs site)
-              const isExternal = item.name === 'Dev Docs';
+              // Check if it's an external link (Dev Docs and Bible Directory link to external sites)
+              const isExternal = item.name === 'Dev Docs' || item.name === 'Bible Directory';
               if (isExternal) {
                 return (
                   <a 
