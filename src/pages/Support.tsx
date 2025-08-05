@@ -94,7 +94,7 @@ const Support = () => {
               <AccordionItem value="item-2">
                 <AccordionTrigger>What are the rate limits?</AccordionTrigger>
                 <AccordionContent>
-                  Free accounts have a limit of 1,000 requests per day. Paid plans offer higher limits and priority support.
+                  Free accounts have a limit of 5,000 requests per day. Paid plans offer higher limits and priority support.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">

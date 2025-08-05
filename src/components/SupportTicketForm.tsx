@@ -83,7 +83,7 @@ const ISSUE_CATEGORIES = {
     label: 'Rate Limit Questions',
     subcategories: ['Exceeded limits', 'Upgrade requests', 'Limit clarification'],
     faqs: [
-      { q: 'What are the rate limits?', a: 'Free accounts have 1,000 requests per day. Contact us for higher limits.' },
+      { q: 'What are the rate limits?', a: 'Free accounts have 5,000 requests per day. Contact us for higher limits.' },
       { q: 'How can I increase my rate limit?', a: 'We offer paid plans with higher limits and priority support.' }
     ]
   },
