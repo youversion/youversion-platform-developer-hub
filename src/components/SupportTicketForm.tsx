@@ -438,10 +438,10 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
               )}
             />
 
-            <Card className="bg-amber-50/50 border-amber-200">
+            <Card className="bg-orange-50/50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-sm">
-                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                  <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
                   Before you submit
                 </CardTitle>
               </CardHeader>
