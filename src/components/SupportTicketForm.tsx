@@ -263,10 +263,10 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
             )}
 
             {selectedCategory && ISSUE_CATEGORIES[selectedCategory as keyof typeof ISSUE_CATEGORIES]?.faqs.length > 0 && (
-              <Card className="border-blue-200 bg-blue-50/50">
+              <Card className="border-accent bg-accent/20">
                 <CardHeader className="pb-3">
                   <CardTitle className="flex items-center gap-2 text-sm">
-                    <Lightbulb className="h-4 w-4" />
+                    <Lightbulb className="h-4 w-4 text-accent-foreground" />
                     Quick Help
                   </CardTitle>
                   <CardDescription className="text-xs">
@@ -276,9 +276,9 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
                 <CardContent className="pt-0">
                   <Accordion type="single" collapsible>
                     {ISSUE_CATEGORIES[selectedCategory as keyof typeof ISSUE_CATEGORIES].faqs.map((faq, index) => (
-                      <AccordionItem key={index} value={`faq-${index}`} className="border-blue-200">
-                        <AccordionTrigger className="text-xs">{faq.q}</AccordionTrigger>
-                        <AccordionContent className="text-xs">{faq.a}</AccordionContent>
+                      <AccordionItem key={index} value={`faq-${index}`} className="border-accent/30">
+                        <AccordionTrigger className="text-xs text-foreground">{faq.q}</AccordionTrigger>
+                        <AccordionContent className="text-xs text-muted-foreground">{faq.a}</AccordionContent>
                       </AccordionItem>
                     ))}
                   </Accordion>
