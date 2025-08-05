@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import StatementOfFaithModal from "@/components/StatementOfFaithModal";
 import TermsOfServiceModal from "@/components/TermsOfServiceModal";
+import BibleLicenseModal from "@/components/BibleLicenseModal";
 import AddressAutocomplete from "@/components/AddressAutocomplete";
 import {
   Select,
@@ -55,6 +56,7 @@ interface FormState {
   };
   agreeToS: boolean;
   agreeToSoF: boolean;
+  agreeToBibleLicense: boolean;
 }
 
 const Join: React.FC = () => {
@@ -65,6 +67,7 @@ const Join: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [sofModalOpen, setSofModalOpen] = useState(false);
   const [tosModalOpen, setTosModalOpen] = useState(false);
+  const [bibleLicenseModalOpen, setBibleLicenseModalOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -133,10 +136,10 @@ const Join: React.FC = () => {
       return;
     }
 
-    if (!formState.agreeToS || !formState.agreeToSoF) {
+    if (!formState.agreeToS || !formState.agreeToSoF || !formState.agreeToBibleLicense) {
       toast({
-        title: "Please agree to both the Terms of Service and Statement of Faith.",
-        description: "You must agree to both terms to proceed.",
+        title: "Please agree to all terms and licenses.",
+        description: "You must agree to all terms to proceed.",
         variant: "destructive",
       });
       return;
@@ -362,11 +365,24 @@ const Join: React.FC = () => {
                 {/* More address fields can be added here and populated by Google API */}
 
                 <div className="flex items-center space-x-2">
+                  <Checkbox id="agreeToBibleLicense" checked={formState.agreeToBibleLicense} onCheckedChange={(checked) => handleCheckboxChange('agreeToBibleLicense')(!!checked)} />
+                  <Label htmlFor="agreeToBibleLicense" className="text-sm font-bold">
+                    {" "}
+                    <span
+                      className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                      onClick={() => setBibleLicenseModalOpen(true)}
+                    >
+                      YouVersion Platform Bible License v1
+                    </span>
+                  </Label>
+                </div>
+
+                <div className="flex items-center space-x-2">
                   <Checkbox id="agreeToSoF" checked={formState.agreeToSoF} onCheckedChange={(checked) => handleCheckboxChange('agreeToSoF')(!!checked)} />
-                  <Label htmlFor="agreeToSoF" className="text-sm font-normal">
+                  <Label htmlFor="agreeToSoF" className="text-sm font-bold">
                     You agree to the{" "}
                     <span
-                      className="text-primary hover:underline cursor-pointer"
+                      className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                       onClick={() => setSofModalOpen(true)}
                     >
                       Statement of Faith
@@ -376,10 +392,10 @@ const Join: React.FC = () => {
 
                 <div className="flex items-center space-x-2">
                   <Checkbox id="agreeToS" checked={formState.agreeToS} onCheckedChange={(checked) => handleCheckboxChange('agreeToS')(!!checked)} />
-                  <Label htmlFor="agreeToS" className="text-sm font-normal">
+                  <Label htmlFor="agreeToS" className="text-sm font-bold">
                     You agree to the{" "}
                     <span
-                      className="text-primary hover:underline cursor-pointer"
+                      className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                       onClick={() => setTosModalOpen(true)}
                     >
                       YouVersion Platform ToS
@@ -393,6 +409,11 @@ const Join: React.FC = () => {
                 </div>
               </CardContent>
             </form>
+            <BibleLicenseModal
+              open={bibleLicenseModalOpen}
+              onOpenChange={setBibleLicenseModalOpen}
+              onAccept={() => handleCheckboxChange('agreeToBibleLicense')(true)}
+            />
             <StatementOfFaithModal
               open={sofModalOpen}
               onOpenChange={setSofModalOpen}
