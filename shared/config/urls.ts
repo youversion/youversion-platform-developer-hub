@@ -7,6 +7,10 @@ interface SiteUrls {
     development: string;
     production: string;
   };
+  bibles: {
+    development: string;
+    production: string;
+  };
 }
 
 const urls: SiteUrls = {
@@ -17,6 +21,10 @@ const urls: SiteUrls = {
   devdocs: {
     development: 'http://localhost:3000',
     production: 'https://developers.youversion.com'
+  },
+  bibles: {
+    development: 'http://localhost:3001',
+    production: 'https://bibles.youversion.com'
   }
 };
 
@@ -30,6 +38,12 @@ export const getDevdocsUrl = (): string => {
   return process.env.NODE_ENV === 'production' 
     ? urls.devdocs.production 
     : urls.devdocs.development;
+};
+
+export const getBiblesUrl = (): string => {
+  return process.env.NODE_ENV === 'production' 
+    ? urls.bibles.production 
+    : urls.bibles.development;
 };
 
 export const getCurrentSiteUrl = (): string => {

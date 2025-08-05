@@ -67,6 +67,10 @@ const Index = () => {
   const getResolvedTheme = () => {
     if (theme === "system") {
       return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    } else if (theme === "light") {
+      return "dark";
+    } else if (theme === "dark") {
+      return "light";
     }
     return theme;
   };

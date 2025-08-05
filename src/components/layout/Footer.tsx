@@ -27,7 +27,7 @@ const Footer = () => {
           </div>
 
           {/* Products */}
-          <div>
+          <div className="hidden">
             <h4 className="font-medium mb-3">Products</h4>
             <ul className="space-y-2 text-sm">
               <li>
@@ -35,12 +35,12 @@ const Footer = () => {
                   Bible Directory
                 </Link>
               </li>
-              <li>
+              <li className="hidden">
                 <Link to="/platform" className="text-muted-foreground hover:text-foreground transition-colors">
                   Platform Dashboard
                 </Link>
               </li>
-              <li>
+              <li className="hidden">
                 <Link to="/platform/apps" className="text-muted-foreground hover:text-foreground transition-colors">
                   App Management
                 </Link>
