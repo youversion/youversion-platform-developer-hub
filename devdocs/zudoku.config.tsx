@@ -3,9 +3,11 @@ import { ZudokuNavigation } from "./components/ZudokuNavigation";
 import DevdocsSearchBar from "./components/DevdocsSearchBar";
 import { getDefaultNavItems } from "../shared/config/navigation";
 import { PageBanner } from "./components/PageBanner";
+import CustomFooter from "./components/CustomFooter";
 
 const config: ZudokuConfig = {
   site: {
+    title: "YouVersion Platform",
     logo: {
       src: { light: "/youversion-logo.png", dark: "/youversion-logo.png" },
       alt: "YouVersion Bible API",
@@ -18,11 +20,11 @@ const config: ZudokuConfig = {
     // },
     footer: {
       // Footer configuration goes here
-      position: "center",
-      copyright: `© 2025 YouVersion. All rights reserved.`,
+      //position: "center",
+      copyright: ` `,
       // Other options...
     },
-    title: "YouVersion Platform",
+
   },
   // Add MDX components configuration
   mdx: {
@@ -32,18 +34,23 @@ const config: ZudokuConfig = {
   },
   // Add slots configuration to integrate your navigation
   slots: {
-    "head-title": () => null,
-    "head-navigation-end": () => (
-      <div className="flex items-center space-x-4">
-      
+    // "layout-before-head": () => (
+    //   <div className="flex items-center border border-gray-200 pb-2">
+    //     <img 
+    //       src="/youversion-logo.png" 
+    //       alt="YouVersion Bible API" 
+    //       className="h-8 w-auto"
+    //     />
+    //     <span className="ml-2 font-semibold text-lg">YouVersion Platform</span>
+    //   </div>
+    // ),
+    "head-navigation-start": () => (
       <ZudokuNavigation
         isAuthenticated={false}
         navItems={getDefaultNavItems()}
       />
-      <DevdocsSearchBar />
-    </div>
-      
     ),
+    "footer-after": () => <CustomFooter />,
   },
   theme: {
     light: {
@@ -119,6 +126,28 @@ const config: ZudokuConfig = {
       header .max-w-screen-2xl .flex a div {
         column-gap: 8px !important;
         }
+      
+      /* Override old footer styling */
+      footer{ width:100%; }
+      footer div:first-child {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width:100% !important;  
+      }
+      /* Hide Zudoku footer link */
+      nav + div {
+        display: none !important;
+      }
+      /* Hide Zudoku logo */
+      header img[src*="zudoku"],
+      header img[alt*="Zudoku"],
+      header .zudoku-logo,
+      header [data-zudoku-logo],
+      header a[href*="zudoku"] img,
+      header .logo img[src*="zudoku"],
+      header .brand img[src*="zudoku"] {
+        display: none !important;
+      }
     `
   },
 
