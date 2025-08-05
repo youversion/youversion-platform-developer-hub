@@ -84,7 +84,7 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
               <a
                 key={index}
                 href={linkHref}
-                className={`relative text-sm font-medium transition-colors hover:text-foreground ${
+                className={`relative text-sm font-medium transition-colors hover:text-foreground mr-4 ${
                   isActiveItem ? 'text-foreground' : 'text-muted-foreground'
                 }`}
               >
