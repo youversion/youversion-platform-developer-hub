@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "zudoku dev",
+    "dev": "zudoku dev --port 3000",
     "build": "zudoku build",
-    "preview": "zudoku preview",
+    "preview": "zudoku preview --port 3000",
     "lint": "eslint"
   },
   "dependencies": {
