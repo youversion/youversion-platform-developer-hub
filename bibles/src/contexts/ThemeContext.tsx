@@ -12,28 +12,30 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark')
-
-  useEffect(() => {
-    // Check for saved theme preference or default to dark
-    const savedTheme = localStorage.getItem('theme') as Theme
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    
-    if (savedTheme) {
-      setTheme(savedTheme)
-    } else if (prefersDark) {
-      setTheme('dark')
-    } else {
-      setTheme('light')
+  const [theme, setTheme] = useState<Theme>(() => {
+    // Check if we're in the browser environment
+    if (typeof window !== 'undefined') {
+      // Check for saved theme preference or default to system preference
+      const savedTheme = localStorage.getItem('theme') as Theme
+      if (savedTheme) {
+        return savedTheme
+      }
+      // Default to system preference instead of hardcoded 'dark'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
-  }, [])
+    // Default to light theme during SSR
+    return 'light'
+  })
 
   useEffect(() => {
-    // Update document class and save to localStorage
-    const root = document.documentElement
-    root.classList.remove('light', 'dark')
-    root.classList.add(theme)
-    localStorage.setItem('theme', theme)
+    // Only run in browser environment
+    if (typeof window !== 'undefined') {
+      // Update document class and save to localStorage
+      const root = document.documentElement
+      root.classList.remove('light', 'dark')
+      root.classList.add(theme)
+      localStorage.setItem('theme', theme)
+    }
   }, [theme])
 
   const toggleTheme = () => {

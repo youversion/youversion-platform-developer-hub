@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { BibleVersionsProvider } from '@/contexts/BibleVersionsContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { Navigation } from '@/components/Navigation'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -87,11 +88,12 @@ export default async function RootLayout({
       <body className={`${inter.className} min-h-screen`}>
         <ThemeProvider>
           <BibleVersionsProvider versions={transformedVersions}>
-            <div className="flex flex-col h-screen">
+            <div className="flex flex-col min-h-screen">
               <Navigation />
-              <div className="flex-1 overflow-hidden">
+              <main className="flex-1">
                 {children}
-              </div>
+              </main>
+              <Footer />
             </div>
           </BibleVersionsProvider>
         </ThemeProvider>
