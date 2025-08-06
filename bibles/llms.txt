@@ -1,0 +1,329 @@
+# Bible Directory v2 - Project Documentation
+
+## Project Overview
+Bible Directory v2 is a Next.js 15 application that provides a comprehensive interface for browsing, searching, and comparing Bible versions. The application integrates with external APIs to fetch Bible version data and YouVersion audio content.
+
+## Tech Stack
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **UI Components**: Radix UI + shadcn/ui
+- **State Management**: React Context + useState/useEffect
+- **Icons**: Lucide React
+- **Animations**: Framer Motion
+- **Audio**: HTML5 Audio API + YouVersion Audio API
+
+## Project Structure
+
+### Core Architecture
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout with data fetching
+│   ├── page.tsx           # Home page
+│   └── version/[id]/      # Individual version pages
+├── components/            # React components
+├── contexts/              # React contexts
+├── hooks/                 # Custom hooks
+├── lib/                   # Utility libraries
+├── types/                 # TypeScript type definitions
+└── utils/                 # Utility functions
+```
+
+## Data Flow Architecture
+
+### 1. Data Fetching (Server-Side)
+- **Root Layout** (`src/app/layout.tsx`): Fetches all Bible versions on app load
+- **API Gateway**: External API at `https://bible-versions-gateway-cb3tumxd.uc.gateway.dev/`
+- **Caching**: 5-minute revalidation for fresh data
+- **Context Provider**: Makes data available throughout the app
+
+### 2. Client-Side State Management
+- **BibleVersionsContext**: Provides global access to Bible version data
+- **URL State**: Search parameters drive filtering and search
+- **Local State**: Component-specific state for UI interactions
+
+### 3. Search & Filtering
+- **Search API**: `/api/search` - External search endpoint
+- **Filtering**: Client-side filtering based on URL parameters
+- **Sorting**: Multiple sort options with relevance-based default
+
+## Key Components
+
+### Core Layout Components
+1. **BibleVersionLayout** (`src/components/BibleVersionLayout.tsx`)
+   - Main layout orchestrator
+   - Handles search, filtering, and sorting
+   - Manages URL state synchronization
+
+2. **BibleVersionSidebar** (`src/components/BibleVersionSidebar.tsx`)
+   - Filter controls (language, country, translation type, etc.)
+   - Version finder with persona-based suggestions
+   - Date range filtering
+
+3. **BibleVersionGrid** (`src/components/BibleVersionGrid.tsx`)
+   - Displays Bible versions in card format
+   - Shows metadata (publisher, year, scope, etc.)
+   - Handles version selection and navigation
+
+### Search & Filter Components
+1. **SearchBar** (`src/components/search-bar.tsx`)
+   - Text search input with debouncing
+   - URL-based search state management
+
+2. **Filter Components**:
+   - `LanguageFilter.tsx` - Language selection
+   - `CountryFilter.tsx` - Country-based filtering
+   - `TranslationTypeFilter.tsx` - Translation methodology
+   - `ReadingLevelFilter.tsx` - Reading difficulty
+   - `LicenseTypeFilter.tsx` - License restrictions
+   - `DenominationFilter.tsx` - Denominational preferences
+
+3. **FilterChips** (`src/components/FilterChips.tsx`)
+   - Visual representation of active filters
+   - Quick removal of individual filters
+
+### Audio & Verse Components
+1. **AudioPlayer** (`src/components/audio-player.tsx`)
+   - HTML5 audio player with YouVersion integration
+   - Verse synchronization and timing
+   - Volume, seek, and playback controls
+
+2. **VerseComparison** (`src/components/verse-comparison.tsx`)
+   - Multi-version verse comparison
+   - Audio player integration
+   - Smart language suggestions
+
+## API Architecture
+
+### External APIs
+1. **Bible Versions API**
+   - Endpoint: `https://bible-versions-gateway-cb3tumxd.uc.gateway.dev/`
+   - Purpose: Fetch Bible version metadata
+   - Authentication: API key required
+
+2. **Search API**
+   - Endpoint: `https://bible-versions-gateway-cb3tumxd.uc.gateway.dev/search`
+   - Purpose: Semantic search across Bible versions
+   - Returns: Relevance scores and match explanations
+
+3. **YouVersion Audio API**
+   - Endpoint: `https://audio-bible.youversionapistaging.com/3.1/chapter.json`
+   - Purpose: Audio content for Bible chapters
+   - Format: MP3 with timing data
+
+### Internal API Routes
+1. `/api/versions` - Bible version data with filtering
+2. `/api/search` - Search functionality proxy
+3. `/api/languages` - Language metadata
+4. `/api/audio/[versionId]/[reference]` - Audio proxy
+5. `/api/audio-versions/[bibleVersionId]` - Audio version metadata
+6. `/api/verse/[versionId]/[reference]` - Verse text proxy
+
+## Data Models
+
+### BibleVersion Interface
+```typescript
+interface BibleVersion {
+  id: string                    // Unique identifier
+  name: string                  // Local language title
+  title: string                 // English title
+  abbreviation: string          // Version abbreviation
+  translationType: string       // Translation methodology
+  readingLevel: string          // Reading difficulty
+  year: number | null          // Publication year
+  publisher: string            // Publisher name
+  language: string             // Language name
+  language_tag: string         // Language code (e.g., 'en')
+  scope: string               // Bible scope (full, NT, etc.)
+  top_countries: string[]     // Popular countries
+  has_audio: boolean          // Audio availability
+  popularity?: number         // Popularity score
+  license_type: string        // License restrictions
+  relevance_score?: number    // Search relevance
+  match_explanation?: string  // Search explanation
+}
+```
+
+### Filter Interface
+```typescript
+interface BibleVersionFilters {
+  translationType: string[]    // Translation types
+  readingLevel: string[]       // Reading levels
+  language: string[]          // Languages
+  country: string[]           // Countries
+  licenseType: string[]       // License types
+  denomination: string[]      // Denominations
+  yearStart: string          // Start year
+  yearEnd: string            // End year
+  search: string             // Search query
+}
+```
+
+## Key Features
+
+### 1. Advanced Search
+- Semantic search across Bible versions
+- Relevance scoring and explanations
+- Feature-based matching (audio, language, etc.)
+- Real-time search with debouncing
+
+### 2. Comprehensive Filtering
+- Language-based filtering
+- Country-based filtering
+- Translation methodology filtering
+- Reading level filtering
+- License type filtering
+- Denominational filtering
+- Year range filtering
+
+### 3. Audio Integration
+- YouVersion audio API integration
+- Verse-synchronized audio playback
+- Multiple audio quality options
+- Audio availability indicators
+
+### 4. Version Comparison
+- Side-by-side verse comparison
+- Multi-language support
+- Audio playback for each version
+- Smart language suggestions
+
+### 5. Responsive Design
+- Mobile-first approach
+- Tailwind CSS styling
+- Smooth animations with Framer Motion
+- Accessible UI components
+
+## State Management Patterns
+
+### 1. URL-Based State
+- Search queries stored in URL
+- Filter parameters in URL
+- Shareable links with state
+- Browser back/forward support
+
+### 2. Context-Based Global State
+- Bible versions data
+- Language and country metadata
+- Shared across components
+
+### 3. Component Local State
+- UI interactions
+- Loading states
+- Error handling
+- Audio player state
+
+## Performance Optimizations
+
+### 1. Caching Strategy
+- Server-side data fetching with revalidation
+- Client-side caching of API responses
+- Debounced search to reduce API calls
+
+### 2. Code Splitting
+- Dynamic imports for heavy components
+- Route-based code splitting
+- Component lazy loading
+
+### 3. Image Optimization
+- Next.js Image component
+- Optimized loading strategies
+- Responsive image handling
+
+## Error Handling
+
+### 1. API Error Handling
+- Graceful fallbacks for API failures
+- User-friendly error messages
+- Retry mechanisms for transient failures
+
+### 2. Audio Error Handling
+- Fallback for unavailable audio
+- Loading states for audio players
+- Error recovery for audio playback
+
+### 3. Search Error Handling
+- Empty state handling
+- Search failure recovery
+- Partial result display
+
+## Accessibility Features
+
+### 1. Keyboard Navigation
+- Full keyboard support
+- Focus management
+- Screen reader compatibility
+
+### 2. ARIA Labels
+- Proper labeling for screen readers
+- Semantic HTML structure
+- Descriptive alt text
+
+### 3. Color Contrast
+- WCAG compliant color schemes
+- High contrast mode support
+- Accessible color combinations
+
+## Development Workflow
+
+### 1. Code Quality
+- TypeScript for type safety
+- ESLint for code linting
+- Prettier for code formatting
+- Husky for pre-commit hooks
+
+### 2. Testing Strategy
+- Component testing with React Testing Library
+- API route testing
+- Integration testing for user flows
+
+### 3. Deployment
+- Vercel deployment
+- Environment variable management
+- API key security
+- Performance monitoring
+
+## Future Enhancements
+
+### 1. Planned Features
+- Offline support with service workers
+- Advanced audio controls (speed, pitch)
+- User preferences and favorites
+- Social sharing features
+
+### 2. Technical Improvements
+- GraphQL API integration
+- Real-time collaboration features
+- Advanced caching strategies
+- Performance optimizations
+
+### 3. Content Enhancements
+- Additional Bible versions
+- Study notes integration
+- Cross-reference features
+- Commentary integration
+
+## Environment Configuration
+
+### Required Environment Variables
+- `API_KEY`: External API authentication
+- `API_URL`: Bible versions API endpoint
+- `YOUVERSION_API_KEY`: Audio API access
+
+### Development Setup
+```bash
+npm install
+npm run dev
+```
+
+### Build Commands
+```bash
+npm run build
+npm run start
+npm run lint
+```
+
+This documentation provides a comprehensive overview of the Bible Directory v2 project architecture, helping developers understand the codebase structure, data flow, and key features. 
