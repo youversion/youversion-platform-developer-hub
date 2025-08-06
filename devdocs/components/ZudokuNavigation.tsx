@@ -33,10 +33,10 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
       };
     }
     if (item.name === 'Bible Directory') {
-      // Link to bibles site
+      // Link to bibles site root path
       return {
         ...item,
-        path: getBiblesUrl()
+        path: `${getBiblesUrl()}${item.path}`
       };
     }
     // For other items, they should be internal links on the platform site
@@ -48,6 +48,12 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
     // When on devdocs site, all items except "Dev Docs" should link to platform site
     if (item.name === 'Dev Docs') {
       return item.path; // Internal devdocs link
+    }
+    // Bible Directory should link to bibles site
+    if (item.name === 'Bible Directory') {
+      const biblesUrl = getBiblesUrl();
+      console.log('Bible Directory URL:', biblesUrl);
+      return biblesUrl;
     }
     // All other items should link to platform site
     return `${getPlatformUrl()}${item.path}`;
@@ -79,6 +85,18 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
           {publicNavItems.map((item, index) => {
             const isActiveItem = isOnDevdocsSite && item.name === 'Dev Docs';
             const linkHref = createLink(item);
+            
+            if (item.name === 'Bible Directory') {
+              return (
+                <a
+                  key={index}
+                  href={linkHref}
+                  className={`relative text-sm font-medium transition-colors hover:text-foreground mr-4 text-muted-foreground`}
+                >
+                  {item.name}
+                </a>
+              );
+            }
             
             return (
               <a
@@ -137,6 +155,20 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
             
             {publicNavItems.map((item, index) => {
               const linkHref = createLink(item);
+              
+              if (item.name === 'Bible Directory') {
+                return (
+                  <a
+                    key={index}
+                    href={linkHref}
+                    className="block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                );
+              }
+              
               return (
                 <a
                   key={index}
