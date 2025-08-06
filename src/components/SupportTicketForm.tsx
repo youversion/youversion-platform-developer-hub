@@ -50,7 +50,6 @@ const supportTicketSchema = z.object({
   subject: z.string().min(5, 'Subject must be at least 5 characters'),
   description: z.string().min(20, 'Please provide a detailed description (at least 20 characters)'),
   email: z.string().email('Please enter a valid email address'),
-  priority: z.enum(['low', 'medium', 'high', 'urgent']),
   appId: z.string().optional(),
   errorLogs: z.string().optional(),
   browserInfo: z.string().optional(),
@@ -123,7 +122,6 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
       subject: '',
       description: '',
       email: '',
-      priority: 'medium',
       appId: '',
       errorLogs: '',
       browserInfo: navigator.userAgent,
@@ -132,7 +130,7 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
 
   const { watch } = form;
   const selectedCategory = watch('category');
-  const totalSteps = 4;
+  const totalSteps = 2;
   const progress = (currentStep / totalSteps) * 100;
 
   const nextStep = () => {
@@ -208,7 +206,7 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold mb-4">What can we help you with?</h3>
+              <h3 className="text-lg font-semibold mb-4">Describe Your Issue</h3>
               <FormField
                 control={form.control}
                 name="category"
@@ -299,55 +297,40 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
                 </FormItem>
               )}
             />
-          </div>
-        );
-
-      case 2:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Tell us more details</h3>
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Detailed Description *</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Please describe your issue in detail. Include steps to reproduce, expected behavior, and actual behavior."
-                        className="min-h-[120px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Be as specific as possible. This helps us resolve your issue faster.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
 
             <FormField
               control={form.control}
-              name="priority"
+              name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Priority</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="low">Low - General question</SelectItem>
-                      <SelectItem value="medium">Medium - Standard issue</SelectItem>
-                      <SelectItem value="high">High - Blocking my work</SelectItem>
-                      <SelectItem value="urgent">Urgent - Production down</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>Detailed Description *</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Please describe your issue in detail. Include steps to reproduce, expected behavior, and actual behavior."
+                      className="min-h-[120px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Be as specific as possible. This helps us resolve your issue faster.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email Address *</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="your@email.com" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    We'll send updates about your ticket to this email
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -355,11 +338,11 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
           </div>
         );
 
-      case 3:
+      case 2:
         return (
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold mb-4">Technical Information</h3>
+              <h3 className="text-lg font-semibold mb-4">Technical Details & Submit</h3>
               <p className="text-sm text-muted-foreground mb-6">
                 This information helps us debug your issue faster (all optional)
               </p>
@@ -411,32 +394,6 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
                 </div>
               </div>
             </div>
-          </div>
-        );
-
-      case 4:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-            </div>
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email Address *</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="your@email.com" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    We'll send updates about your ticket to this email
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <Card className="bg-orange-50/50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800">
               <CardHeader className="pb-3">
