@@ -14,7 +14,7 @@ export const getDefaultNavItems = (): NavItem[] => [
   },
   {
     name: 'Bible Directory',
-    path: '/bibles'
+    path: '/'
   },
   {
     name: 'Support',
