@@ -1,6 +1,7 @@
 description: Installation ID for the app
 in: header
-name: X-YVP-Installation-ID
+name: x-yv-iid
 required: true
 schema:
   type: string
+  default: "dev-portal-api-runner"

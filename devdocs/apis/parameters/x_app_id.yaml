@@ -4,3 +4,4 @@ name: X-App-Id
 required: true
 schema:
   type: string
+  default: "r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN"
