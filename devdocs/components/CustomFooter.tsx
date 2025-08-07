@@ -61,13 +61,6 @@ const CustomFooter = () => {
                   Support
                 </a>
               </li>
-              {isDevelopmentMode() && (
-                <li>
-                  <a href={`${getPlatformUrl()}/style-guide`} className="text-muted-foreground hover:text-foreground transition-colors">
-                    Dev Portal Styles
-                  </a>
-                </li>
-              )}
             </ul>
           </div>
 
