@@ -21,11 +21,11 @@ const config: ZudokuConfig = {
     //   color: "info",
     //   dismissible: true
     // },
-    footer: {
-      // Footer configuration goes here
-      //position: "center",
-      copyright: ` `,
-      // Other options...
+     footer: {
+    //   // Footer configuration goes here
+    //   //position: "center",
+    //   copyright: ` `,
+    //   // Other options...
     },
 
   },
@@ -145,18 +145,16 @@ const config: ZudokuConfig = {
       header .max-w-screen-2xl .flex a div {
         column-gap: 8px !important;
         }
-      
-      /* Override old footer styling */
-      footer{ width:100%; }
-      footer div:first-child {
-        padding: 0 !important;
-        margin: 0 !important;
-        max-width:100% !important;  
+      /* Footer */
+      footer {
+        background-color: rgba(246, 246, 246, 0.3);
+        border-top: 1px solid rgb(226, 232, 240);
       }
+      footer div:first-child { padding-top:10px; }
       /* Hide Zudoku footer link */
       nav + div {
         display: none !important;
-      }
+      } */
       /* Hide Zudoku logo */
       header img[src*="zudoku"],
       header img[alt*="Zudoku"],

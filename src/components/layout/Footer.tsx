@@ -1,22 +1,12 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { AlertTriangle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { isDevelopmentMode, getPlatformUrl, getDevdocsUrl, getBiblesUrl } from '../../../shared/config/urls';
 
 const Footer = () => {
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [showTosModal, setShowTosModal] = useState(false);
   return (
     <footer className="bg-muted/30 border-t">
-      {/* Notification Bar */}
-      <div className="bg-amber-50 border-b border-amber-200 dark:bg-amber-900/20 dark:border-amber-800">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 text-center">
-          <div className="flex items-center justify-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-            <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
-              Footer is a placeholder and not final
-            </p>
-          </div>
-        </div>
-      </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* YouVersion Developers */}
@@ -76,14 +66,22 @@ const Footer = () => {
             <h4 className="font-medium mb-3">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setShowPrivacyModal(true)}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Privacy Policy
-                </a>
+                </button>
               </li>
                <li>
-                 <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                 <button
+                   type="button"
+                   onClick={() => setShowTosModal(true)}
+                   className="text-muted-foreground hover:text-foreground transition-colors"
+                 >
                    Terms of Service
-                 </a>
+                 </button>
                </li>
              </ul>
            </div>
@@ -118,6 +116,60 @@ const Footer = () => {
               </div>
             </>
           )}
+        {/* Privacy Policy Modal */}
+        {showPrivacyModal && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+            onClick={() => setShowPrivacyModal(false)}
+          >
+            <div
+              className="bg-background border rounded-md shadow-lg w-[90vw] max-w-xl p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-lg font-semibold mb-2">Privacy Policy</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Placeholder privacy policy content. This will be replaced with the final policy text.
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md border px-3 py-1.5 text-sm"
+                  onClick={() => setShowPrivacyModal(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Terms of Service Modal */}
+        {showTosModal && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+            onClick={() => setShowTosModal(false)}
+          >
+            <div
+              className="bg-background border rounded-md shadow-lg w-[90vw] max-w-xl p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-lg font-semibold mb-2">Terms of Service</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Placeholder terms of service content. This will be replaced with the final terms.
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md border px-3 py-1.5 text-sm"
+                  onClick={() => setShowTosModal(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Copyright */}
         <div className="mt-8 pt-6 border-t border-border">
           <p className="text-sm text-muted-foreground">
