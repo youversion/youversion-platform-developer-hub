@@ -122,7 +122,13 @@ const GetStarted = () => {
               <CardTitle>1. Sign in with YouVersion and connect to the Platform</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="mb-4">Sign up for a developer account (don't forget to use your existing YouVersion account if you have one!) and create an App key to start making requests to the YouVersion APIs.</CardDescription>
+              <CardDescription className="mb-4"> Already have a YouVersion account? Use your existing credentials to sign in. 
+
+New to YouVersion? No problem—create a new account to get started! 
+
+Once you're signed up, create an App key to begin making requests to the YouVersion APIs
+
+            </CardDescription>
               <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} stroked></sign-in-with-youversion-button>
             </CardContent>
           </Card>
