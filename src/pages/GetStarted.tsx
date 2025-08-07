@@ -156,9 +156,7 @@ const GetStarted = () => {
               <CardTitle>3. Explore Bible Content</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="mb-4">
-                Browse our directory of available Bible translations and choose the ones for your app.
-              </CardDescription>
+              <CardDescription className="mb-4">Browse a directory of Bible versions and choose the right ones for your app.</CardDescription>
               <Button asChild variant="default">
                 <Link to="/bible-directory">Browse Bibles</Link>
               </Button>
@@ -171,9 +169,7 @@ const GetStarted = () => {
               <CardTitle>4. Build Amazing Apps</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="mb-4">
-                Use our examples and code samples to quickly integrate Bible content into your applications.
-              </CardDescription>
+              <CardDescription className="mb-4">Use our examples and code samples to quickly integrate Bible content into your applications.</CardDescription>
               <Button asChild variant="default">
                 <Link to="/examples">View Examples</Link>
               </Button>
