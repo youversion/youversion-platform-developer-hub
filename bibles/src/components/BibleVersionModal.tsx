@@ -117,7 +117,7 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
       />
       
       {/* Modal */}
-      <div className="relative w-full max-w-7xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-white via-gray-50 to-white dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 rounded-2xl border border-gray-200/50 dark:border-slate-700/50 shadow-2xl transition-colors">
+      <div className="relative w-full max-w-7xl max-h-[90vh] overflow-y-auto bg-card rounded-2xl border border-border shadow-2xl transition-colors">
         {/* Close Button */}
         <button
           onClick={handleClose}
@@ -140,17 +140,16 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
           {version && transformedVersion && (
             <div className="space-y-6">
               {/* Version Details Card */}
-              <div className="relative backdrop-blur-xl bg-gradient-to-b from-gray-100/70 to-white/70 dark:from-slate-800/70 dark:to-slate-900/70 border border-gray-300/50 dark:border-slate-700/50 shadow-xl rounded-2xl transition-colors">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none rounded-2xl" />
+              <div className="relative backdrop-blur-xl bg-card border border-border shadow-xl rounded-2xl transition-colors">
                 <div className="relative p-6">
                   {/* Version Header */}
                   <div>
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                        <h1 className="text-3xl font-bold text-card-foreground">
                           {version.local_title}
                         </h1>
-                        <div className="mt-1.5 text-gray-600 dark:text-slate-300">
+                        <div className="mt-1.5 text-muted-foreground">
                           <a 
                             href={`https://www.bible.com/versions/${version.bible_version_id}`}
                             target="_blank"
@@ -161,21 +160,21 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
                           </a>
                         </div>
                         <div className="flex items-center flex-wrap gap-2 mt-3">
-                          <span className="px-2 py-0.5 bg-gray-200/50 dark:bg-slate-800/50 text-gray-700 dark:text-slate-300 border border-gray-300/50 dark:border-slate-700/50 rounded text-sm">
+                          <span className="px-2 py-0.5 bg-muted text-muted-foreground border border-border rounded text-sm">
                             {version.abbreviation}
                           </span>
-                          <span className="px-2 py-0.5 bg-gray-200/50 dark:bg-slate-800/50 text-gray-700 dark:text-slate-300 border border-gray-300/50 dark:border-slate-700/50 rounded text-sm">
+                          <span className="px-2 py-0.5 bg-muted text-muted-foreground border border-border rounded text-sm">
                             {version.language_name}
                           </span>
                           {version.release_year && (
-                            <span className="px-2 py-0.5 bg-gray-200/50 dark:bg-slate-800/50 text-gray-700 dark:text-slate-300 border border-gray-300/50 dark:border-slate-700/50 rounded text-sm">
+                            <span className="px-2 py-0.5 bg-muted text-muted-foreground border border-border rounded text-sm">
                               {version.release_year}
                               {version.last_revision_year && version.last_revision_year.toString() !== version.release_year && 
                                 ` (Rev. ${version.last_revision_year})`
                               }
                             </span>
                           )}
-                          <span className="px-2 py-0.5 bg-gray-200/50 dark:bg-slate-800/50 text-gray-700 dark:text-slate-300 border border-gray-300/50 dark:border-slate-700/50 rounded text-sm">
+                          <span className="px-2 py-0.5 bg-muted text-muted-foreground border border-border rounded text-sm">
                             {getScopeLabel(version.scope)}
                           </span>
                           {version.has_audio && (
@@ -186,7 +185,7 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
                           )}
                         </div>
                         {version.version_description && (
-                          <div className="text-gray-700 dark:text-slate-300 text-base leading-relaxed max-w-4xl mt-4">
+                          <div className="text-muted-foreground text-base leading-relaxed max-w-4xl mt-4">
                             {version.version_description}
                           </div>
                         )}
@@ -196,20 +195,20 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
                       {/* Translation Details */}
                       <div>
-                        <h2 className="text-lg font-semibold text-white flex items-center gap-2 mb-3">
+                        <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-3">
                           <Book className="h-5 w-5 text-blue-300" />
                           Translation Details
                         </h2>
                         <div className="space-y-4">
                           <div className="grid grid-cols-2 gap-x-6 gap-y-3">
                             <div>
-                              <div className="text-slate-400 text-sm">Translation Type</div>
-                              <div className="text-white">
+                              <div className="text-muted-foreground text-sm">Translation Type</div>
+                              <div className="text-card-foreground">
                                 <Tooltip>
                                   <TooltipTrigger>
                                     <span className="inline-flex items-center gap-1.5">
                                       {version.translation_type.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
-                                      <Info className="h-3.5 w-3.5 text-slate-400" />
+                                      <Info className="h-3.5 w-3.5 text-muted-foreground" />
                                     </span>
                                   </TooltipTrigger>
                                   <TooltipContent className="z-50">
@@ -231,13 +230,13 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
                             </div>
 
                             <div>
-                              <div className="text-slate-400 text-sm">Reading Level</div>
-                              <div className="text-white">
+                              <div className="text-muted-foreground text-sm">Reading Level</div>
+                              <div className="text-card-foreground">
                                 <Tooltip>
                                   <TooltipTrigger>
                                     <span className="inline-flex items-center gap-1.5">
                                       {version.reading_level.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
-                                      <Info className="h-3.5 w-3.5 text-slate-400" />
+                                      <Info className="h-3.5 w-3.5 text-muted-foreground" />
                                     </span>
                                   </TooltipTrigger>
                                   <TooltipContent className="z-50">
@@ -260,14 +259,14 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
                           </div>
 
                           <div>
-                            <div className="text-slate-400 text-sm">License</div>
-                            <div className="text-white">
+                            <div className="text-muted-foreground text-sm">License</div>
+                            <div className="text-card-foreground">
                               {version.license_type && version.license_description ? (
                                 <Tooltip>
                                   <TooltipTrigger>
                                     <span className="inline-flex items-center gap-1.5">
                                       {version.license_type.replace(/\*/g, '').replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
-                                      <Info className="h-3.5 w-3.5 text-slate-400" />
+                                      <Info className="h-3.5 w-3.5 text-muted-foreground" />
                                     </span>
                                   </TooltipTrigger>
                                   <TooltipContent className="z-50">
@@ -282,8 +281,8 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
 
                           {version.source_manuscript && version.source_manuscript.length > 0 && (
                             <div>
-                              <div className="text-slate-400 text-sm">Source Manuscripts</div>
-                              <div className="text-white space-y-1">
+                              <div className="text-muted-foreground text-sm">Source Manuscripts</div>
+                              <div className="text-card-foreground space-y-1">
                                 {version.source_manuscript.map((manuscript: string, index: number) => (
                                   <div key={index}>• {manuscript}</div>
                                 ))}
@@ -293,10 +292,10 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
 
                           {version.popular_denominations && version.popular_denominations.length > 0 && (
                             <div>
-                              <div className="text-slate-400 text-sm">Popular Denominations</div>
-                              <div className="text-white flex flex-wrap gap-2 mt-1">
+                              <div className="text-muted-foreground text-sm">Popular Denominations</div>
+                              <div className="text-card-foreground flex flex-wrap gap-2 mt-1">
                                 {version.popular_denominations.map((denomination: string, index: number) => (
-                                  <span key={index} className="inline-flex items-center px-2 py-1 bg-slate-800/50 rounded-full text-sm">
+                                  <span key={index} className="inline-flex items-center px-2 py-1 bg-muted rounded-full text-sm text-muted-foreground">
                                     {denomination.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
                                   </span>
                                 ))}
@@ -506,10 +505,9 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
               </div>
 
               {/* Compare Translations Card */}
-              <div className="relative backdrop-blur-xl bg-gradient-to-b from-slate-800/70 to-slate-900/70 border border-slate-700/50 shadow-xl rounded-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-blue-500/10 pointer-events-none rounded-2xl" />
+              <div className="relative backdrop-blur-xl bg-card border border-border shadow-xl rounded-2xl">
                 <div className="relative p-6">
-                  <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  <h2 className="text-xl font-semibold text-card-foreground mb-4 flex items-center gap-2">
                     <BookOpen className="h-5 w-5 text-blue-300" />
                     Compare Translations
                   </h2>

@@ -155,4 +155,9 @@
   .animate-shimmer {
     animation: shimmer 2s ease-in-out infinite;
   }
+  
+  /* Ensure font-medium works properly */
+  .font-medium {
+    font-weight: 500 !important;
+  }
 }

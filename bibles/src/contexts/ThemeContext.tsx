@@ -2,11 +2,11 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'light' | 'dark'
+type Theme = 'light' | 'dark' | 'system'
 
 interface ThemeContextType {
   theme: Theme
-  toggleTheme: () => void
+  setTheme: (theme: Theme) => void
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
@@ -16,34 +16,40 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Check if we're in the browser environment
     if (typeof window !== 'undefined') {
       // Check for saved theme preference or default to system preference
-      const savedTheme = localStorage.getItem('theme') as Theme
+      const savedTheme = localStorage.getItem('ui-theme') as Theme
       if (savedTheme) {
         return savedTheme
       }
-      // Default to system preference instead of hardcoded 'dark'
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      // Default to system preference
+      return 'system'
     }
-    // Default to light theme during SSR
-    return 'light'
+    // Default to system theme during SSR
+    return 'system'
   })
 
   useEffect(() => {
     // Only run in browser environment
     if (typeof window !== 'undefined') {
-      // Update document class and save to localStorage
       const root = document.documentElement
       root.classList.remove('light', 'dark')
+
+      if (theme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        root.classList.add(systemTheme)
+        return
+      }
+
       root.classList.add(theme)
-      localStorage.setItem('theme', theme)
     }
   }, [theme])
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light')
+  const handleSetTheme = (newTheme: Theme) => {
+    localStorage.setItem('ui-theme', newTheme)
+    setTheme(newTheme)
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme: handleSetTheme }}>
       {children}
     </ThemeContext.Provider>
   )

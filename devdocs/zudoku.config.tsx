@@ -1,9 +1,11 @@
 import type { ZudokuConfig } from "zudoku";
 import { ZudokuNavigation } from "./components/ZudokuNavigation";
 import DevdocsSearchBar from "./components/DevdocsSearchBar";
-import { getDefaultNavItems } from "../shared/config/navigation";
+import { getDevdocsNavItems } from "../shared/config/navigation";
+import { getPlatformUrl } from "../shared/config/urls";
 import { PageBanner } from "./components/PageBanner";
 import CustomFooter from "./components/CustomFooter";
+import { LogoUrlUpdater } from "./components/LogoUrlUpdater";
 
 const config: ZudokuConfig = {
   site: {
@@ -12,7 +14,8 @@ const config: ZudokuConfig = {
       src: { light: "/youversion-logo.png", dark: "/youversion-logo.png" },
       alt: "YouVersion Bible API",
       width: "32px",
-    },
+      href: getPlatformUrl(),
+    } as any,
     // banner: {
     //   message: "Welcome to our documentation!",
     //   color: "info",
@@ -44,13 +47,14 @@ const config: ZudokuConfig = {
     //     <span className="ml-2 font-semibold text-lg">YouVersion Platform</span>
     //   </div>
     // ),
-    "head-navigation-start": () => (
+            "head-navigation-start": () => (
       <ZudokuNavigation
         isAuthenticated={false}
-        navItems={getDefaultNavItems()}
+        navItems={getDevdocsNavItems()}
       />
     ),
     "footer-after": () => <CustomFooter />,
+    "head-navigation-end": () => <LogoUrlUpdater />,
   },
   theme: {
     light: {
@@ -108,6 +112,21 @@ const config: ZudokuConfig = {
       /* Ensure body and html also use Inter */
       body, html {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+      }
+      
+      /* Apply Inter font to all text elements */
+      h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+      }
+      
+      /* Ensure navigation and sidebar use Inter */
+      nav, aside, .sidebar, .navigation {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+      }
+      
+      /* Ensure font-medium works properly */
+      .font-medium {
+        font-weight: 500 !important;
       }
       /* Override Zudoku header container to match main site styling */
       header .max-w-screen-2xl {

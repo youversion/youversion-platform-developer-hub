@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AlertTriangle } from 'lucide-react';
+import { isDevelopmentMode, getPlatformUrl, getDevdocsUrl, getBiblesUrl } from '../../../shared/config/urls';
 
 const Footer = () => {
   return (
@@ -20,25 +21,30 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* YouVersion Developers */}
           <div className="md:col-span-1">
-            <h3 className="font-semibold text-lg mb-3">YouVersion Developers</h3>
+            <h3 className="font-semibold text-lg mb-3">YouVersion Platform</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Build applications and integrate with the world's most popular Bible platform.
             </p>
           </div>
 
           {/* Products */}
-          <div className="hidden">
-            <h4 className="font-medium mb-3">Products</h4>
+          <div>
+            <h4 className="font-medium mb-3">Platform Products</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/bible-directory" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Bible Directory
-                </Link>
+            <li>
+                <a href={getPlatformUrl()} className="text-muted-foreground hover:text-foreground transition-colors">
+                  Platform Portal
+                </a>
               </li>
-              <li className="hidden">
-                <Link to="/platform" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Platform Dashboard
-                </Link>
+              <li>
+                <a href={getDevdocsUrl()} className="text-muted-foreground hover:text-foreground transition-colors">
+                  Developer Documentation
+                </a>
+              </li>
+              <li>
+                <a href={getBiblesUrl()} className="text-muted-foreground hover:text-foreground transition-colors">
+                Bible Directory
+                </a>
               </li>
               <li className="hidden">
                 <Link to="/platform/apps" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -53,11 +59,6 @@ const Footer = () => {
             <h4 className="font-medium mb-3">Resources</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/docs/quick-start" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Documentation
-                </Link>
-              </li>
-              <li>
                 <Link to="/get-started" className="text-muted-foreground hover:text-foreground transition-colors">
                   Getting Started
                 </Link>
@@ -67,18 +68,8 @@ const Footer = () => {
                   Support
                 </Link>
               </li>
-              <li>
-                <Link to="/docs/examples" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Examples
-                </Link>
-               </li>
-               <li>
-                 <Link to="/style-guide" className="text-muted-foreground hover:text-foreground transition-colors">
-                   Dev Portal Styles
-                 </Link>
-               </li>
-             </ul>
-           </div>
+            </ul>
+          </div>
 
           {/* Legal */}
           <div>
@@ -97,7 +88,36 @@ const Footer = () => {
              </ul>
            </div>
         </div>
-
+        {isDevelopmentMode() && (
+            <>
+              {/* Resources */}
+              <div>
+                <h4 className="font-medium mb-3">Dev Stuff</h4>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <Link to="/docs/api" className="text-muted-foreground hover:text-foreground transition-colors">
+                      Hackthon API docs
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/docs/examples" className="text-muted-foreground hover:text-foreground transition-colors">
+                      Examples (Hackathon)
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/style-guide" className="text-muted-foreground hover:text-foreground transition-colors">
+                      Dev Portal Styles
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/docs/quick-start" className="text-muted-foreground hover:text-foreground transition-colors">
+                      Old Quick Start
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
         {/* Copyright */}
         <div className="mt-8 pt-6 border-t border-border">
           <p className="text-sm text-muted-foreground">

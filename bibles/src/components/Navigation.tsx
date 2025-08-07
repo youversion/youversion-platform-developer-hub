@@ -1,48 +1,25 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, Moon, Sun, BookOpen, Menu, X } from 'lucide-react'
+import { Search, Menu, X } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useTheme } from '@/contexts/ThemeContext'
-import { getPlatformUrl, getDevdocsUrl } from '../../../shared/config/urls'
-import { getDefaultNavItems } from '../../../shared/config/navigation'
+import { getBiblesNavItems } from '../../../shared/config/navigation'
+import { getPlatformUrl } from '../../../shared/config/urls'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 export function Navigation() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
-  const { theme, toggleTheme } = useTheme()
+  const { theme } = useTheme()
 
-  // Use shared navigation configuration but override paths for cross-site navigation
-  const sharedNavItems = getDefaultNavItems()
-  const navigationLinks = sharedNavItems.map(item => {
-    if (item.name === 'Dev Docs') {
-      // Link to devdocs site
-      return {
-        href: `${getDevdocsUrl()}/introduction`,
-        label: item.name,
-        active: false,
-        external: true
-      }
-    }
-    if (item.name === 'Bible Directory') {
-      // This is the current site, so it should be active
-      return {
-        href: '/',
-        label: item.name,
-        active: true,
-        external: false
-      }
-    }
-    // For other items, they should link to platform site
-    return {
-      href: `${getPlatformUrl()}${item.path}`,
-      label: item.name,
-      active: false,
-      external: true
-    }
-  })
+  // Use shared navigation configuration with proper cross-site URLs
+  const navigationLinks = getBiblesNavItems().map(item => ({
+    href: item.path,
+    label: item.name,
+    active: item.name === 'Bible Directory',
+    external: item.external
+  }))
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -60,7 +37,7 @@ export function Navigation() {
       <div className="max-w-[1400px] mx-auto flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left section - Logo and Brand */}
         <div className="flex items-center">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={getPlatformUrl()} className="flex items-center space-x-2">
             <img 
               src="/96d1a6db-0f5a-40d5-83ff-ceb74c2ab021.png" 
               alt="YouVersion Bible Logo" 
@@ -83,6 +60,7 @@ export function Navigation() {
                   className={`relative text-sm font-medium transition-colors hover:text-foreground ${
                     link.active ? 'text-foreground' : 'text-muted-foreground'
                   }`}
+                  style={{ fontWeight: 500 }}
                 >
                   {link.label}
                   {link.active && <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>}
@@ -94,6 +72,7 @@ export function Navigation() {
                   className={`relative text-sm font-medium transition-colors hover:text-foreground ${
                     link.active ? 'text-foreground' : 'text-muted-foreground'
                   }`}
+                  style={{ fontWeight: 500 }}
                 >
                   {link.label}
                   {link.active && <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-[#FF3D4D]"></div>}
@@ -117,13 +96,7 @@ export function Navigation() {
           </form>
 
           {/* Mode Toggle */}
-          <button 
-            onClick={toggleTheme}
-            className="text-muted-foreground hover:text-foreground transition-colors p-2 rounded-lg hover:bg-muted"
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
+          <ThemeToggle />
 
           {/* Mobile menu button */}
           <button
@@ -162,6 +135,7 @@ export function Navigation() {
                   className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${
                     link.active ? 'text-foreground' : 'text-muted-foreground'
                   }`}
+                  style={{ fontWeight: 500 }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
@@ -173,6 +147,7 @@ export function Navigation() {
                   className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${
                     link.active ? 'text-foreground' : 'text-muted-foreground'
                   }`}
+                  style={{ fontWeight: 500 }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}

@@ -5,8 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import SearchBar from './SearchBar';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Menu, X } from 'lucide-react';
-import { getDevdocsUrl, getPlatformUrl, getBiblesUrl } from '../../../shared/config/urls';
-import { getDefaultNavItems } from '../../../shared/config/navigation';
+import { getPlatformNavItems } from '../../../shared/config/navigation';
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
@@ -20,26 +19,8 @@ const Header = () => {
     return location.pathname === path;
   };
   const isOnPlatform = location.pathname.startsWith('/platform');
-  // Use shared navigation configuration but override paths for cross-site navigation
-  const sharedNavItems = getDefaultNavItems();
-  const publicNavItems = sharedNavItems.map(item => {
-    if (item.name === 'Dev Docs') {
-      // Link to devdocs site
-      return {
-        ...item,
-        path: `${getDevdocsUrl()}/introduction`
-      };
-    }
-    if (item.name === 'Bible Directory') {
-      // Link to bibles site
-      return {
-        ...item,
-        path: getBiblesUrl()
-      };
-    }
-    // For other items, they should be internal links on the platform site
-    return item;
-  });
+  // Use shared navigation configuration with proper cross-site URLs
+  const publicNavItems = getPlatformNavItems();
   return <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
       <div className="container flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center">
@@ -59,9 +40,7 @@ const Header = () => {
               </Link>}
 
             {publicNavItems.map(item => {
-              // Check if it's an external link (Dev Docs and Bible Directory link to external sites)
-              const isExternal = item.name === 'Dev Docs' || item.name === 'Bible Directory';
-              if (isExternal) {
+              if (item.external) {
                 return (
                   <a 
                     key={item.path} 
@@ -110,9 +89,7 @@ const Header = () => {
               </Link>}
             
             {publicNavItems.map(item => {
-              // Check if it's an external link (Dev Docs and Bible Directory link to external sites)
-              const isExternal = item.name === 'Dev Docs' || item.name === 'Bible Directory';
-              if (isExternal) {
+              if (item.external) {
                 return (
                   <a 
                     key={item.path} 

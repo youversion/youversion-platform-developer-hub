@@ -302,7 +302,7 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
       : availableVersions.find(v => v.bible_version_id === versionId)
 
     if (loading) {
-      return <p className="italic text-slate-400">Loading verse...</p>
+      return <p className="italic text-muted-foreground">Loading verse...</p>
     }
 
     if (error) {
@@ -333,8 +333,8 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
     if (verse) {
       return (
         <div>
-          <p className="text-slate-100 leading-relaxed">{verse.content}</p>
-          <p className="text-xs text-slate-400 mt-2">
+          <p className="text-card-foreground leading-relaxed">{verse.content}</p>
+          <p className="text-xs text-muted-foreground mt-2">
             {verse.reference.human}
           </p>
         </div>
@@ -342,9 +342,9 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
     }
 
     return (
-      <div className="bg-slate-800/30 border border-slate-600/30 rounded-lg p-3">
-        <p className="italic text-slate-400 text-sm mb-1">Enter a reference to view verse</p>
-        <p className="text-slate-500 text-xs">
+      <div className="bg-card border border-border rounded-lg p-3">
+        <p className="italic text-muted-foreground text-sm mb-1">Enter a reference to view verse</p>
+        <p className="text-muted-foreground/70 text-xs">
           Try formats like &quot;John 3:16&quot;, &quot;Genesis 1:1&quot;, or &quot;Psalm 23:1&quot;
         </p>
       </div>
@@ -356,7 +356,7 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
   const filteredVersionsForDropdown = availableVersions
 
   if (isLoading) {
-    return <div className="text-slate-300">Loading available versions...</div>
+    return <div className="text-card-foreground">Loading available versions...</div>
   }
 
   if (error) {
@@ -377,7 +377,7 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
       <div className="flex flex-col sm:flex-row gap-4">
         {/* Reference input */}
         <div className="flex-1">
-          <label htmlFor="reference" className="block text-sm font-medium text-slate-300 mb-2">
+          <label htmlFor="reference" className="block text-sm font-medium text-card-foreground mb-2">
             Bible Reference
           </label>
           <input
@@ -386,20 +386,20 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
             placeholder="e.g. John 3:16"
             value={reference}
             onChange={(e) => setReference(e.target.value)}
-            className="w-full px-4 py-2 bg-slate-700/50 border border-slate-600 rounded-md text-slate-100 placeholder-slate-400
+            className="w-full px-4 py-2 bg-card border border-border rounded-md text-card-foreground placeholder-muted-foreground
                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         {/* Version selector */}
         <div className="flex-1">
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-card-foreground mb-2">
             Compare with
           </label>
           <div className="relative">
             <button
               type="button"
-              className="w-full px-4 py-2 bg-slate-700/50 border border-slate-600 rounded-md text-slate-100
+              className="w-full px-4 py-2 bg-card border border-border rounded-md text-card-foreground
                        flex items-center justify-between
                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               onClick={() => {
@@ -423,21 +423,21 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
             
             <div
               id="version-dropdown"
-              className="hidden absolute z-50 mt-2 w-full bg-slate-800 border border-slate-600 rounded-md shadow-lg max-h-60 overflow-auto"
+              className="hidden absolute z-50 mt-2 w-full bg-card border border-border rounded-md shadow-lg max-h-60 overflow-auto"
             >
               {filteredVersionsForDropdown.map(version => (
                 <label
                   key={version.bible_version_id}
-                  className="flex items-center justify-between px-4 py-2 hover:bg-slate-700 cursor-pointer"
+                  className="flex items-center justify-between px-4 py-2 hover:bg-muted cursor-pointer"
                 >
                   <div className="flex items-center">
                     <input
                       type="checkbox"
                       checked={selectedVersions.includes(version.bible_version_id)}
                       onChange={() => toggleVersion(version.bible_version_id)}
-                      className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      className="h-4 w-4 rounded border-border text-blue-600 focus:ring-blue-500"
                     />
-                    <span className="ml-3 text-slate-100">{version.abbreviation} - {(version as any).local_title || (version as any).name}</span>
+                    <span className="ml-3 text-card-foreground">{version.abbreviation} - {(version as any).local_title || (version as any).name}</span>
                   </div>
                   {version.has_audio && (
                     <div className="flex items-center gap-1 text-emerald-400 text-xs">
@@ -456,14 +456,14 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
       {debouncedReference && (
         <div className="space-y-4">
           {allVersionsToDisplay.map(version => (
-            <div key={version!.bible_version_id} className="bg-slate-700/30 rounded-lg p-4 border border-slate-600/30">
+            <div key={version!.bible_version_id} className="bg-card rounded-lg p-4 border border-border">
               {/* Version Header */}
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-sm font-medium text-slate-200">{version?.abbreviation}</span>
+                <span className="text-sm font-medium text-card-foreground">{version?.abbreviation}</span>
                 {version?.has_audio && (
                   <Volume2 className="h-3.5 w-3.5 text-emerald-300" />
                 )}
-                <span className="text-sm text-slate-400">{(version as any)?.local_title || (version as any)?.name}</span>
+                <span className="text-sm text-muted-foreground">{(version as any)?.local_title || (version as any)?.name}</span>
               </div>
               
               {/* Content and Audio */}

@@ -29,21 +29,15 @@ const urls: SiteUrls = {
 };
 
 export const getPlatformUrl = (): string => {
-  return process.env.NODE_ENV === 'production' 
-    ? urls.platform.production 
-    : urls.platform.development;
+  return isDevelopmentMode() ? urls.platform.development : urls.platform.production;
 };
 
 export const getDevdocsUrl = (): string => {
-  return process.env.NODE_ENV === 'production' 
-    ? urls.devdocs.production 
-    : urls.devdocs.development;
+  return isDevelopmentMode() ? urls.devdocs.development : urls.devdocs.production;
 };
 
 export const getBiblesUrl = (): string => {
-  return process.env.NODE_ENV === 'production' 
-    ? urls.bibles.production 
-    : urls.bibles.development;
+  return isDevelopmentMode() ? urls.bibles.development : urls.bibles.production;
 };
 
 export const getCurrentSiteUrl = (): string => {
@@ -53,6 +47,42 @@ export const getCurrentSiteUrl = (): string => {
     return urls.devdocs.development; // Consistent fallback for SSR
   }
   return window.location.origin;
+};
+
+export const isDevelopmentMode = (): boolean => {
+  // Prefer Vite-style environment flags when available
+  try {
+    // Use `any` to avoid type issues across toolchains (Vite, Next, Node)
+    const viteEnv: any = (typeof import.meta !== 'undefined')
+      ? (import.meta as any).env
+      : undefined;
+
+    if (viteEnv) {
+      if (typeof viteEnv.DEV === 'boolean') {
+        return viteEnv.DEV;
+      }
+      if (typeof viteEnv.MODE === 'string') {
+        return viteEnv.MODE !== 'production';
+      }
+    }
+  } catch {
+    // no-op
+  }
+
+  // Fallback to Node/Next.js convention
+  if (typeof process !== 'undefined' && process.env && typeof process.env.NODE_ENV === 'string') {
+    return process.env.NODE_ENV !== 'production';
+  }
+
+  // Last-resort heuristic in the browser
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1' || host.endsWith('.local')) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 export default urls; 
