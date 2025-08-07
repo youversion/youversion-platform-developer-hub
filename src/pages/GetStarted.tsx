@@ -8,7 +8,9 @@ import { Code, User, BookOpen, Zap } from 'lucide-react';
 // Extend window interface for YouVersion SDK callbacks
 declare global {
   interface Window {
-    onYouVersionAuthComplete?: (authData: { lat?: string }) => void;
+    onYouVersionAuthComplete?: (authData: {
+      lat?: string;
+    }) => void;
     onYouVersionAuthLoad?: (authData: unknown) => void;
     onYouVersionSignOut?: () => void;
   }
@@ -22,36 +24,31 @@ declare global {
     }
   }
 }
-
-const apps = [
-  {
-    name: "Lovable Preview Dev Portal",
-    callback_uri: "https://preview--yv-platform-dev.lovable.app/callback",
-    app_id: "gGzypYFGGi7eGzFGYEiSyMnlbtDBfAYQs2YO6AHgE7jrjZIF",
-  },
-  {
-    name: "Lovable Editor Dev Portal",
-    callback_uri: "https://lovable.dev/projects/1db92764-c613-4359-a989-a9a7c646763e/callback",
-    app_id: "gKtUcNTYQ0mcAYte9Uta9KZRUAA4u5FcdOnTYmggiBFtKStJ",
-  },
-  {
-    name: "YV Dev Portal",
-    callback_uri: "https://developers.youversion.com/callback",
-    app_id: "dkV1PqA2YwNdtzGGYlZWAxAk72mJDUWmVd6QeIRqr9WlLjX2",
-  },
-  {
-    name: "Localhost8080 Dev Portal",
-    callback_uri: "http://localhost:8080/callback",
-    app_id: "iAfkrb9YmBbmASXMGPXxxwLXEFXkXa7cyLLwzc2GpQuGgtJW",
-  },
-];
-
+const apps = [{
+  name: "Lovable Preview Dev Portal",
+  callback_uri: "https://preview--yv-platform-dev.lovable.app/callback",
+  app_id: "gGzypYFGGi7eGzFGYEiSyMnlbtDBfAYQs2YO6AHgE7jrjZIF"
+}, {
+  name: "Lovable Editor Dev Portal",
+  callback_uri: "https://lovable.dev/projects/1db92764-c613-4359-a989-a9a7c646763e/callback",
+  app_id: "gKtUcNTYQ0mcAYte9Uta9KZRUAA4u5FcdOnTYmggiBFtKStJ"
+}, {
+  name: "YV Dev Portal",
+  callback_uri: "https://developers.youversion.com/callback",
+  app_id: "dkV1PqA2YwNdtzGGYlZWAxAk72mJDUWmVd6QeIRqr9WlLjX2"
+}, {
+  name: "Localhost8080 Dev Portal",
+  callback_uri: "http://localhost:8080/callback",
+  app_id: "iAfkrb9YmBbmASXMGPXxxwLXEFXkXa7cyLLwzc2GpQuGgtJW"
+}];
 const GetStarted = () => {
   const navigate = useNavigate();
-  const { theme } = useTheme();
+  const {
+    theme
+  } = useTheme();
   const [selectedApp, setSelectedApp] = React.useState(() => {
     const currentHostname = window.location.hostname;
-    const matchedApp = apps.find((app) => {
+    const matchedApp = apps.find(app => {
       try {
         const appHostname = new URL(app.callback_uri).hostname;
         return appHostname === currentHostname;
@@ -86,7 +83,9 @@ const GetStarted = () => {
     document.body.dataset.youversionPlatformAppId = selectedApp.app_id;
 
     // Set up auth callback handlers
-    window.onYouVersionAuthComplete = (authData: { lat?: string }) => {
+    window.onYouVersionAuthComplete = (authData: {
+      lat?: string;
+    }) => {
       console.log("Login successful!", authData);
       if (authData?.lat) {
         // Store the LAT token and navigate to callback
@@ -94,11 +93,9 @@ const GetStarted = () => {
         navigate('/callback');
       }
     };
-
     window.onYouVersionAuthLoad = (authData: unknown) => {
       console.log("Auth data loaded:", authData);
     };
-
     window.onYouVersionSignOut = () => {
       console.log("User logged out");
       localStorage.removeItem('yvp_lat');
@@ -109,9 +106,7 @@ const GetStarted = () => {
       delete (document.body.dataset as Record<string, string>).youversionPlatformAppId;
     };
   }, [navigate, selectedApp]);
-
-  return (
-    <div className="container py-12">
+  return <div className="container py-12">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Get Started with YouVersion Platform</h1>
@@ -127,7 +122,7 @@ const GetStarted = () => {
               <CardTitle>1. Sign in with YouVersion and connect to the Platform</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="mb-4">Sign up for a developer account and create an App key to start making requests to the YouVersion APIs.</CardDescription>
+              <CardDescription className="mb-4">Sign up for a developer account (don't forget to use your existing YouVersion account if you have one!) and create an App key to start making requests to the YouVersion APIs.</CardDescription>
               <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} stroked></sign-in-with-youversion-button>
             </CardContent>
           </Card>
@@ -188,8 +183,6 @@ const GetStarted = () => {
           </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default GetStarted;
