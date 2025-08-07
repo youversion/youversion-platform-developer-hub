@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import {
   Dialog,
   DialogContent,
@@ -10,410 +9,66 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { useToast } from '@/hooks/use-toast';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  CheckCircle, 
-  AlertTriangle,
-  FileText,
-  Lightbulb,
-  Clock
-} from 'lucide-react';
-
-const supportTicketSchema = z.object({
-  category: z.string().min(1, 'Please select an issue category'),
-  subcategory: z.string().optional(),
-  subject: z.string().min(5, 'Subject must be at least 5 characters'),
-  description: z.string().min(20, 'Please provide a detailed description (at least 20 characters)'),
-  email: z.string().email('Please enter a valid email address'),
-  appId: z.string().optional(),
-  errorLogs: z.string().optional(),
-  browserInfo: z.string().optional(),
-});
-
-type SupportTicketFormData = z.infer<typeof supportTicketSchema>;
+import { Form } from '@/components/ui/form';
+import { supportTicketSchema, SupportTicketFormData, defaultFormValues } from '@/schemas/supportTicket';
+import { SUPPORT_FORM_CONSTANTS } from '@/constants/supportForm';
+import { useSupportFormState } from '@/hooks/useSupportFormState';
+import { useSupportTicketSubmission } from '@/hooks/useSupportTicketSubmission';
+import { SupportFormStep1 } from '@/components/support/SupportFormStep1';
+import { SupportFormStep2 } from '@/components/support/SupportFormStep2';
+import { SupportFormProgress } from '@/components/support/SupportFormProgress';
+import { SupportFormNavigation } from '@/components/support/SupportFormNavigation';
+import { SupportFormSuccess } from '@/components/support/SupportFormSuccess';
 
 interface SupportTicketFormProps {
   children: React.ReactNode;
 }
 
-const ISSUE_CATEGORIES = {
-  'api-integration': {
-    label: 'API Integration Issues',
-    subcategories: ['Connection problems', 'Authentication errors', 'Response format issues', 'Endpoint not working'],
-    faqs: [
-      { q: 'How do I authenticate with the API?', a: 'Use your App ID in the X-APP-ID header for all requests.' },
-      { q: 'Why am I getting a 401 error?', a: 'Check that your App ID is correct and included in the request headers.' }
-    ]
-  },
-  'authentication': {
-    label: 'Authentication Problems',
-    subcategories: ['App ID issues', 'Invalid credentials', 'Permission errors'],
-    faqs: [
-      { q: 'Where do I find my App ID?', a: 'Your App ID is available in your platform dashboard after signing up.' },
-      { q: 'My App ID isn\'t working', a: 'Ensure you\'re using the correct App ID and that your account is active.' }
-    ]
-  },
-  'rate-limits': {
-    label: 'Rate Limit Questions',
-    subcategories: ['Exceeded limits', 'Upgrade requests', 'Limit clarification'],
-    faqs: [
-      { q: 'What are the rate limits?', a: 'Free accounts have 5,000 requests per day. Contact us for higher limits.' },
-      { q: 'How can I increase my rate limit?', a: 'We offer paid plans with higher limits and priority support.' }
-    ]
-  },
-  'documentation': {
-    label: 'Documentation Feedback',
-    subcategories: ['Missing information', 'Unclear instructions', 'Broken examples'],
-    faqs: [
-      { q: 'How do I report documentation issues?', a: 'Use this form to report any problems with our documentation.' }
-    ]
-  },
-  'account': {
-    label: 'Account Management',
-    subcategories: ['Account settings', 'Billing questions', 'Profile updates'],
-    faqs: [
-      { q: 'How do I update my account information?', a: 'Visit your platform dashboard to update your account details.' }
-    ]
-  },
-  'other': {
-    label: 'Other Technical Issues',
-    subcategories: ['Performance problems', 'Feature requests', 'General questions'],
-    faqs: []
-  }
-};
 
 const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [ticketNumber, setTicketNumber] = useState('');
-  const { toast } = useToast();
+  const {
+    currentStep,
+    isSubmitted,
+    ticketNumber,
+    nextStep,
+    prevStep,
+    resetForm: resetFormState,
+    setIsSubmitted,
+    setTicketNumber,
+  } = useSupportFormState();
+  const { submitTicket } = useSupportTicketSubmission();
 
   const form = useForm<SupportTicketFormData>({
     resolver: zodResolver(supportTicketSchema),
-    defaultValues: {
-      category: '',
-      subcategory: '',
-      subject: '',
-      description: '',
-      email: '',
-      appId: '',
-      errorLogs: '',
-      browserInfo: navigator.userAgent,
-    },
+    defaultValues: defaultFormValues,
   });
 
   const { watch } = form;
   const selectedCategory = watch('category');
-  const totalSteps = 2;
-  const progress = (currentStep / totalSteps) * 100;
-
-  const nextStep = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
 
   const onSubmit = async (data: SupportTicketFormData) => {
     try {
-      // Generate a mock ticket number
-      const ticketNum = `YVP-${Date.now().toString().slice(-6)}`;
+      const ticketNum = await submitTicket(data);
       setTicketNumber(ticketNum);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
       setIsSubmitted(true);
-      toast({
-        title: "Support ticket submitted",
-        description: `Your ticket ${ticketNum} has been created successfully.`,
-      });
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to submit support ticket. Please try again.",
-        variant: "destructive",
-      });
+      // Error handling is done in the hook
     }
   };
 
   const resetForm = () => {
     form.reset();
-    setCurrentStep(1);
-    setIsSubmitted(false);
-    setTicketNumber('');
+    resetFormState();
     setIsOpen(false);
   };
-
-  const renderSuccessScreen = () => (
-    <div className="text-center py-8">
-      <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-      <h3 className="text-2xl font-semibold mb-2">Ticket Submitted Successfully!</h3>
-      <p className="text-muted-foreground mb-4">
-        Your support ticket <Badge variant="outline">{ticketNumber}</Badge> has been created.
-      </p>
-      <div className="bg-muted/50 rounded-lg p-4 mb-6">
-        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <Clock className="h-4 w-4" />
-          <span>Expected response time: 24-48 hours</span>
-        </div>
-      </div>
-      <div className="space-y-3">
-        <Button onClick={resetForm} className="w-full">
-          Submit Another Ticket
-        </Button>
-        <Button variant="stroked" onClick={() => setIsOpen(false)} className="w-full">
-          Return to Support
-        </Button>
-      </div>
-    </div>
-  );
 
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Describe Your Issue</h3>
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Issue Category *</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select an issue category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {Object.entries(ISSUE_CATEGORIES).map(([key, category]) => (
-                          <SelectItem key={key} value={key}>
-                            {category.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            {selectedCategory && ISSUE_CATEGORIES[selectedCategory as keyof typeof ISSUE_CATEGORIES]?.subcategories.length > 0 && (
-              <FormField
-                control={form.control}
-                name="subcategory"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Specific Issue</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select specific issue (optional)" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {ISSUE_CATEGORIES[selectedCategory as keyof typeof ISSUE_CATEGORIES].subcategories.map((sub) => (
-                          <SelectItem key={sub} value={sub}>
-                            {sub}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
-            {selectedCategory && ISSUE_CATEGORIES[selectedCategory as keyof typeof ISSUE_CATEGORIES]?.faqs.length > 0 && (
-              <Card className="border-accent bg-accent/20">
-                <CardHeader className="pb-3">
-                  <CardTitle className="flex items-center gap-2 text-sm">
-                    <Lightbulb className="h-4 w-4 text-accent-foreground" />
-                    Quick Help
-                  </CardTitle>
-                  <CardDescription className="text-xs">
-                    Check if these answers help before submitting a ticket
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <Accordion type="single" collapsible>
-                    {ISSUE_CATEGORIES[selectedCategory as keyof typeof ISSUE_CATEGORIES].faqs.map((faq, index) => (
-                      <AccordionItem key={index} value={`faq-${index}`} className="border-accent/30">
-                        <AccordionTrigger className="text-xs text-foreground">{faq.q}</AccordionTrigger>
-                        <AccordionContent className="text-xs text-muted-foreground">{faq.a}</AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </CardContent>
-              </Card>
-            )}
-
-            <FormField
-              control={form.control}
-              name="subject"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Subject *</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Brief description of your issue" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Detailed Description *</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Please describe your issue in detail. Include steps to reproduce, expected behavior, and actual behavior."
-                      className="min-h-[120px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Be as specific as possible. This helps us resolve your issue faster.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email Address *</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="your@email.com" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    We'll send updates about your ticket to this email
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        );
-
+        return <SupportFormStep1 form={form} selectedCategory={selectedCategory} />;
       case 2:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Technical Details & Submit</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                This information helps us debug your issue faster (all optional)
-              </p>
-            </div>
-
-            <FormField
-              control={form.control}
-              name="appId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>App ID</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Your YouVersion Platform App ID" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Your App ID helps us identify your account and usage patterns
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="errorLogs"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Error Logs</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Paste any error messages, console logs, or API responses here"
-                      className="min-h-[100px] font-mono text-sm"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="bg-muted/50 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <FileText className="h-5 w-5 text-muted-foreground mt-0.5" />
-                <div>
-                  <h4 className="font-medium text-sm">Browser Information</h4>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Automatically detected: {navigator.userAgent.split(' ').slice(0, 3).join(' ')}...
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Card className="bg-orange-50/50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
-                  Before you submit
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <ul className="text-sm space-y-1 text-muted-foreground">
-                  <li>• Check our documentation for common solutions</li>
-                  <li>• Verify your App ID and authentication</li>
-                  <li>• Include relevant error messages or logs</li>
-                  <li>• Expected response time: 24-48 hours</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        );
-
+        return <SupportFormStep2 form={form} />;
       default:
         return null;
     }
@@ -431,53 +86,28 @@ const SupportTicketForm: React.FC<SupportTicketFormProps> = ({ children }) => {
           </DialogTitle>
           {!isSubmitted && (
             <DialogDescription>
-              Step {currentStep} of {totalSteps} - Help us understand your issue
+              Step {currentStep} of {SUPPORT_FORM_CONSTANTS.TOTAL_STEPS} - Help us understand your issue
             </DialogDescription>
           )}
         </DialogHeader>
 
         {isSubmitted ? (
-          renderSuccessScreen()
+          <SupportFormSuccess
+            ticketNumber={ticketNumber}
+            onSubmitAnother={resetForm}
+            onClose={() => setIsOpen(false)}
+          />
         ) : (
           <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div>
-                <Progress value={progress} className="h-2" />
-              </div>
-
+              <SupportFormProgress currentStep={currentStep} />
               {renderStepContent()}
-
-              <div className="flex justify-between pt-6 border-t">
-                <Button
-                  type="button"
-                  variant="stroked"
-                  onClick={prevStep}
-                  disabled={currentStep === 1}
-                  className="flex items-center gap-2"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  Previous
-                </Button>
-
-                {currentStep < totalSteps ? (
-                  <Button
-                    type="button"
-                    onClick={nextStep}
-                    className="flex items-center gap-2"
-                  >
-                    Next
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                ) : (
-                  <Button
-                    type="submit"
-                    className="flex items-center gap-2"
-                    disabled={form.formState.isSubmitting}
-                  >
-                    {form.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
-                  </Button>
-                )}
-              </div>
+              <SupportFormNavigation
+                currentStep={currentStep}
+                onPrevStep={prevStep}
+                onNextStep={nextStep}
+                isSubmitting={form.formState.isSubmitting}
+              />
             </form>
           </FormProvider>
         )}
