@@ -14,6 +14,18 @@ The YouVersion Platform SDK for Apple OS provides native iOS and macOS integrati
 
 Our Apple OS SDK enables you to integrate Bible content directly into your iOS and macOS applications. The SDK provides a native Swift interface for accessing Bible translations, books, chapters, and verses with full SwiftUI support.
 
+### Key Features
+
+- **Native Swift Interface**: Type-safe API with Swift concurrency support
+- **SwiftUI Integration**: Built-in SwiftUI components for Bible text display
+- **Authentication Services**: Native iOS authentication with YouVersion
+- **Automatic Caching**: Built-in caching for improved performance
+- **Offline Support**: Download Bible content for offline use
+- **Search Integration**: Full-text search across Bible content
+- **Multiple Translations**: Support for hundreds of Bible versions
+- **User Data**: Access to user profile and preferences
+- **Verse of the Day**: Daily verse functionality
+
 ## Installation
 
 ### Swift Package Manager
@@ -37,6 +49,17 @@ Add the following to your `Podfile`:
 ```ruby
 pod 'YouVersionPlatform', '~> 1.0'
 ```
+
+Then run:
+```bash
+pod install
+```
+
+### Manual Installation
+
+1. Download the SDK from the [GitHub repository](https://github.com/youversion/yvp-swift-sdk)
+2. Add the source files to your Xcode project
+3. Link against the required frameworks
 
 ## Quick Start
 
@@ -79,6 +102,28 @@ struct DemoView: View {
                 BibleTextView(ref)
             }
         }
+    }
+}
+```
+
+### Basic API Usage
+
+```swift
+import YouVersionPlatform
+
+class BibleService {
+    private let platform = YouVersionPlatform.shared
+    
+    func getBibles() async throws -> [Bible] {
+        return try await platform.getBibles()
+    }
+    
+    func getBible(id: Int) async throws -> Bible {
+        return try await platform.getBible(id: id)
+    }
+    
+    func getChapter(bibleId: Int, bookUsfm: String, chapterNumber: Int) async throws -> Chapter {
+        return try await platform.getChapter(bibleId: bibleId, bookUsfm: bookUsfm, chapterNumber: chapterNumber)
     }
 }
 ```
@@ -221,17 +266,69 @@ platform.searchBible(query: "love", bibleId: 111) { result in
 }
 ```
 
-## Features
+## SwiftUI Components
 
-- **Native Swift Interface**: Type-safe API with Swift concurrency support
-- **SwiftUI Integration**: Built-in SwiftUI components for Bible text display
-- **Authentication Services**: Native iOS authentication with YouVersion
-- **Automatic Caching**: Built-in caching for improved performance
-- **Offline Support**: Download Bible content for offline use
-- **Search Integration**: Full-text search across Bible content
-- **Multiple Translations**: Support for hundreds of Bible versions
-- **User Data**: Access to user profile and preferences
-- **Verse of the Day**: Daily verse functionality
+### BibleTextView
+
+Display Bible text with automatic formatting:
+
+```swift
+struct BibleContentView: View {
+    @StateObject private var version = BibleVersion(111).readied()
+    
+    var body: some View {
+        if let ref = version.usfm("JHN.3.16-17") {
+            BibleTextView(ref)
+                .padding()
+        }
+    }
+}
+```
+
+### LoginWithYouVersionButton
+
+Pre-styled YouVersion login button:
+
+```swift
+struct LoginView: View {
+    @State private var isAuthenticated = false
+    
+    var body: some View {
+        VStack {
+            if isAuthenticated {
+                Text("Welcome! You are logged in.")
+            } else {
+                LoginWithYouVersionButton {
+                    // Handle login
+                }
+            }
+        }
+    }
+}
+```
+
+### VerseOfTheDayView
+
+Display the current verse of the day:
+
+```swift
+struct VerseOfTheDayView: View {
+    @StateObject private var votd = VerseOfTheDay()
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(votd.reference)
+                .font(.headline)
+            Text(votd.text)
+                .font(.body)
+            Text(votd.copyright)
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+    }
+}
+```
 
 ## Error Handling
 
@@ -247,6 +344,57 @@ enum YouVersionError: Error {
     case authenticationFailed
     case userNotAuthenticated
 }
+
+// Usage
+do {
+    let bibles = try await platform.getBibles()
+    print("Success: \(bibles)")
+} catch YouVersionError.invalidAppId {
+    print("Invalid App ID")
+} catch YouVersionError.networkError {
+    print("Network error occurred")
+} catch {
+    print("Unexpected error: \(error)")
+}
+```
+
+## Configuration Options
+
+```swift
+// Configure with custom options
+YouVersionPlatform.configure(
+    appKey: "YOUR_APP_KEY",
+    baseURL: "https://api.youversion.com/v1",
+    cacheEnabled: true,
+    cacheMaxAge: 3600,
+    timeout: 30
+)
+```
+
+### Advanced Configuration
+
+```swift
+struct YouVersionConfig {
+    let appKey: String
+    let baseURL: String
+    let cacheEnabled: Bool
+    let cacheMaxAge: TimeInterval
+    let timeout: TimeInterval
+    let retryCount: Int
+    let userAgent: String?
+}
+
+let config = YouVersionConfig(
+    appKey: "YOUR_APP_KEY",
+    baseURL: "https://api.youversion.com/v1",
+    cacheEnabled: true,
+    cacheMaxAge: 3600,
+    timeout: 30,
+    retryCount: 3,
+    userAgent: "MyApp/1.0"
+)
+
+YouVersionPlatform.configure(with: config)
 ```
 
 ## Examples
@@ -353,17 +501,37 @@ struct SearchView: View {
 }
 ```
 
-## Configuration Options
+### Offline Caching Implementation
 
 ```swift
-// Configure with custom options
-YouVersionPlatform.configure(
-    appKey: "YOUR_APP_KEY",
-    baseURL: "https://api.youversion.com/v1",
-    cacheEnabled: true,
-    cacheMaxAge: 3600,
-    timeout: 30
-)
+class CachedBibleService {
+    private let cache = NSCache<NSString, AnyObject>()
+    private let platform = YouVersionPlatform.shared
+    
+    func getBible(id: Int) async throws -> Bible {
+        let cacheKey = "bible_\(id)" as NSString
+        
+        if let cached = cache.object(forKey: cacheKey) as? Bible {
+            return cached
+        }
+        
+        let bible = try await platform.getBible(id: id)
+        cache.setObject(bible as AnyObject, forKey: cacheKey)
+        return bible
+    }
+    
+    func getChapter(bibleId: Int, bookUsfm: String, chapterNumber: Int) async throws -> Chapter {
+        let cacheKey = "chapter_\(bibleId)_\(bookUsfm)_\(chapterNumber)" as NSString
+        
+        if let cached = cache.object(forKey: cacheKey) as? Chapter {
+            return cached
+        }
+        
+        let chapter = try await platform.getChapter(bibleId: bibleId, bookUsfm: bookUsfm, chapterNumber: chapterNumber)
+        cache.setObject(chapter as AnyObject, forKey: cacheKey)
+        return chapter
+    }
+}
 ```
 
 ## TypeScript Support
@@ -410,6 +578,115 @@ struct VerseOfTheDay: Codable {
     let translation: String
     let copyright: String
 }
+
+// Search models
+struct SearchResult: Codable {
+    let id: String
+    let reference: String
+    let text: String
+    let score: Double
+    let bible: Bible
+}
+```
+
+## Testing
+
+### Unit Tests
+
+```swift
+import XCTest
+@testable import YouVersionPlatform
+
+class YouVersionPlatformTests: XCTestCase {
+    var platform: YouVersionPlatform!
+    
+    override func setUp() {
+        super.setUp()
+        platform = YouVersionPlatform.shared
+        platform.configure(appKey: "TEST_APP_KEY")
+    }
+    
+    func testGetBibles() async throws {
+        let bibles = try await platform.getBibles()
+        XCTAssertFalse(bibles.isEmpty)
+    }
+    
+    func testGetBible() async throws {
+        let bible = try await platform.getBible(id: 111)
+        XCTAssertEqual(bible.id, 111)
+    }
+}
+```
+
+### UI Tests
+
+```swift
+import XCTest
+
+class BibleReaderUITests: XCTestCase {
+    func testBibleTextView() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let bibleText = app.staticTexts["Bible Text"]
+        XCTAssertTrue(bibleText.exists)
+    }
+}
+```
+
+## Performance Optimization
+
+### Memory Management
+
+```swift
+class BibleViewController: UIViewController {
+    private var cancellables = Set<AnyCancellable>()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        // Use Combine for reactive programming
+        searchPublisher
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .sink { [weak self] query in
+                self?.performSearch(query)
+            }
+            .store(in: &cancellables)
+    }
+    
+    deinit {
+        cancellables.removeAll()
+    }
+}
+```
+
+### Caching Strategy
+
+```swift
+class BibleCache {
+    private let cache = NSCache<NSString, AnyObject>()
+    private let fileManager = FileManager.default
+    private let cacheDirectory: URL
+    
+    init() {
+        cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
+            .appendingPathComponent("BibleCache")
+        try? fileManager.createDirectory(at: cacheDirectory, withIntermediateDirectories: true)
+    }
+    
+    func cache(_ data: Data, for key: String) {
+        let url = cacheDirectory.appendingPathComponent(key)
+        try? data.write(to: url)
+    }
+    
+    func retrieve(for key: String) -> Data? {
+        let url = cacheDirectory.appendingPathComponent(key)
+        return try? Data(contentsOf: url)
+    }
+}
 ```
 
 ## Support
@@ -418,4 +695,5 @@ For support with the Apple OS SDK:
 
 - **Documentation**: [SDK Reference](/sdks/apple-os/reference)
 - **GitHub**: [YouVersion Platform iOS](https://github.com/youversion/yvp-swift-sdk)
-- **Issues**: [GitHub Issues](https://github.com/youversion/yvp-swift-sdk/issues) 
+- **Issues**: [GitHub Issues](https://github.com/youversion/yvp-swift-sdk/issues)
+- **Community**: [YouVersion Developer Forum](https://community.youversion.com) 
