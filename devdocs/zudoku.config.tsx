@@ -1,6 +1,6 @@
 import type { ZudokuConfig } from "zudoku";
 import { ZudokuNavigation } from "./components/ZudokuNavigation";
-import DevdocsSearchBar from "./components/DevdocsSearchBar";
+//import DevdocsSearchBar from "./components/DevdocsSearchBar";
 import { getDevdocsNavItems } from "../shared/config/navigation";
 import { getPlatformUrl } from "../shared/config/urls";
 import { PageBanner } from "./components/PageBanner";
@@ -21,8 +21,7 @@ const config: ZudokuConfig = {
     //   color: "info",
     //   dismissible: true
     // },
-     footer: {
-    //   // Footer configuration goes here
+    footer: {
     //   //position: "center",
     //   copyright: ` `,
     //   // Other options...
@@ -47,14 +46,15 @@ const config: ZudokuConfig = {
     //     <span className="ml-2 font-semibold text-lg">YouVersion Platform</span>
     //   </div>
     // ),
-            "head-navigation-start": () => (
+    "head-navigation-end": () => <LogoUrlUpdater />,
+    "head-navigation-start": () => (
       <ZudokuNavigation
         isAuthenticated={false}
         navItems={getDevdocsNavItems()}
       />
     ),
-    "footer-after": () => <CustomFooter />,
-    "head-navigation-end": () => <LogoUrlUpdater />,
+    "footer-before": () => <CustomFooter />,
+
   },
   theme: {
     light: {
@@ -95,39 +95,12 @@ const config: ZudokuConfig = {
       accentForeground: "oklch(98.4% 0.003 248)",
       destructive: "oklch(39.6% 0.133 25.7)",
       destructiveForeground: "oklch(98.4% 0.003 248)",
-      border: "oklch(28% 0.037 260)",
+      border: "oklch(34% 0.037 260)",
       input: "oklch(28% 0.037 260)",
       ring: "212.7 26.8% 83.9"
     },
     // Add custom CSS to override header styling
     customCss: `
-      /* Import Inter font */
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-      
-      /* Set Inter as the base font family globally */
-      * {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
-      }
-      
-      /* Ensure body and html also use Inter */
-      body, html {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
-      }
-      
-      /* Apply Inter font to all text elements */
-      h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
-      }
-      
-      /* Ensure navigation and sidebar use Inter */
-      nav, aside, .sidebar, .navigation {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
-      }
-      
-      /* Ensure font-medium works properly */
-      .font-medium {
-        font-weight: 500 !important;
-      }
       /* Override Zudoku header container to match main site styling */
       header .max-w-screen-2xl {
         max-width: 1400px !important;
@@ -135,38 +108,36 @@ const config: ZudokuConfig = {
         font-weight: 500 !important;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
         }
-      /* Override Zudoku header fonts to match main site styling */
-      header .max-w-screen-2xl .flex a .font-semibold.text-2xl {
-        font-weight: 700 !important;
-        font-size: 18px !important;
-        letter-spacing: -0.05em !important;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
-        }
-      header .max-w-screen-2xl .flex a div {
-        column-gap: 8px !important;
-        }
       /* Footer */
-      footer {
-        background-color: rgba(246, 246, 246, 0.3);
-        border-top: 1px solid rgb(226, 232, 240);
+      body footer {
+        background-color: hsl(var(--foreground) / 0.3) !important;
+        //background-color: yellow !important;
+        box-shadow: 0 -1px 0 hsl(var(--border) / 0.9) !important;
       }
       footer div:first-child { padding-top:10px; }
-      /* Hide Zudoku footer link */
+
+      /* Hide Zudoku sidenav link */
       nav + div {
         display: none !important;
-      } */
+      }
+
       /* Hide Zudoku logo */
-      header img[src*="zudoku"],
-      header img[alt*="Zudoku"],
-      header .zudoku-logo,
-      header [data-zudoku-logo],
-      header a[href*="zudoku"] img,
       header .logo img[src*="zudoku"],
       header .brand img[src*="zudoku"] {
         display: none !important;
       }
     `
   },
+  plugins: [
+    {
+      getHead: () => (
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        />
+      ),
+    },
+  ],
 
   navigation: [
     {
@@ -267,7 +238,6 @@ const config: ZudokuConfig = {
       to: "/for-llms",
       label: "For LLMs",
       icon: "bot",
-      description: "Complete documentation index for LLM consumption",
     },
   ],
   redirects: [

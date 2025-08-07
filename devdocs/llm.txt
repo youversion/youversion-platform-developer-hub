@@ -2011,6 +2011,28 @@ const config: ZudokuConfig = {
   },
 };
 export default config;
+Available Slot Names
+The following predefined slot names are available in the installed Zudoku package:
+
+- layout-before-head
+- layout-after-head
+- head-navigation-start
+- head-navigation-end
+- top-navigation-before
+- top-navigation-after
+- top-navigation-side
+- navigation-before
+- navigation-after
+- content-before
+- content-after
+- footer-before
+- footer-after
+- api-keys-list-page
+- api-keys-list-page-before-keys
+
+Notes
+- Slot content can be added with types: replace (default), prepend, or append.
+
 Slot Types
 Slots accept either:
 
@@ -2329,3 +2351,72 @@ function MyComponent() {
 }
 The useEvent hook automatically handles subscription and cleanup in the React lifecycle, making it easy to work with events in your components.
 
+
+Footer background in dark mode (bg-muted/30)
+If the footer shows the wrong background in dark mode on /devdocs, use one of the options below to force bg-muted/30.
+
+- Option 1: Wrap via slot (recommended)
+  Add a wrapper in your slot so the wrapper controls the background even if Zudoku renders the outer footer shell.
+
+  Code
+
+  ```tsx
+  // devdocs/zudoku.config.tsx
+  import CustomFooter from "./components/CustomFooter";
+
+  export default {
+    // ...
+    slots: {
+      "footer-after": () => (
+        <div className="bg-muted/30 dark:bg-muted/30 border-t">
+          <CustomFooter />
+        </div>
+      ),
+    },
+  };
+  ```
+
+- Option 2: Apply class in the component
+  If you own the footer component, put the class on its top-level element.
+
+  Code
+
+  ```tsx
+  // devdocs/components/CustomFooter.tsx
+  export default function CustomFooter() {
+    return (
+      <div className="bg-muted/30 dark:bg-muted/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* existing content */}
+        </div>
+      </div>
+    );
+  }
+  ```
+
+- Option 3: Global CSS override using theme.customCss
+  Override the framework footer with tokens so it adapts to dark mode.
+
+  Code
+
+  ```tsx
+  // devdocs/zudoku.config.tsx
+  export default {
+    // ...
+    theme: {
+      customCss: `
+        footer {
+          background: hsl(var(--muted) / 0.3);
+          border-top: 1px solid hsl(var(--border));
+        }
+        .dark footer {
+          background: hsl(var(--muted) / 0.3);
+        }
+      `,
+    },
+  };
+  ```
+
+Notes
+- bg-muted/30 maps to hsl(var(--muted) / 0.3). Using tokens keeps light/dark palettes consistent.
+- If another rule already styles footer, ensure this CSS loads after it or use a more specific selector.
