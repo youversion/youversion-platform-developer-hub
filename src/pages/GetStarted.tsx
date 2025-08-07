@@ -119,7 +119,7 @@ const GetStarted = () => {
           <Card>
             <CardHeader>
               <User className="h-8 w-8 text-[#FF3D4D] mb-2" />
-              <CardTitle>1. Sign in with YouVersion and connect to the Platform</CardTitle>
+              <CardTitle>1. Sign in to YouVersion Platform</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">
