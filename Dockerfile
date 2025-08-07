@@ -5,8 +5,11 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json ./
-# Copy devdocs directory needed for postinstall script
+
+# Copy devdocs & bibles directory needed for postinstall script
 COPY devdocs ./devdocs
+COPY bibles ./bibles
+
 RUN npm ci
 
 # Copy rest of source and build
