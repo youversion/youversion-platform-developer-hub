@@ -23,9 +23,9 @@ fi
 # Define services and their build contexts
 # Format: service_name:context_directory
 SERVICES=(
-  "developer-hub:."
   "devdocs:devdocs"
   "bibles:bibles"
+  "developer-hub:."
 )
 
 for entry in "${SERVICES[@]}"; do
@@ -38,11 +38,22 @@ for entry in "${SERVICES[@]}"; do
   echo "Building and pushing $SERVICE_NAME to Artifact Registry: $IMAGE_URI"
   echo "Context directory: $CONTEXT"
 
-  docker buildx build --platform linux/amd64,linux/arm64 \
-    -t "$IMAGE_URI" \
-    --push \
-    -f "$CONTEXT/Dockerfile" \
-    "$CONTEXT"
+  if [[ "$SERVICE_NAME" == "devdocs" ]]; then
+    echo "Building $SERVICE_NAME with standard docker build (amd64 only)"
+    # Build using root context to include shared directory
+    docker build \
+      -t "$IMAGE_URI" \
+      -f "$CONTEXT/Dockerfile" \
+      .
+    docker push "$IMAGE_URI"
+  else
+    echo "Building $SERVICE_NAME with buildx multi-platform (amd64,arm64)"
+    docker buildx build --platform linux/amd64,linux/arm64 \
+      -t "$IMAGE_URI" \
+      --push \
+      -f "$CONTEXT/Dockerfile" \
+      "$CONTEXT"
+  fi
 
   echo
   echo "Deploying to Cloud Run service: $SERVICE_NAME"

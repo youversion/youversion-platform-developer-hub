@@ -1,30 +1,26 @@
-# devdocs/Dockerfile
-# ----------------
-# Stage 1: install & build
-FROM node:18-alpine AS builder
+# devdocs/Dockerfile (fallback: serve devdocs directory after build)
+# ---------------------------------------------------
+# Stage 1: Install dependencies and build
+FROM node:20-slim AS builder
 WORKDIR /app
 
-# Copy package metadata & lockfile
-COPY package.json package-lock.json ./
+# Copy entire repo
+COPY . /app
 
-# Install dependencies cleanly
+# Install and build inside devdocs
+WORKDIR /app/devdocs
 RUN npm ci --prefer-offline --silent
-
-# Copy the rest of the devdocs source and build
-COPY . .
 RUN npm run build
 
-# Stage 2: runtime
-FROM node:18-alpine
-WORKDIR /app
+# Stage 2: serve static files
+FROM node:20-slim
+WORKDIR /app/devdocs
 
-# Install a static server (serve)
+# Install serve
 RUN npm install -g serve --silent
 
-# Copy build artifacts from the builder stage
-COPY --from=builder /app/build ./build
+# Copy built devdocs (including any generated files)
+COPY --from=builder /app/devdocs /app/devdocs
 
 EXPOSE 8080
-
-# Serve the static build
-CMD ["serve", "-s", "build", "-l", "8080"]
+CMD ["serve", "-s", ".", "-l", "8080"]
