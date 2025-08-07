@@ -50,6 +50,7 @@ This will start:
 - `npm run build:dev` - Build the main platform in development mode
 - `npm run build:all` - Build both projects
 - `npm run build:devdocs` - Build only the API documentation
+- `NODE_ENV=production npm run build` - Build the main platform for production
 
 ### Other Scripts
 - `npm run lint` - Run ESLint on the main project
