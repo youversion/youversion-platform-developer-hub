@@ -138,11 +138,12 @@ const GetStarted = () => {
               <CardTitle>2. Make Your First Request</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="mb-4">Once you're signed up, create an App key to begin making requests to the YouVersion APIs.
-
-Learn how to authenticate and make your first API call to retrieve Bible content.
-
-            </CardDescription>
+              <CardDescription className="mb-4">
+                Once you're signed up, create an App key to begin making requests to the YouVersion APIs.
+                <br />
+                <br />
+                Learn how to authenticate and make your first API call to retrieve Bible content.
+              </CardDescription>
               <Button asChild variant="default">
                 <Link to="/docs/quick-start">View Documentation</Link>
               </Button>
