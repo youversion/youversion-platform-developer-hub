@@ -36,15 +36,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (theme === 'system') {
         const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         root.classList.add(systemTheme)
+        // Keep cookie in sync so SSR can choose a class next navigation
+        document.cookie = `ui-theme=system; path=/; max-age=31536000`
         return
       }
 
       root.classList.add(theme)
+      // Persist cookie so server can SSR the correct theme
+      document.cookie = `ui-theme=${theme}; path=/; max-age=31536000`
     }
   }, [theme])
 
   const handleSetTheme = (newTheme: Theme) => {
     localStorage.setItem('ui-theme', newTheme)
+    if (typeof document !== 'undefined') {
+      document.cookie = `ui-theme=${newTheme}; path=/; max-age=31536000`
+    }
     setTheme(newTheme)
   }
 

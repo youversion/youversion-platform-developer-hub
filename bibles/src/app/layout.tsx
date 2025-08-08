@@ -1,6 +1,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import { cookies } from 'next/headers'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import { BibleVersionsProvider } from '@/contexts/BibleVersionsContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { Navigation } from '@/components/Navigation'
@@ -60,6 +62,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const bibleVersions = await getBibleVersions()
+  const cookieStore = await cookies()
+  const cookieTheme = cookieStore.get('ui-theme')?.value
 
   const transformedVersions = bibleVersions.map(version => ({
     id: version.bible_version_id.toString(),
@@ -83,8 +87,33 @@ export default async function RootLayout({
     popular_denominations: version.popular_denominations || []
   }))
 
+  // Resolve initial theme: cookie overrides, else fall back to system at runtime
+  const initialClass = cookieTheme === 'dark' || cookieTheme === 'light' ? cookieTheme : undefined
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className={initialClass}>
+      <head>
+        <Script id="theme-init" strategy="beforeInteractive">{`
+          (function() {
+            try {
+              // Avoid transitions during initial theme application
+              try { document.documentElement.classList.add('no-theme-transition'); } catch (e) {}
+              var stored = localStorage.getItem('ui-theme');
+              var cookieMatch = (document.cookie.match(/(?:^|; )ui-theme=([^;]+)/)||[])[1];
+              if (cookieMatch) try { stored = decodeURIComponent(cookieMatch) } catch (e) {}
+              var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              var resolved = stored === 'dark' || (stored === 'system' && systemDark) || (!stored && systemDark) ? 'dark' : 'light';
+              var root = document.documentElement;
+              root.classList.remove('light','dark');
+              root.classList.add(resolved);
+              // Remove no-transition class on next frame
+              try { requestAnimationFrame(function(){ root.classList.remove('no-theme-transition'); }); } catch (e) { root.classList.remove('no-theme-transition'); }
+            } catch (e) {
+              // no-op
+            }
+          })();
+        `}</Script>
+      </head>
       <body className={`${inter.className} min-h-screen`}>
         <ThemeProvider>
           <BibleVersionsProvider versions={transformedVersions}>

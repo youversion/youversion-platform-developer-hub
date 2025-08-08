@@ -78,6 +78,17 @@
   --foreground: oklch(0.129 0.042 264.695);
 }
 
+.no-theme-transition * {
+  transition: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --background: oklch(0.129 0.042 264.695);
+    --foreground: oklch(0.984 0.003 247.858);
+  }
+}
+
 .dark {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
