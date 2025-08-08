@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTheme } from '@/contexts/ThemeContext';
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
+import { getDevdocsUrl } from '../../shared/config/urls';
 
 // Extend window interface for YouVersion SDK callbacks
 declare global {
@@ -119,8 +120,8 @@ const Index = () => {
               <div className="mb-2">
                 <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} text="Join the YouVersion Platform" stroked></sign-in-with-youversion-button>
               </div>
-              <Button size="xl" variant="filled-secondary" onClick={() => navigate('/docs/quick-start')} className="text-sm font-bold px-[40px] py-[25px]">
-                View Documentation
+              <Button size="xl" variant="filled-secondary" asChild className="text-sm font-bold px-[40px] py-[25px]">
+                <a href={`${getDevdocsUrl()}/introduction`}>View Documentation</a>
               </Button>
             </div>
           </div>
