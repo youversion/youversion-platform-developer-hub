@@ -9,7 +9,7 @@ import { LogoUrlUpdater } from "./components/LogoUrlUpdater";
 
 const config: ZudokuConfig = {
   site: {
-    title: "YouVersion Platform",
+    title: " YouVersion Platform",
     logo: {
       src: { light: "/youversion-logo.png", dark: "/youversion-logo.png" },
       alt: "YouVersion Bible API",
@@ -101,6 +101,7 @@ const config: ZudokuConfig = {
     },
     // Add custom CSS to override header styling
     customCss: `
+    body{background-color: #020612 !important;}
       /* Override Zudoku header container to match main site styling */
       header .max-w-screen-2xl {
         max-width: 1400px !important;
@@ -113,6 +114,12 @@ const config: ZudokuConfig = {
         background-color: hsl(var(--foreground) / 0.3) !important;
         //background-color: yellow !important;
         box-shadow: 0 -1px 0 hsl(var(--border) / 0.9) !important;
+      }
+      .dark body footer {
+        background-color: #080E1B !important;
+      }
+      html[data-theme="dark"] body footer {
+        background-color: #080E1B !important;
       }
       footer div:first-child { padding-top:10px; }
 
