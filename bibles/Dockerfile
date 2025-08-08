@@ -1,17 +1,19 @@
 # devdocs/Dockerfile
 # ----------------
 # Stage 1: install & build
-FROM node:18-alpine AS builder
+FROM node:20-slim AS builder
 WORKDIR /app
 
 # Copy package metadata & lockfile
-COPY package.json yarn.lock ./
+COPY bibles/package.json bibles/yarn.lock ./
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
-# Copy the rest of the devdocs source and build
-COPY . .
+# Copy bibles and shared config
+COPY bibles/ ./bibles/
+COPY shared/ ./shared/
+
 RUN yarn build
 
 # Stage 2: runtime

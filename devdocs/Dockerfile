@@ -1,26 +1,30 @@
-# devdocs/Dockerfile (fallback: serve devdocs directory after build)
-# ---------------------------------------------------
-# Stage 1: Install dependencies and build
+# devdocs/Dockerfile
+# -------------------
+# Multi-stage Dockerfile for building and serving DevDocs static site
+
+# Stage 1: Build the static site
 FROM node:20-slim AS builder
 WORKDIR /app
 
-# Copy entire repo
-COPY . /app
+# Copy devdocs and shared config
+COPY devdocs/ ./devdocs/
+COPY shared/ ./shared/
 
-# Install and build inside devdocs
+# Install dependencies and build inside devdocs
 WORKDIR /app/devdocs
-RUN npm ci --prefer-offline --silent
-RUN npm run build
+RUN npm ci --prefer-offline && npm run build
 
-# Stage 2: serve static files
-FROM node:20-slim
-WORKDIR /app/devdocs
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
 
-# Install serve
-RUN npm install -g serve --silent
+# Copy static files
+COPY --from=builder /app/devdocs/dist /usr/share/nginx/html
 
-# Copy built devdocs (including any generated files)
-COPY --from=builder /app/devdocs /app/devdocs
+# Copy custom Nginx config
+COPY --from=builder /app/devdocs/nginx.conf /etc/nginx/conf.d/default.conf
 
+# Expose port 8080
 EXPOSE 8080
-CMD ["serve", "-s", ".", "-l", "8080"]
+
+# Run Nginx
+CMD ["nginx", "-g", "daemon off;"]
