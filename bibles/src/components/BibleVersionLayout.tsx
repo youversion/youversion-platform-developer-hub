@@ -130,7 +130,7 @@ function FilteredContent({
       </aside>
       
       <main className="flex-1 overflow-y-auto">
-        <div className="sticky top-0 z-10 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-slate-800 transition-colors">
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-gray-200 dark:border-slate-800 transition-colors">
           <div className="max-w-[1400px] mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
@@ -166,7 +166,7 @@ function FilteredContent({
 
 export function BibleVersionLayout(props: BibleVersionLayoutProps) {
   return (
-    <div className="flex h-screen bg-white dark:bg-slate-900 transition-colors">
+    <div className="flex h-screen bg-background transition-colors">
       <FilteredContent {...props} />
     </div>
   )
