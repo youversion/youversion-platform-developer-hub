@@ -10,10 +10,11 @@ import { LogoUrlUpdater } from "./components/LogoUrlUpdater";
 const config: ZudokuConfig = {
   site: {
     title: " YouVersion Platform",
+    showPoweredBy: false,
     logo: {
-      src: { light: "/youversion-logo.png", dark: "/youversion-logo.png" },
-      alt: "YouVersion Bible API",
-      width: "32px",
+      src: { light: "/yvLogo-light.svg", dark: "/yvLogo-dark.svg" },
+      alt: "YouVersion Platform API",
+      width: "252px",
       href: getPlatformUrl(),
     } as any,
     // banner: {
@@ -101,7 +102,7 @@ const config: ZudokuConfig = {
     },
     // Add custom CSS to override header styling
     customCss: `
-    body{background-color: #020612 !important;}
+      .dark body{background-color: #020612 !important;}
       /* Override Zudoku header container to match main site styling */
       header .max-w-screen-2xl {
         max-width: 1400px !important;
@@ -110,11 +111,7 @@ const config: ZudokuConfig = {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
         }
       /* Footer */
-      body footer {
-        background-color: hsl(var(--foreground) / 0.3) !important;
-        //background-color: yellow !important;
-        box-shadow: 0 -1px 0 hsl(var(--border) / 0.9) !important;
-      }
+      body footer {background-color: oklab(0.968 -0.00263402 -0.00648552 / 0.3) !important;}
       .dark body footer {
         background-color: #080E1B !important;
       }
@@ -217,8 +214,8 @@ const config: ZudokuConfig = {
         {
           type: "doc",
           icon: "smartphone",
-          label: "Apple OS",
-          file: "sdks/apple-os",
+          label: "Swift",
+          file: "sdks/swift",
         },
         {
           type: "doc",
