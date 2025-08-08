@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getPlatformUrl, getDevdocsUrl, getBiblesUrl } from '../../shared/config/urls';
 import { Code, User, BookOpen, Zap } from 'lucide-react';
 
 // Extend window interface for YouVersion SDK callbacks
@@ -145,7 +146,7 @@ const GetStarted = () => {
                 Learn how to authenticate and make your first API call to retrieve Bible content.
               </CardDescription>
               <Button asChild variant="default">
-                <Link to="/docs/quick-start">View Documentation</Link>
+                <a href={`${getDevdocsUrl()}/introduction`}>View Documentation</a>
               </Button>
             </CardContent>
           </Card>
@@ -158,7 +159,7 @@ const GetStarted = () => {
             <CardContent>
               <CardDescription className="mb-4">Browse a directory of Bible versions and choose the right ones for your app.</CardDescription>
               <Button asChild variant="default">
-                <Link to="/bible-directory">Browse Bibles</Link>
+                <a href={getBiblesUrl()}>Browse Bibles</a>
               </Button>
             </CardContent>
           </Card>
@@ -171,7 +172,7 @@ const GetStarted = () => {
             <CardContent>
               <CardDescription className="mb-4">Use our examples and code samples to quickly integrate Bible content into your applications.</CardDescription>
               <Button asChild variant="default">
-                <Link to="/examples">View Examples</Link>
+                <a href={`${getDevdocsUrl()}/examples`}>View Examples</a>
               </Button>
             </CardContent>
           </Card>
