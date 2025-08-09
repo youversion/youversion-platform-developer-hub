@@ -3,7 +3,7 @@
 # deploy.sh - Build Docker images locally and deploy to Google Cloud Run for multiple services
 # Usage: ./deploy.sh [tag] [service]
 #   tag: Optional Docker image tag (default: latest)
-#   service: Optional service to deploy (devdocs, bibles-directory, developer-hub)
+#   service: Optional service to deploy (devdocs, bibles, developer-hub)
 
 set -eo pipefail
 
@@ -26,13 +26,13 @@ fi
 # Define services and their build contexts (service_name:context_directory)
 SERVICES=(
   "devdocs:devdocs"
-  "bibles-directory:bibles"
+  "bibles:bibles"
   "developer-hub:."
 )
 
 # If a specific service is requested, validate it
 if [ -n "$SERVICE_ARG" ]; then
-  VALID=(devdocs bibles-directory developer-hub)
+  VALID=(devdocs bibles developer-hub)
   if [[ ! " ${VALID[*]} " =~ " $SERVICE_ARG " ]]; then
     echo "Invalid service: $SERVICE_ARG"
     echo "Valid services are: ${VALID[*]}"
