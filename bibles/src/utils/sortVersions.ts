@@ -137,7 +137,6 @@ export function getSortOptions() {
     { value: 'relevance', label: 'Relevance', supportsDirection: false },
     { value: 'default', label: 'Default', supportsDirection: false },
     { value: 'language', label: 'Language', supportsDirection: true },
-    { value: 'popularity', label: 'Popularity', supportsDirection: true },
     { value: 'name', label: 'Name', supportsDirection: true },
     { value: 'year', label: 'Published', supportsDirection: true },
   ]
