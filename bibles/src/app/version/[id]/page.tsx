@@ -40,12 +40,7 @@ interface BibleVersionResponse {
 
 async function getVersion(id: string): Promise<BibleVersionResponse> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    // Ensure the baseUrl has a protocol
-    const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `https://${baseUrl}`
-
-      
-    const response = await fetch(`${fullBaseUrl}/api/versions?id=${id}`, {
+    const response = await fetch(`/api/versions?id=${id}`, {
       next: { revalidate: 43200 } // Cache for 12 hours
     })
 

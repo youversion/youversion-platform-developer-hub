@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { YV_VERSE_API_BASE_URL } from '@/lib/serverConfig'
 
 // Convert human-readable reference to USFM format
 const convertToUSFM = (reference: string): string => {
@@ -69,7 +70,7 @@ export async function GET(
 
     
     // YouVersion Verse API endpoint - now using USFM format
-    const yvApiUrl = `https://bible.youversionapistaging.com/3.1/verse.json?id=${versionId}&reference=${usfmReference}`
+    const yvApiUrl = `${YV_VERSE_API_BASE_URL.replace(/\/$/, '')}/verse.json?id=${versionId}&reference=${usfmReference}`
     
     // Make the request to YouVersion API
     const response = await fetch(yvApiUrl, {

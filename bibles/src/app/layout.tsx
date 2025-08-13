@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import { BibleVersionsProvider } from '@/contexts/BibleVersionsContext'
+import { BIBLE_VERSIONS_API_URL, BIBLE_VERSIONS_API_KEY } from '@/lib/serverConfig'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { Navigation } from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -36,8 +37,8 @@ interface BibleVersionData {
   popular_denominations: string[]
 }
 
-const API_URL = 'https://bible-versions-gateway-cb3tumxd.uc.gateway.dev/'
-const API_KEY = 'AIzaSyC_jKFla1HcrtEkkJwi7rk-XGV5Qx6HE8Y'
+const API_URL = BIBLE_VERSIONS_API_URL
+const API_KEY = BIBLE_VERSIONS_API_KEY
 
 async function getBibleVersions(): Promise<BibleVersionData[]> {
   const response = await fetch(`${API_URL}?include_descriptions=true`, {

@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
+import { BIBLE_VERSIONS_API_URL, BIBLE_VERSIONS_API_KEY } from '@/lib/serverConfig'
 
-const API_URL = 'https://bible-versions-gateway-cb3tumxd.uc.gateway.dev/'
-const API_KEY = 'AIzaSyC_jKFla1HcrtEkkJwi7rk-XGV5Qx6HE8Y'
+const API_URL = BIBLE_VERSIONS_API_URL
+const API_KEY = BIBLE_VERSIONS_API_KEY
 
 export async function GET() {
   try {
