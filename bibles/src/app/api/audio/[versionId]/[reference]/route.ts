@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { YV_AUDIO_API_BASE_URL } from '@/lib/serverConfig'
 
 export async function GET(
   request: NextRequest,
@@ -16,7 +17,7 @@ export async function GET(
     }
 
     // YouVersion Audio API endpoint
-    const yvApiUrl = `https://audio-bible.youversionapistaging.com/3.1/chapter.json?version_id=${versionId}&reference=${reference}`
+    const yvApiUrl = `${YV_AUDIO_API_BASE_URL.replace(/\/$/, '')}/chapter.json?version_id=${versionId}&reference=${reference}`
     
     // Make the request to YouVersion API
     const response = await fetch(yvApiUrl, {
