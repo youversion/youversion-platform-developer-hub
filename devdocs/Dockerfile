@@ -3,7 +3,7 @@
 # Multi-stage Dockerfile for building and serving DevDocs static site
 
 # Stage 1: Build the static site
-FROM node:20-slim AS builder
+FROM node:22-slim AS builder
 WORKDIR /app
 
 # Copy devdocs and shared config

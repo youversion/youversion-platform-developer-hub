@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Search, Menu, X } from 'lucide-react'
 import Link from 'next/link'
-import { useTheme } from '@/contexts/ThemeContext'
 import { getBiblesNavItems } from '../../../shared/config/navigation'
 import { getPlatformUrl } from '../../../shared/config/urls'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
@@ -11,7 +10,6 @@ import { ThemeToggle } from '@/components/ui/theme-toggle'
 export function Navigation() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { theme } = useTheme()
 
   // Use shared navigation configuration with proper cross-site URLs
   const navigationLinks = getBiblesNavItems().map(item => ({
