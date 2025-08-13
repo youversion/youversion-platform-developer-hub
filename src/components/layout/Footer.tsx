@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="md:col-span-1">
             <h3 className="font-semibold text-lg mb-3">YouVersion Platform</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Build applications and integrate with the world's most popular Bible platform.
+              Build applications and integrate with the world&#39;s most popular Bible platform.
             </p>
           </div>
 

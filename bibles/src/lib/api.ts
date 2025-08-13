@@ -17,12 +17,6 @@ export interface LanguageInfo {
   version_count: number
 }
 
-function getFullBaseUrl(baseUrl: string): string {
-  return baseUrl.startsWith('http') ? baseUrl : `https://${baseUrl}`
-}
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-
 export async function getAvailableVersions(excludeId?: number): Promise<BibleVersion[]> {
   let url = '/api/versions'
   if (excludeId) {

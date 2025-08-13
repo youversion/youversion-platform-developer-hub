@@ -3,6 +3,63 @@ import { Target, BookOpen, Settings } from 'lucide-react'
 import { CollapsibleFilter } from './CollapsibleFilter'
 import { useSearchParams, useRouter } from 'next/navigation'
 
+const goalOptions = [
+  {
+    label: 'Personal Growth',
+    description: "For spiritual growth and better understanding of Scripture",
+    translationType: ['dynamic_equivalence', 'thought_for_thought'],
+    readingLevel: ['early', 'intermediate']
+  },
+  {
+    label: 'Deep Study',
+    description: "For in-depth Bible study and original text analysis",
+    translationType: ['direct', 'mostly_direct'],
+    readingLevel: ['proficient', 'advanced']
+  },
+  {
+    label: 'Family Reading',
+    description: "Easy-to-understand translations suitable for family devotions",
+    translationType: ['dynamic_equivalence', 'thought_for_thought'],
+    readingLevel: ['early', 'basic']
+  }
+]
+
+const experienceOptions = [
+  {
+    label: 'New to Bible',
+    description: "Beginner-friendly translations for those starting their Bible journey",
+    translationType: ['thought_for_thought', 'dynamic_equivalence'],
+    readingLevel: ['early', 'basic']
+  },
+  {
+    label: 'Consistent Reader',
+    description: "Balanced translations for regular Bible readers",
+    translationType: ['dynamic_equivalence', 'thought_for_thought'],
+    readingLevel: ['intermediate']
+  },
+  {
+    label: 'Pastor | Scholar',
+    description: "Academic translations with original language nuances",
+    translationType: ['direct', 'mostly_direct'],
+    readingLevel: ['proficient', 'advanced']
+  }
+]
+
+const preferencesOptions = [
+  {
+    label: 'Modern Language',
+    description: "Contemporary translations with natural, everyday language",
+    translationType: ['dynamic_equivalence', 'thought_for_thought'],
+    readingLevel: ['early', 'intermediate']
+  },
+  {
+    label: 'Traditional/Formal',
+    description: "Literal translations closely following original texts",
+    translationType: ['direct', 'mostly_direct'],
+    readingLevel: ['proficient', 'advanced']
+  }
+]
+
 interface VersionFinderProps {
   onPersonaSelect: (features: {
     translationType: string[]
@@ -59,63 +116,6 @@ export function VersionFinder({ onPersonaSelect }: VersionFinderProps) {
     
     router.push(`?${params.toString()}`, { scroll: false })
   }
-
-  const goalOptions = [
-    {
-      label: 'Personal Growth',
-      description: "For spiritual growth and better understanding of Scripture",
-      translationType: ['dynamic_equivalence', 'thought_for_thought'],
-      readingLevel: ['early', 'intermediate']
-    },
-    {
-      label: 'Deep Study',
-      description: "For in-depth Bible study and original text analysis",
-      translationType: ['direct', 'mostly_direct'],
-      readingLevel: ['proficient', 'advanced']
-    },
-    {
-      label: 'Family Reading',
-      description: "Easy-to-understand translations suitable for family devotions",
-      translationType: ['dynamic_equivalence', 'thought_for_thought'],
-      readingLevel: ['early', 'basic']
-    }
-  ]
-
-  const experienceOptions = [
-    {
-      label: 'New to Bible',
-      description: "Beginner-friendly translations for those starting their Bible journey",
-      translationType: ['thought_for_thought', 'dynamic_equivalence'],
-      readingLevel: ['early', 'basic']
-    },
-    {
-      label: 'Consistent Reader',
-      description: "Balanced translations for regular Bible readers",
-      translationType: ['dynamic_equivalence', 'thought_for_thought'],
-      readingLevel: ['intermediate']
-    },
-    {
-      label: 'Pastor | Scholar',
-      description: "Academic translations with original language nuances",
-      translationType: ['direct', 'mostly_direct'],
-      readingLevel: ['proficient', 'advanced']
-    }
-  ]
-
-  const preferencesOptions = [
-    {
-      label: 'Modern Language',
-      description: "Contemporary translations with natural, everyday language",
-      translationType: ['dynamic_equivalence', 'thought_for_thought'],
-      readingLevel: ['early', 'intermediate']
-    },
-    {
-      label: 'Traditional/Formal',
-      description: "Literal translations closely following original texts",
-      translationType: ['direct', 'mostly_direct'],
-      readingLevel: ['proficient', 'advanced']
-    }
-  ]
 
   const handleOptionSelect = (
     optionType: 'goal' | 'experience' | 'preference',

@@ -25,6 +25,12 @@ interface VerseData {
   }
 }
 
+type VersionLike = BibleVersion & { name?: string }
+
+function getVersionDisplayTitle(version: VersionLike): string {
+  return version.local_title || version.name || ''
+}
+
 // Language family groupings for smart suggestions
 const LANGUAGE_FAMILIES = {
   'Germanic': ['eng', 'deu', 'nld', 'afr', 'dan', 'swe', 'nor', 'isl'],
@@ -437,7 +443,7 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
                       onChange={() => toggleVersion(version.bible_version_id)}
                       className="h-4 w-4 rounded border-border text-blue-600 focus:ring-blue-500"
                     />
-                    <span className="ml-3 text-card-foreground">{version.abbreviation} - {(version as any).local_title || (version as any).name}</span>
+                  <span className="ml-3 text-card-foreground">{version.abbreviation} - {getVersionDisplayTitle(version as VersionLike)}</span>
                   </div>
                   {version.has_audio && (
                     <div className="flex items-center gap-1 text-emerald-400 text-xs">
@@ -463,7 +469,7 @@ export default function VerseComparison({ currentVersionId, currentVersion, sear
                 {version?.has_audio && (
                   <Volume2 className="h-3.5 w-3.5 text-emerald-300" />
                 )}
-                <span className="text-sm text-muted-foreground">{(version as any)?.local_title || (version as any)?.name}</span>
+                <span className="text-sm text-muted-foreground">{getVersionDisplayTitle(version as VersionLike)}</span>
               </div>
               
               {/* Content and Audio */}

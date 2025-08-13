@@ -142,13 +142,11 @@ export function BibleVersionSidebar({
   // Update filters when debounced year range changes
   useEffect(() => {
     const [start, end] = debouncedYearRange
-    const newFilters = {
-      ...filters,
+    setFilters(prevFilters => ({
+      ...prevFilters,
       yearStart: start.toString(),
       yearEnd: end.toString()
-    }
-    setFilters(newFilters)
-    updateUrlParams(newFilters)
+    }))
   }, [debouncedYearRange])
 
  

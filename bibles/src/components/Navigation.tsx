@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Search, Menu, X } from 'lucide-react'
 import Link from 'next/link'
-import { useTheme } from '@/contexts/ThemeContext'
+import Image from 'next/image'
 import { getBiblesNavItems } from '../../../shared/config/navigation'
 import { getPlatformUrl } from '../../../shared/config/urls'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
@@ -11,7 +11,6 @@ import { ThemeToggle } from '@/components/ui/theme-toggle'
 export function Navigation() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { theme } = useTheme()
 
   // Use shared navigation configuration with proper cross-site URLs
   const navigationLinks = getBiblesNavItems().map(item => ({
@@ -38,10 +37,13 @@ export function Navigation() {
         {/* Left section - Logo and Brand */}
         <div className="flex items-center">
           <Link href={getPlatformUrl()} className="flex items-center space-x-2">
-            <img 
-              src="/96d1a6db-0f5a-40d5-83ff-ceb74c2ab021.png" 
-              alt="YouVersion Bible Logo" 
-              className="h-8 w-8 rounded" 
+            <Image
+              src="/96d1a6db-0f5a-40d5-83ff-ceb74c2ab021.png"
+              alt="YouVersion Bible Logo"
+              width={32}
+              height={32}
+              className="rounded"
+              priority
             />
             <span className="font-bold text-lg sm:text-xl tracking-tighter hidden xs:block text-foreground">YouVersion Platform</span>
             <span className="font-bold text-lg tracking-tighter block xs:hidden antialiased text-foreground">YouVersion Platform</span>

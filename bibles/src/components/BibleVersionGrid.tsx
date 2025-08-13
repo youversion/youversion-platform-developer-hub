@@ -142,8 +142,7 @@ export function BibleVersionGrid({ versions, isSearchActive }: BibleVersionGridP
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {versions.map(version => {
-        const query = searchParams ? Object.fromEntries(searchParams.entries()) : {}
-        const hasQuery = Object.keys(query).length > 0
+        
 
         return (
           <div

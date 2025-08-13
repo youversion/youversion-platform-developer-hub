@@ -1,7 +1,7 @@
 'use client'
 
 import { X, Book, BookOpen, Volume2, ExternalLink, Info } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { getScopeLabel } from '../utils/bibleUtils'
 import VerseComparison from './verse-comparison'
 import { ErrorDisplay } from './ErrorDisplay'
@@ -61,13 +61,7 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
-  useEffect(() => {
-    if (isOpen && versionId) {
-      fetchVersion()
-    }
-  }, [isOpen, versionId])
-
-  const fetchVersion = async () => {
+  const fetchVersion = useCallback(async () => {
     if (!versionId) return
 
     setIsLoading(true)
@@ -96,7 +90,13 @@ export function BibleVersionModal({ versionId, isOpen, onClose, searchParams }: 
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [versionId])
+
+  useEffect(() => {
+    if (isOpen && versionId) {
+      fetchVersion()
+    }
+  }, [isOpen, versionId, fetchVersion])
 
   const handleClose = () => {
     setVersion(null)
