@@ -85,7 +85,6 @@ export function SortSelector({ sortOptions, sortConfig, onSortChange }: SortSele
                   // Set logical default directions for each sort type
                   const defaultDirections: Record<string, SortDirection> = {
                     'language': 'asc',    // A-Z makes sense for language
-                    'popularity': 'desc', // Most popular first
                     'name': 'asc',       // A-Z for names
                     'year': 'desc'       // Newest first is usually more useful
                   }
