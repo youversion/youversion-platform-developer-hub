@@ -11,7 +11,7 @@ import { ThemeToggle } from '@/components/ui/theme-toggle'
 export function Navigation() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { theme } = useTheme()
+  useTheme()
 
   // Use shared navigation configuration with proper cross-site URLs
   const navigationLinks = getBiblesNavItems().map(item => ({
