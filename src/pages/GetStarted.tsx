@@ -129,7 +129,7 @@ const GetStarted = () => {
                 <br />
                 New to YouVersion? No problem—create a new account to get started.
               </CardDescription>
-              <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} stroked></sign-in-with-youversion-button>
+              <sign-in-with-youversion-button theme={getResolvedTheme()} stroked></sign-in-with-youversion-button>
             </CardContent>
           </Card>
 

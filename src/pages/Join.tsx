@@ -31,6 +31,21 @@ import { APP_ID } from '@/lib/constants';
 import { yvpFetch } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 
+declare global {
+  interface Window {
+    YouVersionPlatform?: {
+      SignIn?: {
+        getAuthData?: () => { accessToken?: string } | undefined;
+        handleAuthCallback?: () => void;
+      };
+      userInfo?: (
+        accessToken: string
+      ) => Promise<{ firstName: string; lastName: string; userId: string; avatarUrl?: string }>;
+      signOut?: () => void;
+    };
+  }
+}
+
 // TODO: Replace with your Google Maps API key
 const GOOGLE_MAPS_API_KEY = "AIzaSyDa5uwzQ5wwtYTUG5CxdZLoPkqnJG1BKwE";
 // This is a separate key from the Maps API key
@@ -71,26 +86,70 @@ const Join: React.FC = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [yvpUserId, setYvpUserId] = useState<string | null>(null);
+  const [sdkReady, setSdkReady] = useState(false);
 
-  // Load user data from localStorage on component mount
+  // Ensure SDK is present and fetch persisted auth user info
   useEffect(() => {
-    const storedUserData = localStorage.getItem('yvp_user_data');
-    if (storedUserData) {
-      try {
-        const parsedUserData: UserData = JSON.parse(storedUserData);
-        setUserData(parsedUserData);
-        
-        // Prefill the form with user data
-        setFormState(prev => ({
-          ...prev,
-          firstName: parsedUserData.first_name || '',
-          lastName: parsedUserData.last_name || ''
-        }));
-      } catch (error) {
-        console.error('Error parsing user data:', error);
+    const ensureAppId = () => {
+      if (document.body.dataset.youversionPlatformAppId) return;
+      const apps = [
+        { host: 'preview--yv-platform-dev.lovable.app', id: 'gGzypYFGGi7eGzFGYEiSyMnlbtDBfAYQs2YO6AHgE7jrjZIF' },
+        { host: 'lovable.dev', id: 'gKtUcNTYQ0mcAYte9Uta9KZRUAA4u5FcdOnTYmggiBFtKStJ' },
+        { host: 'platform.youversion.com', id: 'dkV1PqA2YwNdtzGGYlZWAxAk72mJDUWmVd6QeIRqr9WlLjX2' },
+        { host: 'localhost', id: 'iAfkrb9YmBbmASXMGPXxxwLXEFXkXa7cyLLwzc2GpQuGgtJW' }
+      ];
+      const currentHost = window.location.hostname;
+      const match = apps.find(a => currentHost.includes(a.host));
+      if (match) {
+        document.body.dataset.youversionPlatformAppId = match.id;
       }
-    }
+    };
+
+    const loadSdkIfNeeded = () => {
+      if (window.YouVersionPlatform?.SignIn?.getAuthData) {
+        setSdkReady(true);
+        return;
+      }
+      if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'https://api-dev.youversion.com/sdk.js';
+        script.onload = () => setSdkReady(true);
+        document.head.appendChild(script);
+      } else {
+        setTimeout(() => setSdkReady(true), 0);
+      }
+    };
+
+    ensureAppId();
+    loadSdkIfNeeded();
   }, []);
+
+  useEffect(() => {
+    if (!sdkReady) return;
+    const auth = window.YouVersionPlatform?.SignIn?.getAuthData?.();
+    if (auth?.accessToken && window.YouVersionPlatform?.userInfo) {
+      window.YouVersionPlatform.userInfo(auth.accessToken)
+        .then(me => {
+          setYvpUserId(me.userId);
+          const mapped: UserData = {
+            first_name: me.firstName,
+            last_name: me.lastName,
+            avatar_url: me.avatarUrl,
+          };
+          setUserData(mapped);
+          setFormState(prev => ({
+            ...prev,
+            firstName: mapped.first_name || '',
+            lastName: mapped.last_name || ''
+          }));
+        })
+        .catch(err => {
+          console.error('Failed to load user from persisted auth:', err);
+        });
+    }
+  }, [sdkReady]);
 
   const handlePlaceSelect = (place: google.maps.places.PlaceResult) => {
     console.log("Selected Place: ", place);
@@ -146,29 +205,13 @@ const Join: React.FC = () => {
     }
 
     try {
-      // Get user's yvp_id from localStorage
-      const storedUserData = localStorage.getItem('yvp_user_data');
-      if (!storedUserData) {
+      if (!yvpUserId || !userData) {
         toast({
           title: "User data not found. Please sign in again.",
           description: "Your session has expired. Please sign in again.",
           variant: "destructive",
         });
-        navigate('/login'); // Redirect to login if user data is missing
-        return;
-      }
-
-      const parsedUserData = JSON.parse(storedUserData);
-      // Get yvp_user_id from localStorage (stored from callback URL)
-      const yvpUserId = localStorage.getItem('yvp_user_id');
-      
-      if (!yvpUserId) {
-        toast({
-          title: "User ID not found. Please sign in again.",
-          description: "Your session has expired. Please sign in again.",
-          variant: "destructive",
-        });
-        navigate('/login'); // Redirect to login if user ID is missing
+        navigate('/login');
         return;
       }
 
@@ -178,7 +221,7 @@ const Join: React.FC = () => {
         organizationName = formState.organizationName || "My Organization";
       } else {
         // For individual accounts, use the user's name
-        organizationName = `${formState.firstName || parsedUserData.first_name || ''} ${formState.lastName || parsedUserData.last_name || ''}`.trim() || "Individual Account";
+        organizationName = `${formState.firstName || userData.first_name || ''} ${formState.lastName || userData.last_name || ''}`.trim() || "Individual Account";
       }
 
       // Prepare the request body for organization creation

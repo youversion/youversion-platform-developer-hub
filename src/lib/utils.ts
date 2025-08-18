@@ -15,9 +15,6 @@ export function cn(...inputs: ClassValue[]) {
  * Automatically adds required headers and handles authentication
  */
 export async function yvpFetch(endpoint: string, options: RequestInit = {}): Promise<Response> {
-  // Get LAT token from localStorage
-  const lat = localStorage.getItem('yvp_lat');
-  
   // Determine which app ID to use based on endpoint
   const isAdminEndpoint = endpoint.startsWith('/admin/');
   const appId = isAdminEndpoint ? ADMIN_APP_ID : EXAMPLES_APP_ID;
@@ -30,20 +27,19 @@ export async function yvpFetch(endpoint: string, options: RequestInit = {}): Pro
     ...options.headers,
   };
 
-  // Add LAT token if available
-  if (lat) {
-    headers['lat'] = lat;
-  }
-
   // Remove any Authorization headers as requested
   delete (headers as any)['Authorization'];
 
   // Construct full URL
   const url = endpoint.startsWith('http') ? endpoint : `${YVP_CONFIG.API_BASE_URL}${endpoint}`;
 
+  // Decide credentials policy
+  const defaultCredentials: RequestCredentials = isAdminEndpoint ? 'omit' : 'include';
+
   // Make the request
   return fetch(url, {
     ...options,
     headers,
+    credentials: (options as RequestInit).credentials ?? defaultCredentials,
   });
 }
