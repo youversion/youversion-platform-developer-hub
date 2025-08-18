@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import SearchBar from './SearchBar';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Menu, X } from 'lucide-react';
 import { getPlatformNavItems } from '../../../shared/config/navigation';
@@ -59,9 +58,6 @@ const Header = () => {
               );
             })}
           </nav>
-          <div className="hidden md:block">
-            <SearchBar />
-          </div>
           
           <ThemeToggle />
           
@@ -80,9 +76,6 @@ const Header = () => {
 
       {isMobileMenuOpen && <div className="md:hidden border-t">
           <nav className="container py-3 space-y-2 px-4 sm:px-6 lg:px-8">
-            <div className="mb-3">
-              <SearchBar />
-            </div>
             
             {isAuthenticated && <Link to="/platform" className={`block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground ${isActive('/platform') || isOnPlatform ? 'text-foreground' : 'text-muted-foreground'}`} onClick={() => setIsMobileMenuOpen(false)}>
                 Platform
