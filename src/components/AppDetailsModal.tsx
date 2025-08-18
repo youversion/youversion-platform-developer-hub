@@ -96,7 +96,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
       setLoadingPublicKey(true);
       try {
-        const response = await yvpFetch(`/admin/organizations/${organization.id}/apps/${app.id}/keys`);
+        const response = await yvpFetch(`/admin/organizations/${organization.id}/apps/${app.id}/keys`, { credentials: 'omit' });
 
         if (!response.ok) {
           throw new Error(`Failed to fetch app keys: ${response.status} ${response.statusText}`);

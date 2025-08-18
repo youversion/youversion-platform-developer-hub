@@ -8,11 +8,15 @@ import { Smartphone, BarChart3, Settings, Bell } from 'lucide-react';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import PlatformSidebar from '@/components/layout/PlatformSidebar';
 const Platform = () => {
-  const {
-    isAuthenticated
-  } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
+  console.log('[Platform] guard check', { isLoading, isAuthenticated });
+  if (isLoading) {
+    console.log('[Platform] Waiting for auth hydration...');
+    return null;
+  }
   if (!isAuthenticated) {
+    console.log('[Platform] Not authenticated. Redirecting to /');
     return <Navigate to="/" replace />;
   }
 

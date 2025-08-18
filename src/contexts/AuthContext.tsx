@@ -1,7 +1,20 @@
-
-import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
-import { APP_ID } from '@/lib/constants';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { yvpFetch } from '@/lib/utils';
+
+declare global {
+  interface Window {
+    YouVersionPlatform?: {
+      SignIn?: {
+        getAuthData?: () => { accessToken?: string } | undefined;
+        handleAuthCallback?: () => void;
+      };
+      userInfo?: (
+        accessToken: string
+      ) => Promise<{ firstName: string; lastName: string; userId: string; avatarUrl?: string }>;
+      signOut?: () => void;
+    };
+  }
+}
 
 interface User {
   id: string;
@@ -44,7 +57,128 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [organization, setOrganization] = useState<Organization | null>(null);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [sdkReady, setSdkReady] = useState<boolean>(false);
+
+  // Ensure SDK is loaded and app id present (in case this provider mounts before Index sets it)
+  useEffect(() => {
+    const ensureAppId = () => {
+      if (document.body.dataset.youversionPlatformAppId) return;
+      const apps = [
+        { host: 'preview--yv-platform-dev.lovable.app', id: 'gGzypYFGGi7eGzFGYEiSyMnlbtDBfAYQs2YO6AHgE7jrjZIF' },
+        { host: 'lovable.dev', id: 'gKtUcNTYQ0mcAYte9Uta9KZRUAA4u5FcdOnTYmggiBFtKStJ' },
+        { host: 'platform.youversion.com', id: 'dkV1PqA2YwNdtzGGYlZWAxAk72mJDUWmVd6QeIRqr9WlLjX2' },
+        { host: 'localhost', id: 'iAfkrb9YmBbmASXMGPXxxwLXEFXkXa7cyLLwzc2GpQuGgtJW' }
+      ];
+      const currentHost = window.location.hostname;
+      const match = apps.find(a => currentHost.includes(a.host));
+      if (match) {
+        document.body.dataset.youversionPlatformAppId = match.id;
+      }
+    };
+
+    const loadSdkIfNeeded = () => {
+      if (window.YouVersionPlatform?.SignIn?.getAuthData) {
+        setSdkReady(true);
+        return;
+      }
+      if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'https://api-dev.youversion.com/sdk.js';
+        script.onload = () => setSdkReady(true);
+        document.head.appendChild(script);
+      } else {
+        setTimeout(() => setSdkReady(true), 0);
+      }
+    };
+
+    ensureAppId();
+    loadSdkIfNeeded();
+  }, []);
+
+  // Hydrate auth state from SDK's persisted auth
+  const hydrateFromSdk = useCallback(async () => {
+    if (!window.YouVersionPlatform?.SignIn?.getAuthData || !window.YouVersionPlatform?.userInfo) {
+      return;
+    }
+    const auth = window.YouVersionPlatform.SignIn.getAuthData();
+    if (!auth?.accessToken) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      console.log('[AuthContext] hydrateFromSdk: start');
+      const me = await window.YouVersionPlatform.userInfo(auth.accessToken);
+      console.log('[AuthContext] hydrateFromSdk: user info', me);
+      setUser({ id: me.userId, name: `${me.firstName} ${me.lastName}`.trim(), email: '' });
+
+      // Fetch organizations for the user
+      const orgRolesUrl = `/admin/users/${me.userId}/organization_roles`;
+      console.log('[AuthContext] fetching org roles', orgRolesUrl, '(no credentials)');
+      const orgResponse = await yvpFetch(orgRolesUrl, { credentials: 'omit' });
+      console.log('[AuthContext] org roles response', { status: orgResponse.status, ok: orgResponse.ok });
+      if (!orgResponse.ok) {
+        throw new Error('Failed to fetch organization roles');
+      }
+      const orgData = await orgResponse.json();
+      const allOrganizations: Organization[] = (orgData || []).map((org: any) => ({
+        id: org.id,
+        name: org.name,
+        userRole: org.role
+      }));
+      console.log('[AuthContext] hydrateFromSdk: organizations loaded', allOrganizations.length);
+      setOrganizations(allOrganizations);
+      setOrganization(allOrganizations[0] || null);
+    } finally {
+      setIsLoading(false);
+      console.log('[AuthContext] hydrateFromSdk: end');
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log('[AuthContext] state change', { isAuthenticated: !!user, hasOrg: !!organization, orgCount: organizations.length });
+  }, [user, organization, organizations]);
+
+  // Initial hydration
+  useEffect(() => {
+    if (!sdkReady) return;
+    hydrateFromSdk();
+  }, [sdkReady, hydrateFromSdk]);
+
+  // If SDK is ready but no auth is present, end loading so guards can render
+  useEffect(() => {
+    if (!sdkReady) return;
+    const auth = window.YouVersionPlatform?.SignIn?.getAuthData?.();
+    if (!auth?.accessToken) {
+      setIsLoading(false);
+    }
+  }, [sdkReady]);
+
+  // Attach SDK callbacks to re-hydrate whenever SDK reports auth
+  useEffect(() => {
+    if (!sdkReady) return;
+    const w = window as any;
+    const prevComplete = w.onYouVersionAuthComplete;
+    const prevLoad = w.onYouVersionAuthLoad;
+
+    w.onYouVersionAuthComplete = async (authData: any) => {
+      console.log('[AuthContext] onYouVersionAuthComplete -> hydrateFromSdk');
+      try { if (typeof prevComplete === 'function') { await prevComplete(authData); } } catch (e) { console.error(e); }
+      await hydrateFromSdk();
+    };
+
+    w.onYouVersionAuthLoad = async (authData: any) => {
+      console.log('[AuthContext] onYouVersionAuthLoad -> hydrateFromSdk');
+      try { if (typeof prevLoad === 'function') { await prevLoad(authData); } } catch (e) { console.error(e); }
+      await hydrateFromSdk();
+    };
+
+    return () => {
+      w.onYouVersionAuthComplete = prevComplete;
+      w.onYouVersionAuthLoad = prevLoad;
+    };
+  }, [sdkReady, hydrateFromSdk]);
 
   const switchOrganization = useCallback((orgId: string) => {
     const selectedOrg = organizations.find(org => org.id === orgId);
@@ -55,155 +189,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [organizations]);
 
   const login = useCallback(async (email: string, password: string) => {
-    // Prevent multiple simultaneous login attempts
     if (isLoading) {
       console.log('Login already in progress, skipping...');
       return;
     }
-
     setIsLoading(true);
     try {
-      // For now, keep the mock authentication for the placeholder login
+      // Keep mock path for placeholder login
       if (email === 'placeholder@youversion.com' && password === 'findslife') {
-        setUser({
-          id: 'user_222',
-          name: 'Developer Firstname',
-          email: email
-        });
-        
-        // Mock organization data for the placeholder login
-        const mockOrgs = [{
-          id: '7fafd3aa-2b5f-4e64-8830-256b2512aebf',
-          name: 'The Innovators Guild',
-          userRole: 'admin'
-        }];
+        setUser({ id: 'user_222', name: 'Developer Firstname', email });
+        const mockOrgs = [{ id: '7fafd3aa-2b5f-4e64-8830-256b2512aebf', name: 'The Innovators Guild', userRole: 'admin' }];
         setOrganizations(mockOrgs);
         setOrganization(mockOrgs[0]);
         return;
       }
-
-      // Call /auth/me endpoint to get user data
-      const lat = localStorage.getItem('yvp_lat');
-      if (!lat) {
-        throw new Error('No authentication token found');
-      }
-      
-      // Get the yvp_user_id from the callback URL (stored in localStorage)
-      const yvpUserId = localStorage.getItem('yvp_user_id');
-      if (!yvpUserId) {
-        throw new Error('No yvp_user_id found - please sign in again');
-      }
-      
-      console.log('🔍 Making /auth/me call:', {
-        url: `/auth/me?lat=${encodeURIComponent(lat)}`,
-        lat: lat,
-        yvpUserId: yvpUserId
-      });
-
-      const userResponse = await yvpFetch(`/auth/me?lat=${encodeURIComponent(lat)}`);
-
-      console.log('📡 /auth/me API response:', {
-        status: userResponse.status,
-        statusText: userResponse.statusText,
-        ok: userResponse.ok,
-        headers: Object.fromEntries(userResponse.headers.entries())
-      });
-
-      if (!userResponse.ok) {
-        console.error('❌ /auth/me call failed:', {
-          status: userResponse.status,
-          statusText: userResponse.statusText
-        });
-        
-        // Try to get the error response body for more details
-        try {
-          const errorBody = await userResponse.text();
-          console.error('❌ /auth/me error response body:', errorBody);
-        } catch (e) {
-          console.error('❌ Could not read /auth/me error response body:', e);
-        }
-        
-        throw new Error(`Failed to authenticate user: ${userResponse.status} ${userResponse.statusText}`);
-      }
-
-      const userData = await userResponse.json();
-      console.log('✅ /auth/me response data:', userData);
-      
-      // Store user data in localStorage for the Join page to access
-      localStorage.setItem('yvp_user_data', JSON.stringify(userData));
-      console.log('💾 Stored user data in localStorage for Join page');
-      
-      // Use yvp_user_id from callback URL as the user ID (not the id from auth/me response)
-      setUser({
-        id: yvpUserId, // Use the yvp_user_id from callback, not userData.id
-        name: userData.name || `${userData.first_name || ''} ${userData.last_name || ''}`.trim(),
-        email: userData.email || email
-      });
-
-      // Call organization_roles endpoint
-      const orgRolesUrl = `/admin/users/${yvpUserId}/organization_roles`;
-      console.log('🔍 Checking user organization membership:', {
-        url: orgRolesUrl,
-        yvpUserId: yvpUserId
-      });
-
-      const orgResponse = await yvpFetch(orgRolesUrl);
-
-      console.log('📡 Organization roles API response:', {
-        status: orgResponse.status,
-        statusText: orgResponse.statusText,
-        ok: orgResponse.ok
-      });
-
-      if (!orgResponse.ok) {
-        console.error('❌ Failed to fetch organization roles:', orgResponse.status, orgResponse.statusText);
-        throw new Error('Failed to fetch organization roles');
-      }
-
-      const orgData = await orgResponse.json();
-      console.log('📋 Organization data received:', orgData);
-      
-      // Check if user is part of any organization
-      if (!orgData || orgData.length === 0) {
-        console.log('🚫 User is not part of any organization, redirecting to /join');
-        // User is not part of any organization, redirect to join
-        window.location.href = '/join';
-        return;
-      }
-
-      // Store all organizations and use the first one as default
-      const allOrganizations = orgData.map((org: any) => ({
-        id: org.id,
-        name: org.name,
-        userRole: org.role
-      }));
-
-      const firstOrg = allOrganizations[0];
-      console.log('✅ User belongs to organization(s). Using first org:', {
-        id: firstOrg.id,
-        name: firstOrg.name,
-        userRole: firstOrg.userRole,
-        totalOrgsFound: allOrganizations.length
-      });
-
-      setOrganizations(allOrganizations);
-      setOrganization(firstOrg);
-
+      await hydrateFromSdk();
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading]);
+  }, [hydrateFromSdk, isLoading]);
 
   const logout = useCallback(() => {
     setUser(null);
     setOrganization(null);
     setOrganizations([]);
-    localStorage.removeItem('yvp_lat');
-    localStorage.removeItem('yvp_user_id');
-    localStorage.removeItem('yvp_user_data');
+    window.YouVersionPlatform?.signOut?.();
   }, []);
 
   const isAuthenticated = !!user;

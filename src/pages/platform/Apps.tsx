@@ -59,12 +59,13 @@ const Apps = () => {
       // Fetch apps for the current organization
       const appsUrl = `/admin/organizations/${organization.id}/apps`;
       const keysUrl = `/admin/apps_keys/list`;
+      console.log('[Apps] fetching', { appsUrl, keysUrl, credPolicy: 'omit' });
       
       console.log('Fetching apps for organization:', organization.id);
       
       const [appsRes, keysRes] = await Promise.all([
-        yvpFetch(appsUrl),
-        yvpFetch(keysUrl)
+        yvpFetch(appsUrl, { credentials: 'omit' }),
+        yvpFetch(keysUrl, { credentials: 'omit' })
       ]);
 
       if (!appsRes.ok) {
