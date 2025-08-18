@@ -4,15 +4,22 @@ import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getPlatformUrl, getDevdocsUrl, getBiblesUrl } from '../../shared/config/urls';
+import { YVP_SDK_URL } from '@/lib/constants';
 import { Code, User, BookOpen, Zap } from 'lucide-react';
 
 // Extend window interface for YouVersion SDK callbacks
 declare global {
   interface Window {
-    onYouVersionAuthComplete?: (authData: {
-      lat?: string;
-    }) => void;
-    onYouVersionAuthLoad?: (authData: unknown) => void;
+    YouVersionPlatform?: {
+      SignIn?: {
+        getAuthData?: () => { accessToken?: string } | undefined;
+        handleAuthCallback?: () => void;
+      };
+      userInfo?: (accessToken: string) => Promise<{ firstName: string; lastName: string; userId: string; avatarUrl?: string }>;
+      signOut?: () => void;
+    };
+    onYouVersionAuthComplete?: (authData: { accessToken?: string }) => void;
+    onYouVersionAuthLoad?: (authData: { accessToken?: string }) => void;
     onYouVersionSignOut?: () => void;
   }
 }
@@ -72,35 +79,42 @@ const GetStarted = () => {
 
   // Load the YouVersion Platform SDK and set up auth callbacks
   useEffect(() => {
+    // Set the app ID for the SDK BEFORE injecting the script so initialize can read it
+    document.body.dataset.youversionPlatformAppId = selectedApp.app_id;
+
     // Load the SDK script if not already loaded
-    if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+    if (!document.querySelector(`script[src="${YVP_SDK_URL}"]`)) {
       const script = document.createElement("script");
       script.type = "module";
-      script.src = "https://api-dev.youversion.com/sdk.js";
+      script.src = YVP_SDK_URL;
       document.head.appendChild(script);
     }
 
-    // Set the app ID for the SDK
-    document.body.dataset.youversionPlatformAppId = selectedApp.app_id;
-
     // Set up auth callback handlers
-    window.onYouVersionAuthComplete = (authData: {
-      lat?: string;
-    }) => {
-      console.log("Login successful!", authData);
-      if (authData?.lat) {
-        // Store the LAT token and navigate to callback
-        localStorage.setItem('yvp_lat', authData.lat);
-        navigate('/callback');
+    (window as any).onYouVersionAuthComplete = async (authData: { accessToken?: string }) => {
+      console.log('[GetStarted] Auth complete:', authData);
+      const getUserInfo = (window as any).YouVersionPlatform?.SignIn?.getUserInfo as (() => { firstName: string; lastName: string; userId: string; avatarUrl?: string } | undefined) | undefined;
+      let me = typeof getUserInfo === 'function' ? getUserInfo() : undefined;
+      if (!me && authData?.accessToken && window.YouVersionPlatform?.userInfo) {
+        me = await window.YouVersionPlatform.userInfo(authData.accessToken);
       }
+      console.log('[GetStarted] User info:', me);
+      navigate('/callback');
     };
-    window.onYouVersionAuthLoad = (authData: unknown) => {
-      console.log("Auth data loaded:", authData);
+    (window as any).onYouVersionAuthLoad = async (authData: { accessToken?: string }) => {
+      console.log('[GetStarted] Auth load:', authData);
+      const getUserInfo = (window as any).YouVersionPlatform?.SignIn?.getUserInfo as (() => { firstName: string; lastName: string; userId: string; avatarUrl?: string } | undefined) | undefined;
+      let me = typeof getUserInfo === 'function' ? getUserInfo() : undefined;
+      if (!me && authData?.accessToken && window.YouVersionPlatform?.userInfo) {
+        me = await window.YouVersionPlatform.userInfo(authData.accessToken);
+      }
+      console.log('[GetStarted] User info (load):', me);
     };
     window.onYouVersionSignOut = () => {
-      console.log("User logged out");
-      localStorage.removeItem('yvp_lat');
+      console.log('[GetStarted] User logged out');
     };
+
+    // Do not manually call handleAuthCallback; SDK runs it on initialize
 
     // Cleanup function to remove the app ID when component unmounts
     return () => {

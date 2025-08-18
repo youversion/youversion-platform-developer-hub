@@ -6,3 +6,7 @@ export const YVP_CONFIG = {
 
 // Legacy export for backward compatibility
 export const APP_ID = YVP_CONFIG.APP_ID; 
+
+// Centralized SDK script URL. Change this to point to a local SDK while developing.
+// For example: "/sdk.js" (local) or "https://api-dev.youversion.com/sdk.js" (remote)
+export const YVP_SDK_URL = "https://api-dev.youversion.com/sdk.js";

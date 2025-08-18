@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { yvpFetch } from '@/lib/utils';
+import { YVP_SDK_URL } from '@/lib/constants';
 
 declare global {
   interface Window {
@@ -107,10 +108,10 @@ const Callback = () => {
         setSdkReady(true);
         return;
       }
-      if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+      if (!document.querySelector(`script[src="${YVP_SDK_URL}"]`)) {
         const script = document.createElement('script');
         script.type = 'module';
-        script.src = 'https://api-dev.youversion.com/sdk.js';
+        script.src = YVP_SDK_URL;
         script.onload = () => setSdkReady(true);
         document.head.appendChild(script);
       } else {
@@ -127,8 +128,7 @@ const Callback = () => {
   useEffect(() => {
     if (!sdkReady) return;
 
-    // Process current URL (stores cookie, cleans URL, fires callback)
-    window.YouVersionPlatform?.SignIn?.handleAuthCallback?.();
+    // Do not manually call handleAuthCallback; SDK runs it on initialize
 
     // Optional alternative: read persisted auth and fetch user
     const auth = window.YouVersionPlatform?.SignIn?.getAuthData?.();

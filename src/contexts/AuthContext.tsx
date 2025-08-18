@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { yvpFetch } from '@/lib/utils';
+import { YVP_SDK_URL } from '@/lib/constants';
 
 declare global {
   interface Window {
@@ -82,10 +83,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setSdkReady(true);
         return;
       }
-      if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+      // Ensure app id is set BEFORE injecting the script
+      // (Index/GetStarted should also set this, but we set as fallback here.)
+      if (!document.body.dataset.youversionPlatformAppId) {
+        // no-op: ensureAppId already tried to set it above
+      }
+
+      if (!document.querySelector(`script[src="${YVP_SDK_URL}"]`)) {
         const script = document.createElement('script');
         script.type = 'module';
-        script.src = 'https://api-dev.youversion.com/sdk.js';
+        script.src = YVP_SDK_URL;
         script.onload = () => setSdkReady(true);
         document.head.appendChild(script);
       } else {

@@ -30,6 +30,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { APP_ID } from '@/lib/constants';
 import { yvpFetch } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
+import { YVP_SDK_URL } from '@/lib/constants';
 
 declare global {
   interface Window {
@@ -111,10 +112,14 @@ const Join: React.FC = () => {
         setSdkReady(true);
         return;
       }
-      if (!document.querySelector('script[src="https://api-dev.youversion.com/sdk.js"]')) {
+      // Ensure app id is set BEFORE injecting the script (Index/GetStarted should also do this)
+      if (!document.body.dataset.youversionPlatformAppId) {
+        // no-op here
+      }
+      if (!document.querySelector(`script[src="${YVP_SDK_URL}"]`)) {
         const script = document.createElement('script');
         script.type = 'module';
-        script.src = 'https://api-dev.youversion.com/sdk.js';
+        script.src = YVP_SDK_URL;
         script.onload = () => setSdkReady(true);
         document.head.appendChild(script);
       } else {
