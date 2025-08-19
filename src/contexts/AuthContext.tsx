@@ -121,7 +121,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser({ id: me.userId, name: `${me.firstName} ${me.lastName}`.trim(), email: '' });
 
       // Fetch organizations for the user
-      const orgRolesUrl = `/admin/users/${me.userId}/organization_roles`;
+      const orgRolesUrl = `/admin/users/${me.userId}/developer_roles`;
       console.log('[AuthContext] fetching org roles', orgRolesUrl, '(no credentials)');
       const orgResponse = await yvpFetch(orgRolesUrl, { credentials: 'omit' });
       console.log('[AuthContext] org roles response', { status: orgResponse.status, ok: orgResponse.ok });

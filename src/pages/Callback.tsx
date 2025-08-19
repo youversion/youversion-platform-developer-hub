@@ -29,7 +29,7 @@ const Callback = () => {
 
   const routeAfterAuth = React.useCallback(async (me: NonNullable<UserInfo>) => {
     try {
-      const orgRolesUrl = `/admin/users/${me.userId}/organization_roles`;
+      const orgRolesUrl = `/admin/users/${me.userId}/developer_roles`;
       console.log('[Callback] Fetching org roles', orgRolesUrl);
       const orgResponse = await yvpFetch(orgRolesUrl, { credentials: 'omit' });
       console.log('[Callback] Org roles response', { status: orgResponse.status, ok: orgResponse.ok });
