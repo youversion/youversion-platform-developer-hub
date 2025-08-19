@@ -236,7 +236,7 @@ const Apps = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            organization_id: organization.id,
+            developer_id: organization.id,
             names: JSON.stringify({ en: updatedApp.name }),
             callback_uri: updatedApp.callback_uri?.trim() || "https://www.youversion.com/",
             bible_licenses: '[1]',
