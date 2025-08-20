@@ -57,7 +57,7 @@ const Apps = () => {
     setError(null);
     try {
       // Fetch apps for the current organization
-      const appsUrl = `/admin/organizations/${organization.id}/apps`;
+      const appsUrl = `/admin/developers/${organization.id}/apps`;
       const keysUrl = `/admin/apps_keys/list`;
       console.log('[Apps] fetching', { appsUrl, keysUrl, credPolicy: 'omit' });
       

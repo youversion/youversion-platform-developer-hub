@@ -250,7 +250,7 @@ const Join: React.FC = () => {
       console.log("Creating organization with data:", orgData);
 
       // Create the organization
-      const response = await yvpFetch('/admin/create_organization', {
+      const response = await yvpFetch('/admin/create_developer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ fi
 # Define services and their build contexts (service_name:context_directory)
 SERVICES=(
   "devdocs:devdocs"
-  "bibles:bibles"
+  # "bibles:bibles"
   "developer-hub:."
 )
 
