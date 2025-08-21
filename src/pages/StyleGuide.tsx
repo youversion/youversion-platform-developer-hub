@@ -36,8 +36,10 @@ import {
   // Other
   Eye, EyeOff, Lock, Unlock, Shield, Key, BellRing, Volume2, VolumeX, Mic, MicOff
 } from 'lucide-react';
+import StatementOfFaithModal from '@/components/StatementOfFaithModal';
 const StyleGuide = () => {
   const { toast } = useToast();
+  const [isStatementOpen, setIsStatementOpen] = React.useState(false);
   return <div className="container py-12">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
@@ -228,6 +230,17 @@ const StyleGuide = () => {
           </div>
           
           <div className="grid md:grid-cols-1 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Modals</CardTitle>
+                <CardDescription>Dialog components and interactions</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  <Button onClick={() => setIsStatementOpen(true)}>Preview Statement of Faith Modal</Button>
+                </div>
+              </CardContent>
+            </Card>
             <Card>
               <CardHeader>
                 <CardTitle>Buttons</CardTitle>
@@ -1009,6 +1022,11 @@ const StyleGuide = () => {
           </div>
         </section>
       </div>
+      <StatementOfFaithModal 
+        open={isStatementOpen} 
+        onOpenChange={setIsStatementOpen} 
+        onAccept={() => setIsStatementOpen(false)} 
+      />
     </div>;
 };
 export default StyleGuide;
