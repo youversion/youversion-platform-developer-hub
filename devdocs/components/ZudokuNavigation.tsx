@@ -34,7 +34,6 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
       <div className="flex h-14 sm:h-16 items-center justify-between">
         <div className="flex items-center space-x-2 sm:space-x-4">
           {/* Platform link - only show when authenticated */}
-          {isAuthenticated && (
             <a 
               href={`${getPlatformUrl()}/platform`}
               className="relative text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
@@ -42,7 +41,6 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
             >
               Platform
             </a>
-          )}
 
           {/* Navigation Items */}
           {publicNavItems.map((item, index) => {
@@ -110,8 +108,6 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
             <div className="mb-3">
               <DevdocsSearchBar />
             </div>
-            
-            {isAuthenticated && (
               <a 
                 href={`${getPlatformUrl()}/platform`}
                 className="block px-2 py-1 text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
@@ -120,7 +116,6 @@ export const ZudokuNavigation: React.FC<ZudokuNavigationProps> = ({
               >
                 Platform
               </a>
-            )}
             
             {publicNavItems.map((item, index) => {
               return (
