@@ -7,10 +7,10 @@ interface SiteUrls {
     development: string;
     production: string;
   };
-  bibles: {
-    development: string;
-    production: string;
-  };
+  // bibles: {
+  //   development: string;
+  //   production: string;
+  // };
 }
 
 const urls: SiteUrls = {
