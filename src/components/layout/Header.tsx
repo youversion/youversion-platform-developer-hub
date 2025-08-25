@@ -44,7 +44,7 @@ const Header = () => {
                   <a 
                     key={item.path} 
                     href={item.path} 
-                    className="relative text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
+                    className="hidden relative text-sm font-medium transition-colors hover:text-foreground text-muted-foreground"
                   >
                     {item.name}
                   </a>
