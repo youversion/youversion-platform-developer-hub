@@ -20,10 +20,10 @@ export const getDefaultNavItems = (): NavItem[] => [
     name: 'Dev Docs',
     path: '/introduction'
   },
-  {
-    name: 'Bible Directory',
-    path: '/'
-  },
+  // {
+  //   name: 'Bible Directory',
+  //   path: '/'
+  // },
   {
     name: 'Support',
     path: '/support'
