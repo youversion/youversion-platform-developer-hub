@@ -265,9 +265,9 @@ const Join: React.FC = () => {
       const result = await response.json();
       console.log("Organization created successfully:", result);
 
-      if (result.success && result.organization) {
+      if (result.success && result.developer) {
         toast({
-          title: `Organization "${result.organization.name}" created successfully!`,
+          title: `Organization "${result.developer.name}" created successfully!`,
           description: "You are now the owner of the organization.",
         });
         
