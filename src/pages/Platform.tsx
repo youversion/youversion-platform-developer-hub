@@ -23,9 +23,7 @@ const Platform = () => {
   // If we're on the base /platform route, show the dashboard
   if (location.pathname === '/platform') {
     return <SidebarProvider>
-        <div className="flex w-full" style={{
-        height: 'calc(100vh - 64px)'
-      }}>
+        <div className="flex w-full" style={{ minHeight: 'calc(100vh - 64px)' }}>
           <PlatformSidebar />
           <div className="flex-1 canvas-primary">
             <div className="container py-12">
@@ -305,7 +303,7 @@ const Platform = () => {
 
   // For nested routes, render with sidebar
   return <SidebarProvider>
-      <div className="flex w-full canvas-secondary min-h-screen">
+      <div className="flex w-full canvas-secondary" style={{ minHeight: 'calc(100vh - 64px)' }}>
         <PlatformSidebar />
         <div className="flex-1 canvas-primary">
           <Outlet />
