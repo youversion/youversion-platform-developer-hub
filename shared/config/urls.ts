@@ -21,11 +21,11 @@ const urls: SiteUrls = {
   devdocs: {
     development: 'http://localhost:3000',
     production: 'https://developers.youversion.com'
-  },
-  bibles: {
-    development: 'http://localhost:3001',
-    production: 'https://bibles.youversion.com'
-  }
+  // },
+  // bibles: {
+  //   development: 'http://localhost:3001',
+  //   production: 'https://bibles.youversion.com'
+  // }
 };
 
 export const getPlatformUrl = (): string => {
@@ -36,9 +36,9 @@ export const getDevdocsUrl = (): string => {
   return isDevelopmentMode() ? urls.devdocs.development : urls.devdocs.production;
 };
 
-export const getBiblesUrl = (): string => {
-  return isDevelopmentMode() ? urls.bibles.development : urls.bibles.production;
-};
+// export const getBiblesUrl = (): string => {
+//   return isDevelopmentMode() ? urls.bibles.development : urls.bibles.production;
+// };
 
 export const getCurrentSiteUrl = (): string => {
   // For SSR, always return the devdocs URL to avoid hydration mismatch
