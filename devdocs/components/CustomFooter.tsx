@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getPlatformUrl, getDevdocsUrl, getBiblesUrl, isDevelopmentMode } from '../../shared/config/urls';
+import { getPlatformUrl, getDevdocsUrl, isDevelopmentMode } from '../../shared/config/urls';
 
 const CustomFooter = () => {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
@@ -29,11 +29,7 @@ const CustomFooter = () => {
                   Developer Documentation
                 </a>
               </li>
-              <li>
-                <a href={getBiblesUrl()} className="text-muted-foreground hover:text-foreground transition-colors">
-                  Bible Directory
-                </a>
-              </li>
+              {/* Bible Directory link hidden */}
               <li className="hidden">
                 <a href="/platform" className="text-muted-foreground hover:text-foreground transition-colors">
                   Platform Dashboard

@@ -21,7 +21,7 @@ const urls: SiteUrls = {
   devdocs: {
     development: 'http://localhost:3000',
     production: 'https://developers.youversion.com'
-  // },
+  },
   // bibles: {
   //   development: 'http://localhost:3001',
   //   production: 'https://bibles.youversion.com'

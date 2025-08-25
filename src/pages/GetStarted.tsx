@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
-import { getPlatformUrl, getDevdocsUrl, getBiblesUrl } from '../../shared/config/urls';
+import { getPlatformUrl, getDevdocsUrl } from '../../shared/config/urls';
 import { YVP_SDK_URL } from '@/lib/constants';
 import { Code, User, BookOpen, Zap } from 'lucide-react';
 
@@ -130,11 +130,11 @@ const GetStarted = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           <Card>
             <CardHeader>
               <User className="h-8 w-8 text-[#FF3D4D] mb-2" />
-              <CardTitle>1. Sign in to YouVersion Platform</CardTitle>
+              <CardTitle>Sign in to YouVersion Platform</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">
@@ -150,7 +150,7 @@ const GetStarted = () => {
           <Card>
             <CardHeader>
               <Code className="h-8 w-8 text-[#FF3D4D] mb-2" />
-              <CardTitle>2. Make Your First Request</CardTitle>
+              <CardTitle>Make Your First Request</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">
@@ -165,23 +165,12 @@ const GetStarted = () => {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <BookOpen className="h-8 w-8 text-[#FF3D4D] mb-2" />
-              <CardTitle>3. Explore Bible Content</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="mb-4">Browse a directory of Bible versions and choose the right ones for your app.</CardDescription>
-              <Button asChild variant="default">
-                <a href={getBiblesUrl()}>Browse Bibles</a>
-              </Button>
-            </CardContent>
-          </Card>
+          {/* Explore Bible Content card hidden */}
 
-          <Card>
+          <Card className="md:col-span-2">
             <CardHeader>
               <Zap className="h-8 w-8 text-[#FF3D4D] mb-2" />
-              <CardTitle>4. Build Amazing Apps</CardTitle>
+              <CardTitle>Build Amazing Apps</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">Use our examples and code samples to quickly integrate Bible content into your applications.</CardDescription>

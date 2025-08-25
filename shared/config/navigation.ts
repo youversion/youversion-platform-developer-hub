@@ -1,4 +1,5 @@
-import { getPlatformUrl, getDevdocsUrl, getBiblesUrl } from './urls';
+import { getPlatformUrl, getDevdocsUrl } from './urls';
+//import { getPlatformUrl, getDevdocsUrl, getBiblesUrl } from './urls';
 
 export interface NavItem {
   name: string;
@@ -41,13 +42,13 @@ export const getPlatformNavItems = (): CrossSiteNavItem[] => {
         external: true
       };
     }
-    if (item.name === 'Bible Directory') {
-      return {
-        ...item,
-        path: getBiblesUrl(),
-        external: true
-      };
-    }
+    // if (item.name === 'Bible Directory') {
+    //   return {
+    //     ...item,
+    //     path: getBiblesUrl(),
+    //     external: true
+    //   };
+    // }
     return {
       ...item,
       external: false
@@ -66,13 +67,13 @@ export const getDevdocsNavItems = (): CrossSiteNavItem[] => {
         external: false
       };
     }
-    if (item.name === 'Bible Directory') {
-      return {
-        ...item,
-        path: getBiblesUrl(),
-        external: true
-      };
-    }
+    // if (item.name === 'Bible Directory') {
+    //   return {
+    //     ...item,
+    //     path: getBiblesUrl(),
+    //     external: true
+    //   };
+    // }
     return {
       ...item,
       path: `${getPlatformUrl()}${item.path}`,

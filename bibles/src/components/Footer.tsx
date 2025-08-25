@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { getPlatformUrl, getDevdocsUrl, getBiblesUrl, isDevelopmentMode } from '../../../shared/config/urls';
+import { getPlatformUrl, getDevdocsUrl, isDevelopmentMode } from '../../../shared/config/urls';
 
 const Footer = () => {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
@@ -32,11 +32,7 @@ const Footer = () => {
                   Developer Documentation
                 </a>
               </li>
-              <li>
-                <a href={getBiblesUrl()} className="text-muted-foreground hover:text-foreground transition-colors">
-                  Bible Directory
-                </a>
-              </li>
+              {/* Bible Directory link hidden */}
               <li className="hidden">
                 <a href={`${getPlatformUrl()}/platform`} className="text-muted-foreground hover:text-foreground transition-colors">
                   Platform Dashboard

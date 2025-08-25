@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { isDevelopmentMode, getPlatformUrl, getDevdocsUrl, getBiblesUrl } from '../../../shared/config/urls';
+import { isDevelopmentMode, getPlatformUrl, getDevdocsUrl } from '../../../shared/config/urls';
 
 const Footer = () => {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
@@ -31,11 +31,7 @@ const Footer = () => {
                   Developer Documentation
                 </a>
               </li>
-              <li>
-                <a href={getBiblesUrl()} className="text-muted-foreground hover:text-foreground transition-colors">
-                Bible Directory
-                </a>
-              </li>
+              {/* Bible Directory link hidden */}
               <li className="hidden">
                 <Link to="/platform/apps" className="text-muted-foreground hover:text-foreground transition-colors">
                   App Management
