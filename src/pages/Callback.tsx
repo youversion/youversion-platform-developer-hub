@@ -147,12 +147,12 @@ const Callback = () => {
   }, [sdkReady]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen flex items-center justify-center canvas-primary">
       <div className="max-w-md w-full mx-auto p-8">
         <div className="text-center">
           {!user ? (
             <>
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Completing Sign In</h2>
               <p className="text-gray-600 dark:text-gray-300">{status || 'Processing authentication...'}</p>
             </>
