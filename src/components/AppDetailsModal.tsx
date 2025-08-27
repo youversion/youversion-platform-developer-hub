@@ -230,14 +230,14 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[1200px] max-h-[80vh] overflow-y-auto">
+      <DialogContent className={`${isNewApp ? 'sm:max-w-[800px]' : 'sm:max-w-[1200px]'} max-h-[80vh] overflow-y-auto`}>
         <DialogHeader>
           <DialogTitle>{isNewApp ? 'Create New Application' : 'Edit Application Details'}</DialogTitle>
         </DialogHeader>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className={`grid grid-cols-1 ${isNewApp ? 'lg:grid-cols-1' : 'lg:grid-cols-3'} gap-6`}>
           {/* Left column - Form */}
-          <div className="lg:col-span-2">
+          <div className={`${isNewApp ? 'lg:col-span-1' : 'lg:col-span-2'}`}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Application Name <span className="text-red-500">*</span></Label>
