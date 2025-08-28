@@ -343,12 +343,13 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
                       try {
                         const url = new URL(value);
                         if (url.protocol === 'https:') return true;
+                        if (url.protocol === 'youversionauth:') return true;
                         if (
                           url.protocol === 'http:' &&
                           (url.hostname === 'localhost' || url.hostname === '127.0.0.1')
                         )
                           return true;
-                        return 'Callback URI must use https, unless using localhost or 127.0.0.1';
+                        return 'Callback URI must use https or youversionauth scheme, unless using localhost or 127.0.0.1';
                       } catch {
                         return 'Invalid URL';
                       }
