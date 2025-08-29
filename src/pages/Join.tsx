@@ -356,7 +356,7 @@ const Join: React.FC = () => {
                     <Label htmlFor="organizationName">Organization Name</Label>
                     <Input
                       id="organizationName"
-                      placeholder="Come and See (autofilled)"
+                      placeholder="Organization name"
                       value={formState.organizationName || ""}
                       onChange={handleInputChange}
                     />
