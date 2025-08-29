@@ -200,7 +200,7 @@ const Join: React.FC = () => {
       return;
     }
 
-    if (!formState.agreeToS || !formState.agreeToSoF || !formState.agreeToBibleLicense) {
+    if (!formState.agreeToS || !formState.agreeToBibleLicense) {
       toast({
         title: "Please agree to all terms and licenses.",
         description: "You must agree to all terms to proceed.",
@@ -425,18 +425,7 @@ const Join: React.FC = () => {
                   </Label>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="agreeToSoF" checked={formState.agreeToSoF} onCheckedChange={(checked) => handleCheckboxChange('agreeToSoF')(!!checked)} />
-                  <Label htmlFor="agreeToSoF" className="text-sm font-bold">
-                    You agree to the{" "}
-                    <span
-                      className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
-                      onClick={() => setSofModalOpen(true)}
-                    >
-                      Statement of Faith
-                    </span>
-                  </Label>
-                </div>
+                {/* Statement of Faith checkbox intentionally hidden */}
 
                 <div className="flex items-center space-x-2">
                   <Checkbox id="agreeToS" checked={formState.agreeToS} onCheckedChange={(checked) => handleCheckboxChange('agreeToS')(!!checked)} />
