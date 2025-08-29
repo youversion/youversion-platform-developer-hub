@@ -61,6 +61,11 @@ const TermsOfServiceModal = ({ open, onOpenChange, onAccept }: TermsOfServiceMod
             <h3 className="font-semibold mb-2">5. Privacy Policy</h3>
             <p>Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your information when you use our platform.</p>
           </div>
+
+          <div>
+            <h3 className="font-semibold mb-2">6. YouVersion Platform Statement of Faith</h3>
+            <p>Coming soon!</p>
+          </div>          
         </div>
 
         <DialogFooter>
