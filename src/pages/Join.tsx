@@ -413,7 +413,13 @@ const Join: React.FC = () => {
                 {/* More address fields can be added here and populated by Google API */}
 
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="agreeToBibleLicense" checked={formState.agreeToBibleLicense} onCheckedChange={(checked) => handleCheckboxChange('agreeToBibleLicense')(!!checked)} />
+                  <Checkbox id="agreeToBibleLicense" checked={formState.agreeToBibleLicense} onCheckedChange={(checked) => {
+                    if (checked) {
+                      setBibleLicenseModalOpen(true);
+                      return;
+                    }
+                    handleCheckboxChange('agreeToBibleLicense')(false);
+                  }} />
                   <Label htmlFor="agreeToBibleLicense" className="text-sm font-bold">
                     {" "}
                     <span
@@ -428,7 +434,13 @@ const Join: React.FC = () => {
                 {/* Statement of Faith checkbox intentionally hidden */}
 
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="agreeToS" checked={formState.agreeToS} onCheckedChange={(checked) => handleCheckboxChange('agreeToS')(!!checked)} />
+                  <Checkbox id="agreeToS" checked={formState.agreeToS} onCheckedChange={(checked) => {
+                    if (checked) {
+                      setTosModalOpen(true);
+                      return;
+                    }
+                    handleCheckboxChange('agreeToS')(false);
+                  }} />
                   <Label htmlFor="agreeToS" className="text-sm font-bold">
                     You agree to the{" "}
                     <span
