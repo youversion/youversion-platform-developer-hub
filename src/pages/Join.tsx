@@ -79,6 +79,9 @@ const Join: React.FC = () => {
   const [formState, setFormState] = useState<Partial<FormState>>({
     accountType: "organization",
     profitDesignation: "non-profit",
+    agreeToS: false,
+    agreeToSoF: false,
+    agreeToBibleLicense: false,
   });
   const [userData, setUserData] = useState<UserData | null>(null);
   const [sofModalOpen, setSofModalOpen] = useState(false);
@@ -413,12 +416,15 @@ const Join: React.FC = () => {
                 {/* More address fields can be added here and populated by Google API */}
 
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="agreeToBibleLicense" checked={formState.agreeToBibleLicense} onCheckedChange={(checked) => {
-                    if (checked) {
+                  <Checkbox id="agreeToBibleLicense" checked={!!formState.agreeToBibleLicense} onPointerDown={(e) => {
+                    if (!formState.agreeToBibleLicense) {
+                      e.preventDefault();
                       setBibleLicenseModalOpen(true);
-                      return;
                     }
-                    handleCheckboxChange('agreeToBibleLicense')(false);
+                  }} onCheckedChange={(checked) => {
+                    if (!checked) {
+                      handleCheckboxChange('agreeToBibleLicense')(false);
+                    }
                   }} />
                   <Label htmlFor="agreeToBibleLicense" className="text-sm font-bold">
                     {" "}
@@ -434,12 +440,15 @@ const Join: React.FC = () => {
                 {/* Statement of Faith checkbox intentionally hidden */}
 
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="agreeToS" checked={formState.agreeToS} onCheckedChange={(checked) => {
-                    if (checked) {
+                  <Checkbox id="agreeToS" checked={!!formState.agreeToS} onPointerDown={(e) => {
+                    if (!formState.agreeToS) {
+                      e.preventDefault();
                       setTosModalOpen(true);
-                      return;
                     }
-                    handleCheckboxChange('agreeToS')(false);
+                  }} onCheckedChange={(checked) => {
+                    if (!checked) {
+                      handleCheckboxChange('agreeToS')(false);
+                    }
                   }} />
                   <Label htmlFor="agreeToS" className="text-sm font-bold">
                     You agree to the{" "}
