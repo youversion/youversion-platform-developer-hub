@@ -1,6 +1,6 @@
 description: Installation ID for the app
 in: header
-name: x-yv-iid
+name: x-yvp-installation-id
 required: true
 schema:
   type: string

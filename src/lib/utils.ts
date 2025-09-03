@@ -23,7 +23,7 @@ export async function yvpFetch(endpoint: string, options: RequestInit = {}): Pro
   const headers: HeadersInit = {
     'Accept': 'application/json',
     'x-app-id': appId,
-    'x-yv-iid': 'install_id_example',
+    'x-yvp-installation-id': 'install_id_example',
     ...options.headers,
   };
 

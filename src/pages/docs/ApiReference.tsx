@@ -34,7 +34,7 @@ const ApiReference = () => {
         method: 'GET',
         headers: {
           'X-App-ID': 'r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN',
-          'x-yv-iid': 'install_id_example',
+          'x-yvp-installation-id': 'install_id_example',
           'Accept': 'application/json'
         }
       });
@@ -56,7 +56,7 @@ const ApiReference = () => {
   method: 'GET',
   headers: {
     'X-App-ID': 'r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN',
-    'x-yv-iid': 'install_id_example',
+    'x-yvp-installation-id': 'install_id_example',
     'Accept': 'application/json'
   }
 });
@@ -70,7 +70,7 @@ console.log(data);`;
 url = '${url}'
 headers = {
     'X-App-ID': 'r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN',
-    'x-yv-iid': 'install_id_example',
+    'x-yvp-installation-id': 'install_id_example',
     'Accept': 'application/json'
 }
 
@@ -91,7 +91,7 @@ class YouVersionAPI {
 
         var request = URLRequest(url: url)
         request.setValue(appId, forHTTPHeaderField: "X-App-ID")
-        request.setValue(installId, forHTTPHeaderField: "x-yv-iid")
+        request.setValue(installId, forHTTPHeaderField: "x-yvp-installation-id")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
 
         do {
@@ -107,7 +107,7 @@ class YouVersionAPI {
       case 'curl':
         return `curl -X GET '${url}' \\
   -H 'X-App-ID: r4JBXiG5GAIbxQOBdhAw8k2yikjeE17l4nZ14FLEPIZLmGtN' \\
-  -H 'x-yv-iid: install_id_example' \\
+  -H 'x-yvp-installation-id: install_id_example' \\
   -H 'Accept: application/json'`;
 
       default:
