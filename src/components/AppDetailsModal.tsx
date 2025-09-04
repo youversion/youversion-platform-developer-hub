@@ -230,7 +230,7 @@ const AppDetailsModal = ({ app, isOpen, onClose, onSave, isNewApp = false }: App
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className={`${isNewApp ? 'sm:max-w-[800px]' : 'sm:max-w-[1200px]'} max-h-[80vh] overflow-y-auto`}>
+      <DialogContent onInteractOutside={isNewApp ? (e) => e.preventDefault() : undefined} className={`${isNewApp ? 'sm:max-w-[800px]' : 'sm:max-w-[1200px]'} max-h-[80vh] overflow-y-auto`}>
         <DialogHeader>
           <DialogTitle>{isNewApp ? 'Create New Application' : 'Edit Application Details'}</DialogTitle>
         </DialogHeader>
