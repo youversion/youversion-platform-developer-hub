@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { BookOpen, LogIn, Zap, Smartphone, Settings, Database, Highlighter } from 'lucide-react';
 import { getDevdocsUrl } from '../../shared/config/urls';
 import { YVP_SDK_URL } from '@/lib/constants';
@@ -54,6 +55,7 @@ const Index = () => {
   const {
     theme
   } = useTheme();
+  const { isAuthenticated } = useAuth();
   const [selectedApp, setSelectedApp] = React.useState(() => {
     const currentHostname = window.location.hostname;
     const matchedApp = apps.find(app => {
@@ -112,7 +114,13 @@ const Index = () => {
             <p className="text-xl mb-8 text-black dark:text-slate-200">Integrate Bible content into your applications with our powerful SDKs and APIs.</p>
             <div className="flex flex-col gap-2 items-center">
               <div className="mb-2">
-                <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} text="Join the YouVersion Platform" stroked></sign-in-with-youversion-button>
+                {!isAuthenticated ? (
+                  <sign-in-with-youversion-button callback-uri={selectedApp.callback_uri} theme={getResolvedTheme()} text="Join the YouVersion Platform" stroked></sign-in-with-youversion-button>
+                ) : (
+                  <Button size="xl" variant="filled-secondary" asChild className="text-sm font-bold px-[40px] py-[25px]">
+                    <Link to="/platform">My Apps</Link>
+                  </Button>
+                )}
               </div>
               <Button size="xl" variant="filled-secondary" asChild className="text-sm font-bold px-[40px] py-[25px]">
                 <a href={`${getDevdocsUrl()}/introduction`}>View Documentation</a>

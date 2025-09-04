@@ -6,6 +6,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getPlatformUrl, getDevdocsUrl } from '../../shared/config/urls';
 import { YVP_SDK_URL } from '@/lib/constants';
 import { Code, User, BookOpen, Zap } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Extend window interface for YouVersion SDK callbacks
 declare global {
@@ -54,6 +55,7 @@ const GetStarted = () => {
   const {
     theme
   } = useTheme();
+  const { isAuthenticated } = useAuth();
   const [selectedApp, setSelectedApp] = React.useState(() => {
     const currentHostname = window.location.hostname;
     const matchedApp = apps.find(app => {
@@ -134,7 +136,7 @@ const GetStarted = () => {
           <Card>
             <CardHeader>
               <User className="h-8 w-8 text-[#FF3D4D] mb-2" />
-              <CardTitle>Sign in to YouVersion Platform</CardTitle>
+              <CardTitle>{isAuthenticated ? "You're signed in to the YouVersion Platform" : 'Sign in to YouVersion Platform'}</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="mb-4">
@@ -143,7 +145,9 @@ const GetStarted = () => {
                 <br />
                 New to YouVersion? No problem—create a new account to get started.
               </CardDescription>
-              <sign-in-with-youversion-button theme={getResolvedTheme()} stroked></sign-in-with-youversion-button>
+              {!isAuthenticated && (
+                <sign-in-with-youversion-button theme={getResolvedTheme()} stroked></sign-in-with-youversion-button>
+              )}
             </CardContent>
           </Card>
 

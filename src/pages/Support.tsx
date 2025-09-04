@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { MessageCircle, Mail, FileText, Users } from 'lucide-react';
 import SupportTicketForm from '@/components/SupportTicketForm';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Support = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="container py-12">
       <div className="max-w-4xl mx-auto">
@@ -31,22 +33,24 @@ const Support = () => {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <Mail className="h-8 w-8 text-[#FF3D4D] mb-2" />
-              <CardTitle>Email Support</CardTitle>
-              <CardDescription>
-                Send us a detailed message about your issue
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <SupportTicketForm>
-                <Button variant="stroked" className="w-full">
-                  Send Email
-                </Button>
-              </SupportTicketForm>
-            </CardContent>
-          </Card>
+          {isAuthenticated && (
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <Mail className="h-8 w-8 text-[#FF3D4D] mb-2" />
+                <CardTitle>Email Support</CardTitle>
+                <CardDescription>
+                  Send us a detailed message about your issue
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <SupportTicketForm>
+                  <Button variant="stroked" className="w-full">
+                    Send Email
+                  </Button>
+                </SupportTicketForm>
+              </CardContent>
+            </Card>
+          )}
 
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
