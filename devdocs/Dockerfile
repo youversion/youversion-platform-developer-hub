@@ -23,6 +23,10 @@ COPY --from=builder /app/devdocs/dist /usr/share/nginx/html
 # Copy custom Nginx config
 COPY --from=builder /app/devdocs/nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copy password file + set permissions
+COPY .htpasswd /usr/share/nginx/html/.htpasswd
+RUN chmod 644 /usr/share/nginx/html/.htpasswd && chown root:root /usr/share/nginx/html/.htpasswd
+
 # Expose port 8080
 EXPOSE 8080
 
