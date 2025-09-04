@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { yvpFetch } from '@/lib/utils';
 import { YVP_SDK_URL } from '@/lib/constants';
+import { useAuth } from '@/contexts/AuthContext';
 
 declare global {
   interface Window {
@@ -22,7 +23,7 @@ type UserInfo = { firstName: string; lastName: string; userId: string; avatarUrl
 
 const Callback = () => {
   const [status, setStatus] = React.useState('Processing authentication...');
-  const [user, setUser] = React.useState<UserInfo>(null);
+  const { isAuthenticated, user: authUser } = useAuth();
   const [sdkReady, setSdkReady] = React.useState<boolean>(false);
   const initializedRef = React.useRef(false);
   const navigate = useNavigate();
@@ -60,32 +61,12 @@ const Callback = () => {
     if (initializedRef.current) return;
     initializedRef.current = true;
 
-    // Set auth callbacks before processing URL
-    (window as any).onYouVersionAuthComplete = async (authData: { accessToken?: string }) => {
-      if (!authData?.accessToken || !window.YouVersionPlatform?.userInfo) return;
-      try {
-        const me = await window.YouVersionPlatform.userInfo(authData.accessToken);
-        console.log('✅ Auth complete. User:', me);
-        setUser(me);
-        setStatus('');
-        await routeAfterAuth(me);
-      } catch (e) {
-        console.error('Failed to fetch user info on auth complete:', e);
-        setStatus('Failed to load user information');
-      }
+    // Set auth callbacks: let AuthContext rehydrate and we just watch it
+    (window as any).onYouVersionAuthComplete = () => {
+      // AuthContext will hydrate
     };
-
-    (window as any).onYouVersionAuthLoad = async (authData: { accessToken?: string }) => {
-      if (!authData?.accessToken || !window.YouVersionPlatform?.userInfo) return;
-      try {
-        const me = await window.YouVersionPlatform.userInfo(authData.accessToken);
-        console.log('ℹ️ Auth loaded. User:', me);
-        setUser(me);
-        setStatus('');
-        await routeAfterAuth(me);
-      } catch (e) {
-        console.error('Failed to fetch user info on auth load:', e);
-      }
+    (window as any).onYouVersionAuthLoad = () => {
+      // AuthContext will hydrate
     };
 
     const ensureAppId = () => {
@@ -124,33 +105,21 @@ const Callback = () => {
     loadSdkIfNeeded();
   }, []);
 
-  // Once SDK is ready, process the auth callback and/or read existing auth
+  // Once SDK is ready, rely on AuthContext; when authenticated, route
   useEffect(() => {
     if (!sdkReady) return;
-
-    // Do not manually call handleAuthCallback; SDK runs it on initialize
-
-    // Optional alternative: read persisted auth and fetch user
-    const auth = window.YouVersionPlatform?.SignIn?.getAuthData?.();
-    if (auth?.accessToken && window.YouVersionPlatform?.userInfo) {
-      window.YouVersionPlatform.userInfo(auth.accessToken)
-        .then(async me => {
-          console.log('👤 User (from persisted auth):', me);
-          setUser(me);
-          setStatus('');
-          await routeAfterAuth(me);
-        })
-        .catch(err => {
-          console.error('Failed to fetch user from persisted auth:', err);
-        });
+    if (isAuthenticated && authUser) {
+      const me = { firstName: authUser.name.split(' ')[0] || '', lastName: authUser.name.split(' ').slice(1).join(' '), userId: authUser.id };
+      setStatus('');
+      routeAfterAuth(me);
     }
-  }, [sdkReady]);
+  }, [sdkReady, isAuthenticated, authUser, routeAfterAuth]);
 
   return (
     <div className="min-h-screen flex items-center justify-center canvas-primary">
       <div className="max-w-md w-full mx-auto p-8">
         <div className="text-center">
-          {!user ? (
+          {!isAuthenticated ? (
             <>
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Completing Sign In</h2>
@@ -158,7 +127,7 @@ const Callback = () => {
             </>
           ) : (
             <>
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">{user.firstName} {user.lastName}</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">{authUser?.name}</h2>
               <p className="text-gray-600 dark:text-gray-300">You are signed in.</p>
             </>
           )}

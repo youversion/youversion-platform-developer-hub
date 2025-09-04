@@ -77,7 +77,7 @@ const Index = () => {
     return theme;
   };
 
-  // Load the YouVersion Platform SDK and set up auth callbacks
+  // Load the YouVersion Platform SDK and set up minimal auth callbacks
   useEffect(() => {
     // Load the SDK script if not already loaded
     // Set the app ID for the SDK BEFORE injecting the script so initialize can read it
@@ -89,28 +89,12 @@ const Index = () => {
       script.src = YVP_SDK_URL;
       document.head.appendChild(script);
     }
-
-    // Set up auth callback handlers
-    (window as any).onYouVersionAuthComplete = async (authData: { accessToken?: string }) => {
-      console.log('[Index] Auth complete:', authData);
-      let me = (window as any).YouVersionPlatform?.SignIn?.getUserInfo?.();
-      if (!me && authData?.accessToken && window.YouVersionPlatform?.userInfo) {
-        me = await window.YouVersionPlatform.userInfo(authData.accessToken);
-      }
-      console.log('[Index] User info:', me);
+    // Set up lightweight auth callbacks: defer processing to Callback route/AuthContext
+    (window as any).onYouVersionAuthComplete = () => {
       navigate('/callback');
     };
-    (window as any).onYouVersionAuthLoad = async (authData: { accessToken?: string }) => {
-      console.log('[Index] Auth load:', authData);
-      let me = (window as any).YouVersionPlatform?.SignIn?.getUserInfo?.();
-      if (!me && authData?.accessToken && window.YouVersionPlatform?.userInfo) {
-        me = await window.YouVersionPlatform.userInfo(authData.accessToken);
-      }
-      console.log('[Index] User info (load):', me);
-    };
-    window.onYouVersionSignOut = () => {
-      console.log('[Index] User logged out');
-    };
+    (window as any).onYouVersionAuthLoad = () => {};
+    window.onYouVersionSignOut = () => {};
 
     // Cleanup function to remove the app ID when component unmounts
     return () => {

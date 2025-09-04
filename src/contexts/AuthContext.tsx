@@ -17,6 +17,74 @@ declare global {
   }
 }
 
+type SdkUserInfo = { firstName: string; lastName: string; userId: string; avatarUrl?: string };
+type AuthData = { accessToken?: string; userId?: string };
+
+const USER_INFO_TTL_MS = 5 * 60 * 1000;
+const inFlightUserInfoByToken = new Map<string, Promise<SdkUserInfo>>();
+
+function getAppId(): string {
+  return document.body?.dataset.youversionPlatformAppId || 'unknown';
+}
+
+function getUserInfoCacheKey(appId: string, userId: string): string {
+  return `yvp_user_info:${appId}:${userId}`;
+}
+
+function readCachedUserInfo(appId: string, userId: string): SdkUserInfo | null {
+  try {
+    const raw = localStorage.getItem(getUserInfoCacheKey(appId, userId));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { data: SdkUserInfo; ts: number };
+    if (Date.now() - parsed.ts > USER_INFO_TTL_MS) {
+      localStorage.removeItem(getUserInfoCacheKey(appId, userId));
+      return null;
+    }
+    return parsed.data;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedUserInfo(appId: string, userId: string, data: SdkUserInfo): void {
+  try {
+    localStorage.setItem(getUserInfoCacheKey(appId, userId), JSON.stringify({ data, ts: Date.now() }));
+  } catch {}
+}
+
+async function getUserInfoWithCache(accessToken: string): Promise<SdkUserInfo> {
+  const auth = window.YouVersionPlatform?.SignIn?.getAuthData?.() as AuthData | undefined;
+  const appId = getAppId();
+  const userIdFromAuth = auth?.userId;
+
+  if (userIdFromAuth) {
+    const cached = readCachedUserInfo(appId, userIdFromAuth);
+    if (cached) {
+      return cached;
+    }
+  }
+
+  if (inFlightUserInfoByToken.has(accessToken)) {
+    return await inFlightUserInfoByToken.get(accessToken)!;
+  }
+
+  const fetchPromise = window.YouVersionPlatform!.userInfo!(accessToken)
+    .then((user) => {
+      if (userIdFromAuth) {
+        writeCachedUserInfo(appId, userIdFromAuth, user);
+      }
+      inFlightUserInfoByToken.delete(accessToken);
+      return user;
+    })
+    .catch((err) => {
+      inFlightUserInfoByToken.delete(accessToken);
+      throw err;
+    });
+
+  inFlightUserInfoByToken.set(accessToken, fetchPromise);
+  return await fetchPromise;
+}
+
 interface User {
   id: string;
   name: string;
@@ -109,14 +177,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!window.YouVersionPlatform?.SignIn?.getAuthData || !window.YouVersionPlatform?.userInfo) {
       return;
     }
-    const auth = window.YouVersionPlatform.SignIn.getAuthData();
+    const auth = window.YouVersionPlatform.SignIn.getAuthData() as AuthData | undefined;
     if (!auth?.accessToken) {
       return;
     }
     try {
       setIsLoading(true);
       console.log('[AuthContext] hydrateFromSdk: start');
-      const me = await window.YouVersionPlatform.userInfo(auth.accessToken);
+      const me = await getUserInfoWithCache(auth.accessToken);
       console.log('[AuthContext] hydrateFromSdk: user info', me);
       setUser({ id: me.userId, name: `${me.firstName} ${me.lastName}`.trim(), email: '' });
 
@@ -223,6 +291,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
     setOrganization(null);
     setOrganizations([]);
+    try {
+      const appId = document.body?.dataset.youversionPlatformAppId || 'unknown';
+      const auth = window.YouVersionPlatform?.SignIn?.getAuthData?.() as AuthData | undefined;
+      if (auth?.userId) {
+        localStorage.removeItem(getUserInfoCacheKey(appId, auth.userId));
+      }
+    } catch {}
+    inFlightUserInfoByToken.clear();
     window.YouVersionPlatform?.signOut?.();
   }, []);
 
