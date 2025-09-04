@@ -10,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 dark:bg-white/70 dark:hover:bg-white/80",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 dark:bg-white/80 dark:hover:bg-white",
         "filled-brand":
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         stroked:
