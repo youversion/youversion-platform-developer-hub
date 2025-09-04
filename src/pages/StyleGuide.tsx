@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
@@ -332,6 +333,41 @@ const StyleGuide = () => {
                 <CardDescription>Input fields and form components</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Switches */}
+                <div>
+                  <h4 className="font-medium mb-3">Switches</h4>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Email Notifications</Label>
+                        <p className="text-sm text-muted-foreground">
+                          Receive email alerts for API issues
+                        </p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+                    <Separator />
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Rate Limit Warnings</Label>
+                        <p className="text-sm text-muted-foreground">
+                          Get notified when approaching rate limits
+                        </p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+                    <Separator />
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label>Usage Reports</Label>
+                        <p className="text-sm text-muted-foreground">
+                          Receive monthly usage summary reports
+                        </p>
+                      </div>
+                      <Switch />
+                    </div>
+                  </div>
+                </div>
                 {/* Text Input */}
                 <div>
                   <h4 className="font-medium mb-3">Text Input</h4>
