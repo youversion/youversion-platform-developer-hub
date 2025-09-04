@@ -23,7 +23,7 @@ export const SupportFormNavigation: React.FC<SupportFormNavigationProps> = ({
         variant="stroked"
         onClick={onPrevStep}
         disabled={currentStep === 1}
-        className="flex items-center gap-2"
+        className={`flex items-center gap-2 ${currentStep === 1 ? 'invisible' : ''}`}
       >
         <ChevronLeft className="h-4 w-4" />
         Previous
