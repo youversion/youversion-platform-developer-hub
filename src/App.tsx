@@ -26,7 +26,7 @@ import ForLLMs from "./pages/docs/ForLLMs";
 import Platform from "./pages/Platform";
 import Apps from "./pages/platform/Apps";
 import Analytics from "./pages/platform/Analytics";
-import Settings from "./pages/platform/Settings";
+import Profiles from "./pages/platform/Profiles";
 import Notifications from "./pages/platform/Notifications";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -68,7 +68,7 @@ const AppContent = () => {
           <Route path="/platform" element={<Platform />}>
             <Route path="apps" element={<Apps />} />
             <Route path="analytics" element={<Analytics />} />
-            <Route path="settings" element={<Settings />} />
+            <Route path="profiles" element={<Profiles />} />
             <Route path="notifications" element={<Notifications />} />
           </Route>
           <Route path="*" element={<NotFound />} />
