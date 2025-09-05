@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Smartphone, BarChart3, Settings, Bell } from 'lucide-react';
+import { Smartphone, BarChart3, UserCog, Bell } from 'lucide-react';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import PlatformSidebar from '@/components/layout/PlatformSidebar';
 const Platform = () => {
@@ -68,15 +68,15 @@ const Platform = () => {
 
                   <Card className="hover:shadow-lg transition-shadow">
                     <CardHeader>
-                      <Settings className="h-8 w-8 text-[#FF3D4D] mb-2" />
-                      <CardTitle>Settings</CardTitle>
+                      <UserCog className="h-8 w-8 text-[#FF3D4D] mb-2" />
+                      <CardTitle>Profiles</CardTitle>
                       <CardDescription>
-                        Configure your account preferences and billing
+                        Manage your platform profiles and members
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <Button asChild variant="filled-secondary" className="w-full">
-                        <Link to="/platform/settings">Settings</Link>
+                        <Link to="/platform/profiles">Profiles</Link>
                       </Button>
                     </CardContent>
                   </Card>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Smartphone, BarChart3, Settings, Bell, ChevronDown, User, Home } from 'lucide-react';
+import { Smartphone, BarChart3, UserCog, Bell, ChevronDown, User, Home } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter } from '@/components/ui/sidebar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -20,9 +20,9 @@ const platformNavItems = [{
   path: '/platform/analytics',
   icon: BarChart3
 }, {
-  name: 'Settings',
-  path: '/platform/settings',
-  icon: Settings
+  name: 'Profiles',
+  path: '/platform/profiles',
+  icon: UserCog
 }, {
   name: 'Notifications',
   path: '/platform/notifications',
